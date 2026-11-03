@@ -17,7 +17,13 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
         ]);
-        
+
+        // Trust semua proxy (Cloudflare Tunnel / cloudflared) supaya
+        // Laravel mendeteksi HTTPS dari header X-Forwarded-Proto.
+        // Tanpa ini: cookie session Secure tidak ter-set (login gagal)
+        // dan asset di-generate sebagai http:// (mixed content, foto gagal).
+        $middleware->trustProxies(at: '*');
+
         // Ensure web middleware group is applied
         $middleware->web();
     })
