@@ -9,8 +9,6 @@
 .env
 .env.backup
 .env.production
-.DS_Store
-/database/database.sqlite
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
