@@ -21,9 +21,11 @@ class DatabaseSeeder extends Seeder
 
         // 1. Create Users (Admin & Guru)
         $this->command->info('👤 Creating users...');
-        
-        User::query()->delete();
-        
+
+        // Hard delete semua user (termasuk yang soft-deleted) supaya tidak ada
+        // user "hantu" yang membuat login gagal setelah re-seed.
+        User::withTrashed()->forceDelete();
+
         $admin = User::create([
             'name' => 'Administrator',
             'email' => 'admin@rpl.sch.id',
@@ -41,6 +43,9 @@ class DatabaseSeeder extends Seeder
             'status' => 'active',
             'email_verified_at' => now(),
         ]);
+
+        // Pastikan user aktif (deleted_at bersih) — pencegahan ekstra.
+        User::query()->update(['deleted_at' => null]);
 
         $this->command->info('✓ Users created (2 records)');
         $this->command->info('  ├─ Admin: admin@rpl.sch.id / admin123');
