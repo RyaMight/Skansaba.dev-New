@@ -1,0 +1,47 @@
+# Jangan masukkan ke image build
+.git
+.gitattributes
+.gitignore
+.github
+.vscode
+.idea
+
+# Node & build lokal
+node_modules
+public/build
+public/hot
+package-lock.json.bak
+
+# Env & secret (entrypoint yang generate)
+.env
+.env.*
+!.env.docker.example
+
+# Docker files sendiri
+Dockerfile
+compose.yaml
+.dockerignore
+
+# Dokumentasi & memory bank
+*.md
+memory-bank/
+
+# Runtime Laravel (dibuat saat runtime di container)
+storage/app/public/*
+storage/framework/*
+storage/logs/*
+bootstrap/cache/*
+
+# Test
+tests
+phpunit.xml
+.phpunit.result.cache
+.phpactor.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor
+auth.json
