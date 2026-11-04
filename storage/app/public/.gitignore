@@ -1,2 +1,31 @@
+# Ignore everything by default, then whitelist seed asset folders.
+# Needs both levels: "!folder/" (so git descends into it) and
+# "!folder/**" (so its files are re-included).
+# User-uploaded runtime data (users/, sertifikat/) stays ignored so
+# every account uploads its own files.
 *
 !.gitignore
+!logos/
+!logos/**
+!landing-sliders/
+!landing-sliders/**
+!news/
+!news/**
+!alumni/
+!alumni/**
+!mitra/
+!mitra/**
+!galeri/
+!galeri/**
+!sliders/
+!sliders/**
+!struktur-organisasi/
+!struktur-organisasi/**
+!prestasi/
+!prestasi/**
+!documents/
+!documents/**
+!berita/
+!berita/**
+!fasilitas/
+!fasilitas/**
