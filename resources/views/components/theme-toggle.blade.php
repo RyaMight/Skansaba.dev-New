@@ -1,6 +1,8 @@
 {{--
-    Toggle Dark/Light Mode — gaya uiverse "slippery-ape-47" (Creatlydev):
-    track abu-abu, knob bulat meluncur menutupi ikon nonaktif.
+    Toggle Dark/Light Mode — replika uiverse "slippery-ape-47" (ZenonAiden):
+    tombol lingkaran berisi ikon bulan/matahari yang berputar + scale saat berganti.
+    - Mode terang: lingkaran terang (#e8e8e8) berisi bulan gelap, sedikit translate.
+    - Mode gelap: lingkaran gelap (#212121) berisi matahari terang, translate berlawanan.
     Terhubung ke script theme-init di layouts (localStorage 'theme').
     Pemakaian: <x-theme-toggle />
 --}}
@@ -20,37 +22,58 @@
         $el.setAttribute('aria-checked', dark ? 'true' : 'false');
         setTimeout(() => html.classList.remove('theme-transition'), 350);
     "
+    @keydown.space.prevent="$el.click()"
     type="button"
     role="switch"
     aria-label="Ganti mode gelap/terang"
-    class="theme-switch relative inline-flex h-8 w-16 shrink-0 items-center rounded-full cursor-pointer select-none"
+    class="theme-switch relative h-9 w-9 shrink-0 rounded-full cursor-pointer select-none grid place-items-center active:scale-90 transition-transform"
 >
-    {{-- Track --}}
-    <span class="absolute inset-0 rounded-full bg-gray-300 dark:bg-gray-600 transition-colors duration-300"></span>
-
-    {{-- Bulan (kiri, terlihat saat gelap) & Matahari (kanan, terlihat saat terang).
-         Keduanya selalu terlihat; knob yang menutup ikon di bawahnya. --}}
-    <span class="absolute left-2.5 flex items-center justify-center text-slate-100 dark:text-amber-300 z-0 transition-colors duration-300">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-        </svg>
-    </span>
-    <span class="absolute right-2.5 flex items-center justify-center text-amber-500 dark:text-slate-100 z-0 transition-colors duration-300">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="12" cy="12" r="4"/>
-            <path stroke-linecap="round" d="M12 2v2m0 16v2M2 12h2m16 0h2m-3.5-6.5L17 6M6 18l-1.5-1.5m0-9L6 6m12 12l1.5 1.5"/>
+    {{-- Ikon bulan: lingkaran terang + bulan gelap. Muncul saat DARK. --}}
+    <span class="theme-switch-icon theme-switch-icon--moon absolute inset-0 rounded-full grid place-items-center bg-[#e8e8e8] text-[#212121] z-10">
+        <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clip-rule="evenodd"/>
         </svg>
     </span>
 
-    {{-- Knob: kiri saat terang, luncur ke kanan saat gelap --}}
-    <span
-        class="theme-switch-knob absolute left-1 h-6 w-6 rounded-full bg-white shadow-md ring-1 ring-black/5 z-10"
-        :class="dark ? 'translate-x-8' : ''"
-    ></span>
+    {{-- Ikon matahari: lingkaran gelap + matahari terang. Muncul saat LIGHT. --}}
+    <span class="theme-switch-icon theme-switch-icon--sun absolute inset-0 rounded-full grid place-items-center bg-[#212121] text-[#e8e8e8] z-10">
+        <svg class="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+        </svg>
+    </span>
 </button>
 
 <style>
-    .theme-switch-knob {
-        transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Dua ikon bertumpuk di grid yang sama; hanya satu yang terlihat.
+       Transisi: berputar + scale, persis seperti uiverse slippery-ape. */
+    .theme-switch .theme-switch-icon {
+        transform-origin: center center;
+        transition:
+            transform 500ms ease,
+            opacity 300ms ease,
+            translate 400ms ease;
+    }
+
+    /* Terang (default): matahari tampil, bulan sembunyi */
+    .theme-switch .theme-switch-icon--sun {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+    }
+    .theme-switch .theme-switch-icon--moon {
+        transform: rotate(0deg) scale(0);
+        opacity: 0;
+    }
+
+    /* Gelap (.dark di <html>): bulan tampil berputar, matahari menyusut.
+       translate memberi efek "bergeser" seperti slider pada desain aslinya. */
+    .dark .theme-switch .theme-switch-icon--moon {
+        transform: rotate(360deg) scale(1);
+        opacity: 1;
+        translate: 0 0;
+    }
+    .dark .theme-switch .theme-switch-icon--sun {
+        transform: rotate(0deg) scale(0);
+        opacity: 0;
+        translate: 0 0;
     }
 </style>
