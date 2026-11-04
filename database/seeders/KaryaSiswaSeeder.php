@@ -11,9 +11,8 @@ class KaryaSiswaSeeder extends Seeder
     /**
      * Run the database seeds.
      * Dummy data untuk section "Karya Siswa" di landing page.
-     * Poster SVG tersedia di storage/app/public/karya-siswa/posters/
-     * Catatan: skansaba.dev belum punya karya published - data ini dummy,
-     * hapus/replace saat ada data asli dari admin.
+     * Tanpa gambar: karya ini dummy, poster asli di-upload admin
+     * lewat CMS saat ada karya published yang sebenarnya.
      */
     public function run(): void
     {
@@ -42,7 +41,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Arya Saputra Nugraha',
                 'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/kelas-angkasa.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
@@ -54,7 +53,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Faiz Baraka Putra',
                 'kelas' => 'XII RPL 2',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/sikasir.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
@@ -66,7 +65,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Hilal Nabiil Mukhtar Prasetya',
                 'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/solaria-app.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
@@ -78,7 +77,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Syandana Reska Josawa',
                 'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/medimate.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
@@ -90,7 +89,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Rifky Dhafa Putra Triwardhana',
                 'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/campus-map-360.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
@@ -102,7 +101,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Arrassyd Nanda Fairuz',
                 'kelas' => 'XII RPL 2',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/finspire.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
@@ -114,7 +113,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Hasan Nur Adhi Wibowo',
                 'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/trippa.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
@@ -126,7 +125,7 @@ class KaryaSiswaSeeder extends Seeder
                 'nama_siswa' => 'Reifan Putra Pratama',
                 'kelas' => 'XII RPL 2',
                 'tahun' => 2026,
-                'gambar' => 'karya-siswa/posters/libra-net.svg',
+                'gambar' => null,
                 'url_demo' => null,
                 'url_repo' => null,
             ],
