@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
             StrukturOrganisasiGuruSeeder::class,
             ProspekKarirSeeder::class,
             KaryaSiswaSeeder::class,
-            PrestasiSeeder::class,
+            PrestasiSiswaSeeder::class,
             BeritaSeeder::class,
             GaleriSeeder::class,
             AlumniSeeder::class,
@@ -89,13 +89,13 @@ class DatabaseSeeder extends Seeder
         $this->command->info('🎉 Database seeding completed successfully!');
         $this->command->newLine();
         $this->command->info('📊 Summary:');
-        $this->command->info('  ├─ Users: 2 records');
+        $this->command->info('  ├─ Users: 3 records');
         $this->command->info('  ├─ Global Settings: 1 record');
         $this->command->info('  ├─ Landing Page Sliders: 3 records');
         $this->command->info('  ├─ Struktur Organisasi RPL: 7 records');
         $this->command->info('  ├─ Prospek Karir: 6 records');
-        $this->command->info('  ├─ Karya Siswa: 6 records');
-        $this->command->info('  ├─ Prestasi: 6 records');
+        $this->command->info('  ├─ Karya Siswa: 8 records');
+        $this->command->info('  ├─ Prestasi Siswa: 8 records');
         $this->command->info('  ├─ Berita: 6 records');
         $this->command->info('  ├─ Galeri: 6 records');
         $this->command->info('  ├─ Alumni: 6 records');

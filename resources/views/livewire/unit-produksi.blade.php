@@ -1,140 +1,168 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-800">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     {{-- Header dengan Breadcrumb --}}
-    <section class="bg-white dark:bg-gray-900 py-8 border-b">
+    <section class="bg-white dark:bg-gray-900 py-8 border-b border-gray-100 dark:border-gray-800">
         <div class="max-w-7xl mx-auto px-6">
             {{-- Breadcrumb --}}
             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <span class="hover:opacity-80 cursor-pointer">Beranda</span>
+                <a href="/" class="hover:opacity-80">Beranda</a>
                 <span>›</span>
                 <span style="color: {{ $globalSettings->primary_color_style }}">Unit Produksi</span>
             </div>
-            
-            <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
-                <span style="color: {{ $globalSettings->primary_color_style }}">Unit Produksi</span> RPL
+
+            <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-2">
+                Harga Jasa Pembuatan Website <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-lg">Layanan dan produk dari Jurusan RPL</p>
+            <p class="text-gray-600 dark:text-gray-300">Pilih paket website yang sesuai dengan kebutuhan Anda.</p>
         </div>
     </section>
 
-    {{-- Content --}}
+    {{-- Pricing Grid --}}
     <section class="py-12">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-8 mb-8">
-                <div class="prose prose-lg max-w-none">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-4" style="color: {{ $globalSettings->primary_color_style }}">
-                        Tentang Unit Produksi
-                    </h2>
-                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
-                        Unit Produksi Jurusan Rekayasa Perangkat Lunak (RPL) adalah wadah bagi siswa untuk mengaplikasikan 
-                        ilmu yang telah dipelajari dalam bentuk proyek nyata. Melalui unit produksi ini, siswa dapat 
-                        mengembangkan aplikasi, website, dan solusi digital lainnya untuk klien internal maupun eksternal sekolah.
-                    </p>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
 
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-3 mt-8">Layanan yang Kami Tawarkan</h3>
-                    <div class="grid md:grid-cols-2 gap-4 mb-8">
-                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                            <div class="flex items-start gap-3">
-                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
-                                    <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Pembuatan Website</h4>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300">Website company profile, e-commerce, dan sistem informasi</p>
-                                </div>
-                            </div>
+                @php
+                    $paket = [
+                        [
+                            'nama' => 'UMKM', 'harga' => '499.000', 'halaman' => '3 halaman',
+                            'waktu' => '7 hari kerja', 'disk' => '1 GB', 'email' => '2',
+                            'subdomain' => 3, 'database' => 3, 'setup' => 'Rp99.000',
+                            'highlight' => false,
+                        ],
+                        [
+                            'nama' => 'Basic', 'harga' => '750.000', 'halaman' => '5 halaman',
+                            'waktu' => '14 hari kerja', 'disk' => '1 GB', 'email' => '2',
+                            'subdomain' => 3, 'database' => 3, 'setup' => 'Rp99.000',
+                            'highlight' => false,
+                        ],
+                        [
+                            'nama' => 'Pro', 'harga' => '1.500.000', 'halaman' => '10 halaman',
+                            'waktu' => '21 hari kerja', 'disk' => '5 GB', 'email' => '7',
+                            'subdomain' => 5, 'database' => 5, 'setup' => 'Rp198.000',
+                            'highlight' => true,
+                        ],
+                        [
+                            'nama' => 'Business', 'harga' => '2.250.000', 'halaman' => '15 halaman',
+                            'waktu' => '30 hari kerja', 'disk' => '10 GB', 'email' => '20',
+                            'subdomain' => 7, 'database' => 7, 'setup' => 'Rp297.000',
+                            'highlight' => false,
+                        ],
+                    ];
+                @endphp
+
+                @foreach($paket as $p)
+                    <div class="group relative bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 shadow-xs overflow-hidden flex flex-col transition-colors duration-150">
+                        {{-- Ring highlight primary: muncul saat kartu di-hover --}}
+                        <div class="pointer-events-none absolute inset-0 rounded-xl ring-2 ring-inset opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+                             style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"></div>
+                        {{-- Header paket --}}
+                        <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
+                            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50">{{ $p['nama'] }}</h3>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Mulai Dari</p>
                         </div>
 
-                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                            <div class="flex items-start gap-3">
-                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
-                                    <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Aplikasi Mobile</h4>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300">Aplikasi Android dan iOS untuk berbagai kebutuhan</p>
-                                </div>
-                            </div>
+                        {{-- Harga --}}
+                        <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
+                            <p class="flex items-baseline gap-1">
+                                <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Rp</span>
+                                <span class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">{{ $p['harga'] }}</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400">/thn</span>
+                            </p>
+                            <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">*Minimal kontrak 1 Tahun</p>
                         </div>
 
-                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                            <div class="flex items-start gap-3">
-                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
-                                    <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
-                                    </svg>
+                        {{-- Fitur --}}
+                        <ul class="px-6 py-5 space-y-3 text-sm flex-1">
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Pembuatan Halaman Website: <strong class="font-semibold">{{ $p['halaman'] }}</strong></span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Waktu Pengerjaan: <strong class="font-semibold">{{ $p['waktu'] }}</strong></span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Hosting: <strong class="font-semibold">{{ $p['disk'] }}</strong> Disk Space</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <div class="text-gray-700 dark:text-gray-200">
+                                    <strong class="font-semibold">{{ $p['email'] }} Email</strong>
+                                    <ul class="mt-1.5 space-y-1 text-xs text-gray-500 dark:text-gray-400">
+                                        <li>- Domain: 1</li>
+                                        <li>- Subdomain: {{ $p['subdomain'] }}</li>
+                                        <li>- Database: {{ $p['database'] }}</li>
+                                        <li>- Bandwidth: Unlimited</li>
+                                        <li>- Anti DDOS Protection</li>
+                                    </ul>
                                 </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Sistem Informasi</h4>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300">Sistem manajemen data dan informasi berbasis web</p>
-                                </div>
-                            </div>
-                        </div>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Domain <strong class="font-semibold">1</strong> Tahun</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Sertifikat <strong class="font-semibold">SSL</strong></span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Logo Image Editing: 5 gambar + 1 logo</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Header Slideshow</span>
+                            </li>
+                            <li class="flex items-start gap-2.5">
+                                <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-gray-700 dark:text-gray-200">Pemeliharaan</span>
+                            </li>
+                        </ul>
 
-                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                            <div class="flex items-start gap-3">
-                                <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
-                                    <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Maintenance & Support</h4>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300">Layanan pemeliharaan dan dukungan teknis aplikasi</p>
-                                </div>
-                            </div>
+                        {{-- CTA --}}
+                        <div class="px-6 pb-6">
+                            <a
+                                href="{{ route('beranda') }}#kontak"
+                                class="block w-full text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                                style="background-color: {{ $globalSettings->primary_color_style }}"
+                            >
+                                Lihat Paket
+                            </a>
+                            <p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-lg py-2">
+                                Biaya Setup: {{ $p['setup'] }}
+                            </p>
                         </div>
                     </div>
-
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-3 mt-8">Mengapa Memilih Kami?</h3>
-                    <ul class="space-y-2 mb-8">
-                        <li class="flex items-start gap-3">
-                            <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-gray-600 dark:text-gray-300">Dikerjakan oleh siswa RPL yang terlatih dan berpengalaman</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-gray-600 dark:text-gray-300">Harga terjangkau dan kompetitif</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-gray-600 dark:text-gray-300">Menggunakan teknologi terkini dan modern</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-                            </svg>
-                            <span class="text-gray-600 dark:text-gray-300">Mendukung pendidikan dan pengembangan siswa</span>
-                        </li>
-                    </ul>
-
-                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mt-8 border" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Tertarik dengan Layanan Kami?</h3>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            Hubungi kami untuk konsultasi dan penawaran terbaik sesuai kebutuhan Anda.
-                        </p>
-                        <a href="/kontak" class="inline-flex items-center gap-2 px-6 py-3 text-white rounded-lg font-medium hover:opacity-90 transition" style="background-color: {{ $globalSettings->primary_color_style }}">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                            </svg>
-                            Hubungi Kami
-                        </a>
-                    </div>
-                </div>
+                @endforeach
             </div>
+
+            {{-- Catatan kaki --}}
+            <p class="mt-8 text-xs text-gray-500 dark:text-gray-400 text-center max-w-2xl mx-auto">
+                Cocok untuk anda yang sudah memiliki konten (foto/teks). Jika tidak, anda bisa meminta
+                jasa pembuatan konten. Harga dapat berubah sewaktu-waktu tanpa pemberitahuan.
+            </p>
         </div>
     </section>
 </div>
