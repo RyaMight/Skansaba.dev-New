@@ -274,7 +274,7 @@
                                     aspectRatioLabel="1:1"
                                     :maxWidth="500"
                                     :maxHeight="500"
-                                    :currentImage="$isEditing && $user_id ? App\Models\User::find($user_id)?->photo_url : null"
+                                    :currentImage="$isEditing && $user_id ? App\Models\User::find($user_id)?->photo : null"
                                     previewSize="200"
                                     :required="false"
                                 />

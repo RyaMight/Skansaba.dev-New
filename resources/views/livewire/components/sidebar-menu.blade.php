@@ -4,14 +4,14 @@
         mobileOpen: @entangle('isMobileOpen').live
     }" 
     @toggle-mobile-sidebar.window="mobileOpen = !mobileOpen"
-    class="relative"
+    class="relative h-full flex"
 >
     {{-- Desktop Sidebar --}}
     <aside 
-        class="hidden md:flex md:flex-shrink-0 transition-all duration-300"
+        class="hidden md:flex md:flex-shrink-0 transition-all duration-300 h-full"
         :class="collapsed ? 'md:w-20' : 'md:w-64'"
     >
-        <div class="flex flex-col w-full bg-white border-r border-gray-200">
+        <div class="flex flex-col h-full w-full bg-white border-r border-gray-200">
             {{-- Logo & Branding --}}
             <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
                 <div class="flex items-center space-x-3 overflow-hidden">
@@ -69,10 +69,10 @@
                             x-bind:class="collapsed ? 'justify-center' : ''"
                             x-bind:title="collapsed ? '{{ $item['label'] }}' : ''"
                             @class([
-                                'bg-blue-50' => request()->routeIs($item['route'] . '*'),
-                                'text-gray-700 hover:bg-gray-50' => !request()->routeIs($item['route'] . '*'),
+                                'bg-blue-50' => request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index'),
+                                'text-gray-700 hover:bg-gray-50' => !(request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index')),
                             ])
-                            @if(request()->routeIs($item['route'] . '*'))
+                            @if(request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index'))
                                 style="color: {{ $globalSettings->primary_color_style }}"
                             @endif
                         >
@@ -82,6 +82,22 @@
                     @endif
                 @endforeach
             </nav>
+
+            {{-- Kembali ke Landing Page --}}
+            <div class="flex-shrink-0 px-3 pt-3 pb-1 border-t border-gray-200">
+                <a 
+                    href="{{ route('beranda') }}" 
+                    wire:navigate
+                    class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#0284c7] rounded-lg group transition"
+                    x-bind:class="collapsed ? 'justify-center' : ''"
+                    x-bind:title="collapsed ? 'Kembali ke Web' : ''"
+                >
+                    <svg class="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-bind:class="collapsed ? '' : 'mr-3'">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
+                    </svg>
+                    <span x-show="!collapsed" x-transition class="truncate">Kembali ke Web</span>
+                </a>
+            </div>
 
             {{-- User Profile --}}
             <div class="flex-shrink-0 px-3 py-4 border-t border-gray-200">
@@ -181,10 +197,10 @@
                         @click="mobileOpen = false"
                         class="flex items-center px-3 py-2 text-sm font-medium rounded-lg"
                         @class([
-                            'bg-blue-50' => request()->routeIs($item['route'] . '*'),
-                            'text-gray-700 hover:bg-gray-50' => !request()->routeIs($item['route'] . '*'),
+                            'bg-blue-50' => request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index'),
+                            'text-gray-700 hover:bg-gray-50' => !(request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index')),
                         ])
-                        @if(request()->routeIs($item['route'] . '*'))
+                        @if(request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index'))
                             style="color: {{ $globalSettings->primary_color_style }}"
                         @endif
                     >
@@ -194,6 +210,21 @@
                 @endif
             @endforeach
         </nav>
+
+        {{-- Kembali ke Landing Page --}}
+        <div class="flex-shrink-0 px-3 pt-3 pb-1 border-t border-gray-200">
+            <a 
+                href="{{ route('beranda') }}" 
+                wire:navigate
+                @click="mobileOpen = false"
+                class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#0284c7] rounded-lg group transition"
+            >
+                <svg class="w-5 h-5 mr-3 flex-shrink-0 text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
+                </svg>
+                <span>Kembali ke Web</span>
+            </a>
+        </div>
 
         {{-- Mobile User Profile --}}
         <div class="flex-shrink-0 px-3 py-4 border-t border-gray-200">

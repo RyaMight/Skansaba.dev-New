@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -230,18 +231,31 @@ class UserManager extends Component
             'status.in' => 'Status harus active atau inactive.',
         ]);
 
-        // Process photo if provided
+        // Process photo if provided.
+        // Save the new file FIRST, update the DB, then delete the old file —
+        // this way the old photo is never lost if processing fails.
         if ($this->photo && str_starts_with($this->photo, 'data:image')) {
-            // Delete old photo
-            if ($user->photo) {
-                $this->imageService->delete($user->photo);
-            }
+            $oldPhotoPath = $user->photo;
 
+            // Per-account folder: users/u{id} — each account owns its own directory
             $validated['photo'] = $this->imageService->processBase64AndStore(
                 $this->photo,
-                'users',
+                'users/u' . $user->id,
                 ['width' => 500, 'height' => 500]
             );
+
+            if (!empty($validated['photo'])) {
+                $user->update(['photo' => $validated['photo']]);
+
+                // Delete the old photo file so it doesn't pile up as orphaned storage
+                if ($oldPhotoPath && $oldPhotoPath !== $validated['photo']) {
+                    $this->imageService->delete($oldPhotoPath);
+                }
+            } else {
+                logger()->error('Gagal memproses foto profil untuk user ID: ' . $user->id);
+            }
+
+            unset($validated['photo']); // prevent double-update below
         }
 
         // Update password only if provided
@@ -281,9 +295,15 @@ class UserManager extends Component
 
         $this->authorize('delete', $this->userToDelete);
 
-        // Delete photo if exists
+        // Delete photo file if exists
         if ($this->userToDelete->photo) {
             $this->imageService->delete($this->userToDelete->photo);
+        }
+
+        // Remove the account's photo directory (per-account folder) so no orphaned files remain
+        $accountDir = 'users/u' . $this->userToDelete->id;
+        if (Storage::disk('public')->directoryExists($accountDir)) {
+            Storage::disk('public')->deleteDirectory($accountDir);
         }
 
         $this->userToDelete->delete();

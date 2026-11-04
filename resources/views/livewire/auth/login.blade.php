@@ -19,20 +19,20 @@
 
             {{-- Login Form --}}
             <form wire:submit.prevent="login" class="space-y-6">
-                {{-- Email Field --}}
+                {{-- Email / NISN Field --}}
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
-                        Email
+                        Email atau NISN
                     </label>
                     <input 
-                        type="email" 
+                        type="text" 
                         id="email" 
                         wire:model.live.debounce.300ms="email"
                         @disabled($isLoading)
                         class="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 disabled:text-gray-500"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
-                        placeholder="nama@email.com"
-                        autocomplete="email"
+                        placeholder="Masukkan Email atau NISN"
+                        autocomplete="username"
                         autofocus
                     >
                     @error('email')

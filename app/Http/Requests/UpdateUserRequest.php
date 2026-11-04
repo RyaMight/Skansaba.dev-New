@@ -26,7 +26,8 @@ class UpdateUserRequest extends FormRequest
         
         return [
             'name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($userId)],
+            'nisn' => ['nullable', 'string', 'max:20', Rule::unique('users')->ignore($userId)],
+            'email' => ['nullable', 'email', 'max:255', Rule::unique('users')->ignore($userId)],
             'password' => ['nullable', 'string', 'min:8'],
             'role' => ['required', Rule::in(['admin', 'guru', 'siswa'])],
             'status' => ['required', Rule::in(['active', 'inactive'])],

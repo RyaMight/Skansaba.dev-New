@@ -44,12 +44,23 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
+        $siswa = User::create([
+            'name' => 'Siswa RPL (Uji Coba)',
+            'nisn' => '0061234567',
+            'email' => 'siswa@rpl.sch.id',
+            'password' => Hash::make('skansabajaya123'),
+            'role' => 'siswa',
+            'status' => 'active',
+            'email_verified_at' => now(),
+        ]);
+
         // Pastikan user aktif (deleted_at bersih) — pencegahan ekstra.
         User::query()->update(['deleted_at' => null]);
 
-        $this->command->info('✓ Users created (2 records)');
+        $this->command->info('✓ Users created (3 records)');
         $this->command->info('  ├─ Admin: admin@rpl.sch.id / admin123');
-        $this->command->info('  └─ Guru: guru@rpl.sch.id / guru123');
+        $this->command->info('  ├─ Guru:  guru@rpl.sch.id / guru123');
+        $this->command->info('  └─ Siswa: NISN: 0061234567 / skansabajaya123');
         $this->command->newLine();
 
         // 2. Seed all content tables

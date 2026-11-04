@@ -27,3 +27,5 @@
     max-height: 100%;
     display: block;
 }
+
+[x-cloak] { display: none !important; }

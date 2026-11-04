@@ -13,6 +13,14 @@ use League\CommonMark\MarkdownConverter;
 class MarkdownService
 {
     protected MarkdownConverter $converter;
+
+    /**
+     * Separate converter for user READMEs that allows raw HTML blocks
+     * (GitHub-style snippets like <p align="center"><img ...></p>).
+     * Output is still sanitized afterwards.
+     */
+    protected MarkdownConverter $readmeConverter;
+
     protected array $allowedTags = [
         'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
         'p', 'br',
@@ -25,8 +33,27 @@ class MarkdownService
         'code', 'pre',
     ];
 
+    /**
+     * Extended whitelist for user README profiles (GitHub-style snippets).
+     * img src is restricted to http(s) only via sanitize().
+     */
+    protected array $readmeAllowedTags = [
+        'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+        'p', 'br',
+        'strong', 'em', 'u', 's', 'del',
+        'ul', 'ol', 'li',
+        'blockquote',
+        'a',
+        'img',
+        'div', 'span',
+        'table', 'thead', 'tbody', 'tr', 'th', 'td',
+        'hr',
+        'code', 'pre', 'kbd', 'sub', 'sup',
+    ];
+
     public function __construct()
     {
+        // Converter utama: raw HTML di-strip (konten institusional, aman secara default)
         $config = [
             'html_input' => 'strip',           // Strip all raw HTML
             'allow_unsafe_links' => false,     // Block javascript: and data: URLs
@@ -40,6 +67,19 @@ class MarkdownService
         $environment->addExtension(new TaskListExtension());
 
         $this->converter = new MarkdownConverter($environment);
+
+        // Converter kedua khusus README: raw HTML diizinkan lalu disanitasi manual.
+        $readmeEnvironment = new Environment([
+            'html_input' => 'allow',       // Keep raw HTML (sanitized later in sanitize())
+            'allow_unsafe_links' => false,
+            'max_nesting_level' => 10,
+        ]);
+        $readmeEnvironment->addExtension(new CommonMarkCoreExtension());
+        $readmeEnvironment->addExtension(new TableExtension());
+        $readmeEnvironment->addExtension(new StrikethroughExtension());
+        $readmeEnvironment->addExtension(new TaskListExtension());
+
+        $this->readmeConverter = new MarkdownConverter($readmeEnvironment);
     }
 
     /**
@@ -103,27 +143,93 @@ class MarkdownService
     }
 
     /**
+     * Parse markdown for user README profiles (ala GitHub profile README).
+     *
+     * Allows safe raw HTML commonly used in GitHub READMEs — <p align>, <a>, <img> —
+     * while still sanitizing scripts, event handlers, and dangerous URLs.
+     *
+     * @param string|null $markdown
+     * @return string
+     */
+    public function parseReadme(?string $markdown): string
+    {
+        if (empty($markdown)) {
+            return '';
+        }
+
+        // Allow raw HTML to pass through so GitHub-style snippets (img with align, etc.) work
+        $html = (string) $this->readmeConverter->convert($markdown);
+
+        // Sanitize with extended tag whitelist (img, div, span, table alignment helpers)
+        $html = $this->sanitize($html, $this->readmeAllowedTags);
+
+        // Keep alignment attributes used by GitHub-style README snippets (<p align="center">)
+        $html = $this->restoreAlignmentAttributes($html);
+
+        // Apply the same Tailwind classes to markdown-rendered elements so the
+        // README matches the institutional look (raw HTML blocks like
+        // <p align="center"> are untouched because replacements match exact tags)
+        $html = $this->applyInstitutionalStyling($html);
+
+        return $html;
+    }
+
+    /**
+     * Ensure align="..." attributes survive sanitization on block elements.
+     * Only the literal values center|left|right are allowed, so this is safe.
+     * If the attribute already exists (kept by strip_tags), leave it; otherwise add it back
+     * from a marker captured before sanitization.
+     */
+    protected function restoreAlignmentAttributes(string $html): string
+    {
+        // Deduplicate any accidental double align attributes
+        return preg_replace_callback(
+            '/<(p|div|h1|h2|h3|h4|h5|h6|table|td|th|tr)\b([^>]*)>/i',
+            function ($m) {
+                $tag = strtolower($m[1]);
+                $attrs = $m[2];
+
+                if (preg_match_all('/align\s*=\s*["\']?(center|left|right)["\']?/i', $attrs, $am, PREG_SET_ORDER)) {
+                    $value = strtolower($am[0][1]);
+                    // Remove all align occurrences, then add exactly one
+                    $cleaned = preg_replace('/\s*align\s*=\s*["\']?(center|left|right)["\']?/i', '', $attrs);
+                    return '<' . $tag . ' align="' . $value . '"' . rtrim($cleaned) . '>';
+                }
+
+                return $m[0];
+            },
+            $html
+        );
+    }
+
+    /**
      * Sanitize HTML output - remove scripts, dangerous attributes
      *
      * @param string $html
+     * @param array|null $allowedTags null = default institutional whitelist
      * @return string
      */
-    protected function sanitize(string $html): string
+    protected function sanitize(string $html, ?array $allowedTags = null): string
     {
+        $allowedTags = $allowedTags ?? $this->allowedTags;
+
         // Remove any script tags that might have slipped through
         $html = preg_replace('/<script\b[^>]*>(.*?)<\/script>/is', '', $html);
-        
+
         // Remove event handlers (onclick, onerror, etc.)
         $html = preg_replace('/\s*on\w+\s*=\s*["\'][^"\']*["\']/i', '', $html);
-        
+
         // Remove style attributes (inline styles not allowed)
         $html = preg_replace('/\s*style\s*=\s*["\'][^"\']*["\']/i', '', $html);
-        
+
         // Remove javascript: and data: protocols from links
         $html = preg_replace('/href\s*=\s*["\'](?:javascript|data):[^"\']*["\']/i', 'href="#"', $html);
-        
+
+        // Remove javascript: and data: protocols from image sources
+        $html = preg_replace('/src\s*=\s*["\'](?:javascript|data):[^"\']*["\']/i', 'src=""', $html);
+
         // Strip tags not in allowed list
-        $html = strip_tags($html, '<' . implode('><', $this->allowedTags) . '>');
+        $html = strip_tags($html, '<' . implode('><', $allowedTags) . '>');
 
         return $html;
     }

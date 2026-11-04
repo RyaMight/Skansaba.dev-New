@@ -30,6 +30,7 @@ Route::get('/unit-produksi', \App\Livewire\UnitProduksi::class)->name('unit-prod
 Route::get('/dokumen', \App\Livewire\DokumenPublic::class)->name('dokumen.public');
 Route::get('/gallery', \App\Livewire\GalleryPublic::class)->name('gallery.public');
 Route::get('/gallery/{id}', \App\Livewire\GaleriDetail::class)->name('gallery.detail');
+Route::get('/profil/{slug}', \App\Livewire\ProfilPublik::class)->name('profil.public');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', Login::class)->name('login');
@@ -76,6 +77,16 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin,siswa')->group(function () {
         Route::get('/admin/alumni', \App\Livewire\AlumniManager::class)->name('alumni.index');
     });
+
+    // Siswa-only routes
+    Route::middleware('role:siswa')->group(function () {
+        Route::get('/siswa/profil', \App\Livewire\Siswa\ProfilDashboard::class)->name('siswa.profil');
+        Route::get('/siswa/profil-publik', \App\Livewire\Siswa\ProfilPublikEdit::class)->name('siswa.profil-publik');
+        Route::get('/siswa/saluran', \App\Livewire\Siswa\SaluranSaya::class)->name('siswa.saluran');
+    });
+
+    // Settings - accessible by all authenticated users
+    Route::get('/settings', \App\Livewire\Settings::class)->name('settings');
 
     // Logout route
     Route::post('/logout', function () {

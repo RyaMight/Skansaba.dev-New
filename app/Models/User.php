@@ -22,6 +22,15 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'nisn',
+        'kelas',
+        'bio',
+        'headline',
+        'profil_readme',
+        'username',
+        'phone',
+        'keahlian',
+        'saluran_kontak',
         'email',
         'password',
         'role',
@@ -51,6 +60,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'last_login_at' => 'datetime',
+            'saluran_kontak' => 'array',
         ];
     }
 
@@ -63,6 +73,39 @@ class User extends Authenticatable
             return Storage::url($this->photo);
         }
         return null;
+    }
+
+    /**
+     * Keahlian as array (comma-separated string in DB)
+     */
+    public function getKeahlianListAttribute(): array
+    {
+        if (!$this->keahlian) {
+            return [];
+        }
+        return array_values(array_filter(array_map('trim', explode(',', $this->keahlian))));
+    }
+
+    /**
+     * Resolve a user by profile slug: numeric ID or custom username.
+     */
+    public static function resolveProfile(string $slug): ?self
+    {
+        $query = static::where('status', 'active');
+
+        if (ctype_digit($slug)) {
+            return $query->whereKey((int) $slug)->first();
+        }
+
+        return $query->where('username', $slug)->first();
+    }
+
+    /**
+     * Public profile URL (uses custom username when available)
+     */
+    public function getProfilUrlAttribute(): string
+    {
+        return route('profil.public', $this->username ?: $this->id);
     }
 
     /**
@@ -165,6 +208,14 @@ class User extends Authenticatable
     public function isGuru(): bool
     {
         return $this->role === 'guru';
+    }
+
+    /**
+     * Check if user is siswa
+     */
+    public function isSiswa(): bool
+    {
+        return $this->role === 'siswa';
     }
 
     /**
