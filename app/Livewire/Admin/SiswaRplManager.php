@@ -103,6 +103,7 @@ class SiswaRplManager extends Component
     public function openCreateModal(): void
     {
         $this->reset(['name', 'nisn', 'kelas', 'email', 'password', 'status', 'keahlian']);
+        $this->password = User::DEFAULT_SISWA_PASSWORD;
         $this->status = 'active';
         $this->showCreateModal = true;
     }
@@ -117,15 +118,16 @@ class SiswaRplManager extends Component
     {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:100'],
-            'nisn' => ['nullable', 'string', 'max:20', 'unique:users,nisn'],
+            'nisn' => ['nullable', 'required_without:email', 'string', 'max:20', 'unique:users,nisn'],
             'kelas' => ['nullable', 'string', 'max:50'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'email' => ['nullable', 'required_without:nisn', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
             'status' => ['required', 'in:active,inactive'],
             'keahlian' => ['nullable', 'string', 'max:255'],
         ], [
             'name.required' => 'Nama lengkap siswa wajib diisi.',
-            'email.required' => 'Email wajib diisi.',
+            'nisn.required_without' => 'NIS / NISN atau Email wajib diisi salah satu.',
+            'email.required_without' => 'Email atau NIS / NISN wajib diisi salah satu.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
             'nisn.unique' => 'NISN sudah digunakan.',
@@ -143,10 +145,10 @@ class SiswaRplManager extends Component
 
         $user = User::create([
             'name' => $this->name,
-            'nisn' => $this->nisn ?: null,
-            'kelas' => $this->kelas ?: null,
+            'nisn' => trim($this->nisn) !== '' ? trim($this->nisn) : null,
+            'kelas' => trim($this->kelas) !== '' ? trim($this->kelas) : null,
             'username' => $username,
-            'email' => $this->email,
+            'email' => trim($this->email) !== '' ? trim($this->email) : null,
             'password' => Hash::make($this->password),
             'role' => 'siswa', // Role selalu siswa
             'status' => $this->status,
@@ -183,7 +185,7 @@ class SiswaRplManager extends Component
                         ->orWhere('email', 'like', '%' . $this->search . '%');
                 });
             })
-            ->when($this->filterKeahlian, fn($q) => $q->where('keahlian', $this->filterKeahlian))
+            ->when($this->filterKeahlian, fn($q) => $q->where('keahlian', 'like', '%' . $this->filterKeahlian . '%'))
             ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
             ->latest('id')
             ->paginate(15);

@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -22,27 +22,61 @@ class Settings extends Component
     {
         $this->validate([
             'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'different:current_password',
+                function (string $attribute, mixed $value, \Closure $fail) {
+                    $defaultPasswords = [
+                        strtoupper(User::DEFAULT_SISWA_PASSWORD),
+                        strtoupper(User::DEFAULT_ADMIN_PASSWORD),
+                        strtoupper(User::DEFAULT_GURU_PASSWORD),
+                    ];
+                    if (in_array(strtoupper(trim((string) $value)), $defaultPasswords, true)) {
+                        $fail('Password baru tidak boleh menggunakan password default bawaan.');
+                    }
+                },
+            ],
         ], [
             'current_password.required' => 'Password saat ini wajib diisi.',
             'current_password.current_password' => 'Password saat ini tidak sesuai.',
             'password.required' => 'Password baru wajib diisi.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'password.min' => 'Password baru minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password baru tidak cocok.',
+            'password.different' => 'Password baru harus berbeda dari password saat ini.',
         ]);
 
+        /** @var User $user */
         $user = Auth::user();
         $user->password = Hash::make($this->password);
         $user->save();
 
-        $this->reset('current_password', 'password', 'password_confirmation');
+        // Bersihkan status password default di session
+        $user->clearDefaultPasswordFlag();
 
-        session()->flash('message', 'Password berhasil diperbarui!');
+        // Sinkronkan hash password di session agar tidak ter-logout otomatis
+        if (request()->hasSession()) {
+            request()->session()->put([
+                'password_hash_' . Auth::getDefaultDriver() => $user->getAuthPassword(),
+            ]);
+        }
+        Auth::setUser($user->fresh());
+
+        $this->reset('current_password', 'password', 'password_confirmation');
+        $this->resetValidation();
+
+        session()->flash('message', 'Password berhasil diperbarui! Akun Anda kini lebih aman.');
     }
 
     public function render()
     {
+        $user = Auth::user()?->fresh();
+
         return view('livewire.settings', [
-            'user' => Auth::user(),
+            'user' => $user,
+            'isDefaultPassword' => $user ? $user->isUsingDefaultPassword() : false,
         ]);
     }
 }

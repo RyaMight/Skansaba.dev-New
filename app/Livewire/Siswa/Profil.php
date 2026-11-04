@@ -41,7 +41,7 @@ class Profil extends Component
     public function initForm()
     {
         $this->name = $this->user->name ?? '';
-        $this->email = $this->user->email ?? 'ahmad.syah@smk.sch.id';
+        $this->email = $this->user->email ?? '';
         $this->bio = $this->user->bio ?? 'Tertarik pada Web Development dan UI/UX Design. Senang belajar hal baru dan berkarya di bidang Rekayasa Perangkat Lunak.';
         $this->keahlian = $this->user->keahlian ?? '';
         $this->photoBase64 = null;
@@ -108,8 +108,11 @@ class Profil extends Component
             'keahlian' => $this->keahlian,
         ]);
 
-        // Refresh user model
+        // Refresh user model & sync auth guard + sidebar
         $this->user = $this->user->fresh();
+        Auth::setUser($this->user);
+        $this->dispatch('profile-photo-updated');
+        $this->dispatch('profile-updated');
 
         $this->showEditModal = false;
         $this->photoBase64 = null;

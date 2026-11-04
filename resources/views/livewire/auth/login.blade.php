@@ -22,7 +22,7 @@
                 {{-- Email / NISN Field --}}
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                        Email atau NISN
+                        Email atau NIS / NISN
                     </label>
                     <input 
                         type="text" 
@@ -31,7 +31,7 @@
                         @disabled($isLoading)
                         class="appearance-none block w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 dark:bg-gray-800 disabled:text-gray-500 dark:text-gray-400"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
-                        placeholder="Masukkan Email atau NISN"
+                        placeholder="Masukkan Email atau NIS / NISN"
                         autocomplete="username"
                         autofocus
                     >

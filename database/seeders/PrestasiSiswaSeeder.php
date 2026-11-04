@@ -26,7 +26,7 @@ class PrestasiSiswaSeeder extends Seeder
                 ['email' => 'admin@rpl.sch.id'],
                 [
                     'name' => 'Administrator',
-                    'password' => Hash::make('admin123'),
+                    'password' => Hash::make(User::DEFAULT_ADMIN_PASSWORD),
                     'role' => 'admin',
                     'status' => 'active',
                 ]

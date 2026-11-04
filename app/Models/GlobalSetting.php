@@ -89,6 +89,27 @@ class GlobalSetting extends Model
     }
 
     /**
+     * Get sanitized digits for WhatsApp (default: 6285111345644)
+     */
+    public function getWhatsappDigitsAttribute()
+    {
+        $raw = $this->whatsapp ?: $this->contact_phone ?: '6285111345644';
+        $digits = preg_replace('/[^0-9]/', '', $raw);
+        if (str_starts_with($digits, '0')) {
+            $digits = '62' . substr($digits, 1);
+        }
+        return $digits ?: '6285111345644';
+    }
+
+    /**
+     * Get direct wa.me chat URL
+     */
+    public function getWhatsappUrlAttribute()
+    {
+        return 'https://wa.me/' . $this->whatsapp_digits;
+    }
+
+    /**
      * Clear cache when settings are updated
      */
     protected static function booted()

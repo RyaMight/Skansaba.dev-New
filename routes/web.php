@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/prospek-karir', \App\Livewire\ProspekKarirManager::class)->name('prospek-karir.index');
         Route::get('/admin/berita', \App\Livewire\BeritaManager::class)->name('berita.index');
         Route::get('/admin/mitra', \App\Livewire\MitraManager::class)->name('mitra.index');
+        Route::get('/admin/alumni', \App\Livewire\AlumniManager::class)->name('alumni.index');
         Route::get('/admin/users', \App\Livewire\UserManager::class)->name('users.index');
         Route::get('/admin/global-settings', \App\Livewire\GlobalSettingsManager::class)->name('global-settings.index');
     });
@@ -73,11 +74,6 @@ Route::middleware('auth')->group(function () {
     // Admin, Guru, and Siswa routes
     Route::middleware('role:admin,guru,siswa')->group(function () {
         Route::get('/kelola/karya-siswa', \App\Livewire\KaryaSiswaManager::class)->name('karya-siswa.index');
-    });
-
-    // Admin and Siswa routes (for alumni)
-    Route::middleware('role:admin,siswa')->group(function () {
-        Route::get('/admin/alumni', \App\Livewire\AlumniManager::class)->name('alumni.index');
     });
 
     // Siswa-only routes

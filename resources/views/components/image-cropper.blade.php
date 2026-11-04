@@ -80,6 +80,15 @@
         init() {
             window.imageCropper = this;
             this.$el._cropperInstance = this;
+
+            @if($resolvedCurrentImageUrl)
+                // Otomatis muat dan pusatkan foto aktif ke tengah saat menu edit dibuka
+                this.$nextTick(() => {
+                    setTimeout(() => {
+                        this.editExistingPhoto('{{ $resolvedCurrentImageUrl }}');
+                    }, 50);
+                });
+            @endif
         },
         
         async ensureCroppieLoaded() {
@@ -150,6 +159,107 @@
                 }
             });
         },
+
+        bindCenteredImage(imageSrc) {
+            if (!imageSrc) return;
+            this.imageSrc = imageSrc;
+            this.showCropper = true;
+            this.horizontalShift = 0;
+            this.prevShift = 0;
+
+            this.$nextTick(() => {
+                this.initCroppie();
+
+                const img = new Image();
+                img.onload = () => {
+                    const natW = img.naturalWidth || 500;
+                    const natH = img.naturalHeight || 500;
+                    const vpW = this.viewportWidth || 200;
+                    const vpH = this.viewportHeight || 200;
+
+                    // Skala minimal agar foto menutup seluruh area viewport tanpa celah
+                    const minScale = Math.max(vpW / natW, vpH / natH);
+
+                    // Titik crop tepat di tengah-tengah gambar asli
+                    const cropW = vpW / minScale;
+                    const cropH = vpH / minScale;
+                    const x1 = Math.max(0, Math.round((natW - cropW) / 2));
+                    const y1 = Math.max(0, Math.round((natH - cropH) / 2));
+                    const x2 = Math.min(natW, Math.round(x1 + cropW));
+                    const y2 = Math.min(natH, Math.round(y1 + cropH));
+
+                    const doBind = () => {
+                        if (!this.croppie) return;
+                        this.croppie.bind({
+                            url: imageSrc,
+                            points: [x1, y1, x2, y2],
+                            orientation: this.currentOrientation || 1
+                        }).then(() => {
+                            this.currentOrientation = 1;
+                            if (this.croppie && this.croppie.elements && this.croppie.elements.zoomer) {
+                                this.zoomMin = parseFloat(this.croppie.elements.zoomer.min) || minScale;
+                                this.zoomMax = Math.max(this.zoomMin * 3, 2.5);
+                                this.zoomStep = (this.zoomMax - this.zoomMin) / 100;
+                                this.currentZoom = parseFloat(this.croppie.elements.zoomer.value) || minScale;
+                            }
+                            this.horizontalShift = 0;
+                            this.prevShift = 0;
+                            this.applyDirectCenter(natW, natH, this.currentZoom || minScale);
+                            this.updateCrop();
+
+                            // Verifikasi kedua setelah rendering/transisi modal selesai
+                            setTimeout(() => {
+                                if (this.croppie) {
+                                    this.applyDirectCenter(natW, natH, this.currentZoom || minScale);
+                                    this.updateCrop();
+                                }
+                            }, 150);
+                        }).catch(err => {
+                            console.error('Gagal bind croppie berpusat:', err);
+                        });
+                    };
+
+                    setTimeout(doBind, 60);
+                };
+                img.onerror = () => {
+                    setTimeout(() => {
+                        if (!this.croppie) return;
+                        this.croppie.bind({
+                            url: imageSrc,
+                            orientation: 1
+                        }).then(() => {
+                            this.updateCrop();
+                        });
+                    }, 60);
+                };
+                img.src = imageSrc;
+            });
+        },
+
+        applyDirectCenter(natW, natH, scale) {
+            if (!this.croppie || !this.croppie.elements) return;
+            const boundary = this.croppie.elements.boundary;
+            const viewport = this.croppie.elements.viewport;
+            const preview = this.croppie.elements.preview;
+            if (!boundary || !viewport || !preview) return;
+
+            const boundRect = boundary.getBoundingClientRect();
+            const vpRect = viewport.getBoundingClientRect();
+            const s = scale || this.currentZoom || 1;
+
+            if (boundRect.width <= 0 || vpRect.width <= 0) return;
+
+            const vpCenterX = vpRect.left + vpRect.width / 2;
+            const vpCenterY = vpRect.top + vpRect.height / 2;
+
+            const targetX = Math.round(vpCenterX - boundRect.left - (natW * s) / 2);
+            const targetY = Math.round(vpCenterY - boundRect.top - (natH * s) / 2);
+
+            preview.style.transformOrigin = '0px 0px';
+            preview.style.transform = `translate3d(${targetX}px, ${targetY}px, 0px) scale(${s})`;
+            this.horizontalShift = 0;
+            this.prevShift = 0;
+        },
         
         async processFile(file) {
             if (!file || !file.type.startsWith('image/')) return;
@@ -173,32 +283,7 @@
             
             const reader = new FileReader();
             reader.onload = (e) => {
-                this.imageSrc = e.target.result;
-                this.showCropper = true;
-                this.$nextTick(() => {
-                    this.initCroppie();
-                    setTimeout(() => {
-                        if (!this.croppie) return;
-                        this.croppie.bind({
-                            url: this.imageSrc,
-                            zoom: 0,
-                            orientation: 1
-                        }).then(() => {
-                            this.currentOrientation = 1;
-                            if (this.croppie && this.croppie.elements && this.croppie.elements.zoomer) {
-                                this.zoomMin = parseFloat(this.croppie.elements.zoomer.min) || 0.2;
-                                this.zoomMax = parseFloat(this.croppie.elements.zoomer.max) || 2.5;
-                                this.zoomStep = parseFloat(this.croppie.elements.zoomer.step) || 0.01;
-                                this.currentZoom = parseFloat(this.croppie.elements.zoomer.value) || this.zoomMin;
-                            }
-                            this.horizontalShift = 0;
-                            this.prevShift = 0;
-                            this.updateCrop();
-                        }).catch(err => {
-                            console.error('Gagal bind croppie:', err);
-                        });
-                    }, 120);
-                });
+                this.bindCenteredImage(e.target.result);
             };
             reader.readAsDataURL(file);
         },
@@ -228,53 +313,12 @@
                 const blob = await res.blob();
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    this.imageSrc = e.target.result;
-                    this.showCropper = true;
-                    this.$nextTick(() => {
-                        this.initCroppie();
-                        setTimeout(() => {
-                            if (!this.croppie) return;
-                            this.croppie.bind({
-                                url: this.imageSrc,
-                                zoom: 0,
-                                orientation: 1
-                            }).then(() => {
-                                this.currentOrientation = 1;
-                                if (this.croppie && this.croppie.elements && this.croppie.elements.zoomer) {
-                                    this.zoomMin = parseFloat(this.croppie.elements.zoomer.min) || 0.2;
-                                    this.zoomMax = parseFloat(this.croppie.elements.zoomer.max) || 2.5;
-                                    this.zoomStep = parseFloat(this.croppie.elements.zoomer.step) || 0.01;
-                                    this.currentZoom = parseFloat(this.croppie.elements.zoomer.value) || this.zoomMin;
-                                }
-                                this.horizontalShift = 0;
-                                this.prevShift = 0;
-                                this.updateCrop();
-                            }).catch(err => {
-                                console.error('Gagal bind croppie foto aktif:', err);
-                            });
-                        }, 120);
-                    });
+                    this.bindCenteredImage(e.target.result);
                 };
                 reader.readAsDataURL(blob);
             } catch (err) {
                 console.warn('Fallback ke URL foto langsung:', err);
-                this.imageSrc = url;
-                this.showCropper = true;
-                this.$nextTick(() => {
-                    this.initCroppie();
-                    setTimeout(() => {
-                        if (!this.croppie) return;
-                        this.croppie.bind({
-                            url: url,
-                            zoom: 0,
-                            orientation: 1
-                        }).then(() => {
-                            this.updateCrop();
-                        }).catch(e => {
-                            console.error('Gagal bind URL foto:', e);
-                        });
-                    }, 120);
-                });
+                this.bindCenteredImage(url);
             }
         },
         
@@ -333,15 +377,7 @@
 
         centerImage() {
             if (!this.croppie || !this.imageSrc) return;
-            this.horizontalShift = 0;
-            this.prevShift = 0;
-            this.croppie.bind({
-                url: this.imageSrc,
-                orientation: this.currentOrientation,
-                zoom: this.currentZoom
-            }).then(() => {
-                this.updateCrop();
-            });
+            this.bindCenteredImage(this.imageSrc);
         },
 
         setZoomLevel(val) {

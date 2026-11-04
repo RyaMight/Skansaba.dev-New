@@ -70,35 +70,35 @@ class SaluranSaya extends Component
     {
         $saved = $this->user->saluran_kontak ?? [];
 
-        // Defaults sesuai gambar & preferensi jika belum pernah disimpan
+        // Default kosong untuk akun siswa yang belum pernah mengisi saluran kontak
         $defaults = [
             'instagram' => [
-                'url' => 'https://instagram.com/rizky_pratama',
-                'active' => true,
+                'url' => '',
+                'active' => false,
             ],
             'tiktok' => [
-                'url' => 'https://tiktok.com/@rizky_pratama',
-                'active' => true,
+                'url' => '',
+                'active' => false,
             ],
             'whatsapp' => [
-                'url' => '+6281234567890',
-                'active' => true,
+                'url' => '',
+                'active' => false,
             ],
             'youtube' => [
                 'url' => '',
                 'active' => false,
             ],
             'linkedin' => [
-                'url' => 'https://linkedin.com/in/rizky-pratama',
-                'active' => true,
+                'url' => '',
+                'active' => false,
             ],
             'twitter' => [
-                'url' => 'https://x.com/rizky_pratama',
-                'active' => true,
+                'url' => '',
+                'active' => false,
             ],
             'github' => [
-                'url' => 'https://github.com/rizkypratama',
-                'active' => true,
+                'url' => '',
+                'active' => false,
             ],
             'email' => [
                 'active' => false,
@@ -151,23 +151,52 @@ class SaluranSaya extends Component
 
     public function save()
     {
+        $this->email = trim($this->email);
+
+        // Normalisasi URL saluran sebelum validasi (cegah javascript: XSS & tambahkan https:// bila belum ada)
+        foreach (['instagram', 'tiktok', 'youtube', 'linkedin', 'twitter', 'github'] as $channelKey) {
+            $rawUrl = trim($this->saluran[$channelKey]['url'] ?? '');
+            if ($rawUrl !== '') {
+                if (preg_match('/^(javascript|data|vbscript):/i', $rawUrl)) {
+                    $this->addError("saluran.{$channelKey}.url", 'Format tautan tidak diizinkan.');
+                    return;
+                }
+                if (!preg_match('/^https?:\/\//i', $rawUrl)) {
+                    $rawUrl = 'https://' . ltrim($rawUrl, '/');
+                }
+            } else {
+                $this->saluran[$channelKey]['active'] = false;
+            }
+            $this->saluran[$channelKey]['url'] = $rawUrl;
+        }
+
+        $waRaw = trim($this->saluran['whatsapp']['url'] ?? '');
+        if ($waRaw === '') {
+            $this->saluran['whatsapp']['active'] = false;
+        }
+        $this->saluran['whatsapp']['url'] = $waRaw;
+
         $this->validate([
-            'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
-            'saluran.instagram.url' => 'nullable|string|max:255',
-            'saluran.tiktok.url' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255|unique:users,email,' . $this->user->id,
+            'saluran.instagram.url' => 'nullable|url|max:255',
+            'saluran.tiktok.url' => 'nullable|url|max:255',
             'saluran.whatsapp.url' => 'nullable|string|max:255',
-            'saluran.youtube.url' => 'nullable|string|max:255',
-            'saluran.linkedin.url' => 'nullable|string|max:255',
-            'saluran.twitter.url' => 'nullable|string|max:255',
-            'saluran.github.url' => 'nullable|string|max:255',
+            'saluran.youtube.url' => 'nullable|url|max:255',
+            'saluran.linkedin.url' => 'nullable|url|max:255',
+            'saluran.twitter.url' => 'nullable|url|max:255',
+            'saluran.github.url' => 'nullable|url|max:255',
         ], [
-            'email.required' => 'Email aktif wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email ini sudah terdaftar oleh pengguna lain.',
+            'saluran.*.url.url' => 'Masukkan alamat URL yang valid (contoh: https://instagram.com/username).',
         ]);
 
+        if ($this->email === '') {
+            $this->saluran['email']['active'] = false;
+        }
+
         $this->user->update([
-            'email' => $this->email,
+            'email' => $this->email !== '' ? $this->email : null,
             'saluran_kontak' => $this->saluran,
         ]);
 
