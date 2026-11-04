@@ -41,10 +41,10 @@ Selesai — web jalan di `http://IP-SERVER:8000` (atau port yang kamu set).
 5. `php artisan storage:link` + cache config/route/view
 6. Supervisor menyalakan php-fpm + nginx + Laravel scheduler
 
-### Login default (dari seeder, hanya jika DB kosong saat pertama start)
-- Admin: `admin@rpl.sch.id` / `RPLskansabaselalujaya`
-- Guru: `guru@rpl.sch.id` / `GURURPLJAYA`
-- Siswa (35 akun): NIS `18332`–`18367` / `SKANSABAJAYA321` (muncul peringatan ganti password saat login pertama)
+### Login awal (dari seeder, hanya jika DB kosong saat pertama start)
+- Akun **Admin**, **Guru**, dan **35 Akun Siswa RPL** otomatis dibuat oleh seeder (`DatabaseSeeder` & `SiswaRplSeeder`).
+- Kredensial awal tidak ditulis di dokumentasi publik demi keamanan (hubungi tim internal / cek seeder lokal).
+- Siswa yang masih memakai password bawaan akan otomatis mendapat peringatan ganti password saat login pertama.
 
 > Ganti password setelah login pertama!
 

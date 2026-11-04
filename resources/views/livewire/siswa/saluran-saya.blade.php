@@ -70,7 +70,7 @@
                         wire:click="toggleActive('email')"
                         class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none {{ $saluran['email']['active'] ? 'bg-[#0284c7]' : 'bg-gray-300' }}"
                     >
-                        <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-900 shadow-sm ring-0 transition duration-200 ease-in-out {{ $saluran['email']['active'] ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                        <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out {{ $saluran['email']['active'] ? 'translate-x-5' : 'translate-x-0' }}"></span>
                     </button>
                 </div>
             </div>
@@ -79,7 +79,7 @@
                 <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Alamat Email</label>
                 <input
                     type="email"
-                    wire:model="email"
+                    wire:model.live.debounce.300ms="email"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none"
                     placeholder="nama@email.com"
                 >

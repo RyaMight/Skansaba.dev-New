@@ -14,27 +14,37 @@ Jika kamu sudah pernah meng-clone project ini sebelumnya dan baru saja menarik p
 # 1. Tarik kode terbaru dari repository
 git pull origin main
 
-# 2. Install package PHP baru (termasuk enshrined/svg-sanitize untuk fitur SVG README)
+# 2. Install package PHP & perbarui autoloader Composer
 composer install
+composer dump-autoload
 
-# 3. Jalankan migrasi terbaru (cooldown username 7 hari, tabel aset SVG, & penghapusan kolom headline)
+# 3. Jalankan migrasi terbaru
 php artisan migrate
 
-# (Opsional) Jika ingin mereset database + memuat ulang data seeder guru & karya terbaru:
+# 4. Masukkan / sinkronkan data seeder 35 akun siswa RPL & konten terbaru (tanpa mereset data yang sudah ada)
+php artisan db:seed --class=SiswaRplSeeder
+php artisan db:seed --class=StrukturOrganisasiGuruSeeder
+
+# (Atau jika ingin menjalankan seluruh seeder sekaligus):
+# php artisan db:seed
+
+# (Opsional) Jika ingin mereset database dari nol + memuat ulang semua seeder:
 # php artisan migrate:fresh --seed
 
-# 4. Install dependensi Node & kompilasi ulang asset CSS/JS (Dark Mode + Studio Cropper)
+# 5. Install dependensi Node & kompilasi ulang asset CSS/JS (Dark Mode + Studio Cropper + Animasi)
 npm install
 npm run build
 
-# 5. Bersihkan cache view, route, dan config Laravel
+# 6. Bersihkan cache view, route, dan config Laravel
 php artisan optimize:clear
 ```
 
 > 💡 **Kenapa wajib menjalankan langkah di atas setelah `git pull`?**
+> - `composer dump-autoload` memastikan class seeder baru (`SiswaRplSeeder`, `StrukturOrganisasiGuruSeeder`, dll) langsung terbaca tanpa error redeclare/autoload.
+> - `php artisan db:seed --class=SiswaRplSeeder` bersifat *idempotent* (aman dijalankan berkali-kali): otomatis menambahkan 35 akun siswa RPL dan membersihkan akun uji coba lama tanpa menghapus perubahan profil/password siswa yang sudah diupdate.
 > - Ada penambahan package `enshrined/svg-sanitize` di `composer.json` untuk sanitasi keamanan file `.svg` siswa.
 > - Ada migrasi database baru (`username_changed_at`, tabel `profil_aset_svg`, dan penghapusan kolom `headline`).
-> - Ada pembaruan style CSS di `resources/css/app.css` (integrasi **Dark Mode**, **Custom Scrollbar**, dan **Studio Image Cropper**).
+> - Ada pembaruan style CSS & JS di `resources/css/app.css` dan `resources/js/app.js` (integrasi **Dark Mode**, **Animasi Struktur Organisasi**, **Custom Scrollbar**, dan **Studio Image Cropper**).
 
 ---
 
@@ -211,17 +221,19 @@ Perintah ini menjalankan `php artisan serve`, queue listener, `php artisan pail`
 
 </details>
 
-## Akun Login Default
+## Akun & Hak Akses Role
 
-Login di **http://127.0.0.1:8000/login**:
+Sistem memiliki **3 role pengguna** yang dibuat otomatis melalui seeder (`php artisan db:seed`) di halaman login **http://127.0.0.1:8000/login**:
 
-| Role | Email / NIS | Password | Akses |
-|---|---|---|---|
-| Admin | `admin@rpl.sch.id` | `RPLskansabaselalujaya` | Semua modul + manajemen user, verifikasi karya, akun siswa RPL & settings |
-| Guru | `guru@rpl.sch.id` | `GURURPLJAYA` | Prestasi, galeri, struktur organisasi, verifikasi karya, akun siswa RPL |
-| Siswa (35 Akun) | NIS `18332` – `18367` | `SKANSABAJAYA321` | Karya siswa, alumni, profil siswa, hias profil publik & saluran kontak |
+| Role | Metode Login | Hak Akses Modul |
+|---|---|---|
+| **Admin** | Email Admin | Semua modul CMS, manajemen pengguna, verifikasi karya, akun siswa RPL, & pengaturan global |
+| **Guru** | Email Guru | Prestasi, galeri, struktur organisasi RPL, verifikasi karya, & akun siswa RPL |
+| **Siswa (35 Akun)** | NIS / Email / Username | Dashboard siswa, karya saya, hias profil publik, README Markdown, aset SVG, saluran kontak, & pengaturan akun |
 
-> ⚠️ Segera ganti password default setelah login di environment produksi!
+> 🔒 **Catatan Keamanan:**
+> - Detail kredensial/password akun tidak dicantumkan di repository publik demi keamanan. Silakan hubungi maintainer tim atau cek konfigurasi internal untuk kredensial awal.
+> - Saat siswa login pertama kali menggunakan password bawaan sekolah, sistem otomatis menampilkan peringatan (popup & banner) untuk segera mengganti password di menu **Pengaturan**.
 
 ## Struktur Halaman
 
@@ -268,7 +280,7 @@ Login di **http://127.0.0.1:8000/login**:
 | `/admin/verifikasi-karya` | admin, guru | Kurasi & verifikasi karya siswa + tag keahlian |
 | `/admin/siswa-rpl` | admin, guru | Kelola akun siswa RPL & tag keahlian terverifikasi |
 | `/kelola/karya-siswa` | admin, guru, siswa | Koleksi & manajemen karya siswa |
-| `/admin/alumni` | admin, siswa | Kelola data alumni |
+| `/admin/alumni` | admin | Kelola data alumni |
 | `/siswa/profil` | siswa | Dashboard & profil siswa |
 | `/siswa/profil-publik` | siswa | Hias profil publik, README Markdown, aset SVG & username |
 | `/siswa/saluran` | siswa | Kelola saluran kontak & sosial media siswa |
@@ -286,6 +298,22 @@ php artisan optimize:clear           # bersihkan cache view/route/config setelah
 ```
 
 ## Troubleshooting
+
+### Error `Cannot redeclare class ...Seeder` atau `Class "Database\Seeders\..." not found` saat `php artisan db:seed`
+
+Autoloader Composer lokal masih menyimpan cache class seeder lama sebelum `git pull`. Jalankan:
+
+```bash
+composer dump-autoload
+php artisan optimize:clear
+php artisan db:seed
+```
+
+Jika hanya ingin menambahkan/menyinkronkan 35 akun siswa RPL tanpa menjalankan ulang seeder lain:
+
+```bash
+php artisan db:seed --class=SiswaRplSeeder
+```
 
 ### Error `Column not found: headline` atau `username_changed_at` setelah `git pull`
 

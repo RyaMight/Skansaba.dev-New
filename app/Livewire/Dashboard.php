@@ -62,14 +62,14 @@ class Dashboard extends Component
             ->get()
             ->map(function ($log) {
                 $modelName = class_basename($log->loggable_type);
-                $modelTitle = $log->loggable->judul ?? $log->loggable->nama ?? 'Item';
+                $modelTitle = $log->loggable?->judul ?? $log->loggable?->nama ?? 'Item';
                 
                 return [
-                    'user_name' => $log->user->name,
+                    'user_name' => $log->user?->name ?? 'Pengguna',
                     'action' => $this->getActionText($log),
                     'model' => $this->translateModel($modelName),
                     'title' => $modelTitle,
-                    'time' => $log->created_at->diffForHumans(),
+                    'time' => $log->created_at?->diffForHumans() ?? '-',
                     'from_status' => $log->getFromStatusLabelAttribute(),
                     'to_status' => $log->getToStatusLabelAttribute(),
                 ];

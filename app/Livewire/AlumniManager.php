@@ -56,8 +56,10 @@ class AlumniManager extends Component
                 $q->where('user_id', $user->id);
             })
             ->when($this->search, function ($q) {
-                $q->where('nama', 'like', '%' . $this->search . '%')
-                  ->orWhere('institusi', 'like', '%' . $this->search . '%');
+                $q->where(function ($sub) {
+                    $sub->where('nama', 'like', '%' . $this->search . '%')
+                        ->orWhere('institusi', 'like', '%' . $this->search . '%');
+                });
             })
             ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
             ->when($this->filterStatusAlumni, fn($q) => $q->where('status_alumni', $this->filterStatusAlumni))

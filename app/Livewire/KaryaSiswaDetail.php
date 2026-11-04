@@ -12,9 +12,22 @@ class KaryaSiswaDetail extends Component
 
     public function mount($id)
     {
-        $this->karya = KaryaSiswa::where('status', 'published')
-            ->with('user')
-            ->findOrFail($id);
+        $query = KaryaSiswa::with('user');
+
+        // Pemilik karya & admin/guru dapat melihat preview karya meskipun masih draft/review
+        $user = auth()->user();
+        $canViewUnpublished = $user && in_array($user->role, ['admin', 'guru'], true);
+
+        if (!$canViewUnpublished) {
+            $query->where(function ($q) use ($user) {
+                $q->where('status', 'published');
+                if ($user) {
+                    $q->orWhere('user_id', $user->id);
+                }
+            });
+        }
+
+        $this->karya = $query->findOrFail($id);
 
         // Get related karya by kategori or tahun
         $this->relatedKaryas = KaryaSiswa::where('status', 'published')

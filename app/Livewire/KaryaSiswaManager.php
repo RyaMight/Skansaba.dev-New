@@ -70,7 +70,14 @@ class KaryaSiswaManager extends Component
     // --- Detail Modal ---
     public function openDetailModal(int $id): void
     {
-        $this->detailKarya = KaryaSiswa::with('user')->findOrFail($id);
+        $karya = KaryaSiswa::with('user')->findOrFail($id);
+
+        if (Auth::user()->role === 'siswa' && $karya->user_id !== Auth::id()) {
+            session()->flash('error', 'Anda tidak memiliki hak akses untuk melihat detail karya ini.');
+            return;
+        }
+
+        $this->detailKarya = $karya;
         $this->showDetailModal = true;
     }
 
@@ -83,6 +90,13 @@ class KaryaSiswaManager extends Component
     // --- Delete Confirmation Modal ---
     public function confirmDelete(int $id): void
     {
+        $karya = KaryaSiswa::findOrFail($id);
+
+        if (Auth::user()->role === 'siswa' && $karya->user_id !== Auth::id()) {
+            session()->flash('error', 'Anda tidak memiliki hak akses untuk menghapus karya ini.');
+            return;
+        }
+
         $this->confirmingDeleteId = $id;
     }
 
@@ -154,7 +168,7 @@ class KaryaSiswaManager extends Component
                 });
             })
             ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
-            ->when($this->filterKategori, fn($q) => $q->where('kategori', $this->filterKategori))
+            ->when($this->filterKategori, fn($q) => $q->where('kategori', 'like', '%' . $this->filterKategori . '%'))
             ->when($this->filterTahun, fn($q) => $q->where('tahun', $this->filterTahun))
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(12);
