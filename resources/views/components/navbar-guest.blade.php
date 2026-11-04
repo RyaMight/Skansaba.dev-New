@@ -64,9 +64,9 @@
                 </div>
             </div>
 
-            {{-- Blok kanan: Theme Toggle (kiri) + Akun (paling kanan), jarak 40px --}}
+            {{-- Blok kanan: Theme Toggle (kiri) + Akun (paling kanan), jarak 35px --}}
             <div class="hidden lg:flex items-center">
-                <div class="mr-10">
+                <div class="mr-[35px]">
                     <x-theme-toggle />
                 </div>
 

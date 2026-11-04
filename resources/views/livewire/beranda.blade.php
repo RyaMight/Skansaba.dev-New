@@ -3,7 +3,7 @@
     {{-- Hero: Kosentrasi Keahlian Slider --}}
     {{-- ============================================ --}}
     <section
-        class="pt-2 lg:pt-4 pb-10 lg:pb-14"
+        class="pt-4 lg:pt-6 pb-10 lg:pb-14"
         x-data="{
             N: {{ $sliders->count() }},
             index: {{ $sliders->count() }},
@@ -154,8 +154,8 @@
         @resize.window.debounce.200="measure()"
     >
         <div class="site-container">
-            {{-- Judul utama + tagline: rapat & naik, langsung menyambung ke slider --}}
-            <div class="text-center pt-0 lg:pt-1 mb-3 lg:mb-4" data-reveal>
+            {{-- Judul utama + tagline: rapat, jarak seimbang antara navbar dan slider --}}
+            <div class="text-center pt-4 lg:pt-6 mb-4 lg:mb-5" data-reveal>
                 <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-none" style="color: {{ $globalSettings->primary_color_style }}">
                     {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
                 </h1>
