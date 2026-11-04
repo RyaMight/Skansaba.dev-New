@@ -234,27 +234,24 @@
                 </div>
             </div>
 
-            {{-- Middle Heading: Tab Menu Karya Siswa / Profil Siswa --}}
+            {{-- Tab Menu: judul = menu (Karya Siswa / Profil Siswa) dengan underline aktif --}}
             <div class="text-center mt-14 mb-8" x-data="{ tab: 'karya' }">
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-gray-50 inline-flex items-center gap-3">
-                    Karya <span class="font-normal text-slate-400 dark:text-gray-400">& Profil Siswa</span>
-                </h2>
-
-                {{-- Tab Menu --}}
-                <div class="mt-5 flex justify-center">
-                    <div class="inline-flex items-center bg-white dark:bg-gray-900 p-1 rounded-full border border-slate-200 dark:border-gray-700 shadow-xs">
+                <div class="flex justify-center">
+                    <div class="inline-flex items-center gap-12 lg:gap-16">
                         <button
                             type="button"
                             @click="tab = 'karya'"
-                            :class="tab === 'karya' ? 'bg-[#141822] dark:bg-gray-800 text-white shadow-xs' : 'text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white'"
-                            class="px-6 py-2 rounded-full text-xs font-medium transition cursor-pointer">
+                            :class="tab === 'karya' ? 'text-slate-900 dark:text-gray-50 font-extrabold' : 'text-slate-400 dark:text-gray-500 font-bold hover:text-slate-600 dark:hover:text-gray-300'"
+                            class="text-2xl lg:text-3xl tracking-tight transition-colors duration-300 pb-3 border-b-4 -mb-px cursor-pointer"
+                            :class="(tab === 'karya') ? 'border-[#141822] dark:border-gray-100' : 'border-transparent'">
                             Karya Siswa
                         </button>
                         <button
                             type="button"
                             @click="tab = 'profil'"
-                            :class="tab === 'profil' ? 'bg-[#141822] dark:bg-gray-800 text-white shadow-xs' : 'text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white'"
-                            class="px-6 py-2 rounded-full text-xs font-medium transition cursor-pointer">
+                            :class="tab === 'profil' ? 'text-slate-900 dark:text-gray-50 font-extrabold' : 'text-slate-400 dark:text-gray-500 font-bold hover:text-slate-600 dark:hover:text-gray-300'"
+                            class="text-2xl lg:text-3xl tracking-tight transition-colors duration-300 pb-3 border-b-4 -mb-px cursor-pointer"
+                            :class="(tab === 'profil') ? 'border-[#141822] dark:border-gray-100' : 'border-transparent'">
                             Profil Siswa
                         </button>
                     </div>

@@ -7,10 +7,16 @@
         ['judul' => 'Website Profil Sekolah', 'siswa' => 'Budi Santoso', 'kategori' => 'Web App', 'emoji' => '🏫'],
         ['judul' => 'Dashboard IoT Smart Home', 'siswa' => 'Dewi Lestari', 'kategori' => 'IoT', 'emoji' => '🏠'],
         ['judul' => 'Chatbot Bantuan Siswa', 'siswa' => 'Alim Rishan', 'kategori' => 'AI', 'emoji' => '🤖'],
+        ['judul' => 'Aplikasi Absensi QR', 'siswa' => 'Jaman Fauzi', 'kategori' => 'Mobile', 'emoji' => '📱'],
+        ['judul' => 'Sistem Parkir Cerdas', 'siswa' => 'Antrat Olsi', 'kategori' => 'IoT', 'emoji' => '🚗'],
+        ['judul' => 'Marketplace Produk UMKM', 'siswa' => 'Ahneni Palan', 'kategori' => 'Web App', 'emoji' => '🛒'],
+        ['judul' => 'Klasifikasi Citra Tanaman', 'siswa' => 'Nadia Putri', 'kategori' => 'AI', 'emoji' => '🌿'],
+        ['judul' => 'Portal Berita Sekolah', 'siswa' => 'Fajar Nugroho', 'kategori' => 'Web App', 'emoji' => '📰'],
+        ['judul' => 'Media Pembelajaran Interaktif', 'siswa' => 'Laras Ayu', 'kategori' => 'Desktop', 'emoji' => '💡'],
     ];
 @endphp
 
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     @foreach($karyaDummy as $karya)
         <div class="bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-slate-100 dark:border-gray-800 shadow-xs group hover:shadow-md hover:-translate-y-1 transition-all duration-300">
             {{-- Cover karya --}}
