@@ -11,9 +11,9 @@
         class="hidden md:flex md:flex-shrink-0 transition-all duration-300 h-full"
         :class="collapsed ? 'md:w-20' : 'md:w-64'"
     >
-        <div class="flex flex-col h-full w-full bg-white border-r border-gray-200">
+        <div class="flex flex-col h-full w-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-colors duration-300">
             {{-- Logo & Branding --}}
-            <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
+            <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-800">
                 <div class="flex items-center space-x-3 overflow-hidden">
                     @if($globalSettings->logo_primary_url)
                         <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-10 w-auto flex-shrink-0">
@@ -25,13 +25,13 @@
                         </div>
                     @endif
                     <div x-show="!collapsed" x-transition class="min-w-0">
-                        <div class="text-sm font-bold text-gray-900 truncate">{{ $globalSettings->site_name ?? 'CMS RPL' }}</div>
-                        <div class="text-xs text-gray-500 truncate">Dashboard</div>
+                        <div class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate">{{ $globalSettings->site_name ?? 'CMS RPL' }}</div>
+                        <div class="text-xs text-gray-500 dark:text-gray-400 truncate">Dashboard</div>
                     </div>
                 </div>
-                <button 
+                <button
                     @click="collapsed = !collapsed"
-                    class="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition flex-shrink-0"
+                    class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition flex-shrink-0"
                     title="Toggle Sidebar"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,20 +83,24 @@
                 @endforeach
             </nav>
 
-            {{-- Kembali ke Landing Page --}}
-            <div class="flex-shrink-0 px-3 pt-3 pb-1 border-t border-gray-200">
-                <a 
-                    href="{{ route('beranda') }}" 
-                    wire:navigate
-                    class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#0284c7] rounded-lg group transition"
-                    x-bind:class="collapsed ? 'justify-center' : ''"
-                    x-bind:title="collapsed ? 'Kembali ke Web' : ''"
-                >
-                    <svg class="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-bind:class="collapsed ? '' : 'mr-3'">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
-                    </svg>
-                    <span x-show="!collapsed" x-transition class="truncate">Kembali ke Web</span>
-                </a>
+            {{-- Kembali ke Landing Page + Theme Toggle --}}
+            <div class="flex-shrink-0 px-3 pt-3 pb-1 border-t border-gray-200 dark:border-gray-800">
+                <div class="flex items-center" :class="collapsed ? 'justify-center' : 'justify-between'">
+                    <a
+                        href="{{ route('beranda') }}"
+                        wire:navigate
+                        class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#0284c7] rounded-lg group transition"
+                        x-bind:class="collapsed ? 'justify-center px-2' : ''"
+                        x-bind:title="collapsed ? 'Kembali ke Web' : ''"
+                    >
+                        <svg class="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-bind:class="collapsed ? '' : 'mr-3'">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
+                        </svg>
+                        <span x-show="!collapsed" x-transition class="truncate">Kembali ke Web</span>
+                    </a>
+
+                    <x-theme-toggle />
+                </div>
             </div>
 
             {{-- User Profile --}}

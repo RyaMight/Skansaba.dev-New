@@ -181,6 +181,18 @@ html.theme-transition * {
 }
 
 /* ============================================
+   Struktur organisasi: deskripsi guru (markdown)
+   - Baris keahlian/pendidikan tampil ringkas seperti desain
+   ============================================ */
+.strutur-desc p {
+    margin: 0;
+}
+
+.strutur-desc p + p {
+    margin-top: 0.75rem;
+}
+
+/* ============================================
    Berita: efek tumpukan kartu -> menyebar saat scroll
    ============================================ */
 .berita-grid {

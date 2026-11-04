@@ -154,27 +154,19 @@
         @resize.window.debounce.200="measure()"
     >
         <div class="site-container">
-<<<<<<< HEAD
             {{-- Judul utama (center) --}}
             <div class="text-center mb-8 lg:mb-10" data-reveal>
                 <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-tight" style="color: {{ $globalSettings->primary_color_style }}">
                     {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
-=======
-            {{-- Heading (2 baris seperti desain) + Arrows --}}
-            <div class="flex items-end justify-between gap-6 mb-7 lg:mb-9" data-reveal>
-                <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-[1.05]">
-                    Kosentrasi Keahlian
-                    <span class="block" style="color: {{ $globalSettings->primary_color_style }}">RPL</span>
->>>>>>> 441eb4cdb0bbd0bc64d9eb4344d8f4ade82dc0a7
                 </h1>
-                <p class="text-gray-500 text-base sm:text-lg mt-3 max-w-xl mx-auto leading-relaxed">
+                <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg mt-3 max-w-xl mx-auto leading-relaxed">
                     {{ $globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia' }}
                 </p>
             </div>
 
             {{-- Judul section + Arrows --}}
             <div class="flex items-end justify-between gap-6 mb-7 lg:mb-9" data-reveal>
-                <h2 class="text-3xl sm:text-4xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 leading-none">
+                <h2 class="text-3xl sm:text-4xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-none">
                     Gallery
                 </h2>
                 @if($sliders->count() > 1)
@@ -295,6 +287,76 @@
     </section>
 
     {{-- ============================================ --}}
+    {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
+    {{-- ============================================ --}}
+    <section class="py-12 lg:py-16">
+        <div class="site-container">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+
+                {{-- Kolom kiri: Prospek Karir (list polos seperti desain) --}}
+                <div class="lg:col-span-5" data-reveal>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        Prospek Karir
+                    </h2>
+
+                    @if($prospekKarir->isNotEmpty())
+                        <ul class="space-y-3.5">
+                            @foreach($prospekKarir as $karir)
+                                <li class="group/karir flex items-center gap-3" title="{{ $karir->description_excerpt }}">
+                                    <span class="w-1.5 h-1.5 rounded-full flex-none" style="background-color: {{ $globalSettings->primary_color_style }}"></span>
+                                    <span class="text-sm sm:text-[15px] text-gray-600 dark:text-gray-300 group-hover/karir:text-gray-900 dark:group-hover/karir:text-white font-medium transition-colors duration-200">
+                                        {{ $karir->title }}
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-sm text-gray-400">Belum ada prospek karir</p>
+                    @endif
+                </div>
+
+                {{-- Kolom kanan: Mata Pelajaran Unggulan (list polos seperti desain) --}}
+                <div class="lg:col-span-7" data-reveal>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        Mata Pelajaran Unggulan
+                    </h2>
+
+                    <div class="space-y-6 lg:space-y-7">
+                        @foreach($mataPelajaran as $mapel)
+                            <div class="group/mapel flex items-start gap-4">
+                                <span
+                                    class="w-10 h-10 rounded-lg flex items-center justify-center flex-none transition-transform duration-300 group-hover/mapel:scale-110"
+                                    style="background-color: {{ $globalSettings->primary_color }}1a; color: {{ $globalSettings->primary_color_style }}"
+                                >
+                                    @if($mapel['ikon'] === 'code')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-3 3 3 3m8-6l3 3-3 3M13 5l-2 14"/></svg>
+                                    @elseif($mapel['ikon'] === 'database')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7c0-1.66 3.58-3 8-3s8 1.34 8 3-3.58 3-8 3-8-1.34-8-3zm0 0v10c0 1.66 3.58 3 8 3s8-1.34 8-3V7m-16 5c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
+                                    @elseif($mapel['ikon'] === 'palette')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 110-18c4.97 0 9 3.58 9 8 0 2.21-1.79 4-4 4h-2a2 2 0 00-1.6 3.2c.3.4.47.87.47 1.3a1.5 1.5 0 01-1.5 1.5H12zm-4.5-11a1 1 0 100-2 1 1 0 000 2zm4-2a1 1 0 100-2 1 1 0 000 2zm5 0a1 1 0 100-2 1 1 0 000 2zm4 3a1 1 0 100-2 1 1 0 000 2z"/></svg>
+                                    @elseif($mapel['ikon'] === 'shield')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.04c-2.1 0-4.15.4-6 1.16v5.63c0 4.62 2.44 8.4 6 10.25 3.56-1.85 6-5.63 6-10.25V5.92a15.4 15.4 0 00-6-1.21z"/></svg>
+                                    @elseif($mapel['ikon'] === 'cloud')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 19.5a4.5 4.5 0 01-.42-8.98 6 6 0 0111.7-1.6 4.25 4.25 0 01-.53 8.43v.05H6.75z"/></svg>
+                                    @else
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v6.5a3.5 3.5 0 01-3.5 3.5H3m6-10h9a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3v-5"/></svg>
+                                    @endif
+                                </span>
+
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 text-base leading-snug">{{ $mapel['judul'] }}</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5">{{ $mapel['deskripsi'] }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    {{-- ============================================ --}}
     {{-- Marquee Logo Mitra (2 baris berlawanan arah) --}}
     {{-- ============================================ --}}
     <section class="py-10 lg:py-14">
@@ -315,11 +377,7 @@
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupOne as $mitra)
-<<<<<<< HEAD
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
-=======
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
->>>>>>> 441eb4cdb0bbd0bc64d9eb4344d8f4ade82dc0a7
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
                                             @if($mitra->logo)
                                                 <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
@@ -338,11 +396,7 @@
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupTwo as $mitra)
-<<<<<<< HEAD
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
-=======
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
->>>>>>> 441eb4cdb0bbd0bc64d9eb4344d8f4ade82dc0a7
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
                                             @if($mitra->logo)
                                                 <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
@@ -677,17 +731,7 @@
 
                             {{-- Body: hanya judul saat normal, sisanya muncul saat hover --}}
                             <div class="p-5 lg:p-6">
-<<<<<<< HEAD
-                                <h3 class="font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-gray-600 transition-colors">
-=======
-                                <div class="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 mb-3">
-                                    <span>{{ $item->published_at?->format('d M Y') }}</span>
-                                    <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                    <span>{{ $item->views }} views</span>
-                                </div>
-
-                                <h3 class="font-bold text-gray-900 dark:text-gray-50 leading-snug line-clamp-2 group-hover:text-gray-600 dark:text-gray-300 transition-colors">
->>>>>>> 441eb4cdb0bbd0bc64d9eb4344d8f4ade82dc0a7
+                                <h3 class="font-bold text-gray-900 dark:text-gray-50 leading-snug line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                                     {{ $item->title }}
                                 </h3>
 

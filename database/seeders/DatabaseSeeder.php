@@ -70,6 +70,7 @@ class DatabaseSeeder extends Seeder
             GlobalSettingSeeder::class,
             LandingPageSliderSeeder::class,
             StrukturOrganisasiRplSeeder::class,
+            StrukturOrganisasiGuruSeeder::class,
             ProspekKarirSeeder::class,
             KaryaSiswaSeeder::class,
             PrestasiSeeder::class,
