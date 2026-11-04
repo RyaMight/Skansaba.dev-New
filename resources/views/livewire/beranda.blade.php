@@ -1,157 +1,46 @@
 <div class="overflow-x-hidden">
     {{-- ============================================ --}}
-    {{-- Hero: Kosentrasi Keahlian Slider --}}
+    {{-- Hero: Slider foto tunggal ala skansaba.dev --}}
+    {{-- 1 foto di tengah, tanpa tetangga, crossfade --}}
     {{-- ============================================ --}}
     <section
         class="pt-4 lg:pt-6 pb-10 lg:pb-14"
         x-data="{
             N: {{ $sliders->count() }},
-            index: {{ $sliders->count() }},
-            slideW: 0,
-            viewW: 0,
-            cardW: 0,
+            index: 0,
+            timer: null,
 
             init() {
-                this.measure();
-                this.$nextTick(() => {
-                    this.measure();
-                    this.apply(false);
-                });
-                setTimeout(() => { this.measure(); this.apply(false); }, 400);
-                this.startBlurLoop();
+                this.start();
             },
 
-            measure() {
-                const vp = this.$refs.viewport;
-                const track = this.$refs.track;
-                if (!vp || !track || track.children.length < 2) return;
-                this.viewW = vp.clientWidth;
-                this.slideW = track.children[1].offsetLeft - track.children[0].offsetLeft;
-                this.cardW = track.children[0].getBoundingClientRect().width;
-                this.apply(false);
+            start() {
+                this.stop();
+                if (this.N < 2) return;
+                this.timer = setInterval(() => this.advance(), 5000);
             },
 
-            // Blur dihitung dari POSISI VISUAL tiap slide terhadap tengah
-            // viewport, bukan dari index. Efeknya blur bergerak mulus:
-            // buram di pinggir -> jernih saat sampai tengah -> buram lagi
-            // saat meninggalkan tengah, mengikuti animasi geser.
-            startBlurLoop() {
-                const track = this.$refs.track;
-                const vp = this.$refs.viewport;
-                if (!track || !vp) return;
-
-                const MAX_OPACITY = 0.45;
-                const OPACITY_PER_SLOT = 0.28;
-
-                const tick = () => {
-                    const vpRect = vp.getBoundingClientRect();
-                    const centerX = vpRect.left + vpRect.width / 2;
-                    const kids = track.children;
-
-                    // Pass 1: baca semua posisi (hindari layout thrashing)
-                    const rects = [];
-                    for (let i = 0; i < kids.length; i++) {
-                        rects.push(kids[i].getBoundingClientRect());
-                    }
-
-                    // Pass 2: atur overlay samping (tanpa blur).
-                    // Slot 0 = slide aktif di tengah (tanpa overlay),
-                    // makin jauh di pinggir makin gelap overlaynya.
-                    for (let i = 0; i < kids.length; i++) {
-                        const r = rects[i];
-                        const c = r.left + r.width / 2;
-                        const slots = Math.abs(c - centerX) / (r.width || 1);
-
-                        const shade = Math.min(0.55, Math.max(0, slots - 0.35) * OPACITY_PER_SLOT);
-                        const opacity = Math.max(MAX_OPACITY, 1 - slots * 0.2);
-
-                        const el = kids[i];
-                        const ov = el.querySelector('.side-shade');
-                        if (ov) {
-                            const val = shade.toFixed(3);
-                            if (ov.dataset.shadeVal !== val) {
-                                ov.style.opacity = val;
-                                ov.dataset.shadeVal = val;
-                            }
-                        }
-                        if (el.dataset.opVal !== opacity.toFixed(3)) {
-                            el.style.opacity = opacity.toFixed(3);
-                            el.dataset.opVal = opacity.toFixed(3);
-                        }
-                    }
-
-                    requestAnimationFrame(tick);
-                };
-                requestAnimationFrame(tick);
-            },
-
-            // Slide aktif tepat di tengah: pakai lebar card (tanpa gap),
-            // sedangkan pergeseran antar slide memakai slideW (termasuk gap).
-            posFor(i) {
-                if (!this.slideW || !this.viewW) return 0;
-                const cardW = this.cardW || this.slideW;
-                return -(i * this.slideW - (this.viewW - cardW) / 2);
-            },
-
-            // Satu-satunya tempat yang menyentuh transform & transition.
-            apply(animate) {
-                const track = this.$refs.track;
-                if (!track) return;
-                track.style.transition = animate
-                    ? 'transform 700ms cubic-bezier(0.22, 1, 0.36, 1)'
-                    : 'none';
-                track.style.transform = 'translateX(' + this.posFor(this.index) + 'px)';
-            },
-
-            // Geser ke kiri satu langkah (slide berikutnya masuk dari kanan).
-            go(target) {
-                const track = this.$refs.track;
-                if (!track) { this.index = target; return; }
-                this.index = target;
-                track.style.transition = 'transform 700ms cubic-bezier(0.22, 1, 0.36, 1)';
-                track.style.transform = 'translateX(' + this.posFor(target) + 'px)';
-            },
-
-            // Pindah tanpa animasi (dipakai saat normalisasi loop)
-            snap(target) {
-                const track = this.$refs.track;
-                if (!track) return;
-                this.index = target;
-                track.style.transition = 'none';
-                track.style.transform = 'translateX(' + this.posFor(target) + 'px)';
-                void track.offsetHeight;
-            },
-
-            // Normalisasi dilakukan tepat SEBELUM geser berikutnya, sehingga
-            // progress bar selalu mulai dari 0 tepat saat slide baru aktif.
-            // Index hasil normalisasi menunjuk salinan yang tampilannya identik.
-            normalize() {
-                if (!this.N) return this.index;
-                if (this.index >= this.N * 2 - 1) return this.index - this.N;
-                if (this.index < 1) return this.index + this.N;
-                return this.index;
+            stop() {
+                clearInterval(this.timer);
             },
 
             advance() {
-                if (this.N < 2) return;
-                const n = this.normalize();
-                if (n !== this.index) this.snap(n);
-                this.go(this.index + 1);
+                this.index = (this.index + 1) % this.N;
             },
 
             back() {
-                if (this.N < 2) return;
-                const n = this.normalize();
-                if (n !== this.index) this.snap(n);
-                if (this.index <= 0) return;
-                this.go(this.index - 1);
+                this.index = (this.index - 1 + this.N) % this.N;
+            },
+
+            go(i) {
+                this.index = i;
+                this.start();
             },
 
             isActive(pos) {
                 return pos === this.index;
             }
         }"
-        @resize.window.debounce.200="measure()"
     >
         <div class="site-container">
             {{-- Judul utama + tagline: rapat, jarak seimbang antara navbar dan slider --}}
@@ -164,12 +53,12 @@
                 </p>
             </div>
 
-            {{-- Arrows slider (tanpa judul section) --}}
+            {{-- Arrows slider --}}
             @if($sliders->count() > 1)
                 <div class="flex justify-end mb-3 lg:mb-4" data-reveal>
                     <div class="hidden sm:flex items-center gap-3">
                         <button
-                            @click="back()"
+                            @click="back(); start()"
                             class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide sebelumnya"
                         >
@@ -178,7 +67,7 @@
                             </svg>
                         </button>
                         <button
-                            @click="advance()"
+                            @click="advance(); start()"
                             class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide berikutnya"
                         >
@@ -192,97 +81,60 @@
         </div>
 
         @if($sliders->isNotEmpty())
-            {{-- Band full-width: slide aktif di tengah, tetangga kiri & kanan menyambung --}}
-            <div class="bg-gray-100/80 dark:bg-gray-900 py-6 lg:py-8" data-reveal>
-                <div class="overflow-hidden" x-ref="viewport">
-                    <div
-                        x-ref="track"
-                        class="flex gap-20 lg:gap-32 will-change-transform"
-                        style="transform: translateX(0px)"
-                    >
-                        @foreach([0, 1, 2] as $copy)
-                            @foreach($sliders as $index => $slider)
-                                @php $pos = $copy * $sliders->count() + $index; @endphp
-                                <div class="hero-slide flex-none relative rounded-3xl overflow-hidden">
-                                    {{-- Overlay samping: menggantikan blur, makin pinggir makin gelap --}}
-                                    <div class="side-shade pointer-events-none absolute inset-0 z-10 bg-slate-900/80" style="opacity: 0"></div>
+            {{-- Frame foto tunggal: hanya 1 foto terlihat, ganti dengan crossfade --}}
+            <div class="site-container" data-reveal>
+                <div class="relative rounded-3xl overflow-hidden bg-slate-800 h-[300px] sm:h-[360px] lg:h-[480px] shadow-[0_12px_36px_rgba(15,23,42,0.16)]">
+                    @foreach($sliders as $index => $slider)
+                        <div
+                            class="absolute inset-0 transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
+                            :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+                        >
+                            <img
+                                src="{{ asset('storage/' . $slider->image) }}"
+                                alt="{{ $slider->title }}"
+                                class="w-full h-full object-cover"
+                                @if($index !== 0) loading="lazy" @endif
+                            >
 
-                                    {{-- Image full-slide --}}
-                                    <div class="rounded-3xl overflow-hidden bg-slate-800 h-[300px] sm:h-[360px] lg:h-[420px]">
-                                        <img
-                                            src="{{ asset('storage/' . $slider->image) }}"
-                                            alt="{{ $slider->title }}"
-                                            class="w-full h-full object-cover"
-                                            @if($copy !== 1 || $index !== 0) loading="lazy" @endif
-                                        >
-                                    </div>
+                            {{-- Keterangan di atas gambar (seperti skansaba.dev) --}}
+                            <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7 pointer-events-none">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
 
-                                    {{-- Keterangan di atas gambar (seperti skansaba.dev) --}}
-                                    <div class="absolute inset-x-0 bottom-0 z-20 p-5 lg:p-7 pointer-events-none">
-                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
-
-                                        <div class="relative">
-                                            <h3 class="text-white text-lg lg:text-2xl font-bold leading-snug drop-shadow-md">{{ $slider->title }}</h3>
-                                            @if($slider->subtitle)
-                                                <p class="text-white/75 text-[11px] lg:text-sm leading-relaxed mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
-                                                    {{ $slider->subtitle }}
-                                                </p>
-                                            @endif
-                                        </div>
-
-                                        {{-- Progress bar: hanya slide aktif yang beranimasi & memicu geser --}}
-                                        <div
-                                            class="relative h-[3px] bg-white/25 rounded-full overflow-hidden mt-4"
-                                            x-show="isActive({{ $pos }})"
-                                        >
-                                            <template x-for="tick in [index]" :key="'bar-{{ $pos }}-' + tick">
-                                                <div
-                                                    class="h-full bg-white rounded-full"
-                                                    style="animation: slider-progress 5s linear forwards"
-                                                    @animationend="if (isActive({{ $pos }})) advance()"
-                                                ></div>
-                                            </template>
-                                        </div>
-                                    </div>
+                                <div class="relative">
+                                    <h3 class="text-white text-lg lg:text-2xl font-bold leading-snug drop-shadow-md">{{ $slider->title }}</h3>
+                                    @if($slider->subtitle)
+                                        <p class="text-white/75 text-[11px] lg:text-sm leading-relaxed mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
+                                            {{ $slider->subtitle }}
+                                        </p>
+                                    @endif
                                 </div>
-                            @endforeach
-                        @endforeach
-                    </div>
+
+                                {{-- Progress bar: hanya slide aktif yang beranimasi --}}
+                                <div
+                                    class="relative h-[3px] bg-white/25 rounded-full overflow-hidden mt-4"
+                                    x-show="isActive({{ $index }})"
+                                >
+                                    <template x-for="tick in [index]" :key="'bar-{{ $index }}-' + tick">
+                                        <div
+                                            class="h-full bg-white rounded-full"
+                                            style="animation: slider-progress 5s linear forwards"
+                                            x-data
+                                        ></div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
-
-            {{-- Mobile Arrows --}}
-            @if($sliders->count() > 1)
-                <div class="site-container">
-                    <div class="flex sm:hidden items-center justify-end gap-3 mt-6">
-                        <button
-                            @click="back()"
-                            class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 transition"
-                            aria-label="Slide sebelumnya"
-                        >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
-                            </svg>
-                        </button>
-                        <button
-                            @click="advance()"
-                            class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 transition"
-                            aria-label="Slide berikutnya"
-                        >
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            @endif
         @else
             <div class="site-container">
-                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
+                <div class="rounded-2xl bg-white border border-gray-100 h-72 flex items-center justify-center text-gray-400 text-sm" data-reveal>
                     Belum ada slide yang ditambahkan
                 </div>
             </div>
         @endif
+    </section>
     </section>
 
     {{-- ============================================ --}}
@@ -529,7 +381,7 @@
                                     <h3 class="text-white font-bold text-base lg:text-lg leading-snug drop-shadow">{{ $item->judul }}</h3>
                                     @if($item->nama_siswa)
                                         <p class="text-white/70 text-xs mt-1 translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75">
-                                            {{ $item->nama_siswa }}{{ $item->kategori ? ' · ' . $item->kategori : '' }}
+                                            {{ $item->nama_siswa }}{{ $item->kategori ? ' ┬╖ ' . $item->kategori : '' }}
                                         </p>
                                     @endif
                                 </div>
@@ -723,7 +575,7 @@
 
                                 @if($item->is_highlight)
                                     <span class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 dark:bg-gray-900/90 text-gray-900 dark:text-gray-50 shadow-sm backdrop-blur">
-                                        ⭐ Unggulan
+                                        Γ¡É Unggulan
                                     </span>
                                 @endif
                             </div>
