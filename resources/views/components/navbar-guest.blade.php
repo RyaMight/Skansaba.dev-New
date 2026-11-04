@@ -331,5 +331,4 @@
             </div>
         </div>
     @endauth
-</nav>
 </header>

@@ -40,9 +40,8 @@
                 const vp = this.$refs.viewport;
                 if (!track || !vp) return;
 
-                const MAX_BLUR = 9;
-                const BLUR_PER_SLOT = 4.2;
-                const MIN_OPACITY = 0.45;
+                const MAX_OPACITY = 0.45;
+                const OPACITY_PER_SLOT = 0.28;
 
                 const tick = () => {
                     const vpRect = vp.getBoundingClientRect();
@@ -55,26 +54,29 @@
                         rects.push(kids[i].getBoundingClientRect());
                     }
 
-                    // Pass 2: tulis filter & opacity
+                    // Pass 2: atur overlay samping (tanpa blur).
+                    // Slot 0 = slide aktif di tengah (tanpa overlay),
+                    // makin jauh di pinggir makin gelap overlaynya.
                     for (let i = 0; i < kids.length; i++) {
                         const r = rects[i];
                         const c = r.left + r.width / 2;
                         const slots = Math.abs(c - centerX) / (r.width || 1);
 
-                        const blur = Math.min(MAX_BLUR, slots * BLUR_PER_SLOT);
-                        const opacity = Math.max(MIN_OPACITY, 1 - slots * 0.2);
-
-                        const f = blur < 0.05 ? '' : 'blur(' + blur.toFixed(2) + 'px)';
-                        const o = opacity.toFixed(3);
+                        const shade = Math.min(0.55, Math.max(0, slots - 0.35) * OPACITY_PER_SLOT);
+                        const opacity = Math.max(MAX_OPACITY, 1 - slots * 0.2);
 
                         const el = kids[i];
-                        if (el.dataset.blurVal !== f) {
-                            el.style.filter = f;
-                            el.dataset.blurVal = f;
+                        const ov = el.querySelector('.side-shade');
+                        if (ov) {
+                            const val = shade.toFixed(3);
+                            if (ov.dataset.shadeVal !== val) {
+                                ov.style.opacity = val;
+                                ov.dataset.shadeVal = val;
+                            }
                         }
-                        if (el.dataset.opVal !== o) {
-                            el.style.opacity = o;
-                            el.dataset.opVal = o;
+                        if (el.dataset.opVal !== opacity.toFixed(3)) {
+                            el.style.opacity = opacity.toFixed(3);
+                            el.dataset.opVal = opacity.toFixed(3);
                         }
                     }
 
@@ -152,12 +154,21 @@
         @resize.window.debounce.200="measure()"
     >
         <div class="site-container">
-            {{-- Heading (2 baris seperti desain) + Arrows --}}
-            <div class="flex items-end justify-between gap-6 mb-7 lg:mb-9" data-reveal>
-                <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-gray-900 leading-[1.05]">
-                    Kosentrasi Keahlian
-                    <span class="block" style="color: {{ $globalSettings->primary_color_style }}">RPL</span>
+            {{-- Judul utama (center) --}}
+            <div class="text-center mb-8 lg:mb-10" data-reveal>
+                <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-tight" style="color: {{ $globalSettings->primary_color_style }}">
+                    {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
                 </h1>
+                <p class="text-gray-500 text-base sm:text-lg mt-3 max-w-xl mx-auto leading-relaxed">
+                    {{ $globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia' }}
+                </p>
+            </div>
+
+            {{-- Judul section + Arrows --}}
+            <div class="flex items-end justify-between gap-6 mb-7 lg:mb-9" data-reveal>
+                <h2 class="text-3xl sm:text-4xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 leading-none">
+                    Gallery
+                </h2>
                 @if($sliders->count() > 1)
                     <div class="hidden sm:flex items-center gap-3 flex-shrink-0 pb-1">
                         <button
@@ -175,7 +186,7 @@
                             aria-label="Slide berikutnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5-7.5M21 12H3"/>
                             </svg>
                         </button>
                     </div>
@@ -189,13 +200,16 @@
                 <div class="overflow-hidden" x-ref="viewport">
                     <div
                         x-ref="track"
-                        class="flex gap-14 lg:gap-24 will-change-transform"
+                        class="flex gap-20 lg:gap-32 will-change-transform"
                         style="transform: translateX(0px)"
                     >
                         @foreach([0, 1, 2] as $copy)
                             @foreach($sliders as $index => $slider)
                                 @php $pos = $copy * $sliders->count() + $index; @endphp
-                                <div class="hero-slide flex-none grid gap-4 lg:gap-5 grid-cols-[38%_62%]">
+                                <div class="hero-slide flex-none relative grid gap-4 lg:gap-5 grid-cols-[38%_62%]">
+                                    {{-- Overlay samping: menggantikan blur, makin pinggir makin gelap --}}
+                                    <div class="side-shade pointer-events-none absolute inset-0 z-10 rounded-2xl bg-slate-900/80" style="opacity: 0"></div>
+
                                     {{-- Dark Card --}}
                                     <div class="bg-slate-800 rounded-2xl p-6 lg:p-8 flex flex-col justify-between h-[300px] sm:h-[360px] lg:h-[420px]">
                                         <div>
@@ -293,9 +307,9 @@
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupOne as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-9 md:max-h-11 w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
                                                 <span class="text-xs font-semibold text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
@@ -312,9 +326,9 @@
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupTwo as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-9 md:max-h-11 w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
                                                 <span class="text-xs font-semibold text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
@@ -645,28 +659,32 @@
                                 @endif
                             </div>
 
-                            {{-- Body --}}
+                            {{-- Body: hanya judul saat normal, sisanya muncul saat hover --}}
                             <div class="p-5 lg:p-6">
-                                <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
-                                    <span>{{ $item->published_at?->format('d M Y') }}</span>
-                                    <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                    <span>{{ $item->views }} views</span>
-                                </div>
-
                                 <h3 class="font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-gray-600 transition-colors">
                                     {{ $item->title }}
                                 </h3>
 
-                                <p class="text-sm text-gray-500 line-clamp-2 mt-2">
-                                    {{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}
-                                </p>
+                                <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                                    <div class="overflow-hidden">
+                                        <div class="flex items-center gap-2 text-xs text-gray-400 pt-3">
+                                            <span>{{ $item->published_at?->format('d M Y') }}</span>
+                                            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+                                            <span>{{ $item->views }} views</span>
+                                        </div>
 
-                                <span class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold" style="color: {{ $globalSettings->primary_color_style }}">
-                                    Baca Selengkapnya
-                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
-                                    </svg>
-                                </span>
+                                        <p class="text-sm text-gray-500 line-clamp-2 mt-2">
+                                            {{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}
+                                        </p>
+
+                                        <span class="inline-flex items-center gap-1.5 mt-3 text-sm font-semibold" style="color: {{ $globalSettings->primary_color_style }}">
+                                            Baca Selengkapnya
+                                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </a>
                     @endforeach

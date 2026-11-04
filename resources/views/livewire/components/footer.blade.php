@@ -1,5 +1,6 @@
-<footer class="bg-gray-50 pt-4 pb-0 px-6 sm:px-6">
-    <div class="w-full bg-white rounded-t-3xl rounded-b-none shadow-[0_2px_24px_rgba(15,23,42,0.06)] border border-gray-100 border-b-0 px-6 sm:px-10 lg:px-14 pt-10 lg:pt-14 pb-10 lg:pb-12">
+<footer class="bg-gray-50 pt-4 pb-0 px-4 sm:px-6">
+    <div class="w-full bg-white rounded-t-3xl rounded-b-none shadow-[0_2px_24px_rgba(15,23,42,0.06)] border border-gray-100 border-b-0">
+        <div class="site-container pt-10 lg:pt-14 pb-10 lg:pb-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
             {{-- Brand & Contact --}}
             <div class="lg:col-span-5" data-reveal>
@@ -115,6 +116,7 @@
                     </div>
                 @endif
             </div>
+        </div>
         </div>
     </div>
 </footer>
