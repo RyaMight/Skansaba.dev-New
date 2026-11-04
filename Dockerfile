@@ -39,16 +39,12 @@ RUN npm run build
 # ---------- Stage 3: runtime ----------
 FROM php:8.3-fpm-alpine AS runtime
 
-ARG WWWGROUP=1000
-ARG WWWUSER=1000
-
 # Supervisor untuk menjalankan php-fpm + nginx sekaligus
 RUN apk add --no-cache \
         nginx \
         supervisor \
         curl \
         mysql-client \
-        dcron \
         libzip-dev \
         libpng-dev \
         libjpeg-turbo-dev \
@@ -83,16 +79,16 @@ RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini \
 
 WORKDIR /var/www/html
 
-# Composer binary dari stage 1 (untuk artisan migrate)
-COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
-
-# Kode aplikasi (`.env` tidak ikut — di-exclude .dockerignore dan di-mount
-# langsung dari host via compose volume, agar konfigurasi server asli tetap terpakai)
+# Kode aplikasi
 COPY --chown=www-data:www-data . /var/www/html
 COPY --from=vendor --chown=www-data:www-data /app/vendor /var/www/html/vendor
 COPY --from=assets --chown=www-data:www-data /app/public/build /var/www/html/public/build
 
-# Nginx config: terima request, teruskan ke php-fpm via unix socket
+# Buat direktori storage & cache yang dibutuhkan Laravel
+RUN mkdir -p storage/framework/{cache/data,sessions,views} storage/app/public storage/logs bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+# Nginx config
 RUN { \
         echo "server {"; \
         echo "    listen 80;"; \
@@ -128,7 +124,7 @@ RUN { \
         echo "catch_workers_output = yes"; \
     } > /usr/local/etc/php-fpm.d/www.conf
 
-# Supervisor: php-fpm + nginx + scheduler cron
+# Supervisor: php-fpm + nginx
 RUN { \
         echo "[supervisord]"; \
         echo "nodaemon=true"; \
@@ -154,21 +150,7 @@ RUN { \
         echo "stdout_logfile_maxbytes=0"; \
         echo "stderr_logfile=/dev/stderr"; \
         echo "stderr_logfile_maxbytes=0"; \
-        echo ""; \
-        echo "[program:scheduler]"; \
-        echo "command=php /var/www/html/artisan schedule:work"; \
-        echo "autostart=true"; \
-        echo "autorestart=true"; \
-        echo "user=www-data"; \
-        echo "stdout_logfile=/dev/stdout"; \
-        echo "stdout_logfile_maxbytes=0"; \
-        echo "stderr_logfile=/dev/stderr"; \
-        echo "stderr_logfile_maxbytes=0"; \
     } > /etc/supervisord.conf
-
-# Entry point: bootstrap .env, storage, key, migrate, lalu supervisord
-COPY --chmod=755 docker/entrypoint.sh /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
 
 EXPOSE 80
 CMD ["supervisord", "-c", "/etc/supervisord.conf"]

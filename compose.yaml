@@ -1,9 +1,6 @@
 name: skansaba
 
 services:
-  # ------------------------------------------------------------------
-  # Aplikasi Laravel (PHP-FPM + Nginx) — MySQL tetap di HOST server
-  # ------------------------------------------------------------------
   app:
     build:
       context: .
@@ -16,14 +13,5 @@ services:
     ports:
       - "${APP_PORT:-8000}:80"
     volumes:
-      # File upload user (SVG README, foto, dll) dipersist di host.
-      # Bind ke folder repo supaya .env Laravel & file upload terlihat
-      # langsung di host (mudah backup).
       - ./storage/app/public:/var/www/html/storage/app/public
       - ./.env:/var/www/html/.env
-    healthcheck:
-      test: ["CMD-SHELL", "curl -sf http://localhost/up || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 60s
