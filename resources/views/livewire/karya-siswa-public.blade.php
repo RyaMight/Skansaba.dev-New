@@ -234,26 +234,30 @@
                 </div>
             </div>
 
-            {{-- Tab Menu: judul = menu (Karya Siswa / Profil Siswa) dengan underline aktif --}}
+            {{-- Tab Menu: judul = menu, SATU garis bawah yang bergeser --}}
             <div class="text-center mt-14 mb-8" x-data="{ tab: 'karya' }">
                 <div class="flex justify-center">
-                    <div class="inline-flex items-center gap-12 lg:gap-16">
+                    <div class="relative inline-flex items-center gap-12 lg:gap-16">
                         <button
                             type="button"
                             @click="tab = 'karya'"
                             :class="tab === 'karya' ? 'text-slate-900 dark:text-gray-50 font-extrabold' : 'text-slate-400 dark:text-gray-500 font-bold hover:text-slate-600 dark:hover:text-gray-300'"
-                            class="text-2xl lg:text-3xl tracking-tight transition-colors duration-300 pb-3 border-b-4 -mb-px cursor-pointer"
-                            :class="(tab === 'karya') ? 'border-[#141822] dark:border-gray-100' : 'border-transparent'">
+                            class="text-2xl lg:text-3xl tracking-tight transition-colors duration-300 pb-3 cursor-pointer">
                             Karya Siswa
                         </button>
                         <button
                             type="button"
                             @click="tab = 'profil'"
                             :class="tab === 'profil' ? 'text-slate-900 dark:text-gray-50 font-extrabold' : 'text-slate-400 dark:text-gray-500 font-bold hover:text-slate-600 dark:hover:text-gray-300'"
-                            class="text-2xl lg:text-3xl tracking-tight transition-colors duration-300 pb-3 border-b-4 -mb-px cursor-pointer"
-                            :class="(tab === 'profil') ? 'border-[#141822] dark:border-gray-100' : 'border-transparent'">
+                            class="text-2xl lg:text-3xl tracking-tight transition-colors duration-300 pb-3 cursor-pointer">
                             Profil Siswa
                         </button>
+
+                        {{-- Satu garis penanda yang bergeser antar menu --}}
+                        <span
+                            class="absolute bottom-0 h-1 rounded-full bg-[#141822] dark:bg-gray-100 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                            :class="tab === 'karya' ? 'left-0 w-[136px] lg:w-[176px]' : 'left-[184px] lg:left-[240px] w-[150px] lg:w-[190px]'"
+                        ></span>
                     </div>
                 </div>
 
