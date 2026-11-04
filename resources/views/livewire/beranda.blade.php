@@ -81,18 +81,20 @@
         </div>
 
         @if($sliders->isNotEmpty())
-            {{-- Frame foto tunggal: hanya 1 foto terlihat, ganti dengan crossfade --}}
+            {{-- Frame foto tunggal: TANPA crop — tinggi mengikuti rasio foto asli.
+                 Semua slide ditumpuk di grid cell yang sama; yang aktif terlihat. --}}
             <div class="site-container" data-reveal>
-                <div class="relative rounded-3xl overflow-hidden bg-slate-800 h-[300px] sm:h-[360px] lg:h-[480px] shadow-[0_12px_36px_rgba(15,23,42,0.16)]">
+                <div class="relative grid max-w-[820px] mx-auto">
                     @foreach($sliders as $index => $slider)
                         <div
-                            class="absolute inset-0 transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
-                            :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0'"
+                            class="col-start-1 row-start-1 rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
+                            :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
                         >
+                            {{-- Tinggi fleksibel: w-full + h-auto = foto tampil UTUH sesuai rasio aslinya --}}
                             <img
                                 src="{{ asset('storage/' . $slider->image) }}"
                                 alt="{{ $slider->title }}"
-                                class="w-full h-full object-cover"
+                                class="w-full h-auto block"
                                 @if($index !== 0) loading="lazy" @endif
                             >
 
@@ -108,23 +110,21 @@
                                         </p>
                                     @endif
                                 </div>
-
-                                {{-- Progress bar: hanya slide aktif yang beranimasi --}}
-                                <div
-                                    class="relative h-[3px] bg-white/25 rounded-full overflow-hidden mt-4"
-                                    x-show="isActive({{ $index }})"
-                                >
-                                    <template x-for="tick in [index]" :key="'bar-{{ $index }}-' + tick">
-                                        <div
-                                            class="h-full bg-white rounded-full"
-                                            style="animation: slider-progress 5s linear forwards"
-                                            x-data
-                                        ></div>
-                                    </template>
-                                </div>
                             </div>
                         </div>
                     @endforeach
+
+                    {{-- Progress bar overlay di bawah frame (diluar stacking biar selalu terlihat) --}}
+                    <div class="col-start-1 row-start-1 self-end relative z-20 pointer-events-none">
+                        <div class="h-[3px] bg-white/25 rounded-full overflow-hidden mx-5 lg:mx-7 mb-4 lg:mb-5" x-show="N > 1">
+                            <template x-for="tick in [index]" :key="'bar-' + tick">
+                                <div
+                                    class="h-full bg-white rounded-full"
+                                    style="animation: slider-progress 5s linear forwards"
+                                ></div>
+                            </template>
+                        </div>
+                    </div>
                 </div>
             </div>
         @else

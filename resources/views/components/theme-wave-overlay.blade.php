@@ -1,27 +1,18 @@
 {{--
-    Overlay transisi tema: MEMAKAI VIDEO "ink melt" referensi.
-    Saat toggle diklik: video diputar (melt menutup layar) ->
-    tema diganti di puncak -> video diputar balik/lanjut membuka tema baru.
-    Video: public/media/theme-melt.mp4 (alpha hanya jika webm; mp4 ini
-    hitam-putih sehingga dipakai sebagai MASK via CSS mask-image).
+    Overlay transisi tema: efek "ink melt" SAMA PERSIS dengan video
+    referensi, memakai sprite-sheet PNG hasil konversi video
+    (30 frame, diputar dengan CSS steps()). Lintas browser.
+    Logika ada di resources/js/theme-melt.js (window.playThemeWave).
 --}}
 <div
     id="theme-melt"
     class="fixed inset-0 z-[9999] pointer-events-none opacity-0"
     aria-hidden="true"
 >
-    {{-- Latar tema tujuan, ter-mask oleh video melt --}}
+    {{-- Lapisan berwarna tema tujuan, "bentuknya" dikontrol mask sprite --}}
     <div
         id="theme-melt-mask"
-        class="absolute inset-0"
-        style="
-            background: #030712;
-            -webkit-mask-image: url('/media/theme-melt-mask.mp4');
-            mask-image: url('/media/theme-melt-mask.mp4');
-            -webkit-mask-size: 100% 100%;
-            mask-size: 100% 100%;
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-        "
+        class="absolute inset-0 theme-melt-frame"
+        style="background: #030712; --frame: 0;"
     ></div>
 </div>
