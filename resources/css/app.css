@@ -213,6 +213,23 @@ html.theme-transition * {
 }
 
 /* ============================================
+   Footer maps: kecilkan info window Google Maps
+   agar peta tetap terlihat, bukan tertutup kartu alamat.
+   ============================================ */
+.maps-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Perkecil tampilan dalam iframe via zoom (didukung Chrome/Edge; Safari fallback tetap utuh) */
+@media (min-width: 1024px) {
+    .maps-embed iframe {
+        zoom: 0.72;
+    }
+}
+
+/* ============================================
    Struktur organisasi: deskripsi guru (markdown)
    - Baris keahlian/pendidikan tampil ringkas seperti desain
    ============================================ */

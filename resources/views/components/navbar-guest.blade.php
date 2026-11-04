@@ -64,13 +64,19 @@
                 </div>
             </div>
 
-            {{-- Login Button / User Account --}}
-            <div class="hidden lg:flex items-center gap-3">
+            {{-- Blok kanan: Theme Toggle (kiri) + Akun (paling kanan), jarak 40px --}}
+            <div class="hidden lg:flex items-center">
+                <div class="mr-10">
+                    <x-theme-toggle />
+                </div>
+
                 @guest
-                    <svg class="w-5 h-5 text-gray-400 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                    </svg>
-                    <a href="/login" class="font-medium text-gray-700 dark:text-gray-200 hover-primary transition">Masuk</a>
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-400 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                        <a href="/login" class="font-medium text-gray-700 dark:text-gray-200 hover-primary transition">Masuk</a>
+                    </div>
                 @else
                     <div x-data="{ open: false }" @click.away="open = false" class="relative">
                         {{-- Avatar (foto profil) --}}
@@ -130,11 +136,6 @@
                         </div>
                     </div>
                 @endguest
-            </div>
-
-            {{-- Theme Toggle --}}
-            <div class="hidden lg:flex items-center">
-                <x-theme-toggle />
             </div>
 
             {{-- Mobile Menu Button --}}

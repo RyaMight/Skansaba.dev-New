@@ -107,7 +107,7 @@
             <div class="lg:col-span-3" data-reveal>
                 <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 text-[15px]">Lokasi Sekolah</h4>
                 @if($globalSettings->maps_url)
-                    <div class="rounded-2xl overflow-hidden aspect-[4/3] border border-gray-100 dark:border-gray-800 shadow-sm">
+                    <div class="rounded-2xl overflow-hidden aspect-[4/3] border border-gray-100 dark:border-gray-800 shadow-sm maps-embed">
                         {!! $globalSettings->maps_url !!}
                     </div>
                 @else

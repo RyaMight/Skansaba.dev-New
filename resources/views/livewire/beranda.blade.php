@@ -3,7 +3,7 @@
     {{-- Hero: Kosentrasi Keahlian Slider --}}
     {{-- ============================================ --}}
     <section
-        class="pt-8 lg:pt-12 pb-10 lg:pb-14"
+        class="pt-2 lg:pt-4 pb-10 lg:pb-14"
         x-data="{
             N: {{ $sliders->count() }},
             index: {{ $sliders->count() }},
@@ -154,26 +154,23 @@
         @resize.window.debounce.200="measure()"
     >
         <div class="site-container">
-            {{-- Judul utama (center) --}}
-            <div class="text-center mb-8 lg:mb-10" data-reveal>
-                <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-tight" style="color: {{ $globalSettings->primary_color_style }}">
+            {{-- Judul utama + tagline: rapat & naik, langsung menyambung ke slider --}}
+            <div class="text-center pt-0 lg:pt-1 mb-3 lg:mb-4" data-reveal>
+                <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-none" style="color: {{ $globalSettings->primary_color_style }}">
                     {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
                 </h1>
-                <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg mt-3 max-w-xl mx-auto leading-relaxed">
+                <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg mt-1 max-w-xl mx-auto leading-snug">
                     {{ $globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia' }}
                 </p>
             </div>
 
-            {{-- Judul section + Arrows --}}
-            <div class="flex items-end justify-between gap-6 mb-7 lg:mb-9" data-reveal>
-                <h2 class="text-3xl sm:text-4xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-none">
-                    Gallery
-                </h2>
-                @if($sliders->count() > 1)
-                    <div class="hidden sm:flex items-center gap-3 flex-shrink-0 pb-1">
+            {{-- Arrows slider (tanpa judul section) --}}
+            @if($sliders->count() > 1)
+                <div class="flex justify-end mb-3 lg:mb-4" data-reveal>
+                    <div class="hidden sm:flex items-center gap-3">
                         <button
                             @click="back()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide sebelumnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -182,16 +179,16 @@
                         </button>
                         <button
                             @click="advance()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide berikutnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5-7.5M21 12H3"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                             </svg>
                         </button>
                     </div>
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
 
         @if($sliders->isNotEmpty())

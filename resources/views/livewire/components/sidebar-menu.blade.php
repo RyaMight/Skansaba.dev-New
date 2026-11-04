@@ -127,7 +127,7 @@
                     @auth
                         <form action="{{ route('logout') }}" method="POST" x-show="!collapsed" x-transition>
                             @csrf
-                            <button type="submit" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300" title="Logout">
+                            <button type="submit" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" title="Logout">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
@@ -182,7 +182,7 @@
                     <div class="text-xs text-gray-500 dark:text-gray-400">Dashboard</div>
                 </div>
             </div>
-            <button @click="mobileOpen = false" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
+            <button @click="mobileOpen = false" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -267,7 +267,7 @@
                 @auth
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
+                        <button type="submit" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                             </svg>
