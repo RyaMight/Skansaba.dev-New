@@ -10,20 +10,49 @@
     {{-- Styles --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    {{-- Theme init: apply saved/dark theme BEFORE paint to avoid flash.
-         Dipakai bersama layout guest agar dark mode konsisten di semua halaman. --}}
+    {{-- Theme init & SPA navigation sync: apply saved/dark theme BEFORE paint
+         and preserve it across Livewire wire:navigate, popstate, and DOM morphs. --}}
     <script>
         (function () {
-            var theme = localStorage.getItem('theme');
-            var dark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            if (dark) document.documentElement.classList.add('dark');
+            window.isDarkTheme = function () {
+                var theme = localStorage.getItem('theme');
+                return theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            };
+            window.applyTheme = function () {
+                var dark = window.isDarkTheme();
+                var html = document.documentElement;
+                html.classList.toggle('dark', dark);
+                html.style.colorScheme = dark ? 'dark' : 'light';
+                return dark;
+            };
+            window.applyTheme();
+
+            if (!window.__themeSyncInitialized) {
+                window.__themeSyncInitialized = true;
+                document.addEventListener('livewire:navigating', window.applyTheme);
+                document.addEventListener('livewire:navigated', window.applyTheme);
+                document.addEventListener('DOMContentLoaded', window.applyTheme);
+                window.addEventListener('popstate', window.applyTheme);
+                window.addEventListener('storage', function (e) {
+                    if (e.key === 'theme') window.applyTheme();
+                });
+
+                new MutationObserver(function () {
+                    var shouldBeDark = window.isDarkTheme();
+                    var isDarkNow = document.documentElement.classList.contains('dark');
+                    if (shouldBeDark !== isDarkNow) {
+                        document.documentElement.classList.toggle('dark', shouldBeDark);
+                        document.documentElement.style.colorScheme = shouldBeDark ? 'dark' : 'light';
+                    }
+                }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            }
         })();
     </script>
 
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-gray-50 dark:bg-gray-950">
+<body class="antialiased bg-gray-50 dark:bg-gray-950 text-slate-800 dark:text-gray-100 transition-colors duration-200">
     <div class="flex h-screen overflow-hidden">
         @auth
             {{-- Sidebar Component --}}
@@ -36,7 +65,7 @@
                     <span class="text-sm font-bold text-gray-900 dark:text-gray-50">Menu</span>
                     <div class="flex items-center gap-3">
                         <x-theme-toggle />
-                        <button class="text-gray-500 dark:text-gray-300">
+                        <button type="button" @click="$dispatch('toggle-mobile-sidebar')" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>

@@ -9,17 +9,29 @@
 <button
     x-data="{ dark: document.documentElement.classList.contains('dark') }"
     x-init="
+        dark = document.documentElement.classList.contains('dark');
         $el.setAttribute('aria-checked', dark ? 'true' : 'false');
-        // sinkron kalau tema diubah dari tab/driver lain
-        new MutationObserver(() => { dark = document.documentElement.classList.contains('dark'); })
-            .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+        const sync = () => {
+            dark = document.documentElement.classList.contains('dark');
+            $el.setAttribute('aria-checked', dark ? 'true' : 'false');
+        };
+        window.addEventListener('theme-changed', sync);
+        document.addEventListener('livewire:navigated', sync);
+        new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     "
     @click="
         const html = document.documentElement;
+        const nextDark = !html.classList.contains('dark');
+        localStorage.setItem('theme', nextDark ? 'dark' : 'light');
         html.classList.add('theme-transition');
-        dark = html.classList.toggle('dark');
-        localStorage.setItem('theme', dark ? 'dark' : 'light');
+        if (window.applyTheme) {
+            dark = window.applyTheme();
+        } else {
+            dark = html.classList.toggle('dark', nextDark);
+            html.style.colorScheme = dark ? 'dark' : 'light';
+        }
         $el.setAttribute('aria-checked', dark ? 'true' : 'false');
+        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark } }));
         setTimeout(() => html.classList.remove('theme-transition'), 350);
     "
     @keydown.space.prevent="$el.click()"
@@ -42,38 +54,3 @@
         </svg>
     </span>
 </button>
-
-<style>
-    /* Dua ikon bertumpuk di grid yang sama; hanya satu yang terlihat.
-       Transisi: berputar + scale, persis seperti uiverse slippery-ape. */
-    .theme-switch .theme-switch-icon {
-        transform-origin: center center;
-        transition:
-            transform 500ms ease,
-            opacity 300ms ease,
-            translate 400ms ease;
-    }
-
-    /* Terang (default): matahari tampil, bulan sembunyi */
-    .theme-switch .theme-switch-icon--sun {
-        transform: rotate(360deg) scale(1);
-        opacity: 1;
-    }
-    .theme-switch .theme-switch-icon--moon {
-        transform: rotate(0deg) scale(0);
-        opacity: 0;
-    }
-
-    /* Gelap (.dark di <html>): bulan tampil berputar, matahari menyusut.
-       translate memberi efek "bergeser" seperti slider pada desain aslinya. */
-    .dark .theme-switch .theme-switch-icon--moon {
-        transform: rotate(360deg) scale(1);
-        opacity: 1;
-        translate: 0 0;
-    }
-    .dark .theme-switch .theme-switch-icon--sun {
-        transform: rotate(0deg) scale(0);
-        opacity: 0;
-        translate: 0 0;
-    }
-</style>

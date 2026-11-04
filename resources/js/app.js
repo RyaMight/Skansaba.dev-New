@@ -18,8 +18,8 @@ console.log("Croppie loaded:", typeof Croppie !== "undefined");
 // (dari Livewire) start sebelum module app.js dieksekusi — registrasi
 // via Alpine.data() tidak akan pernah terpanggil.
 
-document.addEventListener("DOMContentLoaded", () => {
-    const revealEls = document.querySelectorAll("[data-reveal]");
+function initRevealOnScroll() {
+    const revealEls = document.querySelectorAll("[data-reveal]:not(.is-visible)");
 
     if (!revealEls.length) return;
 
@@ -36,4 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     revealEls.forEach((el) => io.observe(el));
-});
+}
+
+document.addEventListener("DOMContentLoaded", initRevealOnScroll);
+document.addEventListener("livewire:navigated", initRevealOnScroll);

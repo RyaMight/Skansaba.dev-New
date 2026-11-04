@@ -1,3 +1,22 @@
+@php
+    $isBerandaActive = request()->routeIs('beranda') || request()->is('/');
+
+    $isStrukturActive = request()->routeIs('struktur-organisasi.*') || request()->is('struktur-organisasi*');
+    $isFasilitasActive = request()->routeIs('fasilitas.*') || request()->is('fasilitas*');
+    $isProfilActive = $isStrukturActive || $isFasilitasActive || request()->routeIs('profil.*') || request()->is('profil*');
+
+    $isPrestasiActive = request()->routeIs('prestasi.*') || request()->is('prestasi*');
+    $isKaryaActive = request()->routeIs('karya.*') || request()->is('karya*');
+    $isAlumniActive = request()->routeIs('alumni.*') || request()->is('alumni*');
+    $isSiswaActive = $isPrestasiActive || $isKaryaActive || $isAlumniActive;
+
+    $isUnitProduksiActive = request()->routeIs('unit-produksi*') || request()->is('unit-produksi*');
+
+    $isBeritaActive = request()->routeIs('berita.*') || request()->is('berita*');
+    $isDokumenActive = request()->routeIs('dokumen.*') || request()->is('dokumen*');
+    $isGalleryActive = request()->routeIs('gallery.*') || request()->is('gallery*');
+    $isInformasiActive = $isBeritaActive || $isDokumenActive || $isGalleryActive;
+@endphp
 <header class="sticky top-0 z-50 pt-4 px-4 sm:px-6">
     <nav class="max-w-6xl mx-auto bg-white dark:bg-gray-900 dark:border-gray-800 rounded-2xl shadow-[0_2px_16px_rgba(15,23,42,0.08)] border border-gray-100 dark:border-gray-800">
         <div class="flex items-center justify-between h-16 px-5 sm:px-7">
@@ -15,51 +34,103 @@
 
             {{-- Desktop Menu --}}
             <div class="hidden lg:flex items-center gap-7">
-                <a href="/" class="text-sm font-bold text-gray-900 dark:text-gray-100 transition hover-primary">Beranda</a>
+                <a href="/" @class([
+                    'text-sm transition hover-primary',
+                    'font-bold text-gray-900 dark:text-gray-100' => $isBerandaActive,
+                    'font-medium text-gray-500 dark:text-gray-400' => !$isBerandaActive,
+                ])>Beranda</a>
 
                 {{-- Profil Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                    <button @click="open = !open" class="flex items-center gap-1 text-sm font-medium text-gray-500 dark:text-gray-400 transition hover-primary">
+                    <button @click="open = !open" @class([
+                        'flex items-center gap-1 text-sm transition hover-primary cursor-pointer',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isProfilActive,
+                        'font-medium text-gray-500 dark:text-gray-400' => !$isProfilActive,
+                    ])>
                         Profil
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-full mt-3 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
-                        <a href="/struktur-organisasi" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Struktur Organisasi</a>
-                        <a href="/fasilitas" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Fasilitas</a>
+                        <a href="/struktur-organisasi" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isStrukturActive,
+                            'text-gray-600 dark:text-gray-300' => !$isStrukturActive,
+                        ])>Struktur Organisasi</a>
+                        <a href="/fasilitas" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isFasilitasActive,
+                            'text-gray-600 dark:text-gray-300' => !$isFasilitasActive,
+                        ])>Fasilitas</a>
                     </div>
                 </div>
 
                 {{-- Siswa Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                    <button @click="open = !open" class="flex items-center gap-1 text-sm font-medium text-gray-500 dark:text-gray-400 transition hover-primary">
+                    <button @click="open = !open" @class([
+                        'flex items-center gap-1 text-sm transition hover-primary cursor-pointer',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isSiswaActive,
+                        'font-medium text-gray-500 dark:text-gray-400' => !$isSiswaActive,
+                    ])>
                         Siswa
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-full mt-3 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
-                        <a href="/prestasi" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Prestasi</a>
-                        <a href="/karya" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Karya Siswa</a>
-                        <a href="/alumni" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Alumni</a>
+                        <a href="/prestasi" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isPrestasiActive,
+                            'text-gray-600 dark:text-gray-300' => !$isPrestasiActive,
+                        ])>Prestasi</a>
+                        <a href="/karya" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isKaryaActive,
+                            'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
+                        ])>Karya Siswa</a>
+                        <a href="/alumni" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isAlumniActive,
+                            'text-gray-600 dark:text-gray-300' => !$isAlumniActive,
+                        ])>Alumni</a>
                     </div>
                 </div>
 
-                <a href="/unit-produksi" class="text-sm font-medium text-gray-500 dark:text-gray-400 transition hover-primary">Unit Produksi</a>
+                <a href="/unit-produksi" @class([
+                    'text-sm transition hover-primary',
+                    'font-bold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
+                    'font-medium text-gray-500 dark:text-gray-400' => !$isUnitProduksiActive,
+                ])>Unit Produksi</a>
 
                 {{-- Informasi Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                    <button @click="open = !open" class="flex items-center gap-1 text-sm font-medium text-gray-500 dark:text-gray-400 transition hover-primary">
+                    <button @click="open = !open" @class([
+                        'flex items-center gap-1 text-sm transition hover-primary cursor-pointer',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isInformasiActive,
+                        'font-medium text-gray-500 dark:text-gray-400' => !$isInformasiActive,
+                    ])>
                         Informasi
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
                     <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-full mt-3 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
-                        <a href="/berita" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Berita</a>
-                        <a href="/dokumen" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Dokumen</a>
-                        <a href="/gallery" class="block px-4 py-2 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary">Gallery</a>
+                        <a href="/berita" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isBeritaActive,
+                            'text-gray-600 dark:text-gray-300' => !$isBeritaActive,
+                        ])>Berita</a>
+                        <a href="/dokumen" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isDokumenActive,
+                            'text-gray-600 dark:text-gray-300' => !$isDokumenActive,
+                        ])>Dokumen</a>
+                        <a href="/gallery" @class([
+                            'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
+                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isGalleryActive,
+                            'text-gray-600 dark:text-gray-300' => !$isGalleryActive,
+                        ])>Gallery</a>
                     </div>
                 </div>
             </div>
@@ -192,51 +263,103 @@
             </div>
         </div>
         <div class="px-6 py-2 pb-8 space-y-1">
-            <a href="/" class="block py-2.5 text-gray-900 dark:text-gray-100 font-bold">Beranda</a>
+            <a href="/" @class([
+                'block py-2.5 border-b border-gray-100 dark:border-gray-800 hover-primary',
+                'font-bold text-gray-900 dark:text-gray-100' => $isBerandaActive,
+                'font-semibold text-gray-600 dark:text-gray-300' => !$isBerandaActive,
+            ])>Beranda</a>
 
             {{-- Profil Mobile Accordion --}}
-            <div x-data="{ expanded: false }" class="border-b border-gray-100 dark:border-gray-800">
-                <button @click="expanded = !expanded" class="w-full flex items-center justify-between py-2.5 text-gray-600 dark:text-gray-300 font-semibold">
+            <div x-data="{ expanded: {{ $isProfilActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
+                <button @click="expanded = !expanded" @class([
+                    'w-full flex items-center justify-between py-2.5 cursor-pointer hover-primary',
+                    'font-bold text-gray-900 dark:text-gray-100' => $isProfilActive,
+                    'font-semibold text-gray-600 dark:text-gray-300' => !$isProfilActive,
+                ])>
                     <span>Profil</span>
                     <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
                 <div x-show="expanded" x-transition class="pl-4 pb-2 space-y-1">
-                    <a href="/struktur-organisasi" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Struktur Organisasi</a>
-                    <a href="/fasilitas" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Fasilitas</a>
+                    <a href="/struktur-organisasi" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isStrukturActive,
+                        'text-gray-600 dark:text-gray-300' => !$isStrukturActive,
+                    ])>Struktur Organisasi</a>
+                    <a href="/fasilitas" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isFasilitasActive,
+                        'text-gray-600 dark:text-gray-300' => !$isFasilitasActive,
+                    ])>Fasilitas</a>
                 </div>
             </div>
 
             {{-- Siswa Mobile Accordion --}}
-            <div x-data="{ expanded: false }" class="border-b border-gray-100 dark:border-gray-800">
-                <button @click="expanded = !expanded" class="w-full flex items-center justify-between py-2.5 text-gray-600 dark:text-gray-300 font-semibold">
+            <div x-data="{ expanded: {{ $isSiswaActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
+                <button @click="expanded = !expanded" @class([
+                    'w-full flex items-center justify-between py-2.5 cursor-pointer hover-primary',
+                    'font-bold text-gray-900 dark:text-gray-100' => $isSiswaActive,
+                    'font-semibold text-gray-600 dark:text-gray-300' => !$isSiswaActive,
+                ])>
                     <span>Siswa</span>
                     <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
                 <div x-show="expanded" x-transition class="pl-4 pb-2 space-y-1">
-                    <a href="/prestasi" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Prestasi</a>
-                    <a href="/karya" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Karya Siswa</a>
-                    <a href="/alumni" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Alumni</a>
+                    <a href="/prestasi" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isPrestasiActive,
+                        'text-gray-600 dark:text-gray-300' => !$isPrestasiActive,
+                    ])>Prestasi</a>
+                    <a href="/karya" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isKaryaActive,
+                        'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
+                    ])>Karya Siswa</a>
+                    <a href="/alumni" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isAlumniActive,
+                        'text-gray-600 dark:text-gray-300' => !$isAlumniActive,
+                    ])>Alumni</a>
                 </div>
             </div>
 
-            <a href="/unit-produksi" class="block py-2.5 text-gray-600 dark:text-gray-300 font-semibold border-b border-gray-100 dark:border-gray-800">Unit Produksi</a>
+            <a href="/unit-produksi" @class([
+                'block py-2.5 border-b border-gray-100 dark:border-gray-800 hover-primary',
+                'font-bold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
+                'font-semibold text-gray-600 dark:text-gray-300' => !$isUnitProduksiActive,
+            ])>Unit Produksi</a>
 
             {{-- Informasi Mobile Accordion --}}
-            <div x-data="{ expanded: false }" class="border-b border-gray-100 dark:border-gray-800">
-                <button @click="expanded = !expanded" class="w-full flex items-center justify-between py-2.5 text-gray-600 dark:text-gray-300 font-semibold">
+            <div x-data="{ expanded: {{ $isInformasiActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
+                <button @click="expanded = !expanded" @class([
+                    'w-full flex items-center justify-between py-2.5 cursor-pointer hover-primary',
+                    'font-bold text-gray-900 dark:text-gray-100' => $isInformasiActive,
+                    'font-semibold text-gray-600 dark:text-gray-300' => !$isInformasiActive,
+                ])>
                     <span>Informasi</span>
                     <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
                 </button>
                 <div x-show="expanded" x-transition class="pl-4 pb-2 space-y-1">
-                    <a href="/berita" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Berita</a>
-                    <a href="/dokumen" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Dokumen</a>
-                    <a href="/gallery" class="block py-2 text-sm text-gray-600 dark:text-gray-300">Gallery</a>
+                    <a href="/berita" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isBeritaActive,
+                        'text-gray-600 dark:text-gray-300' => !$isBeritaActive,
+                    ])>Berita</a>
+                    <a href="/dokumen" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isDokumenActive,
+                        'text-gray-600 dark:text-gray-300' => !$isDokumenActive,
+                    ])>Dokumen</a>
+                    <a href="/gallery" @class([
+                        'block py-2 text-sm hover-primary',
+                        'font-bold text-gray-900 dark:text-gray-100' => $isGalleryActive,
+                        'text-gray-600 dark:text-gray-300' => !$isGalleryActive,
+                    ])>Gallery</a>
                 </div>
             </div>
 

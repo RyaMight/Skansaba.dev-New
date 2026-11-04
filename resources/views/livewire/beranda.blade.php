@@ -225,7 +225,7 @@
                                         >
                                             <template x-for="tick in [index]" :key="'bar-{{ $pos }}-' + tick">
                                                 <div
-                                                    class="h-full bg-white dark:bg-gray-900 rounded-full"
+                                                    class="h-full bg-white rounded-full"
                                                     style="animation: slider-progress 5s linear forwards"
                                                     @animationend="if (isActive({{ $pos }})) advance()"
                                                 ></div>
@@ -538,7 +538,7 @@
                     {{-- Arrows --}}
                     <button
                         @click="scrollCards(-1)"
-                        class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-300 z-30"
                         aria-label="Geser kiri"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -547,7 +547,7 @@
                     </button>
                     <button
                         @click="scrollCards(1)"
-                        class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-300 z-30"
                         aria-label="Geser kanan"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -556,9 +556,9 @@
                     </button>
 
                     {{-- Progress Bar --}}
-                    <div class="mt-8 lg:mt-10 h-[3px] w-full sm:w-2/3 lg:w-1/2 mx-auto bg-gray-300/60 rounded-full relative">
+                    <div class="mt-8 lg:mt-10 h-[3px] w-full sm:w-2/3 lg:w-1/2 mx-auto bg-gray-300/60 dark:bg-gray-800 rounded-full relative">
                         <div
-                            class="absolute top-0 h-full bg-slate-800 rounded-full transition-all duration-300 ease-out"
+                            class="absolute top-0 h-full bg-slate-800 dark:bg-sky-400 rounded-full transition-all duration-300 ease-out"
                             :style="`width: ${barWidth}%; left: ${barLeft}%`"
                         ></div>
                     </div>
@@ -720,7 +720,7 @@
                                 @endif
 
                                 @if($item->is_highlight)
-                                    <span class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-gray-900 dark:text-gray-50 shadow-sm backdrop-blur">
+                                    <span class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 dark:bg-gray-900/90 text-gray-900 dark:text-gray-50 shadow-sm backdrop-blur">
                                         ⭐ Unggulan
                                     </span>
                                 @endif

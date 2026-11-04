@@ -34,19 +34,49 @@
         }
     </style>
 
-    {{-- Theme init: apply saved/dark theme BEFORE paint to avoid flash --}}
+    {{-- Theme init & SPA navigation sync: apply saved/dark theme BEFORE paint
+         and preserve it across Livewire wire:navigate, popstate, and DOM morphs. --}}
     <script>
         (function () {
-            var theme = localStorage.getItem('theme');
-            var dark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-            if (dark) document.documentElement.classList.add('dark');
+            window.isDarkTheme = function () {
+                var theme = localStorage.getItem('theme');
+                return theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            };
+            window.applyTheme = function () {
+                var dark = window.isDarkTheme();
+                var html = document.documentElement;
+                html.classList.toggle('dark', dark);
+                html.style.colorScheme = dark ? 'dark' : 'light';
+                return dark;
+            };
+            window.applyTheme();
+
+            if (!window.__themeSyncInitialized) {
+                window.__themeSyncInitialized = true;
+                document.addEventListener('livewire:navigating', window.applyTheme);
+                document.addEventListener('livewire:navigated', window.applyTheme);
+                document.addEventListener('DOMContentLoaded', window.applyTheme);
+                window.addEventListener('popstate', window.applyTheme);
+                window.addEventListener('storage', function (e) {
+                    if (e.key === 'theme') window.applyTheme();
+                });
+
+                new MutationObserver(function () {
+                    var shouldBeDark = window.isDarkTheme();
+                    var isDarkNow = document.documentElement.classList.contains('dark');
+                    if (shouldBeDark !== isDarkNow) {
+                        document.documentElement.classList.toggle('dark', shouldBeDark);
+                        document.documentElement.style.colorScheme = shouldBeDark ? 'dark' : 'light';
+                    }
+                }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+            }
         })();
     </script>
     
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white dark:bg-gray-950">
+<body class="antialiased bg-white dark:bg-gray-950 text-slate-800 dark:text-gray-100 transition-colors duration-200">
     <x-navbar-guest />
     
     <main>

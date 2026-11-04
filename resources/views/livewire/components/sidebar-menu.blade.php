@@ -115,12 +115,12 @@
                         wire:navigate
                         class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#0284c7] rounded-lg group transition"
                         x-bind:class="collapsed ? 'justify-center px-2' : ''"
-                        x-bind:title="collapsed ? 'Kembali ke Web' : ''"
+                        x-bind:title="collapsed ? 'Kembali ke Beranda' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-bind:class="collapsed ? '' : 'mr-3'">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
                         </svg>
-                        <span x-show="!collapsed" x-transition class="truncate">Kembali ke Web</span>
+                        <span x-show="!collapsed" x-transition class="truncate">Kembali ke Beranda</span>
                     </a>
 
                     <x-theme-toggle />
@@ -262,7 +262,7 @@
             @endforeach
         </nav>
 
-        {{-- Kembali ke Landing Page --}}
+        {{-- Kembali ke Landing Page / Beranda --}}
         <div class="flex-shrink-0 px-3 pt-3 pb-1 border-t border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between gap-2">
                 <a
@@ -274,7 +274,7 @@
                     <svg class="w-5 h-5 mr-3 flex-shrink-0 text-gray-400 dark:text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
                     </svg>
-                    <span>Kembali ke Web</span>
+                    <span>Kembali ke Beranda</span>
                 </a>
             </div>
         </div>
