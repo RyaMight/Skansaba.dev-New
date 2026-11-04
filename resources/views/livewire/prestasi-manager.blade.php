@@ -1,10 +1,10 @@
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-800 py-8">
     <div class="max-w-7xl mx-auto px-6">
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Kelola Prestasi Siswa</h1>
-                <p class="text-gray-600 mt-1">Manajemen data prestasi siswa RPL</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Prestasi Siswa</h1>
+                <p class="text-gray-600 dark:text-gray-300 mt-1">Manajemen data prestasi siswa RPL</p>
             </div>
             <button 
                 wire:click="openCreateModal"
@@ -19,31 +19,31 @@
 
         {{-- Flash Messages --}}
         @if(session()->has('message'))
-            <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-green-50 dark:bg-green-500/10 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
                 {{ session('message') }}
             </div>
         @endif
 
         @if(session()->has('error'))
-            <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-red-50 dark:bg-red-500/10 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
                 {{ session('error') }}
             </div>
         @endif
 
         {{-- Filters --}}
-        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-6 mb-6">
             <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                 <div>
                     <input 
                         type="text" 
                         wire:model.live="search" 
                         placeholder="Cari judul, nama siswa, kelas..."
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                     >
                 </div>
                 
                 <div>
-                    <select wire:model.live="filterStatus" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
+                    <select wire:model.live="filterStatus" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
                         <option value="">Semua Status</option>
                         <option value="draft">Draft</option>
                         <option value="review">Review</option>
@@ -53,7 +53,7 @@
                 </div>
 
                 <div>
-                    <select wire:model.live="filterJenis" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
+                    <select wire:model.live="filterJenis" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
                         <option value="">Semua Jenis</option>
                         <option value="akademik">Akademik</option>
                         <option value="non-akademik">Non-Akademik</option>
@@ -63,7 +63,7 @@
                 </div>
 
                 <div>
-                    <select wire:model.live="filterTingkat" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
+                    <select wire:model.live="filterTingkat" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
                         <option value="">Semua Tingkat</option>
                         <option value="sekolah">Sekolah</option>
                         <option value="kecamatan">Kecamatan</option>
@@ -75,7 +75,7 @@
                 </div>
 
                 <div>
-                    <select wire:model.live="filterTahun" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
+                    <select wire:model.live="filterTahun" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
                         <option value="">Semua Tahun</option>
                         @foreach($years as $year)
                             <option value="{{ $year }}">{{ $year }}</option>
@@ -86,33 +86,33 @@
         </div>
 
         {{-- Table --}}
-        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-gray-50 border-b border-gray-200">
+                    <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer" wire:click="sortBy('judul')">
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider cursor-pointer" wire:click="sortBy('judul')">
                                 Judul
                                 @if($sortField === 'judul')
                                     <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
                                 @endif
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Siswa</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Jenis</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tingkat</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer" wire:click="sortBy('tahun')">
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Siswa</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Jenis</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Tingkat</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider cursor-pointer" wire:click="sortBy('tahun')">
                                 Tahun
                                 @if($sortField === 'tahun')
                                     <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
                                 @endif
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @forelse($prestasis as $prestasi)
-                            <tr class="hover:bg-gray-50">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-3">
                                         @if($prestasi->gambar)
@@ -121,43 +121,43 @@
                                             <div class="w-12 h-12 bg-gray-200 rounded-lg"></div>
                                         @endif
                                         <div>
-                                            <div class="font-semibold text-gray-900">{{ $prestasi->judul }}</div>
-                                            <div class="text-sm text-gray-500">{{ $prestasi->penyelenggara }}</div>
+                                            <div class="font-semibold text-gray-900 dark:text-gray-50">{{ $prestasi->judul }}</div>
+                                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $prestasi->penyelenggara }}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm">
-                                        <div class="font-medium text-gray-900">{{ $prestasi->nama_siswa }}</div>
-                                        <div class="text-gray-500">{{ $prestasi->kelas }}</div>
+                                        <div class="font-medium text-gray-900 dark:text-gray-50">{{ $prestasi->nama_siswa }}</div>
+                                        <div class="text-gray-500 dark:text-gray-400">{{ $prestasi->kelas }}</div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full
-                                        {{ $prestasi->jenis === 'akademik' ? 'bg-blue-100 text-blue-800' : '' }}
-                                        {{ $prestasi->jenis === 'non-akademik' ? 'bg-green-100 text-green-800' : '' }}
-                                        {{ $prestasi->jenis === 'kompetisi' ? 'bg-purple-100 text-purple-800' : '' }}
-                                        {{ $prestasi->jenis === 'sertifikasi' ? 'bg-orange-100 text-orange-800' : '' }}
+                                        {{ $prestasi->jenis === 'akademik' ? 'bg-blue-100 dark:bg-blue-500/20 text-blue-800' : '' }}
+                                        {{ $prestasi->jenis === 'non-akademik' ? 'bg-green-100 dark:bg-green-500/20 text-green-800' : '' }}
+                                        {{ $prestasi->jenis === 'kompetisi' ? 'bg-purple-100 dark:bg-purple-500/20 text-purple-800' : '' }}
+                                        {{ $prestasi->jenis === 'sertifikasi' ? 'bg-orange-100 dark:bg-orange-500/20 text-orange-800' : '' }}
                                     ">
                                         {{ ucfirst($prestasi->jenis) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full
-                                        {{ in_array($prestasi->tingkat, ['nasional', 'internasional']) ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-800' }}
+                                        {{ in_array($prestasi->tingkat, ['nasional', 'internasional']) ? 'bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' }}
                                     ">
                                         {{ ucfirst($prestasi->tingkat) }}
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-600">
+                                <td class="px-6 py-4 text-sm text-gray-600 dark:text-gray-300">
                                     {{ $prestasi->tahun }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full
-                                        {{ $prestasi->status === 'published' ? 'bg-green-100 text-green-800' : '' }}
-                                        {{ $prestasi->status === 'draft' ? 'bg-gray-100 text-gray-800' : '' }}
-                                        {{ $prestasi->status === 'review' ? 'bg-yellow-100 text-yellow-800' : '' }}
-                                        {{ $prestasi->status === 'archived' ? 'bg-red-100 text-red-800' : '' }}
+                                        {{ $prestasi->status === 'published' ? 'bg-green-100 dark:bg-green-500/20 text-green-800' : '' }}
+                                        {{ $prestasi->status === 'draft' ? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' : '' }}
+                                        {{ $prestasi->status === 'review' ? 'bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800' : '' }}
+                                        {{ $prestasi->status === 'archived' ? 'bg-red-100 dark:bg-red-500/20 text-red-800' : '' }}
                                     ">
                                         {{ ucfirst($prestasi->status) }}
                                     </span>
@@ -167,7 +167,7 @@
                                         @if(!$prestasi->trashed())
                                             <button 
                                                 wire:click="openEditModal({{ $prestasi->id }})"
-                                                class="text-blue-600 hover:text-blue-800"
+                                                class="text-blue-600 dark:text-blue-400 hover:text-blue-800"
                                                 title="Edit"
                                             >
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,7 +177,7 @@
                                             <button 
                                                 wire:click="delete({{ $prestasi->id }})"
                                                 wire:confirm="Yakin ingin menghapus prestasi ini?"
-                                                class="text-red-600 hover:text-red-800"
+                                                class="text-red-600 dark:text-red-400 hover:text-red-800"
                                                 title="Hapus"
                                             >
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -187,7 +187,7 @@
                                         @else
                                             <button 
                                                 wire:click="restore({{ $prestasi->id }})"
-                                                class="text-green-600 hover:text-green-800"
+                                                class="text-green-600 dark:text-green-400 hover:text-green-800"
                                                 title="Restore"
                                             >
                                                 Restore
@@ -195,7 +195,7 @@
                                             <button 
                                                 wire:click="forceDelete({{ $prestasi->id }})"
                                                 wire:confirm="Yakin ingin menghapus permanen?"
-                                                class="text-red-600 hover:text-red-800"
+                                                class="text-red-600 dark:text-red-400 hover:text-red-800"
                                                 title="Hapus Permanen"
                                             >
                                                 Hapus Permanen
@@ -206,8 +206,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-12 text-center text-gray-500">
-                                    <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td colspan="7" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                    <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                                     </svg>
                                     <p class="text-lg font-semibold">Tidak ada data prestasi</p>
@@ -226,13 +226,13 @@
                 <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 transition-opacity bg-gray-900/75" @click="$wire.closeModal()"></div>
 
-                    <div class="relative inline-block w-full max-w-5xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl z-50">
+                    <div class="relative inline-block w-full max-w-5xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl z-50">
                         {{-- Modal Header --}}
-                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-gray-50">
-                            <h3 class="text-xl font-bold text-gray-900">
+                        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">
                                 {{ $isEditMode ? 'Edit Prestasi' : 'Tambah Prestasi Baru' }}
                             </h3>
-                            <button @click="$wire.closeModal()" class="text-gray-400 hover:text-gray-600">
+                            <button @click="$wire.closeModal()" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                 </svg>
@@ -253,69 +253,69 @@
                                     <div class="space-y-6">
                                         {{-- Judul --}}
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                 Judul Prestasi <span class="text-red-500">*</span>
                                             </label>
                                             <input 
                                                 type="text" 
                                                 wire:model="judul"
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 placeholder="Contoh: Juara 1 Lomba Web Design"
                                             >
-                                            @error('judul') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                            @error('judul') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                         </div>
 
                                         {{-- Nama Siswa & Kelas --}}
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                     Nama Siswa <span class="text-red-500">*</span>
                                                 </label>
                                                 <input 
                                                     type="text" 
                                                     wire:model="nama_siswa"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 >
-                                                @error('nama_siswa') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                                @error('nama_siswa') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                     Kelas <span class="text-red-500">*</span>
                                                 </label>
                                                 <input 
                                                     type="text" 
                                                     wire:model="kelas"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                     placeholder="Contoh: XII RPL 1"
                                                 >
-                                                @error('kelas') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                                @error('kelas') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
                                         </div>
 
                                         {{-- Jenis & Tingkat --}}
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                     Jenis <span class="text-red-500">*</span>
                                                 </label>
                                                 <select 
                                                     wire:model="jenis"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 >
                                                     <option value="akademik">Akademik</option>
                                                     <option value="non-akademik">Non-Akademik</option>
                                                     <option value="kompetisi">Kompetisi</option>
                                                     <option value="sertifikasi">Sertifikasi</option>
                                                 </select>
-                                                @error('jenis') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                                @error('jenis') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                     Tingkat <span class="text-red-500">*</span>
                                                 </label>
                                                 <select 
                                                     wire:model="tingkat"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 >
                                                     <option value="sekolah">Sekolah</option>
                                                     <option value="kecamatan">Kecamatan</option>
@@ -324,68 +324,68 @@
                                                     <option value="nasional">Nasional</option>
                                                     <option value="internasional">Internasional</option>
                                                 </select>
-                                                @error('tingkat') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                                @error('tingkat') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
                                         </div>
 
                                         {{-- Penyelenggara --}}
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                 Penyelenggara <span class="text-red-500">*</span>
                                             </label>
                                             <input 
                                                 type="text" 
                                                 wire:model="penyelenggara"
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 placeholder="Contoh: Dinas Pendidikan Provinsi"
                                             >
-                                            @error('penyelenggara') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                            @error('penyelenggara') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                         </div>
 
                                         {{-- Tanggal & Tahun --}}
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                     Tanggal Prestasi <span class="text-red-500">*</span>
                                                 </label>
                                                 <input 
                                                     type="date" 
                                                     wire:model="tanggal_prestasi"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 >
-                                                @error('tanggal_prestasi') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                                @error('tanggal_prestasi') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
                                             <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                     Tahun <span class="text-red-500">*</span>
                                                 </label>
                                                 <select 
                                                     wire:model="tahun"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 >
                                                     @foreach($years as $year)
                                                         <option value="{{ $year }}">{{ $year }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('tahun') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                                @error('tahun') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
                                         </div>
 
                                         {{-- Status --}}
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                 Status <span class="text-red-500">*</span>
                                             </label>
                                             <select 
                                                 wire:model="status"
-                                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                             >
                                                 <option value="draft">Draft</option>
                                                 <option value="review">Review</option>
                                                 <option value="published">Published</option>
                                                 <option value="archived">Archived</option>
                                             </select>
-                                            @error('status') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                            @error('status') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                         </div>
 
                                         {{-- Gambar --}}
@@ -404,21 +404,21 @@
 
                                         {{-- Sertifikat --}}
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                                                 Sertifikat (PDF/Gambar)
                                             </label>
                                             @if($currentSertifikat)
-                                                <div class="mb-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                                                    <p class="text-sm text-gray-600">File saat ini: <strong>{{ basename($currentSertifikat) }}</strong></p>
+                                                <div class="mb-2 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                                                    <p class="text-sm text-gray-600 dark:text-gray-300">File saat ini: <strong>{{ basename($currentSertifikat) }}</strong></p>
                                                 </div>
                                             @endif
                                             <input 
                                                 type="file" 
                                                 wire:model="sertifikat"
                                                 accept=".pdf,.jpg,.jpeg,.png,.webp"
-                                                class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200 cursor-pointer"
+                                                class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-100 dark:bg-gray-800 file:text-gray-700 dark:text-gray-200 hover:file:bg-gray-200 cursor-pointer"
                                             >
-                                            @error('sertifikat') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                            @error('sertifikat') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                         </div>
                                     </div>
 
@@ -435,11 +435,11 @@
                                 </div>
 
                                 {{-- Modal Footer --}}
-                                <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-200">
+                                <div class="flex items-center justify-end gap-3 pt-6 border-t border-gray-200 dark:border-gray-700">
                                     <button 
                                         type="button"
                                         @click="$wire.closeModal()"
-                                        class="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 font-semibold transition"
+                                        class="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 font-semibold transition"
                                     >
                                         Batal
                                     </button>

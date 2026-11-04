@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-800">
     {{-- Header dengan Breadcrumb --}}
-    <section class="bg-white py-8 border-b">
+    <section class="bg-white dark:bg-gray-900 py-8 border-b">
         <div class="max-w-7xl mx-auto px-6">
             {{-- Breadcrumb --}}
-            <div class="flex items-center gap-2 text-sm text-gray-600 mb-4">
+            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
@@ -12,30 +12,30 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">Unit Produksi</span>
             </div>
             
-            <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 mb-3">
+            <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
                 <span style="color: {{ $globalSettings->primary_color_style }}">Unit Produksi</span> RPL
             </h1>
-            <p class="text-gray-600 text-lg">Layanan dan produk dari Jurusan RPL</p>
+            <p class="text-gray-600 dark:text-gray-300 text-lg">Layanan dan produk dari Jurusan RPL</p>
         </div>
     </section>
 
     {{-- Content --}}
     <section class="py-12">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-8 mb-8">
                 <div class="prose prose-lg max-w-none">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-4" style="color: {{ $globalSettings->primary_color_style }}">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-4" style="color: {{ $globalSettings->primary_color_style }}">
                         Tentang Unit Produksi
                     </h2>
-                    <p class="text-gray-600 leading-relaxed mb-6">
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
                         Unit Produksi Jurusan Rekayasa Perangkat Lunak (RPL) adalah wadah bagi siswa untuk mengaplikasikan 
                         ilmu yang telah dipelajari dalam bentuk proyek nyata. Melalui unit produksi ini, siswa dapat 
                         mengembangkan aplikasi, website, dan solusi digital lainnya untuk klien internal maupun eksternal sekolah.
                     </p>
 
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 mt-8">Layanan yang Kami Tawarkan</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-3 mt-8">Layanan yang Kami Tawarkan</h3>
                     <div class="grid md:grid-cols-2 gap-4 mb-8">
-                        <div class="p-4 border rounded-lg hover:border-gray-300 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
+                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
                             <div class="flex items-start gap-3">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
                                     <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -43,13 +43,13 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 mb-1">Pembuatan Website</h4>
-                                    <p class="text-sm text-gray-600">Website company profile, e-commerce, dan sistem informasi</p>
+                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Pembuatan Website</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Website company profile, e-commerce, dan sistem informasi</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 border rounded-lg hover:border-gray-300 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
+                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
                             <div class="flex items-start gap-3">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
                                     <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,13 +57,13 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 mb-1">Aplikasi Mobile</h4>
-                                    <p class="text-sm text-gray-600">Aplikasi Android dan iOS untuk berbagai kebutuhan</p>
+                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Aplikasi Mobile</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Aplikasi Android dan iOS untuk berbagai kebutuhan</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 border rounded-lg hover:border-gray-300 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
+                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
                             <div class="flex items-start gap-3">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
                                     <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -71,13 +71,13 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 mb-1">Sistem Informasi</h4>
-                                    <p class="text-sm text-gray-600">Sistem manajemen data dan informasi berbasis web</p>
+                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Sistem Informasi</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Sistem manajemen data dan informasi berbasis web</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="p-4 border rounded-lg hover:border-gray-300 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
+                        <div class="p-4 border rounded-lg hover:border-gray-300 dark:border-gray-600 transition" style="border-color: {{ $globalSettings->primary_color_style }}22">
                             <div class="flex items-start gap-3">
                                 <div class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}22">
                                     <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,44 +86,44 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-gray-900 mb-1">Maintenance & Support</h4>
-                                    <p class="text-sm text-gray-600">Layanan pemeliharaan dan dukungan teknis aplikasi</p>
+                                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-1">Maintenance & Support</h4>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300">Layanan pemeliharaan dan dukungan teknis aplikasi</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <h3 class="text-xl font-bold text-gray-900 mb-3 mt-8">Mengapa Memilih Kami?</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-3 mt-8">Mengapa Memilih Kami?</h3>
                     <ul class="space-y-2 mb-8">
                         <li class="flex items-start gap-3">
                             <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-gray-600">Dikerjakan oleh siswa RPL yang terlatih dan berpengalaman</span>
+                            <span class="text-gray-600 dark:text-gray-300">Dikerjakan oleh siswa RPL yang terlatih dan berpengalaman</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-gray-600">Harga terjangkau dan kompetitif</span>
+                            <span class="text-gray-600 dark:text-gray-300">Harga terjangkau dan kompetitif</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-gray-600">Menggunakan teknologi terkini dan modern</span>
+                            <span class="text-gray-600 dark:text-gray-300">Menggunakan teknologi terkini dan modern</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <svg class="w-6 h-6 flex-shrink-0 mt-0.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-gray-600">Mendukung pendidikan dan pengembangan siswa</span>
+                            <span class="text-gray-600 dark:text-gray-300">Mendukung pendidikan dan pengembangan siswa</span>
                         </li>
                     </ul>
 
-                    <div class="bg-gray-50 rounded-lg p-6 mt-8 border" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                        <h3 class="text-lg font-bold text-gray-900 mb-3">Tertarik dengan Layanan Kami?</h3>
-                        <p class="text-gray-600 mb-4">
+                    <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mt-8 border" style="border-color: {{ $globalSettings->primary_color_style }}22">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Tertarik dengan Layanan Kami?</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">
                             Hubungi kami untuk konsultasi dan penawaran terbaik sesuai kebutuhan Anda.
                         </p>
                         <a href="/kontak" class="inline-flex items-center gap-2 px-6 py-3 text-white rounded-lg font-medium hover:opacity-90 transition" style="background-color: {{ $globalSettings->primary_color_style }}">

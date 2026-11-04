@@ -466,11 +466,11 @@
 
     {{-- Header Label & Aspect Ratio Badge --}}
     <div class="flex items-center justify-between">
-        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700">
+        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-200">
             {{ $label }}
             @if($required) <span class="text-rose-500">*</span> @endif
         </label>
-        <div class="flex items-center gap-1.5 text-[11px] font-medium text-slate-500">
+        <div class="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
             <span class="inline-block w-1.5 h-1.5 rounded-full bg-sky-500"></span>
             <span>Rasio {{ $aspectRatioLabel }}</span>
         </div>
@@ -489,18 +489,18 @@
     <div x-show="!showCropper" class="space-y-3">
         @if($resolvedCurrentImageUrl)
             {{-- Tampilan Foto Profil Saat Ini --}}
-            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between gap-3">
+            <div class="p-3.5 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl flex items-center justify-between gap-3">
                 <div class="flex items-center gap-3 min-w-0">
                     <div class="relative shrink-0">
                         <img 
                             src="{{ $resolvedCurrentImageUrl }}" 
                             alt="Foto Saat Ini" 
-                            class="w-12 h-12 object-cover border border-slate-200 {{ $isAvatarMode ? 'rounded-full ring-2 ring-white shadow-xs' : 'rounded-lg' }}"
+                            class="w-12 h-12 object-cover border border-slate-200 dark:border-gray-600 {{ $isAvatarMode ? 'rounded-full ring-2 ring-white dark:ring-gray-700 shadow-xs' : 'rounded-lg' }}"
                         >
                     </div>
                     <div class="min-w-0">
-                        <p class="text-xs font-semibold text-slate-900 truncate">Foto Aktif Digunakan</p>
-                        <p class="text-[11px] text-slate-500">Bisa diedit ulang posisinya atau diganti dengan foto baru</p>
+                        <p class="text-xs font-semibold text-slate-900 dark:text-gray-100 truncate">Foto Aktif Digunakan</p>
+                        <p class="text-[11px] text-slate-500 dark:text-gray-400">Bisa diedit ulang posisinya atau diganti dengan foto baru</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -508,10 +508,10 @@
                     <button
                         type="button"
                         @click="editExistingPhoto('{{ $resolvedCurrentImageUrl }}')"
-                        class="px-3 py-1.5 bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                        class="px-3 py-1.5 bg-sky-50 dark:bg-sky-500/15 hover:bg-sky-100 dark:hover:bg-sky-500/25 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
                         title="Atur ulang posisi, zoom, atau geser foto profil ini"
                     >
-                        <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
                         <span>Edit Ulang Posisi</span>
@@ -521,10 +521,10 @@
                     <button
                         type="button"
                         @click="$refs.fileInput.click()"
-                        class="px-3 py-1.5 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                        class="px-3 py-1.5 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-lg text-xs font-semibold text-slate-700 dark:text-gray-200 transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
                         title="Pilih berkas foto baru dari perangkat"
                     >
-                        <svg class="w-3.5 h-3.5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3.5 h-3.5 text-slate-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
                         </svg>
                         <span>Ganti Foto</span>
@@ -539,20 +539,20 @@
             @dragleave.prevent="dragOver = false"
             @drop.prevent="handleDrop($event)"
             @click="$refs.fileInput.click()"
-            :class="dragOver ? 'border-sky-500 bg-sky-50/60 ring-2 ring-sky-500/20' : 'border-slate-300 hover:border-slate-400 bg-white hover:bg-slate-50/60'"
+            :class="dragOver ? 'border-sky-500 bg-sky-50/60 dark:bg-sky-500/10 ring-2 ring-sky-500/20' : 'border-slate-300 dark:border-gray-600 hover:border-slate-400 dark:hover:border-gray-500 bg-white dark:bg-gray-800/60 hover:bg-slate-50/60 dark:hover:bg-gray-800'"
             class="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition group"
         >
             <div class="max-w-xs mx-auto space-y-2">
-                <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 text-slate-600 group-hover:text-sky-600 group-hover:bg-sky-50 flex items-center justify-center transition border border-slate-200/80">
+                <div class="w-12 h-12 mx-auto rounded-full bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300 group-hover:text-sky-600 group-hover:bg-sky-50 dark:group-hover:bg-sky-500/15 flex items-center justify-center transition border border-slate-200/80 dark:border-gray-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold text-slate-800">
-                        <span class="text-sky-600 underline underline-offset-2">Pilih file foto</span> atau tarik & lepas ke sini
+                    <p class="text-xs font-semibold text-slate-800 dark:text-gray-200">
+                        <span class="text-sky-600 dark:text-sky-400 underline underline-offset-2">Pilih file foto</span> atau tarik & lepas ke sini
                     </p>
-                    <p class="text-[11px] text-slate-500 mt-1">
+                    <p class="text-[11px] text-slate-500 dark:text-gray-400 mt-1">
                         Format JPG, PNG, atau WebP (Maks. 5MB)
                     </p>
                 </div>
@@ -561,15 +561,15 @@
     </div>
 
     {{-- Error Message --}}
-    @error($modelName) <p class="text-xs text-rose-600 font-medium">{{ $message }}</p> @enderror
+    @error($modelName) <p class="text-xs text-rose-600 dark:text-rose-400 font-medium">{{ $message }}</p> @enderror
 
     {{-- State 2: Studio Cropper & Adjuster (Aktif saat foto dipilih) --}}
     <div x-show="showCropper" x-cloak class="space-y-4">
         {{-- Toolbar Atas: Informasi File & Aksi Cepat --}}
-        <div class="flex items-center justify-between gap-3 p-2.5 bg-slate-100/80 border border-slate-200 rounded-xl text-xs">
+        <div class="flex items-center justify-between gap-3 p-2.5 bg-slate-100/80 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl text-xs">
             <div class="flex items-center gap-2 min-w-0">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
-                <span class="font-mono text-slate-700 truncate font-medium text-[11px]" x-text="fileName"></span>
+                <span class="font-mono text-slate-700 dark:text-gray-200 truncate font-medium text-[11px]" x-text="fileName"></span>
                 <span class="text-slate-400 text-[10px]" x-text="fileSizeFormatted ? '(' + fileSizeFormatted + ')' : ''"></span>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
@@ -577,7 +577,7 @@
                     <button 
                         type="button" 
                         @click="editExistingPhoto('{{ $resolvedCurrentImageUrl }}')" 
-                        class="px-2.5 py-1 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-slate-700 text-[11px] font-medium transition cursor-pointer shadow-2xs"
+                        class="px-2.5 py-1 bg-white dark:bg-gray-900 hover:bg-slate-50 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-lg text-slate-700 dark:text-gray-200 text-[11px] font-medium transition cursor-pointer shadow-2xs"
                         title="Muat ulang foto profil aktif"
                     >
                         Foto Aktif
@@ -586,14 +586,14 @@
                 <button 
                     type="button" 
                     @click="$refs.fileInput.click()" 
-                    class="px-2.5 py-1 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg text-slate-700 text-[11px] font-medium transition cursor-pointer shadow-2xs"
+                    class="px-2.5 py-1 bg-white dark:bg-gray-900 hover:bg-slate-50 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-lg text-slate-700 dark:text-gray-200 text-[11px] font-medium transition cursor-pointer shadow-2xs"
                 >
                     Ganti File
                 </button>
                 <button 
                     type="button" 
                     @click="clearImage()" 
-                    class="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-lg text-[11px] font-medium transition cursor-pointer shadow-2xs"
+                    class="px-2.5 py-1 bg-rose-50 dark:bg-rose-500/15 hover:bg-rose-100 dark:hover:bg-rose-500/25 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 rounded-lg text-[11px] font-medium transition cursor-pointer shadow-2xs"
                 >
                     Batal
                 </button>
@@ -620,17 +620,17 @@
                 </div>
 
                 {{-- Kotak Kontrol Penyesuaian Foto --}}
-                <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                <div class="p-3 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl space-y-3">
                     {{-- 1. Kontrol Geser Posisi (Horizontal / Kanan-Kiri & Vertikal) --}}
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
-                            <label class="text-[11px] font-semibold text-slate-700 uppercase tracking-wider flex items-center gap-1">
-                                <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <label class="text-[11px] font-semibold text-slate-700 dark:text-gray-200 uppercase tracking-wider flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                                 </svg>
                                 <span>Geser Foto (Kanan - Kiri)</span>
                             </label>
-                            <span class="text-[10px] text-slate-500 font-mono" x-text="horizontalShift > 0 ? '+' + horizontalShift : horizontalShift"></span>
+                            <span class="text-[10px] text-slate-500 dark:text-gray-400 font-mono" x-text="horizontalShift > 0 ? '+' + horizontalShift : horizontalShift"></span>
                         </div>
                         
                         {{-- Slider Geser Horizontal --}}
@@ -639,7 +639,7 @@
                                 type="button" 
                                 @click="pan(-20, 0)" 
                                 title="Geser ke kiri"
-                                class="shrink-0 p-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs transition cursor-pointer shadow-2xs"
+                                class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -652,14 +652,14 @@
                                 step="1" 
                                 x-model="horizontalShift" 
                                 @input="onHorizontalSliderChange($event.target.value)"
-                                class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-600 focus:outline-none"
+                                class="w-full h-1.5 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-sky-600 focus:outline-none"
                                 title="Geser posisi horizontal foto"
                             >
                             <button 
                                 type="button" 
                                 @click="pan(20, 0)" 
                                 title="Geser ke kanan"
-                                class="shrink-0 p-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs transition cursor-pointer shadow-2xs"
+                                class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -668,18 +668,18 @@
                         </div>
 
                         {{-- Tombol Geser Presisi & Pusatkan --}}
-                        <div class="flex items-center justify-between gap-1 mt-2 pt-2 border-t border-slate-200/60 text-[11px]">
+                        <div class="flex items-center justify-between gap-1 mt-2 pt-2 border-t border-slate-200/60 dark:border-gray-700 text-[11px]">
                             <div class="flex items-center gap-1">
-                                <button type="button" @click="pan(0, -15)" class="px-2 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded-md text-slate-700 font-medium transition cursor-pointer shadow-2xs" title="Geser ke Atas">▲ Atas</button>
-                                <button type="button" @click="pan(0, 15)" class="px-2 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded-md text-slate-700 font-medium transition cursor-pointer shadow-2xs" title="Geser ke Bawah">▼ Bawah</button>
+                                <button type="button" @click="pan(0, -15)" class="px-2 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer shadow-2xs" title="Geser ke Atas">▲ Atas</button>
+                                <button type="button" @click="pan(0, 15)" class="px-2 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer shadow-2xs" title="Geser ke Bawah">▼ Bawah</button>
                             </div>
                             <button 
                                 type="button" 
                                 @click="centerImage()" 
-                                class="px-2.5 py-1 bg-white hover:bg-slate-100 border border-slate-200 rounded-md text-slate-700 font-medium transition cursor-pointer flex items-center gap-1 shadow-2xs"
+                                class="px-2.5 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer flex items-center gap-1 shadow-2xs"
                                 title="Kembalikan posisi foto ke tengah"
                             >
-                                <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-3 h-3 text-slate-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
                                 </svg>
                                 <span>Pusatkan</span>
@@ -688,15 +688,15 @@
                     </div>
 
                     {{-- 2. Kontrol Zoom & Putar (Rotate) --}}
-                    <div class="pt-2.5 border-t border-slate-200/80">
+                    <div class="pt-2.5 border-t border-slate-200/80 dark:border-gray-700">
                         <div class="flex items-center justify-between mb-1.5">
-                            <label class="text-[11px] font-semibold text-slate-700 uppercase tracking-wider flex items-center gap-1">
-                                <svg class="w-3.5 h-3.5 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <label class="text-[11px] font-semibold text-slate-700 dark:text-gray-200 uppercase tracking-wider flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
                                 </svg>
                                 <span>Perbesar (Zoom) & Putar</span>
                             </label>
-                            <span class="text-[10px] text-slate-500 font-mono" x-text="zoomPercent + '%'"></span>
+                            <span class="text-[10px] text-slate-500 dark:text-gray-400 font-mono" x-text="zoomPercent + '%'"></span>
                         </div>
                         
                         <div class="flex items-center gap-2">
@@ -704,7 +704,7 @@
                                 type="button" 
                                 @click="zoomOut()" 
                                 title="Perkecil foto"
-                                class="shrink-0 p-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs transition cursor-pointer shadow-2xs"
+                                class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
@@ -717,14 +717,14 @@
                                 :step="zoomStep" 
                                 :value="currentZoom" 
                                 @input="setZoomLevel($event.target.value)"
-                                class="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-600 focus:outline-none"
+                                class="w-full h-1.5 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-sky-600 focus:outline-none"
                                 title="Zoom foto"
                             >
                             <button 
                                 type="button" 
                                 @click="zoomIn()" 
                                 title="Perbesar foto"
-                                class="shrink-0 p-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs transition cursor-pointer shadow-2xs"
+                                class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -732,12 +732,12 @@
                             </button>
 
                             {{-- Tombol Putar (Rotate) --}}
-                            <div class="flex items-center gap-1 border-l border-slate-200 pl-2 ml-1 shrink-0">
+                            <div class="flex items-center gap-1 border-l border-slate-200 dark:border-gray-700 pl-2 ml-1 shrink-0">
                                 <button 
                                     type="button" 
                                     @click="rotate(-90)" 
                                     title="Putar 90° ke kiri"
-                                    class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs transition cursor-pointer shadow-2xs"
+                                    class="p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                                 >
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a5 5 0 015 5v2m0 0l-3-3m3 3l3-3M3 10l3-3m-3 3l3 3"/>
@@ -747,7 +747,7 @@
                                     type="button" 
                                     @click="rotate(90)" 
                                     title="Putar 90° ke kanan"
-                                    class="p-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-lg text-xs transition cursor-pointer shadow-2xs"
+                                    class="p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                                 >
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 10H11a5 5 0 00-5 5v2m0 0l3-3m-3 3l-3-3m17-4l-3-3m3 3l-3 3"/>
@@ -759,15 +759,15 @@
 
                     {{-- 3. Pilihan Bentuk Bingkai (Khusus Mode Foto Profil) --}}
                     @if($isAvatarMode)
-                        <div class="pt-2.5 border-t border-slate-200/80">
-                            <label class="block text-[11px] font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                        <div class="pt-2.5 border-t border-slate-200/80 dark:border-gray-700">
+                            <label class="block text-[11px] font-semibold text-slate-700 dark:text-gray-200 uppercase tracking-wider mb-1.5">
                                 Bentuk Bingkai Foto Profil
                             </label>
                             <div class="grid grid-cols-2 gap-2 text-xs">
                                 <button
                                     type="button"
                                     @click="setFrameShape('circle')"
-                                    :class="frameShape === 'circle' ? 'bg-sky-50 border-sky-500 text-sky-700 font-semibold ring-1 ring-sky-500/20' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'"
+                                    :class="frameShape === 'circle' ? 'bg-sky-50 dark:bg-sky-500/20 border-sky-500 text-sky-700 dark:text-sky-300 font-semibold ring-1 ring-sky-500/20' : 'bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-600 text-slate-700 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700'"
                                     class="p-2 border rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 text-center shadow-2xs"
                                 >
                                     <span class="w-3.5 h-3.5 rounded-full border-2 border-current"></span>
@@ -776,7 +776,7 @@
                                 <button
                                     type="button"
                                     @click="setFrameShape('squircle')"
-                                    :class="frameShape === 'squircle' ? 'bg-sky-50 border-sky-500 text-sky-700 font-semibold ring-1 ring-sky-500/20' : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'"
+                                    :class="frameShape === 'squircle' ? 'bg-sky-50 dark:bg-sky-500/20 border-sky-500 text-sky-700 dark:text-sky-300 font-semibold ring-1 ring-sky-500/20' : 'bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-600 text-slate-700 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700'"
                                     class="p-2 border rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 text-center shadow-2xs"
                                 >
                                     <span class="w-3.5 h-3.5 rounded-sm border-2 border-current"></span>
@@ -790,24 +790,24 @@
 
             {{-- Kolom Kanan: Pratinjau Gambaran Nyata (Live Mockup Frame Preview) --}}
             <div class="md:col-span-5 space-y-3">
-                <div class="p-3 bg-white border border-slate-200 rounded-xl space-y-3 shadow-2xs">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
-                        <span class="text-xs font-semibold text-slate-800 flex items-center gap-1.5">
-                            <svg class="w-4 h-4 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-3 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl space-y-3 shadow-2xs">
+                    <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-gray-700">
+                        <span class="text-xs font-semibold text-slate-800 dark:text-gray-100 flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                             </svg>
                             <span>Gambaran Foto Profil</span>
                         </span>
-                        <span class="text-[10px] text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                        <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-500/30">
                             Live Update
                         </span>
                     </div>
 
                     @if($isAvatarMode)
                         {{-- Mockup 1: Gambaran di Halaman Profil Siswa (Besar) --}}
-                        <div class="p-3 bg-slate-50 border border-slate-200/80 rounded-xl space-y-2 text-center">
-                            <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                        <div class="p-3 bg-slate-50 dark:bg-gray-900 border border-slate-200/80 dark:border-gray-700 rounded-xl space-y-2 text-center">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-gray-400">
                                 Tampilan di Halaman Profil
                             </p>
                             
@@ -815,7 +815,7 @@
                             <div class="relative inline-block mx-auto mt-1">
                                 <div 
                                     :class="frameShape === 'circle' ? 'rounded-full' : 'rounded-2xl'" 
-                                    class="w-20 h-20 overflow-hidden bg-slate-200 ring-3 ring-sky-100 border border-slate-300 shadow-sm mx-auto transition-all"
+                                    class="w-20 h-20 overflow-hidden bg-slate-200 dark:bg-gray-800 ring-3 ring-sky-100 dark:ring-sky-500/20 border border-slate-300 dark:border-gray-600 shadow-sm mx-auto transition-all"
                                 >
                                     <template x-if="cropResult">
                                         <img :src="cropResult" alt="Avatar Preview" class="w-full h-full object-cover">
@@ -829,16 +829,16 @@
                                     </template>
                                 </div>
                                 {{-- Online Status Dot --}}
-                                <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full shadow-2xs"></span>
+                                <span class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-white dark:border-gray-900 rounded-full shadow-2xs"></span>
                             </div>
 
                             <div class="space-y-1">
-                                <p class="text-xs font-bold text-slate-900 truncate" x-text="avatarName || 'Nama Siswa'"></p>
-                                <p class="text-[11px] text-slate-500 truncate" x-text="avatarSubtitle || 'Siswa RPL • Skansaba'"></p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-gray-100 truncate" x-text="avatarName || 'Nama Siswa'"></p>
+                                <p class="text-[11px] text-slate-500 dark:text-gray-400 truncate" x-text="avatarSubtitle || 'Siswa RPL • Skansaba'"></p>
                                 <template x-if="avatarSkills && avatarSkills.length > 0">
                                     <div class="flex flex-wrap items-center justify-center gap-1 pt-1">
                                         <template x-for="(skill, sIdx) in avatarSkills.slice(0, 3)" :key="sIdx">
-                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium bg-sky-50 text-sky-700 border border-sky-200/60" x-text="skill"></span>
+                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-medium bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/60 dark:border-sky-500/30" x-text="skill"></span>
                                         </template>
                                         <template x-if="avatarSkills.length > 3">
                                             <span class="text-[9px] text-slate-400" x-text="'+' + (avatarSkills.length - 3)"></span>
@@ -849,32 +849,32 @@
                         </div>
 
                         {{-- Mockup 2: Gambaran di Header / Navbar & Komentar (Kecil) --}}
-                        <div class="p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl space-y-1.5">
-                            <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                        <div class="p-2.5 bg-slate-50 dark:bg-gray-900 border border-slate-200/80 dark:border-gray-700 rounded-xl space-y-1.5">
+                            <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-gray-400">
                                 Tampilan di Bilah Menu (Ukuran Mini)
                             </p>
-                            <div class="flex items-center gap-2 p-1.5 bg-white border border-slate-200 rounded-lg shadow-2xs">
+                            <div class="flex items-center gap-2 p-1.5 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-lg shadow-2xs">
                                 <div 
                                     :class="frameShape === 'circle' ? 'rounded-full' : 'rounded-md'" 
-                                    class="w-8 h-8 overflow-hidden bg-slate-200 ring-1 ring-slate-200 shrink-0"
+                                    class="w-8 h-8 overflow-hidden bg-slate-200 dark:bg-gray-700 ring-1 ring-slate-200 dark:ring-gray-600 shrink-0"
                                 >
                                     <template x-if="cropResult">
                                         <img :src="cropResult" alt="Mini Avatar" class="w-full h-full object-cover">
                                     </template>
                                     <template x-if="!cropResult">
-                                        <div class="w-full h-full bg-slate-300"></div>
+                                        <div class="w-full h-full bg-slate-300 dark:bg-gray-600"></div>
                                     </template>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <p class="text-[11px] font-semibold text-slate-800 truncate" x-text="avatarName ? avatarName.split(' ')[0] : 'Siswa'"></p>
+                                    <p class="text-[11px] font-semibold text-slate-800 dark:text-gray-100 truncate" x-text="avatarName ? avatarName.split(' ')[0] : 'Siswa'"></p>
                                     <p class="text-[10px] text-slate-400">Aktif</p>
                                 </div>
                             </div>
                         </div>
                     @else
                         {{-- Non-Avatar Preview (16:9 atau Custom Rasio) --}}
-                        <div class="p-2 bg-slate-50 border border-slate-200 rounded-xl text-center">
-                            <div class="crop-preview-box mx-auto w-full aspect-video h-auto max-h-48 overflow-hidden rounded-lg border border-slate-200 bg-slate-100 flex items-center justify-center">
+                        <div class="p-2 bg-slate-50 dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-xl text-center">
+                            <div class="crop-preview-box mx-auto w-full aspect-video h-auto max-h-48 overflow-hidden rounded-lg border border-slate-200 dark:border-gray-700 bg-slate-100 dark:bg-gray-800 flex items-center justify-center">
                                 <template x-if="cropResult">
                                     <img :src="cropResult" alt="Preview" class="max-w-full max-h-full object-contain">
                                 </template>
@@ -883,14 +883,14 @@
                     @endif
 
                     {{-- Info Spesifikasi Output --}}
-                    <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1 text-[11px] text-slate-600">
+                    <div class="p-2.5 bg-slate-50 dark:bg-gray-900 rounded-lg border border-slate-200 dark:border-gray-700 space-y-1 text-[11px] text-slate-600 dark:text-gray-300">
                         <div class="flex items-center justify-between">
-                            <span class="text-slate-500">Resolusi Output:</span>
-                            <span class="font-mono font-medium text-slate-800">{{ $resolvedMaxWidth }} × {{ $resolvedMaxHeight }} px</span>
+                            <span class="text-slate-500 dark:text-gray-400">Resolusi Output:</span>
+                            <span class="font-mono font-medium text-slate-800 dark:text-gray-100">{{ $resolvedMaxWidth }} × {{ $resolvedMaxHeight }} px</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-slate-500">Format Simpan:</span>
-                            <span class="font-medium text-emerald-600 flex items-center gap-1">
+                            <span class="text-slate-500 dark:text-gray-400">Format Simpan:</span>
+                            <span class="font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                                 </svg>

@@ -3,7 +3,7 @@
     {{-- Hero: Kosentrasi Keahlian Slider --}}
     {{-- ============================================ --}}
     <section
-        class="pt-8 lg:pt-12 pb-10 lg:pb-14"
+        class="pt-4 lg:pt-6 pb-10 lg:pb-14"
         x-data="{
             N: {{ $sliders->count() }},
             index: {{ $sliders->count() }},
@@ -40,9 +40,8 @@
                 const vp = this.$refs.viewport;
                 if (!track || !vp) return;
 
-                const MAX_BLUR = 9;
-                const BLUR_PER_SLOT = 4.2;
-                const MIN_OPACITY = 0.45;
+                const MAX_OPACITY = 0.45;
+                const OPACITY_PER_SLOT = 0.28;
 
                 const tick = () => {
                     const vpRect = vp.getBoundingClientRect();
@@ -55,26 +54,29 @@
                         rects.push(kids[i].getBoundingClientRect());
                     }
 
-                    // Pass 2: tulis filter & opacity
+                    // Pass 2: atur overlay samping (tanpa blur).
+                    // Slot 0 = slide aktif di tengah (tanpa overlay),
+                    // makin jauh di pinggir makin gelap overlaynya.
                     for (let i = 0; i < kids.length; i++) {
                         const r = rects[i];
                         const c = r.left + r.width / 2;
                         const slots = Math.abs(c - centerX) / (r.width || 1);
 
-                        const blur = Math.min(MAX_BLUR, slots * BLUR_PER_SLOT);
-                        const opacity = Math.max(MIN_OPACITY, 1 - slots * 0.2);
-
-                        const f = blur < 0.05 ? '' : 'blur(' + blur.toFixed(2) + 'px)';
-                        const o = opacity.toFixed(3);
+                        const shade = Math.min(0.55, Math.max(0, slots - 0.35) * OPACITY_PER_SLOT);
+                        const opacity = Math.max(MAX_OPACITY, 1 - slots * 0.2);
 
                         const el = kids[i];
-                        if (el.dataset.blurVal !== f) {
-                            el.style.filter = f;
-                            el.dataset.blurVal = f;
+                        const ov = el.querySelector('.side-shade');
+                        if (ov) {
+                            const val = shade.toFixed(3);
+                            if (ov.dataset.shadeVal !== val) {
+                                ov.style.opacity = val;
+                                ov.dataset.shadeVal = val;
+                            }
                         }
-                        if (el.dataset.opVal !== o) {
-                            el.style.opacity = o;
-                            el.dataset.opVal = o;
+                        if (el.dataset.opVal !== opacity.toFixed(3)) {
+                            el.style.opacity = opacity.toFixed(3);
+                            el.dataset.opVal = opacity.toFixed(3);
                         }
                     }
 
@@ -152,17 +154,23 @@
         @resize.window.debounce.200="measure()"
     >
         <div class="site-container">
-            {{-- Heading (2 baris seperti desain) + Arrows --}}
-            <div class="flex items-end justify-between gap-6 mb-7 lg:mb-9" data-reveal>
-                <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-gray-900 leading-[1.05]">
-                    Kosentrasi Keahlian
-                    <span class="block" style="color: {{ $globalSettings->primary_color_style }}">RPL</span>
+            {{-- Judul utama + tagline: rapat, jarak seimbang antara navbar dan slider --}}
+            <div class="text-center pt-4 lg:pt-6 mb-4 lg:mb-5" data-reveal>
+                <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-none" style="color: {{ $globalSettings->primary_color_style }}">
+                    {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
                 </h1>
-                @if($sliders->count() > 1)
-                    <div class="hidden sm:flex items-center gap-3 flex-shrink-0 pb-1">
+                <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg mt-1 max-w-xl mx-auto leading-snug">
+                    {{ $globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia' }}
+                </p>
+            </div>
+
+            {{-- Arrows slider (tanpa judul section) --}}
+            @if($sliders->count() > 1)
+                <div class="flex justify-end mb-3 lg:mb-4" data-reveal>
+                    <div class="hidden sm:flex items-center gap-3">
                         <button
                             @click="back()"
-                            class="w-11 h-11 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide sebelumnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -171,7 +179,7 @@
                         </button>
                         <button
                             @click="advance()"
-                            class="w-11 h-11 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide berikutnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -179,23 +187,26 @@
                             </svg>
                         </button>
                     </div>
-                @endif
-            </div>
+                </div>
+            @endif
         </div>
 
         @if($sliders->isNotEmpty())
             {{-- Band full-width: slide aktif di tengah, tetangga kiri & kanan menyambung --}}
-            <div class="bg-gray-100/80 py-6 lg:py-8" data-reveal>
+            <div class="bg-gray-100/80 dark:bg-gray-900 py-6 lg:py-8" data-reveal>
                 <div class="overflow-hidden" x-ref="viewport">
                     <div
                         x-ref="track"
-                        class="flex gap-14 lg:gap-24 will-change-transform"
+                        class="flex gap-20 lg:gap-32 will-change-transform"
                         style="transform: translateX(0px)"
                     >
                         @foreach([0, 1, 2] as $copy)
                             @foreach($sliders as $index => $slider)
                                 @php $pos = $copy * $sliders->count() + $index; @endphp
-                                <div class="hero-slide flex-none grid gap-4 lg:gap-5 grid-cols-[38%_62%]">
+                                <div class="hero-slide flex-none relative grid gap-4 lg:gap-5 grid-cols-[38%_62%]">
+                                    {{-- Overlay samping: menggantikan blur, makin pinggir makin gelap --}}
+                                    <div class="side-shade pointer-events-none absolute inset-0 z-10 rounded-2xl bg-slate-900/80" style="opacity: 0"></div>
+
                                     {{-- Dark Card --}}
                                     <div class="bg-slate-800 rounded-2xl p-6 lg:p-8 flex flex-col justify-between h-[300px] sm:h-[360px] lg:h-[420px]">
                                         <div>
@@ -214,7 +225,7 @@
                                         >
                                             <template x-for="tick in [index]" :key="'bar-{{ $pos }}-' + tick">
                                                 <div
-                                                    class="h-full bg-white rounded-full"
+                                                    class="h-full bg-white dark:bg-gray-900 rounded-full"
                                                     style="animation: slider-progress 5s linear forwards"
                                                     @animationend="if (isActive({{ $pos }})) advance()"
                                                 ></div>
@@ -244,7 +255,7 @@
                     <div class="flex sm:hidden items-center justify-end gap-3 mt-6">
                         <button
                             @click="back()"
-                            class="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 transition"
+                            class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 transition"
                             aria-label="Slide sebelumnya"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -253,7 +264,7 @@
                         </button>
                         <button
                             @click="advance()"
-                            class="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 transition"
+                            class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 transition"
                             aria-label="Slide berikutnya"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -265,11 +276,81 @@
             @endif
         @else
             <div class="site-container">
-                <div class="rounded-2xl bg-white border border-gray-100 h-72 flex items-center justify-center text-gray-400 text-sm" data-reveal>
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     Belum ada slide yang ditambahkan
                 </div>
             </div>
         @endif
+    </section>
+
+    {{-- ============================================ --}}
+    {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
+    {{-- ============================================ --}}
+    <section class="py-12 lg:py-16">
+        <div class="site-container">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+
+                {{-- Kolom kiri: Prospek Karir (list polos seperti desain) --}}
+                <div class="lg:col-span-5" data-reveal>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        Prospek Karir
+                    </h2>
+
+                    @if($prospekKarir->isNotEmpty())
+                        <ul class="space-y-3.5">
+                            @foreach($prospekKarir as $karir)
+                                <li class="group/karir flex items-center gap-3" title="{{ $karir->description_excerpt }}">
+                                    <span class="w-1.5 h-1.5 rounded-full flex-none" style="background-color: {{ $globalSettings->primary_color_style }}"></span>
+                                    <span class="text-sm sm:text-[15px] text-gray-600 dark:text-gray-300 group-hover/karir:text-gray-900 dark:group-hover/karir:text-white font-medium transition-colors duration-200">
+                                        {{ $karir->title }}
+                                    </span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @else
+                        <p class="text-sm text-gray-400">Belum ada prospek karir</p>
+                    @endif
+                </div>
+
+                {{-- Kolom kanan: Mata Pelajaran Unggulan (list polos seperti desain) --}}
+                <div class="lg:col-span-7" data-reveal>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        Mata Pelajaran Unggulan
+                    </h2>
+
+                    <div class="space-y-6 lg:space-y-7">
+                        @foreach($mataPelajaran as $mapel)
+                            <div class="group/mapel flex items-start gap-4">
+                                <span
+                                    class="w-10 h-10 rounded-lg flex items-center justify-center flex-none transition-transform duration-300 group-hover/mapel:scale-110"
+                                    style="background-color: {{ $globalSettings->primary_color }}1a; color: {{ $globalSettings->primary_color_style }}"
+                                >
+                                    @if($mapel['ikon'] === 'code')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-3 3 3 3m8-6l3 3-3 3M13 5l-2 14"/></svg>
+                                    @elseif($mapel['ikon'] === 'database')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 7c0-1.66 3.58-3 8-3s8 1.34 8 3-3.58 3-8 3-8-1.34-8-3zm0 0v10c0 1.66 3.58 3 8 3s8-1.34 8-3V7m-16 5c0 1.66 3.58 3 8 3s8-1.34 8-3"/></svg>
+                                    @elseif($mapel['ikon'] === 'palette')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 110-18c4.97 0 9 3.58 9 8 0 2.21-1.79 4-4 4h-2a2 2 0 00-1.6 3.2c.3.4.47.87.47 1.3a1.5 1.5 0 01-1.5 1.5H12zm-4.5-11a1 1 0 100-2 1 1 0 000 2zm4-2a1 1 0 100-2 1 1 0 000 2zm5 0a1 1 0 100-2 1 1 0 000 2zm4 3a1 1 0 100-2 1 1 0 000 2z"/></svg>
+                                    @elseif($mapel['ikon'] === 'shield')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.04c-2.1 0-4.15.4-6 1.16v5.63c0 4.62 2.44 8.4 6 10.25 3.56-1.85 6-5.63 6-10.25V5.92a15.4 15.4 0 00-6-1.21z"/></svg>
+                                    @elseif($mapel['ikon'] === 'cloud')
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 19.5a4.5 4.5 0 01-.42-8.98 6 6 0 0111.7-1.6 4.25 4.25 0 01-.53 8.43v.05H6.75z"/></svg>
+                                    @else
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v6.5a3.5 3.5 0 01-3.5 3.5H3m6-10h9a3 3 0 013 3v12a3 3 0 01-3 3H6a3 3 0 01-3-3v-5"/></svg>
+                                    @endif
+                                </span>
+
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 text-base leading-snug">{{ $mapel['judul'] }}</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5">{{ $mapel['deskripsi'] }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
     {{-- ============================================ --}}
@@ -289,15 +370,15 @@
                      data-reveal>
                     {{-- Baris 1: geser kiri --}}
                     <div class="overflow-hidden marquee-row">
-                        <div class="flex w-max animate-marquee-left" style="--marquee-duration: 32s">
+                        <div class="flex w-max animate-marquee-left" style="--marquee-duration: 80s">
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupOne as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-9 md:max-h-11 w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
-                                                <span class="text-xs font-semibold text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
+                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
                                         </div>
                                     @endforeach
@@ -308,15 +389,15 @@
 
                     {{-- Baris 2: geser kanan --}}
                     <div class="overflow-hidden marquee-row">
-                        <div class="flex w-max animate-marquee-right" style="--marquee-duration: 32s">
+                        <div class="flex w-max animate-marquee-right" style="--marquee-duration: 80s">
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupTwo as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-9 md:max-h-11 w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
-                                                <span class="text-xs font-semibold text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
+                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
                                         </div>
                                     @endforeach
@@ -326,7 +407,7 @@
                     </div>
                 </div>
             @else
-                <p class="text-center text-gray-400 text-sm" data-reveal>Belum ada mitra yang ditampilkan</p>
+                <p class="text-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>Belum ada mitra yang ditampilkan</p>
             @endif
         </div>
     </section>
@@ -336,7 +417,7 @@
     {{-- ============================================ --}}
     <section class="py-12 lg:py-16">
         <div class="site-container">
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 mb-8 lg:mb-10" data-reveal>
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-8 lg:mb-10" data-reveal>
                 Karya Siswa
             </h2>
 
@@ -457,7 +538,7 @@
                     {{-- Arrows --}}
                     <button
                         @click="scrollCards(-1)"
-                        class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-gray-200 shadow-md items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
                         aria-label="Geser kiri"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -466,7 +547,7 @@
                     </button>
                     <button
                         @click="scrollCards(1)"
-                        class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-gray-200 shadow-md items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
                         aria-label="Geser kanan"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -483,7 +564,7 @@
                     </div>
                 </div>
             @else
-                <div class="rounded-2xl bg-white border border-gray-100 h-56 flex items-center justify-center text-gray-400 text-sm" data-reveal>
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     Belum ada karya siswa yang dipublikasikan
                 </div>
             @endif
@@ -496,12 +577,12 @@
     <section class="py-12 lg:py-16">
         <div class="site-container">
             <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50">
                     Berita Terbaru
                 </h2>
                 <a
                     href="/berita"
-                    class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-700 hover:gap-3 transition-all"
+                    class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:gap-3 transition-all"
                 >
                     Lihat Semua
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -624,7 +705,7 @@
                         @foreach($berita as $index => $item)
                             <a
                                 href="/berita/{{ $item->slug }}"
-                                class="berita-card group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_8px_24px_rgba(15,23,42,0.10)] hover:shadow-[0_20px_44px_rgba(15,23,42,0.18)] hover:!-translate-y-2 hover:!rotate-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] block"
+                                class="berita-card group bg-white dark:bg-gray-900 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-[0_8px_24px_rgba(15,23,42,0.10)] hover:shadow-[0_20px_44px_rgba(15,23,42,0.18)] hover:!-translate-y-2 hover:!rotate-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] block"
                                 style="--card-index: {{ $index }}"
                             >
                             {{-- Thumbnail --}}
@@ -639,34 +720,38 @@
                                 @endif
 
                                 @if($item->is_highlight)
-                                    <span class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-gray-900 shadow-sm backdrop-blur">
+                                    <span class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-gray-900 dark:text-gray-50 shadow-sm backdrop-blur">
                                         ⭐ Unggulan
                                     </span>
                                 @endif
                             </div>
 
-                            {{-- Body --}}
+                            {{-- Body: hanya judul saat normal, sisanya muncul saat hover --}}
                             <div class="p-5 lg:p-6">
-                                <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
-                                    <span>{{ $item->published_at?->format('d M Y') }}</span>
-                                    <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                    <span>{{ $item->views }} views</span>
-                                </div>
-
-                                <h3 class="font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-gray-600 transition-colors">
+                                <h3 class="font-bold text-gray-900 dark:text-gray-50 leading-snug line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                                     {{ $item->title }}
                                 </h3>
 
-                                <p class="text-sm text-gray-500 line-clamp-2 mt-2">
-                                    {{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}
-                                </p>
+                                <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                                    <div class="overflow-hidden">
+                                        <div class="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 pt-3">
+                                            <span>{{ $item->published_at?->format('d M Y') }}</span>
+                                            <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+                                            <span>{{ $item->views }} views</span>
+                                        </div>
 
-                                <span class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold" style="color: {{ $globalSettings->primary_color_style }}">
-                                    Baca Selengkapnya
-                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
-                                    </svg>
-                                </span>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-2">
+                                            {{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}
+                                        </p>
+
+                                        <span class="inline-flex items-center gap-1.5 mt-3 text-sm font-semibold" style="color: {{ $globalSettings->primary_color_style }}">
+                                            Baca Selengkapnya
+                                            <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </a>
                     @endforeach
@@ -686,7 +771,7 @@
                     </a>
                 </div>
             @else
-                <div class="rounded-2xl bg-white border border-gray-100 h-56 flex items-center justify-center text-gray-400 text-sm" data-reveal>
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     Belum ada berita yang dipublikasikan
                 </div>
             @endif

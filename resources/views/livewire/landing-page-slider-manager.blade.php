@@ -3,8 +3,8 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Landing Page Slider</h1>
-                <p class="text-sm text-gray-600 mt-1">Kelola gambar slider di hero section landing page</p>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Landing Page Slider</h1>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Kelola gambar slider di hero section landing page</p>
             </div>
             <button 
                 wire:click="openCreateModal"
@@ -19,19 +19,19 @@
 
         {{-- Flash Message --}}
         @if (session()->has('message'))
-            <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
+            <div class="mb-6 p-4 bg-green-50 dark:bg-green-500/10 border border-green-200 text-green-800 rounded-lg">
                 {{ session('message') }}
             </div>
         @endif
 
         {{-- Sliders List with Drag & Drop --}}
-        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
             @if($sliders->isEmpty())
                 <div class="p-12 text-center">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
-                    <p class="mt-4 text-gray-500">Belum ada slider. Tambahkan slider pertama Anda.</p>
+                    <p class="mt-4 text-gray-500 dark:text-gray-400">Belum ada slider. Tambahkan slider pertama Anda.</p>
                 </div>
             @else
                 <div 
@@ -61,12 +61,12 @@
                                 dragging = null;
                                 dragover = null;
                             "
-                            :class="{ 'bg-blue-50': dragover === {{ $slider->id }}, 'opacity-50': dragging === {{ $slider->id }} }"
-                            class="p-4 hover:bg-gray-50 transition cursor-move"
+                            :class="{ 'bg-blue-50 dark:bg-blue-500/10': dragover === {{ $slider->id }}, 'opacity-50': dragging === {{ $slider->id }} }"
+                            class="p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-move"
                         >
                             <div class="flex items-center space-x-4">
                                 {{-- Drag Handle --}}
-                                <div class="text-gray-400">
+                                <div class="text-gray-400 dark:text-gray-400">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
                                     </svg>
@@ -74,7 +74,7 @@
 
                                 {{-- Order Badge --}}
                                 <div class="flex-shrink-0">
-                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-200 text-gray-700 font-semibold text-sm">
+                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-200 text-gray-700 dark:text-gray-200 font-semibold text-sm">
                                         {{ $slider->order }}
                                     </span>
                                 </div>
@@ -86,9 +86,9 @@
 
                                 {{-- Content --}}
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-sm font-semibold text-gray-900 truncate">{{ $slider->title }}</h3>
+                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-50 truncate">{{ $slider->title }}</h3>
                                     @if($slider->subtitle)
-                                        <p class="text-sm text-gray-500 truncate">{{ $slider->subtitle }}</p>
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ $slider->subtitle }}</p>
                                     @endif
                                     @if($slider->link)
                                         <a href="{{ $slider->link }}" target="_blank" class="text-xs text-[#12B4E0] hover:underline truncate block">
@@ -105,7 +105,7 @@
                                         :class="{'bg-[#12B4E0]': {{ $slider->is_active ? 'true' : 'false' }}, 'bg-gray-200': {{ $slider->is_active ? 'false' : 'true' }}}"
                                     >
                                         <span 
-                                            class="inline-block h-4 w-4 transform rounded-full bg-white transition-transform"
+                                            class="inline-block h-4 w-4 transform rounded-full bg-white dark:bg-gray-900 transition-transform"
                                             :class="{'translate-x-6': {{ $slider->is_active ? 'true' : 'false' }}, 'translate-x-1': {{ $slider->is_active ? 'false' : 'true' }}}"
                                         ></span>
                                     </button>
@@ -115,7 +115,7 @@
                                 <div class="flex-shrink-0 flex items-center space-x-2">
                                     <button 
                                         wire:click="openEditModal({{ $slider->id }})"
-                                        class="p-2 text-gray-400 hover:text-[#12B4E0] transition"
+                                        class="p-2 text-gray-400 dark:text-gray-400 hover:text-[#12B4E0] transition"
                                         title="Edit"
                                     >
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -125,7 +125,7 @@
                                     <button 
                                         wire:click="delete({{ $slider->id }})"
                                         wire:confirm="Apakah Anda yakin ingin menghapus slider ini?"
-                                        class="p-2 text-gray-400 hover:text-red-600 transition"
+                                        class="p-2 text-gray-400 dark:text-gray-400 hover:text-red-600 dark:text-red-400 transition"
                                         title="Hapus"
                                     >
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,14 +143,14 @@
 
     {{-- Create/Edit Modal --}}
     @if($showModal)
-        <div class="fixed inset-0 bg-gray-500/75 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="fixed inset-0 bg-gray-50 dark:bg-gray-900/75 flex items-center justify-center z-50 p-4">
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
                 {{-- Modal Header --}}
-                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <h3 class="text-lg font-semibold text-gray-900">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">
                         {{ $isEditing ? 'Edit Slider' : 'Tambah Slider' }}
                     </h3>
-                    <button wire:click="closeModal" class="text-gray-400 hover:text-gray-600">
+                    <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -180,73 +180,73 @@
 
                     {{-- Title --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                             Judul <span class="text-red-500">*</span>
                         </label>
                         <input 
                             type="text" 
                             wire:model="title"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                             placeholder="Masukkan judul slider"
                         >
-                        @error('title') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        @error('title') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- Subtitle --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Subtitle</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Subtitle</label>
                         <input 
                             type="text" 
                             wire:model="subtitle"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                             placeholder="Masukkan subtitle (opsional)"
                         >
-                        @error('subtitle') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        @error('subtitle') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- Link --}}
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Link</label>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Link</label>
                         <input 
                             type="url" 
                             wire:model="link"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                             placeholder="https://example.com"
                         >
-                        @error('link') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                        @error('link') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                     </div>
 
                     {{-- Order & Active --}}
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Urutan</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Urutan</label>
                             <input 
                                 type="number" 
                                 wire:model="order"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                             >
-                            @error('order') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                            @error('order') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                         </div>
 
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Status</label>
                             <label class="flex items-center">
                                 <input 
                                     type="checkbox" 
                                     wire:model="is_active"
-                                    class="rounded border-gray-300 text-[#12B4E0] focus:ring-[#12B4E0]"
+                                    class="rounded border-gray-300 dark:border-gray-600 text-[#12B4E0] focus:ring-[#12B4E0]"
                                 >
-                                <span class="ml-2 text-sm text-gray-700">Aktif</span>
+                                <span class="ml-2 text-sm text-gray-700 dark:text-gray-200">Aktif</span>
                             </label>
                         </div>
                     </div>
 
                     {{-- Modal Footer --}}
-                    <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+                    <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
                         <button 
                             type="button"
                             wire:click="closeModal"
-                            class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                         >
                             Batal
                         </button>

@@ -4,10 +4,52 @@
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
-@theme {
-    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
-        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
+/* Dark mode berbasis class .dark pada <html> (bukan prefers-color-scheme),
+   agar bisa dikendalikan tombol toggle + tersimpan di localStorage. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Transisi halus saat ganti tema */
+html.theme-transition,
+html.theme-transition * {
+    transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease !important;
+}
+
+/* ============================================
+   Scrollbar: tipis, mengikuti tema (terang/gelap)
+   ============================================ */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent; /* abu terang, track transparan */
+}
+
+.dark * {
+    scrollbar-color: #475569 transparent; /* abu gelap saat dark mode */
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 8px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background-color: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background-color: #64748b;
 }
 
 /* ============================================
@@ -84,6 +126,11 @@
     justify-content: center;
 }
 
+.dark .crop-preview-box {
+    border-color: #334155;
+    background: #1e293b;
+}
+
 .crop-preview-box img {
     max-width: 100%;
     max-height: 100%;
@@ -104,11 +151,11 @@
 }
 
 .animate-marquee-left {
-    animation: marquee-left var(--marquee-duration, 45s) linear infinite;
+    animation: marquee-left var(--marquee-duration, 80s) linear infinite;
 }
 
 .animate-marquee-right {
-    animation: marquee-right var(--marquee-duration, 45s) linear infinite;
+    animation: marquee-right var(--marquee-duration, 80s) linear infinite;
 }
 
 /* ============================================
@@ -230,6 +277,35 @@
     .animate-marquee-right {
         animation: none;
     }
+}
+
+/* ============================================
+   Footer maps: kecilkan info window Google Maps
+   agar peta tetap terlihat, bukan tertutup kartu alamat.
+   ============================================ */
+.maps-embed iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Perkecil tampilan dalam iframe via zoom (didukung Chrome/Edge; Safari fallback tetap utuh) */
+@media (min-width: 1024px) {
+    .maps-embed iframe {
+        zoom: 0.72;
+    }
+}
+
+/* ============================================
+   Struktur organisasi: deskripsi guru (markdown)
+   - Baris keahlian/pendidikan tampil ringkas seperti desain
+   ============================================ */
+.strutur-desc p {
+    margin: 0;
+}
+
+.strutur-desc p + p {
+    margin-top: 0.75rem;
 }
 
 /* ============================================

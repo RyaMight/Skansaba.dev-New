@@ -469,15 +469,10 @@
                         </div>
                     </div>
 
-                    {{-- Bio & Headline --}}
-                    @if($viewingStudent->headline || $viewingStudent->bio)
+                    {{-- Bio --}}
+                    @if($viewingStudent->bio)
                         <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80 text-xs">
-                            @if($viewingStudent->headline)
-                                <p class="font-semibold text-slate-800 mb-1">{{ $viewingStudent->headline }}</p>
-                            @endif
-                            @if($viewingStudent->bio)
-                                <p class="text-slate-600 leading-relaxed">{{ $viewingStudent->bio }}</p>
-                            @endif
+                            <p class="text-slate-600 leading-relaxed">{{ $viewingStudent->bio }}</p>
                         </div>
                     @endif
 

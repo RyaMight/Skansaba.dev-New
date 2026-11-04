@@ -4,10 +4,10 @@
         wire:click="toggleTransitions"
         type="button"
         class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium transition-colors
-               @if($model->status === 'draft') bg-gray-100 text-gray-800 hover:bg-gray-200
-               @elseif($model->status === 'review') bg-yellow-100 text-yellow-800 hover:bg-yellow-200
-               @elseif($model->status === 'published') bg-green-100 text-green-800 hover:bg-green-200
-               @elseif($model->status === 'archived') bg-red-100 text-red-800 hover:bg-red-200
+               @if($model->status === 'draft') bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 hover:bg-gray-200
+               @elseif($model->status === 'review') bg-yellow-100 dark:bg-yellow-500/20 text-yellow-800 hover:bg-yellow-200
+               @elseif($model->status === 'published') bg-green-100 dark:bg-green-500/20 text-green-800 hover:bg-green-200
+               @elseif($model->status === 'archived') bg-red-100 dark:bg-red-500/20 text-red-800 hover:bg-red-200
                @endif"
     >
         <span>{{ $model->status_label }}</span>
@@ -19,7 +19,7 @@
 
     {{-- Transition Menu --}}
     @if($showTransitions && count($availableTransitions) > 0)
-        <div class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
+        <div class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
             <div class="p-2 space-y-1">
                 @foreach($availableTransitions as $transition)
                     <button
@@ -45,11 +45,11 @@
     {{-- Confirmation Modal --}}
     @if($confirmingTransition)
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-2">
                     Confirm Status Change
                 </h3>
-                <p class="text-gray-600 mb-4">
+                <p class="text-gray-600 dark:text-gray-300 mb-4">
                     Are you sure you want to change the status from 
                     <span class="font-semibold">{{ $model->status_label }}</span> to 
                     <span class="font-semibold">{{ ucfirst($pendingStatus) }}</span>?
@@ -58,7 +58,7 @@
                     <button
                         wire:click="cancelTransition"
                         type="button"
-                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200"
+                        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200"
                     >
                         Cancel
                     </button>
@@ -76,7 +76,7 @@
 
     {{-- Flash Messages --}}
     @if(session()->has('message'))
-        <div class="fixed top-4 right-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg z-50"
+        <div class="fixed top-4 right-4 bg-green-100 dark:bg-green-500/20 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg z-50"
              x-data="{ show: true }"
              x-show="show"
              x-init="setTimeout(() => show = false, 3000)">
@@ -85,7 +85,7 @@
     @endif
 
     @if(session()->has('error'))
-        <div class="fixed top-4 right-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-lg z-50"
+        <div class="fixed top-4 right-4 bg-red-100 dark:bg-red-500/20 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-lg z-50"
              x-data="{ show: true }"
              x-show="show"
              x-init="setTimeout(() => show = false, 5000)">

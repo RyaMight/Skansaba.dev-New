@@ -33,11 +33,20 @@
             --secondary-color: {{ $globalSettings->secondary_color ?? '#1E3A8A' }};
         }
     </style>
+
+    {{-- Theme init: apply saved/dark theme BEFORE paint to avoid flash --}}
+    <script>
+        (function () {
+            var theme = localStorage.getItem('theme');
+            var dark = theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (dark) document.documentElement.classList.add('dark');
+        })();
+    </script>
     
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white">
+<body class="antialiased bg-white dark:bg-gray-950">
     <x-navbar-guest />
     
     <main>
