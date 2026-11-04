@@ -40,12 +40,12 @@
     </section>
 
     {{-- Gambar 1 Showcase & Karya Siswa UI --}}
-    <section class="py-10 bg-[#eef2f6]/70 min-h-screen">
+    <section class="py-10 bg-[#eef2f6]/70 dark:bg-gray-800 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6">
             {{-- Top Showcase (2 Featured Projects) --}}
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {{-- Showcase 1: Sistem Informasi Manajemen Sekolah --}}
-                <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 flex flex-col md:flex-row items-center gap-6">
+                <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 dark:border-gray-800 flex flex-col md:flex-row items-center gap-6">
                     {{-- Web Browser Mockup --}}
                     <div class="w-full md:w-[320px] bg-[#161a23] rounded-2xl p-2.5 shadow-md border border-slate-800 text-white shrink-0 select-none">
                         {{-- Browser Window Top Bar --}}
@@ -133,15 +133,15 @@
                                 <line x1="12" y1="22" x2="12" y2="12"></line>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight leading-snug">
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-gray-50 tracking-tight leading-snug">
                             Sistem Informasi Manajemen Sekolah
                         </h3>
                         <p class="text-xs text-slate-400 font-medium mt-1">Laravel, React, Next.js</p>
-                        <p class="text-xs text-slate-500 leading-relaxed mt-3">
+                        <p class="text-xs text-slate-500 dark:text-gray-400 leading-relaxed mt-3">
                             Damaged m:pang sistem Informasi Manajemen and lensing setortion mobie dashboard.
                         </p>
                         <div class="mt-4">
-                            <span class="inline-block px-3.5 py-1.5 bg-slate-100 border border-slate-200 text-slate-700 rounded-full text-xs font-normal">
+                            <span class="inline-block px-3.5 py-1.5 bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-300 rounded-full text-xs font-normal">
                                 Digunakan oleh Sekolah Lain
                             </span>
                         </div>
@@ -149,7 +149,7 @@
                 </div>
 
                 {{-- Showcase 2: Aplikasi E-Commerce Lokal --}}
-                <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 flex flex-col md:flex-row items-center gap-6">
+                <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 dark:border-gray-800 flex flex-col md:flex-row items-center gap-6">
                     {{-- 2 Smartphone Mockup --}}
                     <div class="w-full md:w-[320px] flex items-center justify-center gap-3 shrink-0 select-none">
                         {{-- Phone 1 --}}
@@ -218,15 +218,15 @@
                                 <line x1="12" y1="22" x2="12" y2="12"></line>
                             </svg>
                         </div>
-                        <h3 class="text-xl font-bold text-slate-900 tracking-tight leading-snug">
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-gray-50 tracking-tight leading-snug">
                             Aplikasi E-Commerce Lokal
                         </h3>
                         <p class="text-xs text-slate-400 font-medium mt-1">Laravel, React, Next.js</p>
-                        <p class="text-xs text-slate-500 leading-relaxed mt-3">
+                        <p class="text-xs text-slate-500 dark:text-gray-400 leading-relaxed mt-3">
                             Aplikasi E-Commerce lokal is a E-Commerce platform, profens, apps, enorping and constoring er-commerce.
                         </p>
                         <div class="mt-4">
-                            <span class="inline-block px-3.5 py-1.5 bg-slate-100 border border-slate-200 text-slate-700 rounded-full text-xs font-normal">
+                            <span class="inline-block px-3.5 py-1.5 bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-300 rounded-full text-xs font-normal">
                                 Proyek Komersial
                             </span>
                         </div>
