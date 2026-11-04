@@ -27,3 +27,156 @@
     max-height: 100%;
     display: block;
 }
+
+/* ============================================
+   Marquee logo mitra - 2 baris berlawanan arah
+   ============================================ */
+@keyframes marquee-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+}
+
+.animate-marquee-left {
+    animation: marquee-left var(--marquee-duration, 45s) linear infinite;
+}
+
+.animate-marquee-right {
+    animation: marquee-right var(--marquee-duration, 45s) linear infinite;
+}
+
+/* ============================================
+   Mitra industri: hover halus & tidak flicker
+   - Kartu membesar + shadow lembut, logo ikut scale
+   ============================================ */
+.mitra-chip {
+    transition:
+        transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1),
+        border-color 380ms ease;
+    will-change: transform;
+    border: 1px solid rgb(241 245 249);
+}
+
+.mitra-chip:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 10px 22px -10px rgba(15, 23, 42, 0.22);
+    border-color: rgb(226 232 240);
+    z-index: 2;
+}
+
+.mitra-logo {
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.mitra-chip:hover .mitra-logo {
+    transform: scale(1.06);
+}
+
+/* Pause marquee saat kursor di area mitra.
+   Selector :hover pada baris pembungkus (bukan chip) supaya
+   status hover tidak terputus saat kartu bergeser. */
+.marquee-row:hover .animate-marquee-left,
+.marquee-row:hover .animate-marquee-right {
+    animation-play-state: paused;
+}
+
+/* ============================================
+   Container global, sejajar dengan ISI navbar:
+   navbar max-w-6xl (1152px) + padding dalam px-5/sm:px-7.
+   ============================================ */
+.site-container {
+    width: 100%;
+    max-width: 1152px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;   /* 20px = navbar px-5 */
+}
+
+@media (min-width: 640px) {
+    .site-container {
+        padding-inline: 1.75rem; /* 28px = navbar sm:px-7 */
+    }
+}
+
+/* ============================================
+   Hero carousel: lebar slide HARUS berbasis viewport,
+   bukan % dari track (track memakai flex & melebar).
+   Lebar diset agar sejajar dengan ISI navbar.
+   ============================================ */
+.hero-slide {
+    width: calc(100vw - 2.5rem);      /* mobile: navbar px-5 */
+    max-width: calc(100vw - 2.5rem);
+}
+
+@media (min-width: 640px) {
+    .hero-slide {
+        width: calc(100vw - 3.5rem);  /* navbar px-7 */
+        max-width: calc(100vw - 3.5rem);
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-slide {
+        /* 1152px - (2 x 28px) = 1096px */
+        width: min(calc(100vw - 3.5rem), 1096px);
+        max-width: min(calc(100vw - 3.5rem), 1096px);
+    }
+}
+
+/* Progress bar slide hero (sinkron dengan autoplay 5s) */
+@keyframes slider-progress {
+    from { width: 0%; }
+    to { width: 100%; }
+}
+
+/* Sembunyikan scrollbar (carousel karya siswa) */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Reveal on scroll */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal] {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .animate-marquee-left,
+    .animate-marquee-right {
+        animation: none;
+    }
+}
+
+/* ============================================
+   Berita: efek tumpukan kartu -> menyebar saat scroll
+   ============================================ */
+.berita-grid {
+    position: relative;
+}
+
+.berita-card {
+    transform-origin: center center;
+}

@@ -3,10 +3,10 @@
 namespace App\Livewire;
 
 use App\Models\LandingPageSlider;
-use App\Models\Prestasi;
+use App\Models\KaryaSiswa;
 use App\Models\Berita;
-use App\Models\ProspekKarir;
 use App\Models\Mitra;
+use App\Models\GlobalSetting;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -21,9 +21,11 @@ class Beranda extends Component
             ->orderBy('order')
             ->get();
 
-        $prestasi = Prestasi::where('status', 'published')
-            ->latest('tanggal_prestasi')
-            ->take(3)
+        $mitras = Mitra::published()->get();
+
+        $karyaSiswa = KaryaSiswa::where('status', 'published')
+            ->latest('published_at')
+            ->take(10)
             ->get();
 
         $berita = Berita::where('status', 'published')
@@ -31,18 +33,14 @@ class Beranda extends Component
             ->take(3)
             ->get();
 
-        $prospekKarir = ProspekKarir::active()
-            ->ordered()
-            ->get();
-
-        $mitras = Mitra::published()->get();
+        $globalSettings = GlobalSetting::first();
 
         return view('livewire.beranda', [
             'sliders' => $sliders,
-            'prestasi' => $prestasi,
-            'berita' => $berita,
-            'prospekKarir' => $prospekKarir,
             'mitras' => $mitras,
+            'karyaSiswa' => $karyaSiswa,
+            'berita' => $berita,
+            'globalSettings' => $globalSettings,
         ]);
     }
 }

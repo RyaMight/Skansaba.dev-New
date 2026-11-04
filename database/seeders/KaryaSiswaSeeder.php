@@ -5,143 +5,156 @@ namespace Database\Seeders;
 use App\Models\KaryaSiswa;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
 class KaryaSiswaSeeder extends Seeder
 {
     /**
-     * Download image from URL and save to storage
-     */
-    private function downloadImage($url, $filename): ?string
-    {
-        try {
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            
-            $contents = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            
-            if ($httpCode !== 200 || $contents === false) {
-                $this->command->warn("Failed to download: {$filename}");
-                return null;
-            }
-            
-            $path = 'karya-siswa/' . $filename;
-            Storage::disk('public')->put($path, $contents);
-            $this->command->info("Downloaded: {$filename}");
-            return $path;
-        } catch (\Exception $e) {
-            $this->command->error("Error downloading {$filename}: " . $e->getMessage());
-            return null;
-        }
-    }
-
-    /**
      * Run the database seeds.
+     * Dummy data untuk section "Karya Siswa" di landing page.
+     * Poster SVG tersedia di storage/app/public/karya-siswa/posters/
+     * Catatan: skansaba.dev belum punya karya published - data ini dummy,
+     * hapus/replace saat ada data asli dari admin.
      */
     public function run(): void
     {
-        // Truncate table for idempotency
         KaryaSiswa::truncate();
 
-        // Get admin user for user_id
         $admin = User::where('role', 'admin')->first();
 
-        $karyaSiswas = [
+        if (!$admin) {
+            $admin = User::firstOrCreate(
+                ['email' => 'admin@rpl.sch.id'],
+                [
+                    'name' => 'Administrator',
+                    'password' => \Hash::make('admin123'),
+                    'role' => 'admin',
+                    'status' => 'active',
+                ]
+            );
+        }
+
+        $karya = [
             [
-                'judul' => 'Sistem Informasi Perpustakaan Digital',
-                'deskripsi' => 'Aplikasi web untuk mengelola peminjaman buku, katalog digital, dan sistem keanggotaan perpustakaan sekolah dengan fitur notifikasi otomatis.',
-                'kategori' => 'web',
-                'teknologi' => 'Laravel, MySQL, Bootstrap, jQuery',
-                'nama_siswa' => 'Ahmad Fauzi',
-                'kelas' => 'XII RPL 1',
-                'tahun' => '2025',
-                'gambar' => $this->downloadImage('https://picsum.photos/seed/library-system/800/600', 'library-system.jpg'),
-                'url_demo' => 'https://perpus-digital.smkrpl.sch.id',
-                'url_repo' => 'https://github.com/smkrpl/perpus-digital',
-                'status' => 'published',
-                'user_id' => $admin->id,
-            ],
-            [
-                'judul' => 'Aplikasi Kasir Toko Serbaguna',
-                'deskripsi' => 'Aplikasi desktop untuk sistem point of sale (POS) dengan fitur manajemen stok, laporan penjualan, dan integrasi printer thermal.',
-                'kategori' => 'desktop',
-                'teknologi' => 'C#, .NET Framework, SQL Server',
-                'nama_siswa' => 'Siti Nurhaliza',
-                'kelas' => 'XII RPL 2',
-                'tahun' => '2025',
-                'gambar' => $this->downloadImage('https://picsum.photos/seed/pos-system/800/600', 'pos-system.jpg'),
+                'judul' => 'Kelas Angkasa',
+                'deskripsi' => "Platform e-learning interaktif untuk belajar pemrograman secara mandiri.\n\nFitur unggulan:\n- Video pembelajaran terstruktur\n- Kuis dan sertifikat otomatis\n- Forum diskusi antar siswa\n- Progress tracking per materi",
+                'kategori' => 'Web Development',
+                'teknologi' => ['Laravel', 'Tailwind CSS', 'MySQL'],
+                'nama_siswa' => 'Arya Saputra Nugraha',
+                'kelas' => 'XI RPL 1',
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/kelas-angkasa.svg',
                 'url_demo' => null,
-                'url_repo' => 'https://github.com/smkrpl/kasir-toko',
-                'status' => 'published',
-                'user_id' => $admin->id,
+                'url_repo' => null,
             ],
             [
-                'judul' => 'Mobile E-Learning Platform',
-                'deskripsi' => 'Aplikasi mobile untuk pembelajaran online dengan fitur video course, quiz interaktif, progress tracking, dan sertifikat digital.',
-                'kategori' => 'mobile',
-                'teknologi' => 'Flutter, Firebase, Dart',
-                'nama_siswa' => 'Budi Santoso',
-                'kelas' => 'XII RPL 1',
-                'tahun' => '2025',
-                'gambar' => $this->downloadImage('https://picsum.photos/seed/elearning-mobile/800/600', 'elearning-mobile.jpg'),
-                'url_demo' => null,
-                'url_repo' => 'https://github.com/smkrpl/elearning-mobile',
-                'status' => 'published',
-                'user_id' => $admin->id,
-            ],
-            [
-                'judul' => 'Sistem Absensi Siswa Berbasis QR Code',
-                'deskripsi' => 'Aplikasi web dan mobile untuk absensi siswa menggunakan QR Code dengan dashboard real-time dan notifikasi ke orang tua.',
-                'kategori' => 'web',
-                'teknologi' => 'Laravel, Vue.js, MySQL, Firebase',
-                'nama_siswa' => 'Dewi Lestari',
+                'judul' => 'SiKasir',
+                'deskripsi' => "Aplikasi kasir modern untuk UMKM dengan laporan penjualan real-time.\n\nFitur unggulan:\n- Scan barcode produk\n- Struk digital via WhatsApp\n- Laporan harian & bulanan\n- Manajemen stok otomatis",
+                'kategori' => 'Web Development',
+                'teknologi' => ['Laravel', 'Livewire', 'MySQL'],
+                'nama_siswa' => 'Faiz Baraka Putra',
                 'kelas' => 'XII RPL 2',
-                'tahun' => '2025',
-                'gambar' => $this->downloadImage('https://picsum.photos/seed/qrcode-attendance/800/600', 'qrcode-attendance.jpg'),
-                'url_demo' => 'https://absensi.smkrpl.sch.id',
-                'url_repo' => 'https://github.com/smkrpl/absensi-qrcode',
-                'status' => 'published',
-                'user_id' => $admin->id,
-            ],
-            [
-                'judul' => 'Smart Parking System',
-                'deskripsi' => 'Sistem parkir pintar dengan sensor IoT, aplikasi mobile untuk mencari tempat parkir kosong, dan payment gateway terintegrasi.',
-                'kategori' => 'iot',
-                'teknologi' => 'Arduino, Node.js, React Native, MQTT',
-                'nama_siswa' => 'Rizky Pratama',
-                'kelas' => 'XII RPL 1',
-                'tahun' => '2025',
-                'gambar' => $this->downloadImage('https://picsum.photos/seed/smart-parking/800/600', 'smart-parking.jpg'),
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/sikasir.svg',
                 'url_demo' => null,
-                'url_repo' => 'https://github.com/smkrpl/smart-parking',
-                'status' => 'published',
-                'user_id' => $admin->id,
+                'url_repo' => null,
             ],
             [
-                'judul' => 'Website Portofolio Interaktif',
-                'deskripsi' => 'Template website portofolio modern dengan animasi 3D, dark mode, dan CMS headless untuk memudahkan update konten.',
-                'kategori' => 'web',
-                'teknologi' => 'Next.js, Three.js, Tailwind CSS, Strapi',
-                'nama_siswa' => 'Maya Anggraini',
+                'judul' => 'Solaria App',
+                'deskripsi' => "Aplikasi pemesanan makanan online untuk kantin sekolah.\n\nFitur unggulan:\n- Pre-order makanan tanpa antre\n- Notifikasi pesanan siap\n- Dompet digital siswa\n- Rekomendasi menu favorit",
+                'kategori' => 'Mobile Development',
+                'teknologi' => ['Flutter', 'Firebase'],
+                'nama_siswa' => 'Hilal Nabiil Mukhtar Prasetya',
+                'kelas' => 'XI RPL 1',
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/solaria-app.svg',
+                'url_demo' => null,
+                'url_repo' => null,
+            ],
+            [
+                'judul' => 'MediMate',
+                'deskripsi' => "Platform konsultasi kesehatan digital untuk remaja.\n\nFitur unggulan:\n- Chat dengan konselor\n- Cek kebutuhan kalori & gizi\n- Reminder jadwal minum obat\n- Artikel kesehatan terkurasi",
+                'kategori' => 'Web Development',
+                'teknologi' => ['Laravel', 'Alpine.js', 'PostgreSQL'],
+                'nama_siswa' => 'Syandana Reska Josawa',
+                'kelas' => 'XI RPL 1',
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/medimate.svg',
+                'url_demo' => null,
+                'url_repo' => null,
+            ],
+            [
+                'judul' => 'Campus Map 360',
+                'deskripsi' => "Tur virtual kampus dengan peta interaktif 360 derajat.\n\nFitur unggulan:\n- Panorama 360 derajat\n- Navigasi antar gedung\n- Info point menarik\n- Embed ke website sekolah",
+                'kategori' => 'Web Development',
+                'teknologi' => ['Three.js', 'JavaScript', 'PHP'],
+                'nama_siswa' => 'Rifky Dhafa Putra Triwardhana',
+                'kelas' => 'XI RPL 1',
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/campus-map-360.svg',
+                'url_demo' => null,
+                'url_repo' => null,
+            ],
+            [
+                'judul' => 'FINSPIRE',
+                'deskripsi' => "Media pembelajaran finansial berbasis gamifikasi untuk remaja.\n\nJuara 3 Business Plan JHIC 2026. Fitur unggulan:\n- Simulasi investasi virtual\n- Misi harian & reward XP\n- Leaderboard nasional\n- Materi literasi keuangan",
+                'kategori' => 'Game & Simulasi',
+                'teknologi' => ['Laravel', 'Vue.js', 'MySQL'],
+                'nama_siswa' => 'Arrassyd Nanda Fairuz',
                 'kelas' => 'XII RPL 2',
-                'tahun' => '2025',
-                'gambar' => $this->downloadImage('https://picsum.photos/seed/portfolio-website/800/600', 'portfolio-website.jpg'),
-                'url_demo' => 'https://portofolio-maya.vercel.app',
-                'url_repo' => 'https://github.com/smkrpl/portfolio-3d',
-                'status' => 'published',
-                'user_id' => $admin->id,
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/finspire.svg',
+                'url_demo' => null,
+                'url_repo' => null,
+            ],
+            [
+                'judul' => 'Trippa',
+                'deskripsi' => "Perencana perjalanan wisata Yogyakarta berbasis AI.\n\nFitur unggulan:\n- Generate itinerary otomatis\n- Estimasi biaya perjalanan\n- Rekomendasi kuliner lokal\n- Sharing itinerary ke teman",
+                'kategori' => 'Mobile Development',
+                'teknologi' => ['React Native', 'Laravel API'],
+                'nama_siswa' => 'Hasan Nur Adhi Wibowo',
+                'kelas' => 'XI RPL 1',
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/trippa.svg',
+                'url_demo' => null,
+                'url_repo' => null,
+            ],
+            [
+                'judul' => 'Libra.net',
+                'deskripsi' => "Sistem perpustakaan digital sekolah dengan katalog online.\n\nFitur unggulan:\n- Peminjaman & reservasi online\n- Rekomendasi buku\n- Notifikasi jatuh tempo\n- Statistik baca siswa",
+                'kategori' => 'Web Development',
+                'teknologi' => ['CodeIgniter', 'Bootstrap', 'MySQL'],
+                'nama_siswa' => 'Reifan Putra Pratama',
+                'kelas' => 'XII RPL 2',
+                'tahun' => 2026,
+                'gambar' => 'karya-siswa/posters/libra-net.svg',
+                'url_demo' => null,
+                'url_repo' => null,
             ],
         ];
 
-        foreach ($karyaSiswas as $karyaSiswa) {
-            KaryaSiswa::create($karyaSiswa);
+        foreach ($karya as $data) {
+            if ($data['gambar'] && !\Storage::disk('public')->exists($data['gambar'])) {
+                $this->command->warn("Gambar tidak ditemukan: {$data['gambar']}");
+                $data['gambar'] = null;
+            }
+
+            KaryaSiswa::create([
+                'user_id' => $admin->id,
+                'judul' => $data['judul'],
+                'deskripsi' => $data['deskripsi'],
+                'kategori' => $data['kategori'],
+                'teknologi' => $data['teknologi'],
+                'nama_siswa' => $data['nama_siswa'],
+                'kelas' => $data['kelas'],
+                'tahun' => $data['tahun'],
+                'gambar' => $data['gambar'],
+                'url_demo' => $data['url_demo'],
+                'url_repo' => $data['url_repo'],
+                'status' => 'published',
+                'published_at' => now()->subDays(count($karya)),
+            ]);
         }
 
-        $this->command->info('✓ Karya siswa seeded successfully (6 records)');
+        $this->command->info('✓ Karya Siswa seeded successfully (' . count($karya) . ' dummy records)');
     }
 }

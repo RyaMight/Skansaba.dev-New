@@ -3,144 +3,151 @@
 namespace Database\Seeders;
 
 use App\Models\Alumni;
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
 class AlumniSeeder extends Seeder
 {
-    private function downloadImage($url, $filename): ?string
-    {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        
-        $contents = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        
-        if ($httpCode !== 200 || $contents === false) {
-            $this->command->warn("Failed to download: {$filename}");
-            return null;
-        }
-        
-        $path = 'alumni/' . $filename;
-        Storage::disk('public')->put($path, $contents);
-        $this->command->info("Downloaded: {$filename}");
-        
-        return $path;
-    }
-
     /**
      * Run the database seeds.
+     * Data disinkronkan dari https://skansaba.dev
+     * Foto sudah tersedia di storage/app/public/alumni/
      */
     public function run(): void
     {
-        $admin = User::where('email', 'admin@rpl.sch.id')->first();
+        Alumni::truncate();
 
-        if (!$admin) {
-            $this->command->warn('Admin user not found. Skipping Alumni seeder.');
-            return;
-        }
+        $admin = \App\Models\User::where('role', 'admin')->first();
+        $adminId = $admin?->id ?? 1;
 
-        $alumniData = [
+        $alumni = [
+            // Angkatan 2026
             [
-                'nama' => 'Ahmad Fauzi',
-                'tahun_lulus' => 2023,
-                'status_alumni' => 'kuliah',
-                'institusi' => 'Institut Teknologi Bandung',
-                'bidang' => 'Teknik Informatika',
-                'foto' => $this->downloadImage('https://i.pravatar.cc/400?img=11', 'alumni-ahmad-fauzi.jpg'),
-                'deskripsi' => "## Profil Singkat\n\nMelanjutkan kuliah di ITB dengan beasiswa prestasi.\n\n**Pencapaian:**\n- Beasiswa penuh ITB\n- Aktif di komunitas open source\n- Fokus di bidang AI dan Machine Learning",
-                'status' => 'published',
-                'published_at' => now()->subDays(10),
-            ],
-            [
-                'nama' => 'Siti Nurhaliza',
-                'tahun_lulus' => 2023,
+                'nama' => 'Fitrah Nur Ivanto',
+                'tahun_lulus' => 2026,
                 'status_alumni' => 'kerja',
-                'institusi' => 'PT Gojek Indonesia',
-                'bidang' => 'Frontend Developer',
-                'foto' => $this->downloadImage('https://i.pravatar.cc/400?img=27', 'alumni-siti-nurhaliza.jpg'),
-                'deskripsi' => "## Pengalaman Kerja\n\nBergabung dengan Gojek sebagai Frontend Developer sejak lulus.\n\n**Tech Stack:**\n- React.js & Next.js\n- TypeScript\n- Tailwind CSS",
-                'status' => 'published',
-                'published_at' => now()->subDays(9),
-            ],
-            [
-                'nama' => 'Budi Santoso',
-                'tahun_lulus' => 2022,
-                'status_alumni' => 'wirausaha',
-                'institusi' => 'TechStart Solutions',
-                'bidang' => 'Software Development',
-                'foto' => $this->downloadImage('https://i.pravatar.cc/400?img=13', 'alumni-budi-santoso.jpg'),
-                'deskripsi' => "## Perjalanan Wirausaha\n\nMendirikan startup di bidang software development.\n\n**Fokus Bisnis:**\n- Web & Mobile App Development\n- IT Consulting\n- Cloud Solutions",
-                'status' => 'published',
-                'published_at' => now()->subDays(8),
-            ],
-            [
-                'nama' => 'Dewi Lestari',
-                'tahun_lulus' => 2024,
-                'status_alumni' => 'kuliah',
-                'institusi' => 'Universitas Indonesia',
-                'bidang' => 'Sistem Informasi',
-                'foto' => $this->downloadImage('https://i.pravatar.cc/400?img=44', 'alumni-dewi-lestari.jpg'),
-                'deskripsi' => "## Pengalaman Akademis\n\nSaat ini sedang menempuh S1 Sistem Informasi di UI.\n\n**Aktivitas:**\n- Anggota BEM Fakultas\n- Asisten praktikum programming\n- Peserta hackathon regional",
-                'status' => 'published',
-                'published_at' => now()->subDays(7),
-            ],
-            [
-                'nama' => 'Rizki Pratama',
-                'tahun_lulus' => 2022,
-                'status_alumni' => 'kerja',
-                'institusi' => 'Tokopedia',
-                'bidang' => 'Backend Engineer',
-                'foto' => $this->downloadImage('https://i.pravatar.cc/400?img=14', 'alumni-rizki-pratama.jpg'),
-                'deskripsi' => "## Karir di Tech Industry\n\nBekerja sebagai Backend Engineer di Tokopedia.\n\n**Expertise:**\n- Go Lang\n- Microservices Architecture\n- Docker & Kubernetes",
-                'status' => 'published',
-                'published_at' => now()->subDays(6),
-            ],
-            [
-                'nama' => 'Eka Putri',
-                'tahun_lulus' => 2021,
-                'status_alumni' => 'kerja',
-                'institusi' => 'Bank Central Asia',
-                'bidang' => 'IT Security Analyst',
-                'foto' => $this->downloadImage('https://i.pravatar.cc/400?img=48', 'alumni-eka-putri.jpg'),
-                'deskripsi' => "## Karir di Perbankan\n\nBergabung dengan BCA sebagai IT Security Analyst.\n\n**Fokus Pekerjaan:**\n- Cybersecurity\n- Network Security\n- Penetration Testing",
-                'status' => 'published',
-                'published_at' => now()->subDays(5),
-            ],
-            [
-                'nama' => 'Arif Hidayat',
-                'tahun_lulus' => 2023,
-                'status_alumni' => 'wirausaha',
-                'institusi' => 'Kreasi Digital Studio',
-                'bidang' => 'Digital Marketing & Design',
-                'foto' => $this->downloadImage('https://i.pravatar.cc/400?img=52', 'alumni-arif-hidayat.jpg'),
-                'deskripsi' => "## Membangun Bisnis Kreatif\n\nMendirikan studio kreatif yang fokus di digital marketing.\n\n**Layanan:**\n- Social Media Management\n- Graphic Design\n- Website Development",
-                'status' => 'published',
-                'published_at' => now()->subDays(4),
-            ],
-            [
-                'nama' => 'Andi Wijaya',
-                'tahun_lulus' => 2024,
-                'status_alumni' => 'belum_diketahui',
-                'institusi' => null,
-                'bidang' => null,
+                'institusi' => 'Creativemu',
+                'bidang' => 'Web Developer',
                 'deskripsi' => null,
-                'status' => 'draft',
-                'published_at' => null,
+                'foto' => 'alumni/6ad59accddc71_1792383692.webp',
+            ],
+            [
+                'nama' => 'Ridhwan Nur Alif',
+                'tahun_lulus' => 2026,
+                'status_alumni' => 'kerja',
+                'institusi' => 'PT Indo Technomedic',
+                'bidang' => 'Programer',
+                'deskripsi' => 'PT Indo Technomedic adalah Penyedia ekosistem sistem informasi manajemen rumah sakit (SIMRS) dan fasilitas kesehatan terpadu, berstandar regulasi nasional Kemenkes & BPJS Kesehatan.',
+                'foto' => 'alumni/6ad59b723d4de_1792383858.webp',
+            ],
+            [
+                'nama' => 'Dimas Mayang Seto',
+                'tahun_lulus' => 2026,
+                'status_alumni' => 'kuliah',
+                'institusi' => 'Universitas Ahmad Dahlan',
+                'bidang' => 'Pendidikan Guru Sekolah Dasar',
+                'deskripsi' => null,
+                'foto' => 'alumni/6ad59bf70f552_1792383991.webp',
+            ],
+            [
+                'nama' => 'Hasna Sajida',
+                'tahun_lulus' => 2026,
+                'status_alumni' => 'kuliah',
+                'institusi' => 'Universitas Muhammadiyah Yogyakarta',
+                'bidang' => 'Pendidikan Bahasa Jepang',
+                'deskripsi' => null,
+                'foto' => 'alumni/6ad5a00d12fde_1792385037.webp',
+            ],
+            [
+                'nama' => 'Rafi Ibnugroho Wicaksono',
+                'tahun_lulus' => 2026,
+                'status_alumni' => 'kuliah',
+                'institusi' => 'Universitas Negeri Yogyakarta',
+                'bidang' => 'S1 Teknologi Informasi',
+                'deskripsi' => null,
+                'foto' => 'alumni/6ad5a06f8fcba_1792385135.webp',
+            ],
+            [
+                'nama' => 'Qisra Adena Isaura',
+                'tahun_lulus' => 2026,
+                'status_alumni' => 'kuliah',
+                'institusi' => 'Universitas Telkom',
+                'bidang' => 'Rekayasa Perangkat Lunak',
+                'deskripsi' => null,
+                'foto' => 'alumni/6ad5a0be27c9b_1792385214.webp',
+            ],
+            [
+                'nama' => 'Arifzha Reski',
+                'tahun_lulus' => 2026,
+                'status_alumni' => 'kuliah',
+                'institusi' => 'Universitas Negeri Yogyakarta',
+                'bidang' => 'Pendidikan Teknik Informatika',
+                'deskripsi' => null,
+                'foto' => 'alumni/6ad5a11a4f438_1792385306.webp',
+            ],
+
+            // Angkatan 2025
+            [
+                'nama' => 'Lathif Nur Hidayat',
+                'tahun_lulus' => 2025,
+                'status_alumni' => 'kerja',
+                'institusi' => 'PT Indo Techno Medic',
+                'bidang' => 'Junior Programmer',
+                'deskripsi' => 'PT INDO TECHNO MEDIC merupakan sebuah perusahaan yang bergerak di bidang teknologi, produk yang kami hasilkan adalah software aplikasi berbasis web maupun android.',
+                'foto' => 'alumni/69fd80cb1cda2_1778221259.webp',
+            ],
+
+            // Angkatan 2024
+            [
+                'nama' => 'Muhammad Aulia Rasyid',
+                'tahun_lulus' => 2024,
+                'status_alumni' => 'kerja',
+                'institusi' => 'PT Arita Prima Indonesia Tbk',
+                'bidang' => 'Junior Programmer',
+                'deskripsi' => "Muhammad Aulia Rasyid pernah meraih juara 2 LKS Web Technologies tingkat Provinsi DIY tahun 2023. Saat ini bekerja sebagai Junior Programmer di PT Arita Prima Indonesia Tbk, sebuah perusahaan yang bergerak dalam bidang impor, distribusi, dan servis produk valve.",
+                'foto' => 'alumni/69f2d65a0e67f_1777522266.webp',
+            ],
+
+            // Angkatan 2023
+            [
+                'nama' => 'Enricko Putra Hartono',
+                'tahun_lulus' => 2023,
+                'status_alumni' => 'kerja',
+                'institusi' => 'PT. BINAV MAJU SEJAHTERA',
+                'bidang' => 'Junior Programmer',
+                'deskripsi' => 'PT. Binav Maju Sejahtera Pusat inovasi pemetaan, survei, dan produk kartografi yang terkemuka.',
+                'foto' => 'alumni/69fc4f0f2dde4_1778142991.webp',
+            ],
+            [
+                'nama' => 'Alfian Gading Saputra',
+                'tahun_lulus' => 2023,
+                'status_alumni' => 'kuliah',
+                'institusi' => 'Universitas Teknologi Yogyakarta',
+                'bidang' => 'S1 Teknik Informatika',
+                'deskripsi' => 'Alfian Gading Saputra pernah menjadi perwakilan Daerah Istimewa Yogyakarta dalam ajang Lomba Kompetensi Siswa tingkat NASIONAL Bidang IT Software Solution for Business dan membawa pulang medali Perunggu tahun 2022.',
+                'foto' => 'alumni/69fd8394a241f_1778221972.webp',
             ],
         ];
 
-        foreach ($alumniData as $data) {
-            Alumni::create(array_merge($data, [
-                'user_id' => $admin->id,
-            ]));
+        foreach ($alumni as $data) {
+            if ($data['foto'] && !\Storage::disk('public')->exists($data['foto'])) {
+                $this->command->warn("Foto tidak ditemukan, lewati: {$data['foto']}");
+                $data['foto'] = null;
+            }
+
+            Alumni::create([
+                'user_id' => $adminId,
+                'nama' => $data['nama'],
+                'tahun_lulus' => $data['tahun_lulus'],
+                'status_alumni' => $data['status_alumni'],
+                'institusi' => $data['institusi'],
+                'bidang' => $data['bidang'],
+                'deskripsi' => $data['deskripsi'],
+                'foto' => $data['foto'],
+                'status' => 'published',
+                'published_at' => now(),
+            ]);
         }
 
-        $this->command->info('✅ Alumni seeded successfully (8 records)!');
+        $this->command->info('✓ Alumni seeded successfully (' . count($alumni) . ' records) - data skansaba.dev');
     }
 }

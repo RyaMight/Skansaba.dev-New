@@ -1,300 +1,693 @@
-<div>
-    {{-- Hero Section --}}
-    <section class="bg-white py-8 md:py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-            <h1 class="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-800 mb-3">
-                Konsentrasi Keahlian <span style="color: {{ $globalSettings->primary_color_style }}">RPL</span>
-            </h1>
-            <p class="text-base sm:text-lg text-gray-600 font-semibold opacity-85 max-w-4xl mx-auto">
-                Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia
-            </p>
-        </div>
-    </section>
+<div class="overflow-x-hidden">
+    {{-- ============================================ --}}
+    {{-- Hero: Kosentrasi Keahlian Slider --}}
+    {{-- ============================================ --}}
+    <section
+        class="pt-8 lg:pt-12 pb-10 lg:pb-14"
+        x-data="{
+            N: {{ $sliders->count() }},
+            index: {{ $sliders->count() }},
+            slideW: 0,
+            viewW: 0,
+            cardW: 0,
 
-    {{-- Landing Hero Slider (Boxed 16:9) --}}
-<section class="bg-white py-5">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6">
-        <div 
-            x-data="{ 
-                currentSlide: 0,
-                slides: {{ $sliders->count() }},
-                autoplay: null,
+            init() {
+                this.measure();
+                this.$nextTick(() => {
+                    this.measure();
+                    this.apply(false);
+                });
+                setTimeout(() => { this.measure(); this.apply(false); }, 400);
+                this.startBlurLoop();
+            },
 
-                init() { this.startAutoplay() },
-                startAutoplay() {
-                    this.autoplay = setInterval(() => this.next(), 5000);
-                },
-                stopAutoplay() { clearInterval(this.autoplay) },
-                next() { this.currentSlide = (this.currentSlide + 1) % this.slides },
-                prev() { this.currentSlide = (this.currentSlide - 1 + this.slides) % this.slides },
-                goTo(i) {
-                    this.currentSlide = i;
-                    this.stopAutoplay();
-                    this.startAutoplay();
-                }
-            }"
-            class="relative aspect-[2048/1072] overflow-hidden rounded-xl md:rounded-2xl shadow-lg bg-gray-900"
-            @mouseenter="stopAutoplay()"
-            @mouseleave="startAutoplay()"
-        >
+            measure() {
+                const vp = this.$refs.viewport;
+                const track = this.$refs.track;
+                if (!vp || !track || track.children.length < 2) return;
+                this.viewW = vp.clientWidth;
+                this.slideW = track.children[1].offsetLeft - track.children[0].offsetLeft;
+                this.cardW = track.children[0].getBoundingClientRect().width;
+                this.apply(false);
+            },
 
-            {{-- Slides --}}
-            @foreach($sliders as $index => $slider)
-                <div
-                    x-show="currentSlide === {{ $index }}"
-                    x-transition:enter="transition ease-out duration-500"
-                    x-transition:enter-start="opacity-0 scale-105"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    class="absolute inset-0"
-                >
-                    <img 
-                        src="{{ asset('storage/' . $slider->image) }}"
-                        alt="{{ $slider->title }}"
-                        class="w-full h-full object-cover"
-                    >
+            // Blur dihitung dari POSISI VISUAL tiap slide terhadap tengah
+            // viewport, bukan dari index. Efeknya blur bergerak mulus:
+            // buram di pinggir -> jernih saat sampai tengah -> buram lagi
+            // saat meninggalkan tengah, mengikuti animasi geser.
+            startBlurLoop() {
+                const track = this.$refs.track;
+                const vp = this.$refs.viewport;
+                if (!track || !vp) return;
 
-                    {{-- Overlay --}}
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                const MAX_BLUR = 9;
+                const BLUR_PER_SLOT = 4.2;
+                const MIN_OPACITY = 0.45;
 
-                    {{-- Text --}}
-                    <div class="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8 text-white">
-                        <h2 class="text-lg sm:text-2xl lg:text-4xl font-bold drop-shadow-lg">
-                            {{ $slider->title }}
-                        </h2>
-                        @if($slider->subtitle)
-                            <p class="mt-1 sm:mt-2 text-xs sm:text-sm lg:text-lg max-w-2xl drop-shadow line-clamp-2">
-                                {{ $slider->subtitle }}
-                            </p>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
+                const tick = () => {
+                    const vpRect = vp.getBoundingClientRect();
+                    const centerX = vpRect.left + vpRect.width / 2;
+                    const kids = track.children;
 
-            {{-- Arrows --}}
-            <button
-                @click="prev()"
-                class="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/60 text-white p-2 sm:p-3 rounded-full backdrop-blur transition text-xl sm:text-2xl"
-            >
-                ‹
-            </button>
+                    // Pass 1: baca semua posisi (hindari layout thrashing)
+                    const rects = [];
+                    for (let i = 0; i < kids.length; i++) {
+                        rects.push(kids[i].getBoundingClientRect());
+                    }
 
-            <button
-                @click="next()"
-                class="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/30 hover:bg-white/60 text-white p-2 sm:p-3 rounded-full backdrop-blur transition text-xl sm:text-2xl"
-            >
-                ›
-            </button>
+                    // Pass 2: tulis filter & opacity
+                    for (let i = 0; i < kids.length; i++) {
+                        const r = rects[i];
+                        const c = r.left + r.width / 2;
+                        const slots = Math.abs(c - centerX) / (r.width || 1);
 
-            {{-- Indicators --}}
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                @foreach($sliders as $index => $slider)
-                    <button
-                        @click="goTo({{ $index }})"
-                        class="h-2 rounded-full transition-all"
-                        :class="currentSlide === {{ $index }} ? 'bg-white w-8' : 'bg-white/50 w-3'"
-                    ></button>
-                @endforeach
-            </div>
+                        const blur = Math.min(MAX_BLUR, slots * BLUR_PER_SLOT);
+                        const opacity = Math.max(MIN_OPACITY, 1 - slots * 0.2);
 
-        </div>
-    </div>
-</section>
+                        const f = blur < 0.05 ? '' : 'blur(' + blur.toFixed(2) + 'px)';
+                        const o = opacity.toFixed(3);
 
+                        const el = kids[i];
+                        if (el.dataset.blurVal !== f) {
+                            el.style.filter = f;
+                            el.dataset.blurVal = f;
+                        }
+                        if (el.dataset.opVal !== o) {
+                            el.style.opacity = o;
+                            el.dataset.opVal = o;
+                        }
+                    }
 
-    {{-- Prospek Karir & Mata Pelajaran --}}
-    <section class="py-12 md:py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="grid lg:grid-cols-2 gap-6 md:gap-8">
-                {{-- Prospek Karir --}}
-                <div class="bg-white rounded-xl p-6 md:p-8 shadow-sm">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    requestAnimationFrame(tick);
+                };
+                requestAnimationFrame(tick);
+            },
+
+            // Slide aktif tepat di tengah: pakai lebar card (tanpa gap),
+            // sedangkan pergeseran antar slide memakai slideW (termasuk gap).
+            posFor(i) {
+                if (!this.slideW || !this.viewW) return 0;
+                const cardW = this.cardW || this.slideW;
+                return -(i * this.slideW - (this.viewW - cardW) / 2);
+            },
+
+            // Satu-satunya tempat yang menyentuh transform & transition.
+            apply(animate) {
+                const track = this.$refs.track;
+                if (!track) return;
+                track.style.transition = animate
+                    ? 'transform 700ms cubic-bezier(0.22, 1, 0.36, 1)'
+                    : 'none';
+                track.style.transform = 'translateX(' + this.posFor(this.index) + 'px)';
+            },
+
+            // Geser ke kiri satu langkah (slide berikutnya masuk dari kanan).
+            go(target) {
+                const track = this.$refs.track;
+                if (!track) { this.index = target; return; }
+                this.index = target;
+                track.style.transition = 'transform 700ms cubic-bezier(0.22, 1, 0.36, 1)';
+                track.style.transform = 'translateX(' + this.posFor(target) + 'px)';
+            },
+
+            // Pindah tanpa animasi (dipakai saat normalisasi loop)
+            snap(target) {
+                const track = this.$refs.track;
+                if (!track) return;
+                this.index = target;
+                track.style.transition = 'none';
+                track.style.transform = 'translateX(' + this.posFor(target) + 'px)';
+                void track.offsetHeight;
+            },
+
+            // Normalisasi dilakukan tepat SEBELUM geser berikutnya, sehingga
+            // progress bar selalu mulai dari 0 tepat saat slide baru aktif.
+            // Index hasil normalisasi menunjuk salinan yang tampilannya identik.
+            normalize() {
+                if (!this.N) return this.index;
+                if (this.index >= this.N * 2 - 1) return this.index - this.N;
+                if (this.index < 1) return this.index + this.N;
+                return this.index;
+            },
+
+            advance() {
+                if (this.N < 2) return;
+                const n = this.normalize();
+                if (n !== this.index) this.snap(n);
+                this.go(this.index + 1);
+            },
+
+            back() {
+                if (this.N < 2) return;
+                const n = this.normalize();
+                if (n !== this.index) this.snap(n);
+                if (this.index <= 0) return;
+                this.go(this.index - 1);
+            },
+
+            isActive(pos) {
+                return pos === this.index;
+            }
+        }"
+        @resize.window.debounce.200="measure()"
+    >
+        <div class="site-container">
+            {{-- Heading (2 baris seperti desain) + Arrows --}}
+            <div class="flex items-end justify-between gap-6 mb-7 lg:mb-9" data-reveal>
+                <h1 class="text-4xl sm:text-5xl lg:text-[56px] font-extrabold tracking-tight text-gray-900 leading-[1.05]">
+                    Kosentrasi Keahlian
+                    <span class="block" style="color: {{ $globalSettings->primary_color_style }}">RPL</span>
+                </h1>
+                @if($sliders->count() > 1)
+                    <div class="hidden sm:flex items-center gap-3 flex-shrink-0 pb-1">
+                        <button
+                            @click="back()"
+                            class="w-11 h-11 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            aria-label="Slide sebelumnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
                             </svg>
-                        </div>
-                        <h2 class="text-xl md:text-2xl font-bold text-gray-900">Prospek Karir</h2>
+                        </button>
+                        <button
+                            @click="advance()"
+                            class="w-11 h-11 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            aria-label="Slide berikutnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                            </svg>
+                        </button>
                     </div>
-                    
-                    @if($prospekKarir->isNotEmpty())
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            @foreach($prospekKarir as $karir)
-                                <div class="text-sm bg-blue-50 rounded-lg px-3 py-2 font-medium hover:bg-blue-100 transition" style="color: {{ $globalSettings->primary_color_style }}">
-                                    {{ $karir->title }}
+                @endif
+            </div>
+        </div>
+
+        @if($sliders->isNotEmpty())
+            {{-- Band full-width: slide aktif di tengah, tetangga kiri & kanan menyambung --}}
+            <div class="bg-gray-100/80 py-6 lg:py-8" data-reveal>
+                <div class="overflow-hidden" x-ref="viewport">
+                    <div
+                        x-ref="track"
+                        class="flex gap-14 lg:gap-24 will-change-transform"
+                        style="transform: translateX(0px)"
+                    >
+                        @foreach([0, 1, 2] as $copy)
+                            @foreach($sliders as $index => $slider)
+                                @php $pos = $copy * $sliders->count() + $index; @endphp
+                                <div class="hero-slide flex-none grid gap-4 lg:gap-5 grid-cols-[38%_62%]">
+                                    {{-- Dark Card --}}
+                                    <div class="bg-slate-800 rounded-2xl p-6 lg:p-8 flex flex-col justify-between h-[300px] sm:h-[360px] lg:h-[420px]">
+                                        <div>
+                                            <h3 class="text-white text-lg lg:text-[26px] font-bold leading-snug">{{ $slider->title }}</h3>
+                                            @if($slider->subtitle)
+                                                <p class="text-slate-400 text-[11px] lg:text-sm leading-relaxed mt-4 lg:mt-6 line-clamp-5">
+                                                    {{ $slider->subtitle }}
+                                                </p>
+                                            @endif
+                                        </div>
+
+                                        {{-- Progress bar: hanya slide aktif yang beranimasi & memicu geser --}}
+                                        <div
+                                            class="h-[3px] bg-white/25 rounded-full overflow-hidden mt-4"
+                                            x-show="isActive({{ $pos }})"
+                                        >
+                                            <template x-for="tick in [index]" :key="'bar-{{ $pos }}-' + tick">
+                                                <div
+                                                    class="h-full bg-white rounded-full"
+                                                    style="animation: slider-progress 5s linear forwards"
+                                                    @animationend="if (isActive({{ $pos }})) advance()"
+                                                ></div>
+                                            </template>
+                                        </div>
+                                    </div>
+
+                                    {{-- Image --}}
+                                    <div class="rounded-2xl overflow-hidden bg-slate-800 h-[300px] sm:h-[360px] lg:h-[420px]">
+                                        <img
+                                            src="{{ asset('storage/' . $slider->image) }}"
+                                            alt="{{ $slider->title }}"
+                                            class="w-full h-full object-cover"
+                                            @if($copy !== 1 || $index !== 0) loading="lazy" @endif
+                                        >
+                                    </div>
                                 </div>
                             @endforeach
-                        </div>
-                    @else
-                        <p class="text-center text-gray-500 py-8">Data prospek karir belum tersedia</p>
-                    @endif
-                </div>
-
-                {{-- Mata Pelajaran Unggulan --}}
-                <div class="bg-white rounded-xl p-6 md:p-8 shadow-sm">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <svg class="w-6 h-6" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-                            </svg>
-                        </div>
-                        <h2 class="text-xl md:text-2xl font-bold text-gray-900">Mata Pelajaran Unggulan</h2>
-                    </div>
-                    
-                    <div class="space-y-4">
-                        @php
-                        $mapel = [
-                            ['title' => 'Pemrograman Web & Mobile', 'desc' => 'Mengembangkan aplikasi website dan mobile dengan teknologi modern'],
-                            ['title' => 'Database Management', 'desc' => 'Mengelola dan mengoptimalkan sistem database untuk aplikasi enterprise'],
-                            ['title' => 'UI/UX Design', 'desc' => 'Mendesain antarmuka pengguna yang menarik dan mudah digunakan'],
-                            ['title' => 'Keamanan Siber', 'desc' => 'Melindungi sistem dan data dari ancaman keamanan digital'],
-                            ['title' => 'Cloud Computing', 'desc' => 'Mengembangkan solusi berbasis cloud untuk skala enterprise'],
-                            ['title' => 'Kecerdasan Buatan', 'desc' => 'Membangun sistem AI dan machine learning untuk aplikasi cerdas'],
-                        ];
-                        @endphp
-                        @foreach($mapel as $item)
-                            <div class="flex gap-3 p-3 bg-gray-50 rounded-lg hover:bg-blue-50 transition">
-                                <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}"></div>
-                                <div>
-                                    <h3 class="font-bold text-gray-900 mb-1">{{ $item['title'] }}</h3>
-                                    <p class="text-sm text-gray-600">{{ $item['desc'] }}</p>
-                                </div>
-                            </div>
                         @endforeach
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    {{-- Highlight Prestasi --}}
-    <section class="py-12 md:py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 md:mb-12">
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Prestasi Siswa</h2>
-                <a href="/prestasi" class="font-semibold flex items-center gap-2 hover:opacity-80 transition text-sm sm:text-base" style="color: {{ $globalSettings->primary_color_style }}">
-                    Lihat Semua
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-            
-            @if($prestasi->isNotEmpty())
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    @foreach($prestasi as $item)
-                        <a href="/prestasi/{{ $item->id }}" class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition block">
-                            @if($item->gambar)
-                                <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" class="w-full aspect-video object-cover group-hover:scale-105 transition duration-300">
-                            @else
-                                <div class="w-full aspect-video bg-gradient-to-br" style="background-image: linear-gradient(to bottom right, {{ $globalSettings->primary_color_style }}, {{ $globalSettings->primary_color_style }}dd)"></div>
-                            @endif
-                            <div class="p-4 md:p-6">
-                                <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full mb-3">
-                                    🏆 {{ $item->jenis }}
-                                </span>
-                                <h3 class="font-bold text-base md:text-lg text-gray-900 mb-2 group-hover:text-gray-700 transition line-clamp-2">{{ $item->judul }}</h3>
-                                <p class="text-sm text-gray-600 line-clamp-1">{{ $item->penyelenggara }}</p>
-                                <p class="text-xs text-gray-500 mt-2">{{ $item->tanggal_prestasi->format('d M Y') }}</p>
-                            </div>
-                        </a>
-                    @endforeach
+            {{-- Mobile Arrows --}}
+            @if($sliders->count() > 1)
+                <div class="site-container">
+                    <div class="flex sm:hidden items-center justify-end gap-3 mt-6">
+                        <button
+                            @click="back()"
+                            class="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 transition"
+                            aria-label="Slide sebelumnya"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
+                            </svg>
+                        </button>
+                        <button
+                            @click="advance()"
+                            class="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-700 transition"
+                            aria-label="Slide berikutnya"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
-            @else
-                <p class="text-center text-gray-500">Belum ada data prestasi</p>
             @endif
-        </div>
-    </section>
-
-    {{-- Highlight Berita --}}
-    <section class="py-12 md:py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 md:mb-12">
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">Berita Terbaru</h2>
-                <a href="/berita" class="font-semibold flex items-center gap-2 hover:opacity-80 transition text-sm sm:text-base" style="color: {{ $globalSettings->primary_color_style }}">
-                    Baca Berita Lainnya
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-            
-            @if($berita->isNotEmpty())
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                    @foreach($berita as $item)
-                        <a href="/berita/{{ $item->slug }}" class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition block">
-                            @if($item->thumbnail)
-                                <img src="{{ asset('storage/' . $item->thumbnail) }}" alt="{{ $item->title }}" class="w-full aspect-video object-cover group-hover:scale-105 transition duration-300">
-                            @else
-                                <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
-                            @endif
-                            <div class="p-4 md:p-6">
-                                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-xs font-semibold rounded-full mb-3">
-                                    {{ $item->status }}
-                                </span>
-                                <h3 class="font-bold text-base md:text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-gray-700 transition">{{ $item->title }}</h3>
-                                <p class="text-sm text-gray-600 line-clamp-2 mb-3">{{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}</p>
-                                <p class="text-xs text-gray-500">{{ $item->published_at->diffForHumans() }}</p>
-                            </div>
-                        </a>
-                    @endforeach
+        @else
+            <div class="site-container">
+                <div class="rounded-2xl bg-white border border-gray-100 h-72 flex items-center justify-center text-gray-400 text-sm" data-reveal>
+                    Belum ada slide yang ditambahkan
                 </div>
-            @else
-                <p class="text-center text-gray-500">Belum ada berita terbaru</p>
-            @endif
-        </div>
+            </div>
+        @endif
     </section>
 
-    {{-- Mitra --}}
-    <section class="py-12 md:py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
-            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-8 md:mb-12">Mitra & Industri</h2>
-            
+    {{-- ============================================ --}}
+    {{-- Marquee Logo Mitra (2 baris berlawanan arah) --}}
+    {{-- ============================================ --}}
+    <section class="py-10 lg:py-14">
+        <div class="w-full">
             @if($mitras->isNotEmpty())
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-8 items-center">
-                    @foreach($mitras as $mitra)
-                        @if($mitra->website)
-                            <a 
-                                href="{{ $mitra->website }}" 
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="group flex items-center justify-center p-4 rounded-lg hover:bg-gray-50 transition-all duration-300"
-                                title="{{ $mitra->nama_mitra }}"
-                            >
-                                @if($mitra->logo)
-                                    <img 
-                                        src="{{ asset('storage/' . $mitra->logo) }}" 
-                                        alt="{{ $mitra->nama_mitra }}"
-                                        class="w-20 h-20 md:w-24 md:h-24 object-contain grayscale group-hover:grayscale-0 transition-all duration-300 group-hover:scale-110"
-                                    >
-                                @else
-                                    <div class="w-20 h-20 md:w-24 md:h-24 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs group-hover:bg-gray-300 transition">
-                                        {{ $mitra->nama_mitra }}
-                                    </div>
-                                @endif
-                            </a>
-                        @else
-                            <div class="flex items-center justify-center p-4" title="{{ $mitra->nama_mitra }}">
-                                @if($mitra->logo)
-                                    <img 
-                                        src="{{ asset('storage/' . $mitra->logo) }}" 
-                                        alt="{{ $mitra->nama_mitra }}"
-                                        class="w-20 h-20 md:w-24 md:h-24 object-contain grayscale hover:grayscale-0 transition-all duration-300"
-                                    >
-                                @else
-                                    <div class="w-20 h-20 md:w-24 md:h-24 bg-gray-200 rounded-lg flex items-center justify-center text-gray-400 text-xs">
-                                        {{ $mitra->nama_mitra }}
-                                    </div>
-                                @endif
-                            </div>
-                        @endif
-                    @endforeach
+                @php
+                    $repeat = max(2, (int) ceil(8 / $mitras->count()));
+                    $groupOne = collect();
+                    for ($i = 0; $i < $repeat; $i++) { $groupOne = $groupOne->merge($mitras); }
+                    $groupTwo = $groupOne->reverse()->values();
+                @endphp
+
+                <div class="space-y-4 md:space-y-5 marquee-hover-pause"
+                     data-reveal>
+                    {{-- Baris 1: geser kiri --}}
+                    <div class="overflow-hidden marquee-row">
+                        <div class="flex w-max animate-marquee-left" style="--marquee-duration: 32s">
+                            @foreach([0, 1] as $copy)
+                                <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
+                                    @foreach($groupOne as $mitra)
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
+                                            @if($mitra->logo)
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-9 md:max-h-11 w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                            @else
+                                                <span class="text-xs font-semibold text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Baris 2: geser kanan --}}
+                    <div class="overflow-hidden marquee-row">
+                        <div class="flex w-max animate-marquee-right" style="--marquee-duration: 32s">
+                            @foreach([0, 1] as $copy)
+                                <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
+                                    @foreach($groupTwo as $mitra)
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white px-6 shadow-[0_1px_4px_rgba(15,23,42,0.05)]">
+                                            @if($mitra->logo)
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-9 md:max-h-11 w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                            @else
+                                                <span class="text-xs font-semibold text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             @else
-                <div class="text-center py-12">
-                    <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                <p class="text-center text-gray-400 text-sm" data-reveal>Belum ada mitra yang ditampilkan</p>
+            @endif
+        </div>
+    </section>
+
+    {{-- ============================================ --}}
+    {{-- Karya Siswa Carousel --}}
+    {{-- ============================================ --}}
+    <section class="py-12 lg:py-16">
+        <div class="site-container">
+            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 mb-8 lg:mb-10" data-reveal>
+                Karya Siswa
+            </h2>
+
+            @if($karyaSiswa->isNotEmpty())
+                <div
+                    x-data="{
+                        autoplay: null,
+                        hovering: false,
+                        barWidth: 12,
+                        barLeft: 0,
+
+                        init() {
+                            this.update();
+                            this.start();
+                            this.$nextTick(() => this.update());
+                        },
+
+                        start() {
+                            this.stop();
+                            this.autoplay = setInterval(() => {
+                                if (this.hovering) return;
+                                this.step();
+                            }, 3200);
+                        },
+
+                        stop() {
+                            clearInterval(this.autoplay);
+                        },
+
+                        step() {
+                            const el = this.$refs.track;
+                            if (!el) return;
+                            const max = el.scrollWidth - el.clientWidth;
+                            if (max <= 4) return;
+
+                            // sudah di ujung kanan -> kembali halus ke awal
+                            if (el.scrollLeft >= max - 4) {
+                                el.scrollTo({ left: 0, behavior: 'smooth' });
+                                return;
+                            }
+                            el.scrollBy({ left: this.cardStep(), behavior: 'smooth' });
+                        },
+
+                        cardStep() {
+                            const el = this.$refs.track;
+                            if (!el || !el.children.length) return 280;
+                            const card = el.children[0];
+                            const gap = parseFloat(getComputedStyle(el).columnGap || '20') || 20;
+                            return card.getBoundingClientRect().width + gap;
+                        },
+
+                        scrollCards(dir) {
+                            const el = this.$refs.track;
+                            if (!el) return;
+                            el.scrollBy({ left: dir * this.cardStep(), behavior: 'smooth' });
+                            this.start();
+                        },
+
+                        update() {
+                            const el = this.$refs.track;
+                            if (!el) return;
+                            const scrollable = el.scrollWidth - el.clientWidth;
+                            if (scrollable <= 0) { this.barWidth = 100; this.barLeft = 0; return; }
+                            const visible = (el.clientWidth / el.scrollWidth) * 100;
+                            this.barWidth = Math.max(12, visible * 0.8);
+                            this.barLeft = (el.scrollLeft / scrollable) * (100 - this.barWidth);
+                        }
+                    }"
+                    @mouseenter="hovering = true"
+                    @mouseleave="hovering = false"
+                    class="relative"
+                    data-reveal
+                >
+                    {{-- Track --}}
+                    <div
+                        x-ref="track"
+                        @scroll.passive="update()"
+                        @resize.window.debounce.150="update()"
+                        class="flex gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-1 py-10 -my-10"
+                    >
+                        @foreach($karyaSiswa as $item)
+                            <a
+                                href="/karya/{{ $item->id }}"
+                                class="group relative flex-none w-[200px] sm:w-[240px] lg:w-[260px] aspect-[2/3] rounded-2xl overflow-hidden snap-start bg-slate-800
+                                       transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
+                                       hover:-translate-y-3 hover:scale-[1.06] hover:shadow-[0_24px_48px_-12px_rgba(15,23,42,0.45)] hover:z-20
+                                       hover:ring-1 hover:ring-white/20"
+                            >
+                                @if($item->gambar)
+                                    <img
+                                        src="{{ asset('storage/' . $item->gambar) }}"
+                                        alt="{{ $item->judul }}"
+                                        class="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
+                                        loading="lazy"
+                                    >
+                                @else
+                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-900 p-6">
+                                        <span class="text-white/80 font-bold text-lg text-center">{{ $item->judul }}</span>
+                                    </div>
+                                @endif
+
+                                {{-- Overlay --}}
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none transition-opacity duration-500 group-hover:from-black/70"></div>
+
+                                {{-- Info --}}
+                                <div class="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
+                                    <h3 class="text-white font-bold text-base lg:text-lg leading-snug drop-shadow">{{ $item->judul }}</h3>
+                                    @if($item->nama_siswa)
+                                        <p class="text-white/70 text-xs mt-1 translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75">
+                                            {{ $item->nama_siswa }}{{ $item->kategori ? ' · ' . $item->kategori : '' }}
+                                        </p>
+                                    @endif
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+
+                    {{-- Arrows --}}
+                    <button
+                        @click="scrollCards(-1)"
+                        class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-gray-200 shadow-md items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        aria-label="Geser kiri"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
+                        </svg>
+                    </button>
+                    <button
+                        @click="scrollCards(1)"
+                        class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white border border-gray-200 shadow-md items-center justify-center text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        aria-label="Geser kanan"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                        </svg>
+                    </button>
+
+                    {{-- Progress Bar --}}
+                    <div class="mt-8 lg:mt-10 h-[3px] w-full sm:w-2/3 lg:w-1/2 mx-auto bg-gray-300/60 rounded-full relative">
+                        <div
+                            class="absolute top-0 h-full bg-slate-800 rounded-full transition-all duration-300 ease-out"
+                            :style="`width: ${barWidth}%; left: ${barLeft}%`"
+                        ></div>
+                    </div>
+                </div>
+            @else
+                <div class="rounded-2xl bg-white border border-gray-100 h-56 flex items-center justify-center text-gray-400 text-sm" data-reveal>
+                    Belum ada karya siswa yang dipublikasikan
+                </div>
+            @endif
+        </div>
+    </section>
+
+    {{-- ============================================ --}}
+    {{-- Berita Terbaru --}}
+    {{-- ============================================ --}}
+    <section class="py-12 lg:py-16">
+        <div class="site-container">
+            <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900">
+                    Berita Terbaru
+                </h2>
+                <a
+                    href="/berita"
+                    class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-700 hover:gap-3 transition-all"
+                >
+                    Lihat Semua
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                     </svg>
-                    <p class="text-gray-500">Belum ada mitra yang ditampilkan</p>
+                </a>
+            </div>
+
+            @if($berita->isNotEmpty())
+                <div
+                    class="berita-cards-section relative"
+                    x-data="{
+                        raf: null,
+                        cards: [],
+
+                        init() {
+                            this.$nextTick(() => {
+                                this.cards = Array.from(this.$el.querySelectorAll('.berita-card'));
+                                const grid = this.$el.querySelector('.berita-grid');
+                                const gridRect = grid.getBoundingClientRect();
+                                const gridCx = gridRect.left + gridRect.width / 2;
+                                const gridCy = gridRect.top + gridRect.height / 2;
+
+                                // Simpan offset asli tiap kartu dari pusat grid SEKALI,
+                                // sebelum kartu diberi transform apa pun.
+                                this.cards.forEach((c, i) => {
+                                    const r = c.getBoundingClientRect();
+                                    c.dataset.pullX = String(gridCx - (r.left + r.width / 2));
+                                    c.dataset.pullY = String(gridCy - (r.top + r.height / 2));
+                                    c.style.transformOrigin = 'center center';
+                                    c.style.willChange = 'transform, opacity';
+                                    // z-index dijaga di bawah navbar (z-50) agar
+                                    // kartu tidak pernah menimpa menu.
+                                    c.style.zIndex = String(30 - i);
+                                });
+                                this.update();
+                            });
+                            window.addEventListener('scroll', () => this.schedule(), { passive: true });
+                            window.addEventListener('resize', () => {
+                                // reset transform lalu ukur ulang posisi asli
+                                this.cards.forEach(c => { c.style.transform = 'none'; c.style.opacity = '1'; });
+                                this.$nextTick(() => {
+                                    const grid = this.$el.querySelector('.berita-grid');
+                                    const gr = grid.getBoundingClientRect();
+                                    const gcx = gr.left + gr.width / 2;
+                                    const gcy = gr.top + gr.height / 2;
+                                    this.cards.forEach(c => {
+                                        const r = c.getBoundingClientRect();
+                                        c.dataset.pullX = String(gcx - (r.left + r.width / 2));
+                                        c.dataset.pullY = String(gcy - (r.top + r.height / 2));
+                                    });
+                                    this.schedule();
+                                });
+                            }, { passive: true });
+                        },
+
+                        schedule() {
+                            if (this.raf) return;
+                            this.raf = requestAnimationFrame(() => {
+                                this.raf = null;
+                                this.update();
+                            });
+                        },
+
+                        update() {
+                            if (!this.cards.length) return;
+
+                            const section = this.$el;
+                            const rect = section.getBoundingClientRect();
+                            const vh = window.innerHeight;
+
+                            // 0 = section masih jauh di bawah (kartu menumpuk)
+                            // 1 = section sudah masuk nyaman di layar (kartu menyebar)
+                            // Rentang dibuat LEBIH PANJANG agar animasi terlihat
+                            // gradual saat user scroll.
+                            const enter = vh * 1.02;
+                            const done  = vh * 0.18;
+
+                            let p = (enter - rect.top) / (enter - done);
+                            p = Math.max(0, Math.min(1, p));
+
+                            // easing lebih lembut + bertahap (easeInOutQuad)
+                            const e = p < 0.5
+                                ? 2 * p * p
+                                : 1 - Math.pow(-2 * p + 2, 2) / 2;
+
+                            const mobile = window.innerWidth < 640;
+                            const tablet = window.innerWidth < 1024;
+
+                            // Konfigurasi tumpukan: kartu disusun bertingkat
+                            // seperti setumpuk kartu, lalu menyebar saat di-scroll.
+                            const stack = mobile
+                                ? { y: 26, x: 10, r: 3.5, s: 0.055 }
+                                : tablet
+                                    ? { y: 34, x: 26, r: 4.5, s: 0.05 }
+                                    : { y: 40, x: 44, r: 5.5, s: 0.045 };
+
+                            this.cards.forEach((card, i) => {
+                                const pullX = parseFloat(card.dataset.pullX || '0');
+                                const pullY = parseFloat(card.dataset.pullY || '0');
+
+                                const inv = 1 - e;
+                                const depth = i;
+
+                                const tx = pullX * inv + depth * (stack.x * 0.55) * inv;
+                                const ty = pullY * inv + depth * (stack.y * 0.5) * inv;
+                                const rot = depth * stack.r * inv;
+                                const scale = 1 - depth * stack.s * inv;
+
+                                card.style.transform =
+                                    'translate3d(' + tx + 'px, ' + ty + 'px, 0) rotate(' + rot + 'deg) scale(' + scale + ')';
+                                card.style.opacity = String(
+                                    e > 0.98 ? 1 : 0.5 + depth * 0.16 + e * 0.5
+                                );
+                            });
+                        }
+                    }"
+                >
+                    <div class="berita-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+                        @foreach($berita as $index => $item)
+                            <a
+                                href="/berita/{{ $item->slug }}"
+                                class="berita-card group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_8px_24px_rgba(15,23,42,0.10)] hover:shadow-[0_20px_44px_rgba(15,23,42,0.18)] hover:!-translate-y-2 hover:!rotate-0 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] block"
+                                style="--card-index: {{ $index }}"
+                            >
+                            {{-- Thumbnail --}}
+                            <div class="relative aspect-video overflow-hidden bg-slate-100">
+                                @if($item->thumbnail)
+                                    <img
+                                        src="{{ asset('storage/' . $item->thumbnail) }}"
+                                        alt="{{ $item->title }}"
+                                        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                        loading="lazy"
+                                    >
+                                @endif
+
+                                @if($item->is_highlight)
+                                    <span class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 text-gray-900 shadow-sm backdrop-blur">
+                                        ⭐ Unggulan
+                                    </span>
+                                @endif
+                            </div>
+
+                            {{-- Body --}}
+                            <div class="p-5 lg:p-6">
+                                <div class="flex items-center gap-2 text-xs text-gray-400 mb-3">
+                                    <span>{{ $item->published_at?->format('d M Y') }}</span>
+                                    <span class="w-1 h-1 rounded-full bg-gray-300"></span>
+                                    <span>{{ $item->views }} views</span>
+                                </div>
+
+                                <h3 class="font-bold text-gray-900 leading-snug line-clamp-2 group-hover:text-gray-600 transition-colors">
+                                    {{ $item->title }}
+                                </h3>
+
+                                <p class="text-sm text-gray-500 line-clamp-2 mt-2">
+                                    {{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}
+                                </p>
+
+                                <span class="inline-flex items-center gap-1.5 mt-4 text-sm font-semibold" style="color: {{ $globalSettings->primary_color_style }}">
+                                    Baca Selengkapnya
+                                    <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                                    </svg>
+                                </span>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+                </div>
+
+                {{-- Mobile: lihat semua --}}
+                <div class="flex sm:hidden justify-center mt-8" data-reveal>
+                    <a
+                        href="/berita"
+                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 transition"
+                    >
+                        Lihat Semua Berita
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                        </svg>
+                    </a>
+                </div>
+            @else
+                <div class="rounded-2xl bg-white border border-gray-100 h-56 flex items-center justify-center text-gray-400 text-sm" data-reveal>
+                    Belum ada berita yang dipublikasikan
                 </div>
             @endif
         </div>

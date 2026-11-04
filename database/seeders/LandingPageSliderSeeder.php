@@ -4,43 +4,13 @@ namespace Database\Seeders;
 
 use App\Models\LandingPageSlider;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
 class LandingPageSliderSeeder extends Seeder
 {
     /**
-     * Download image from URL and save to storage
-     */
-    private function downloadImage($url, $filename): ?string
-    {
-        try {
-            $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-            
-            $contents = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-            
-            if ($httpCode !== 200 || $contents === false) {
-                $this->command->warn("Failed to download: {$filename}");
-                return null;
-            }
-            
-            $path = 'sliders/' . $filename;
-            Storage::disk('public')->put($path, $contents);
-            $this->command->info("Downloaded: {$filename}");
-            return $path;
-        } catch (\Exception $e) {
-            $this->command->error("Error downloading {$filename}: " . $e->getMessage());
-            return null;
-        }
-    }
-
-    /**
      * Run the database seeds.
+     * Data disinkronkan dari https://skansaba.dev
+     * Gambar sudah tersedia di storage/app/public/landing-sliders/
      */
     public function run(): void
     {
@@ -49,28 +19,68 @@ class LandingPageSliderSeeder extends Seeder
 
         $sliders = [
             [
-                'title' => 'Selamat Datang di Jurusan RPL',
-                'subtitle' => 'Bergabunglah dengan kami untuk menjadi developer profesional yang siap menghadapi tantangan industri teknologi masa depan',
-                'link' => '/tentang-kami',
+                'title' => 'Guru Rekayasa Perangkat Lunak',
+                'subtitle' => 'Formasi Guru RPL 2026',
+                'link' => null,
                 'order' => 0,
                 'is_active' => true,
-                'image' => $this->downloadImage('https://picsum.photos/seed/slider-1/1920/1080', 'slider-1.jpg'),
+                'image' => 'landing-sliders/69e5ca40b5ce7_1776667200.webp',
             ],
             [
-                'title' => 'Kurikulum Berbasis Industri',
-                'subtitle' => 'Pelajari teknologi terkini seperti Web Development, Mobile Development, dan Software Engineering dengan instruktur berpengalaman',
-                'link' => '/kurikulum',
+                'title' => 'ExplroAItion Mini Hackathon Komdigi x Jagoan Hosting',
+                'subtitle' => null,
+                'link' => null,
                 'order' => 1,
                 'is_active' => true,
-                'image' => $this->downloadImage('https://picsum.photos/seed/slider-2/1920/1080', 'slider-2.jpg'),
+                'image' => 'landing-sliders/69e1d276aaf44_1776407158.webp',
             ],
             [
-                'title' => 'Fasilitas Laboratorium Modern',
-                'subtitle' => 'Praktik langsung dengan perangkat dan software industri standar untuk mempersiapkan karir di dunia teknologi',
-                'link' => '/fasilitas',
+                'title' => 'GRAND FINAL JHIC 2.O 2026',
+                'subtitle' => null,
+                'link' => null,
                 'order' => 2,
                 'is_active' => true,
-                'image' => $this->downloadImage('https://picsum.photos/seed/slider-3/1920/1080', 'slider-3.jpg'),
+                'image' => 'landing-sliders/6ad576bb9285b_1792374459.webp',
+            ],
+            [
+                'title' => 'Grand Final JHIC 2025',
+                'subtitle' => null,
+                'link' => null,
+                'order' => 3,
+                'is_active' => true,
+                'image' => 'landing-sliders/69e1d2ca9a59a_1776407242.webp',
+            ],
+            [
+                'title' => 'Sertifikasi Industri Dicoding 2026',
+                'subtitle' => null,
+                'link' => null,
+                'order' => 4,
+                'is_active' => true,
+                'image' => 'landing-sliders/6adeae6027357_1792978528.webp',
+            ],
+            [
+                'title' => 'SKANSABA.DEV Serahkan Website kepada SMKN 1 DLINGO',
+                'subtitle' => 'Wujud Nyata Kolaborasi dan Pembelajaran Berbasis Proyek',
+                'link' => null,
+                'order' => 5,
+                'is_active' => true,
+                'image' => 'landing-sliders/6a8564cd56da5_1787126989.webp',
+            ],
+            [
+                'title' => 'Sertifikasi Industri Maspion IT',
+                'subtitle' => 'bersama Bapak Ir. Okky Tri Hutomo, M.IT',
+                'link' => null,
+                'order' => 6,
+                'is_active' => true,
+                'image' => 'landing-sliders/69f2ff190ac28_1777532697.webp',
+            ],
+            [
+                'title' => 'Uji Kompetensi Keahlian 2026',
+                'subtitle' => null,
+                'link' => null,
+                'order' => 7,
+                'is_active' => true,
+                'image' => 'landing-sliders/69f2ff715c691_1777532785.webp',
             ],
         ];
 
@@ -78,6 +88,6 @@ class LandingPageSliderSeeder extends Seeder
             LandingPageSlider::create($slider);
         }
 
-        $this->command->info('✓ Landing page sliders seeded successfully (3 records)');
+        $this->command->info('✓ Landing page sliders seeded successfully (8 records) - data skansaba.dev');
     }
 }

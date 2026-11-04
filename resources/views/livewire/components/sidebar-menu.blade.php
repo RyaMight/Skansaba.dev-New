@@ -88,21 +88,32 @@
                 <div class="flex items-center" :class="collapsed ? 'justify-center' : ''">
                     <div class="flex-shrink-0">
                         <div class="h-10 w-10 rounded-full flex items-center justify-center text-white font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
-                            {{ auth()->user()->initials() }}
+                            @auth
+                                {{ auth()->user()->initials() }}
+                            @else
+                                ?
+                            @endauth
                         </div>
                     </div>
                     <div x-show="!collapsed" x-transition class="ml-3 flex-1 min-w-0">
-                        <p class="text-sm font-medium text-gray-900 truncate">{{ auth()->user()->name }}</p>
-                        <p class="text-xs text-gray-500 truncate capitalize">{{ auth()->user()->role }}</p>
+                        @auth
+                            <p class="text-sm font-medium text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                            <p class="text-xs text-gray-500 truncate capitalize">{{ auth()->user()->role }}</p>
+                        @else
+                            <p class="text-sm font-medium text-gray-900 truncate">Guest</p>
+                            <p class="text-xs text-gray-500 truncate">Not logged in</p>
+                        @endauth
                     </div>
-                    <form action="{{ route('logout') }}" method="POST" x-show="!collapsed" x-transition>
-                        @csrf
-                        <button type="submit" class="text-gray-400 hover:text-gray-600" title="Logout">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                            </svg>
-                        </button>
-                    </form>
+                    @auth
+                        <form action="{{ route('logout') }}" method="POST" x-show="!collapsed" x-transition>
+                            @csrf
+                            <button type="submit" class="text-gray-400 hover:text-gray-600" title="Logout">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                </svg>
+                            </button>
+                        </form>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -200,21 +211,32 @@
             <div class="flex items-center">
                 <div class="flex-shrink-0">
                     <div class="h-10 w-10 rounded-full flex items-center justify-center text-white font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
-                        {{ auth()->user()->initials() }}
+                        @auth
+                            {{ auth()->user()->initials() }}
+                        @else
+                            ?
+                        @endauth
                     </div>
                 </div>
                 <div class="ml-3 flex-1 min-w-0">
-                    <p class="text-sm font-medium text-gray-900 truncate">{{ auth()->user()->name }}</p>
-                    <p class="text-xs text-gray-500 truncate capitalize">{{ auth()->user()->role }}</p>
+                    @auth
+                        <p class="text-sm font-medium text-gray-900 truncate">{{ auth()->user()->name }}</p>
+                        <p class="text-xs text-gray-500 truncate capitalize">{{ auth()->user()->role }}</p>
+                    @else
+                        <p class="text-sm font-medium text-gray-900 truncate">Guest</p>
+                        <p class="text-xs text-gray-500 truncate">Not logged in</p>
+                    @endauth
                 </div>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit" class="text-gray-400 hover:text-gray-600">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                    </button>
-                </form>
+                @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                        </button>
+                    </form>
+                @endauth
             </div>
         </div>
     </div>

@@ -15,6 +15,12 @@ class SidebarMenu extends Component
     public function getMenuItems(): array
     {
         $user = auth()->user();
+        
+        // Return empty array if user is not authenticated
+        if (!$user) {
+            return [];
+        }
+        
         $allMenuItems = [
             [
                 'key' => 'dashboard',

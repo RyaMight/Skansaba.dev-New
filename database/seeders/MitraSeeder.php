@@ -4,128 +4,122 @@ namespace Database\Seeders;
 
 use App\Models\Mitra;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Storage;
 
 class MitraSeeder extends Seeder
 {
-    private function downloadImage($url, $filename)
-    {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        
-        $imageData = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        
-        if ($httpCode == 200 && $imageData) {
-            $path = 'mitra/' . $filename;
-            Storage::disk('public')->put($path, $imageData);
-            return $path;
-        }
-        
-        return null;
-    }
-
+    /**
+     * Run the database seeds.
+     * Data disinkronkan dari https://skansaba.dev
+     * Logo sudah tersedia di storage/app/public/mitra/
+     */
     public function run(): void
     {
+        Mitra::truncate();
+
         $mitras = [
             [
-                'nama_mitra' => 'Universitas Gadjah Mada',
-                'url' => 'https://picsum.photos/seed/ugm-logo/300/300',
-                'filename' => 'ugm-logo.jpg',
-                'website' => 'https://www.ugm.ac.id',
+                'nama_mitra' => 'PT Dicoding Akademi Indonesia',
+                'logo' => 'mitra/6ad0410c0bf2c_1792033036.webp',
+                'website' => 'https://www.dicoding.com/',
                 'order' => 1,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'Institut Teknologi Bandung',
-                'url' => 'https://picsum.photos/seed/itb-logo/300/300',
-                'filename' => 'itb-logo.jpg',
-                'website' => 'https://www.itb.ac.id',
+                'nama_mitra' => 'Maspion IT',
+                'logo' => 'mitra/6ad567c8dfc5b_1792370632.webp',
+                'website' => 'https://maspionsquare.co.id/',
                 'order' => 2,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'PT Telkom Indonesia',
-                'url' => 'https://picsum.photos/seed/telkom-logo/300/300',
-                'filename' => 'telkom-logo.jpg',
-                'website' => 'https://www.telkom.co.id',
+                'nama_mitra' => 'PT FARMA GLOBAL TEKNOLOGI',
+                'logo' => 'mitra/696dee4fb7386_1768812111.webp',
+                'website' => 'https://farmagitechs.co.id/',
                 'order' => 3,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'PT Astra International',
-                'url' => 'https://picsum.photos/seed/astra-logo/300/300',
-                'filename' => 'astra-logo.jpg',
-                'website' => 'https://www.astra.co.id',
+                'nama_mitra' => 'PT Techno Medic',
+                'logo' => 'mitra/696df135db504_1768812853.webp',
+                'website' => 'https://www.technomedic.id/web/',
                 'order' => 4,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'Google Indonesia',
-                'url' => 'https://picsum.photos/seed/google-logo/300/300',
-                'filename' => 'google-logo.jpg',
-                'website' => 'https://www.google.co.id',
+                'nama_mitra' => 'PT Gamatechno Indonesia',
+                'logo' => 'mitra/696df03735fe6_1768812599.webp',
+                'website' => 'https://www.gamatechno.com/',
                 'order' => 5,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'Microsoft Indonesia',
-                'url' => 'https://picsum.photos/seed/microsoft-logo/300/300',
-                'filename' => 'microsoft-logo.jpg',
-                'website' => 'https://www.microsoft.com/id-id',
+                'nama_mitra' => 'PT Global Intermedia',
+                'logo' => 'mitra/696df09349f60_1768812691.webp',
+                'website' => 'https://www.gi.co.id/',
                 'order' => 6,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'Universitas Indonesia',
-                'url' => 'https://picsum.photos/seed/ui-logo/300/300',
-                'filename' => 'ui-logo.jpg',
-                'website' => 'https://www.ui.ac.id',
+                'nama_mitra' => 'Lembaga Sistem Informasi UMY',
+                'logo' => 'mitra/69f2d808448e9_1777522696.webp',
+                'website' => 'https://ddi.umy.ac.id/',
                 'order' => 7,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'PT Bank Central Asia',
-                'url' => 'https://picsum.photos/seed/bca-logo/300/300',
-                'filename' => 'bca-logo.jpg',
-                'website' => 'https://www.bca.co.id',
+                'nama_mitra' => 'PT BPR BANK BANTUL',
+                'logo' => 'mitra/69f2d88b2a3a3_1777522827.webp',
+                'website' => 'https://bankbantul.co.id/',
                 'order' => 8,
-                'status' => 'published'
+                'status' => 'published',
             ],
             [
-                'nama_mitra' => 'Tokopedia',
-                'url' => 'https://picsum.photos/seed/tokopedia-logo/300/300',
-                'filename' => 'tokopedia-logo.jpg',
-                'website' => null,
+                'nama_mitra' => 'CV. Bursa Multimedia Group',
+                'logo' => 'mitra/69fd876a5e1c7_1778222954.webp',
+                'website' => 'https://bursamultimediagroup.web.indotrading.com/',
                 'order' => 9,
-                'status' => 'draft'
+                'status' => 'published',
+            ],
+            [
+                'nama_mitra' => 'CV Sinergi Telematika',
+                'logo' => 'mitra/696df0fd90044_1768812797.webp',
+                'website' => null,
+                'order' => 10,
+                'status' => 'published',
+            ],
+            [
+                'nama_mitra' => 'PT. Global Prima Utama',
+                'logo' => 'mitra/696df06aaffb5_1768812650.webp',
+                'website' => null,
+                'order' => 11,
+                'status' => 'published',
+            ],
+            [
+                'nama_mitra' => 'Creativemu ID',
+                'logo' => 'mitra/69fd8a96542a4_1778223766.webp',
+                'website' => 'https://creativemuid.blogspot.com/',
+                'order' => 12,
+                'status' => 'published',
+            ],
+            [
+                'nama_mitra' => 'SMKN 1 Dlingo',
+                'logo' => 'mitra/6ad565af3c0f5_1792370095.webp',
+                'website' => 'https://smkn1dlingo.sch.id/',
+                'order' => 13,
+                'status' => 'published',
             ],
         ];
 
-        echo "\n🏢 Seeding Mitra...\n";
-
         foreach ($mitras as $data) {
-            echo "📥 Downloading {$data['nama_mitra']} logo... ";
-            $logoPath = $this->downloadImage($data['url'], $data['filename']);
-            
-            if ($logoPath) {
-                Mitra::create([
-                    'nama_mitra' => $data['nama_mitra'],
-                    'logo' => $logoPath,
-                    'website' => $data['website'],
-                    'order' => $data['order'],
-                    'status' => $data['status']
-                ]);
-                echo "✅\n";
-            } else {
-                echo "❌ Failed\n";
+            // Lewati jika file logo tidak ada (misal setelah fresh clone)
+            if (!\Storage::disk('public')->exists($data['logo'])) {
+                $this->command->warn("Logo tidak ditemukan, lewati: {$data['logo']}");
+                $data['logo'] = null;
             }
+
+            Mitra::create($data);
         }
 
-        echo "\n✅ Seeded " . Mitra::count() . " mitra successfully!\n";
+        $this->command->info('✓ Mitra seeded successfully (' . count($mitras) . ' records) - data skansaba.dev');
     }
 }
