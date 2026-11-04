@@ -1,4 +1,4 @@
-<div class="p-6 max-w-5xl mx-auto space-y-6">
+<div class="p-6 max-w-5xl mx-auto space-y-6" x-data>
     {{-- Toast Notifikasi --}}
     @if (session()->has('message'))
         <div
@@ -197,6 +197,87 @@
         </div>
     </div>
 
+    {{-- Aset SVG README --}}
+    <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100">
+        <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+            <div>
+                <h3 class="text-base font-bold text-gray-900">Aset SVG README</h3>
+                <p class="text-[11px] text-gray-400 mt-0.5">Upload gambar SVG (infografis, kartu statistik, dll) lalu sisipkan ke README profil kamu.</p>
+            </div>
+            <span class="text-[10px] font-semibold text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full shrink-0">Maks {{ \App\Services\SvgService::MAX_FILES_PER_USER }} file · 1 MB</span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {{-- Form upload --}}
+            <form wire:submit="uploadSvg" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-gray-700 mb-1">Upload File SVG</label>
+                    <input
+                        type="file"
+                        accept=".svg,image/svg+xml"
+                        wire:model="fileSvg"
+                        class="w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer file:mr-3 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:border-0 file:bg-sky-50 file:text-sky-600 hover:file:bg-sky-100 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                    >
+                    @error('fileSvg') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+                    <p class="text-[11px] text-gray-400 mt-1">SVG otomatis disanitasi demi keamanan. Maksimal 1 MB per file.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button
+                        type="submit"
+                        wire:loading.attr="disabled"
+                        class="px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-sm font-semibold transition cursor-pointer disabled:opacity-50"
+                    >
+                        <span wire:loading wire:target="uploadSvg" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full mr-1"></span>
+                        Upload SVG
+                    </button>
+                </div>
+            </form>
+
+            {{-- Daftar aset --}}
+            <div>
+                <p class="text-xs font-medium text-gray-700 mb-2">Aset Saya ({{ $asetSvgList->count() }}/{{ \App\Services\SvgService::MAX_FILES_PER_USER }})</p>
+                @if($asetSvgList->isEmpty())
+                    <div class="flex flex-col items-center justify-center text-center py-8 border-2 border-dashed border-gray-100 rounded-xl">
+                        <svg class="w-8 h-8 text-gray-300 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <p class="text-xs text-gray-400">Belum ada aset SVG</p>
+                    </div>
+                @else
+                    <ul class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                        @foreach($asetSvgList as $aset)
+                            <li class="flex items-center gap-3 border border-gray-100 rounded-xl p-2 hover:bg-gray-50 transition">
+                                <div class="w-12 h-12 shrink-0 rounded-lg border border-gray-100 bg-white flex items-center justify-center overflow-hidden">
+                                    <img src="{{ $aset->url }}" alt="{{ $aset->nama_file }}" class="max-w-full max-h-full object-contain p-1">
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-xs font-semibold text-gray-800 truncate" title="{{ $aset->nama_file }}">{{ $aset->nama_file }}</p>
+                                    <p class="text-[10px] text-gray-400">{{ $aset->size_human }}</p>
+                                </div>
+                                <div class="flex items-center gap-1 shrink-0">
+                                    <button
+                                        type="button"
+                                        x-data
+                                        @click="navigator.clipboard.writeText($el.dataset.snippet); $el.textContent = 'Tersalin!'; setTimeout(() => $el.textContent = 'Salin', 2000);"
+                                        data-snippet="{{ $aset->snippet }}"
+                                        class="px-2.5 py-1.5 text-[11px] font-semibold border border-gray-200 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+                                    >Salin</button>
+                                    <button
+                                        type="button"
+                                        wire:click="deleteSvg({{ $aset->id }})"
+                                        wire:confirm="Hapus aset '{{ $aset->nama_file }}'? Snippet di README yang memakainya akan rusak."
+                                        wire:loading.attr="disabled"
+                                        class="px-2.5 py-1.5 text-[11px] font-semibold border border-rose-200 text-rose-600 rounded-lg hover:bg-rose-50 transition cursor-pointer"
+                                    >Hapus</button>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
+        </div>
+    </div>
+
     {{-- README Editor Modal --}}
     @if($showEditorModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
@@ -210,15 +291,48 @@
                     </button>
                 </div>
 
-                <div class="p-6 overflow-y-auto">
+                <div class="p-6 overflow-y-auto space-y-4">
                     <x-markdown-editor
                         modelName="profil_readme"
                         label=""
-                        placeholder="## Halo, saya Ahmad 👋&#10;&#10;Siswa RPL yang tertarik pada **web development**...&#10;&#10;### Keahlian&#10;- Laravel & PHP&#10;- JavaScript&#10;&#10;### Proyek Pilihan&#10;1. Sistem Kasir Kantin&#10;2. Portfolio Website"
+                        placeholder="<div align=&quot;center&quot;>&#10;&#10;<table>&#10;<tr>&#10;<td valign=&quot;top&quot;><img src=&quot;URL-SVG-KAMU&quot; width=&quot;370&quot; alt=&quot;ASCII portrait&quot; /></td>&#10;<td valign=&quot;top&quot;><img src=&quot;URL-SVG-KAMU&quot; width=&quot;490&quot; alt=&quot;Info card&quot; /></td>&#10;</tr>&#10;</table>&#10;&#10;## Nama Kamu&#10;&#10;**Headline · Keahlian Utama**&#10;&#10;[![Instagram](https://img.shields.io/badge/Instagram-username-E4405F?style=for-the-badge&amp;logo=instagram&amp;logoColor=white)](https://www.instagram.com/username/)&#10;&#10;<br>&#10;&#10;<img src=&quot;URL-SVG-KAMU&quot; width=&quot;860&quot; alt=&quot;Contribution graph&quot; />&#10;&#10;</div>&#10;&#10;Tips: upload SVG di halaman ini, lalu klik aset di panel 'Sisipkan Aset SVG' untuk menaruhnya di sini."
                         :rows="14"
                         :required="false"
                     />
                     @error('profil_readme') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+
+                    {{-- Sisipkan aset SVG ke README --}}
+                    @if($asetSvgList->isNotEmpty())
+                        <div class="border border-gray-100 rounded-xl p-3 bg-gray-50/60">
+                            <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Sisipkan Aset SVG</p>
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($asetSvgList as $aset)
+                                    <button
+                                        type="button"
+                                        x-data
+                                        @click="
+                                            const snippet = {{ Js::from($aset->snippet) }};
+                                            const modal = $el.closest('.max-w-3xl');
+                                            const ta = modal ? modal.querySelector('textarea') : null;
+                                            if (ta) {
+                                                const nl = String.fromCharCode(10);
+                                                const pos = ta.selectionStart ?? ta.value.length;
+                                                ta.setRangeText(nl + snippet + nl, pos, pos, 'end');
+                                                ta.dispatchEvent(new Event('input', { bubbles: true }));
+                                                ta.focus();
+                                            }
+                                        "
+                                        class="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-sky-50 hover:border-sky-200 transition cursor-pointer"
+                                        title="{{ $aset->nama_file }}"
+                                    >
+                                        <img src="{{ $aset->url }}" alt="" class="w-4 h-4 object-contain">
+                                        <span class="text-[11px] font-medium text-gray-700 max-w-[140px] truncate">{{ $aset->nama_file }}</span>
+                                    </button>
+                                @endforeach
+                            </div>
+                            <p class="text-[10px] text-gray-400 mt-2">Klik untuk menyisipkan snippet di posisi kursor.</p>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-gray-100">

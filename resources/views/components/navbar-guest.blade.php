@@ -64,15 +64,6 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
-            {{-- Login Button --}}
-            <a href="/login" class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-900 hover:opacity-70 transition">
-                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 1115 0v.25H4.5v-.25z"/>
-                </svg>
-                Login
-            </a>
-=======
             {{-- Login Button / User Account --}}
             <div class="hidden lg:flex items-center gap-3">
                 @guest
@@ -140,7 +131,6 @@
                     </div>
                 @endguest
             </div>
->>>>>>> 4ec5b282cfd8e562892bc677fb7881dcccf2d1e7
 
             {{-- Mobile Menu Button --}}
             <button
@@ -241,17 +231,6 @@
                 </div>
             </div>
 
-<<<<<<< HEAD
-            <a href="/login" class="flex items-center gap-2 py-3 font-semibold text-gray-900">
-                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 1115 0v.25H4.5v-.25z"/>
-                </svg>
-                Login
-            </a>
-        </div>
-    </div>
-</header>
-=======
             @guest
                 <a href="/login" class="block py-2 font-medium pt-2 border-t hover-primary">Masuk</a>
             @else
@@ -353,4 +332,4 @@
         </div>
     @endauth
 </nav>
->>>>>>> 4ec5b282cfd8e562892bc677fb7881dcccf2d1e7
+</header>
