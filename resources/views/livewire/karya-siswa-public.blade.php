@@ -234,82 +234,61 @@
                 </div>
             </div>
 
-            {{-- Middle Heading: Karya Siswa Skills Filter --}}
-            <div class="text-center mt-14 mb-8">
-                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 inline-flex items-center gap-3">
-                    Karya Siswa <span class="font-normal text-slate-400">Skills Filter</span>
+            {{-- Middle Heading: Tab Menu Karya Siswa / Profil Siswa --}}
+            <div class="text-center mt-14 mb-8" x-data="{ tab: 'karya' }">
+                <h2 class="text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-gray-50 inline-flex items-center gap-3">
+                    Karya <span class="font-normal text-slate-400 dark:text-gray-400">& Profil Siswa</span>
                 </h2>
+
+                {{-- Tab Menu --}}
                 <div class="mt-5 flex justify-center">
-                    <div x-data="{ activeSkill: 'Frontend' }" class="inline-flex items-center bg-white dark:bg-gray-900 p-1 rounded-full border border-slate-200 shadow-xs">
-                        <button 
-                            type="button" 
-                            @click="activeSkill = 'Frontend'" 
-                            :class="activeSkill === 'Frontend' ? 'bg-[#141822] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
-                            class="px-5 py-2 rounded-full text-xs font-medium transition cursor-pointer">
-                            Frontend
+                    <div class="inline-flex items-center bg-white dark:bg-gray-900 p-1 rounded-full border border-slate-200 dark:border-gray-700 shadow-xs">
+                        <button
+                            type="button"
+                            @click="tab = 'karya'"
+                            :class="tab === 'karya' ? 'bg-[#141822] dark:bg-gray-800 text-white shadow-xs' : 'text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white'"
+                            class="px-6 py-2 rounded-full text-xs font-medium transition cursor-pointer">
+                            Karya Siswa
                         </button>
-                        <button 
-                            type="button" 
-                            @click="activeSkill = 'Backend'" 
-                            :class="activeSkill === 'Backend' ? 'bg-[#141822] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
-                            class="px-5 py-2 rounded-full text-xs font-medium transition cursor-pointer">
-                            Backend
-                        </button>
-                        <button 
-                            type="button" 
-                            @click="activeSkill = 'Cyber Security'" 
-                            :class="activeSkill === 'Cyber Security' ? 'bg-[#141822] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
-                            class="px-5 py-2 rounded-full text-xs font-medium transition cursor-pointer">
-                            Cyber Security
-                        </button>
-                        <button 
-                            type="button" 
-                            @click="activeSkill = 'UI/UX'" 
-                            :class="activeSkill === 'UI/UX' ? 'bg-[#141822] text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'"
-                            class="px-5 py-2 rounded-full text-xs font-medium transition cursor-pointer">
-                            UI/UX
+                        <button
+                            type="button"
+                            @click="tab = 'profil'"
+                            :class="tab === 'profil' ? 'bg-[#141822] dark:bg-gray-800 text-white shadow-xs' : 'text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white'"
+                            class="px-6 py-2 rounded-full text-xs font-medium transition cursor-pointer">
+                            Profil Siswa
                         </button>
                     </div>
                 </div>
-            </div>
 
-            {{-- Bottom Grid: 6 Developer / Siswa Cards --}}
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-                @php
-                    $developers = [
-                        ['name' => 'Ahmad Fauzi', 'role' => 'Fullstack Developer', 'desc' => 'Expert in PHP, JS, AWS, & Cloud Architecture', 'badge' => 'Tech Lead'],
-                        ['name' => 'Antrat Olsi', 'role' => 'Fullstack Developer', 'desc' => 'Expert in PHP, JS, AWS, & Cloud Architecture', 'badge' => 'Tech Lead'],
-                        ['name' => 'Alim Rishan', 'role' => 'Fullstack Developer', 'desc' => 'Expert in PHP, JS, AWS, & Cloud Architecture', 'badge' => 'Tech Lead'],
-                        ['name' => 'Jaman Fauzi', 'role' => 'Fullstack Developer', 'desc' => 'Expert in PHP, JS, AWS, & Cloud Architecture', 'badge' => 'Tech Lead'],
-                        ['name' => 'Ahneni Palan', 'role' => 'Fullstack Developer', 'desc' => 'Expert in PHP, JS, AWS, & Cloud Architecture', 'badge' => 'Tech Lead'],
-                        ['name' => 'Ahmad Fauzi', 'role' => 'Fullstack Developer', 'desc' => 'Expert in PHP, JS, AWS, & Cloud Architecture', 'badge' => 'Tech Lead'],
-                    ];
-                @endphp
-
-                @foreach($developers as $dev)
-                    <div class="bg-white dark:bg-gray-900 rounded-2xl p-3.5 border border-slate-100 shadow-xs flex flex-col justify-between hover:shadow-md transition">
-                        <div>
-                            {{-- Avatar Placeholder --}}
-                            <div class="w-full aspect-[4/3.5] bg-[#d3d9e2] rounded-xl flex items-center justify-center overflow-hidden">
-                                <svg class="w-12 h-12 text-[#9aa6b8]" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd" d="M12 2a5 5 0 100 10 5 5 0 000-10zm-7 18a7 7 0 0114 0H5z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-
-                            {{-- Student Info --}}
-                            <h4 class="font-bold text-slate-900 text-sm mt-3 tracking-tight">{{ $dev['name'] }}</h4>
-                            <p class="text-xs text-slate-400 font-normal mt-0.5">{{ $dev['role'] }}</p>
-                            <p class="text-[11px] text-slate-500 mt-1 leading-snug">{{ $dev['desc'] }}</p>
-                        </div>
-
-                        {{-- Tag Badge --}}
-                        <div class="mt-4">
-                            <span class="inline-block px-3 py-1 bg-slate-100 border border-slate-200 text-slate-600 rounded-full text-[10px] font-medium">
-                                {{ $dev['badge'] }}
-                            </span>
-                        </div>
+                {{-- Konten Tab: berganti dengan animasi geser --}}
+                <div class="mt-10 relative overflow-hidden" x-ref="tabwrap">
+                    {{-- Karya Siswa --}}
+                    <div
+                        x-show="tab === 'karya'"
+                        x-transition:enter="transition ease-[cubic-bezier(0.22,1,0.36,1)] duration-500"
+                        x-transition:enter-start="opacity-0 translate-x-8"
+                        x-transition:enter-end="opacity-100 translate-x-0"
+                        x-transition:leave="transition ease-in duration-200 absolute inset-0"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0 -translate-x-8"
+                    >
+                        @include('livewire.partials.karya-grid')
                     </div>
-                @endforeach
+
+                    {{-- Profil Siswa --}}
+                    <div
+                        x-show="tab === 'profil'"
+                        x-cloak
+                        x-transition:enter="transition ease-[cubic-bezier(0.22,1,0.36,1)] duration-500"
+                        x-transition:enter-start="opacity-0 -translate-x-8"
+                        x-transition:enter-end="opacity-100 translate-x-0"
+                        x-transition:leave="transition ease-in duration-200 absolute inset-0"
+                        x-transition:leave-start="opacity-100"
+                        x-transition:leave-end="opacity-0 translate-x-8"
+                    >
+                        @include('livewire.partials.profil-grid')
+                    </div>
+                </div>
             </div>
         </div>
     </section>
