@@ -75,3 +75,52 @@ function initStrukturScroll() {
 
 document.addEventListener("DOMContentLoaded", initStrukturScroll);
 document.addEventListener("livewire:navigated", initStrukturScroll);
+
+// ============================================
+// Transisi tema: gelombang cair naik dari bawah layar
+// (mengikuti video referensi "ink drip").
+// Dipanggil dari <x-theme-toggle> via window.playThemeWave().
+// ============================================
+window.playThemeWave = function (targetDark, applyCallback) {
+    const overlay = document.getElementById("theme-wave");
+    const body = document.getElementById("theme-wave-body");
+    if (!overlay || !body) {
+        // fallback: langsung ganti tema
+        applyCallback();
+        return;
+    }
+
+    // Warna gelombang = latar tema TUJUAN
+    body.style.color = targetDark ? "#030712" : "#ffffff";
+
+    // Matikan transisi warna bawaan supaya pergantian tema
+    // terjadi di balik gelombang, tanpa cross-fade yang membosankan.
+    const html = document.documentElement;
+    html.classList.remove("theme-transition");
+
+    // Fase 1: gelombang naik menutup layar (450ms)
+    overlay.style.transition = "opacity 120ms ease";
+    overlay.style.opacity = "1";
+    body.style.transition = "transform 480ms cubic-bezier(0.65, 0, 0.35, 1)";
+    body.style.transform = "translateY(-10%)";
+
+    setTimeout(() => {
+        // Fase 2: layar tertutup -> ganti tema di baliknya
+        applyCallback();
+
+        setTimeout(() => {
+            // Fase 3: gelombang turun membuka tema baru
+            body.style.transition = "transform 520ms cubic-bezier(0.65, 0, 0.35, 1)";
+            body.style.transform = "translateY(70%)";
+
+            setTimeout(() => {
+                overlay.style.opacity = "0";
+                // reset posisi untuk pemakaian berikutnya
+                setTimeout(() => {
+                    body.style.transition = "none";
+                    body.style.transform = "translateY(70%)";
+                }, 150);
+            }, 540);
+        }, 60);
+    }, 500);
+};

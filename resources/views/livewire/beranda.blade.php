@@ -203,16 +203,28 @@
                         @foreach([0, 1, 2] as $copy)
                             @foreach($sliders as $index => $slider)
                                 @php $pos = $copy * $sliders->count() + $index; @endphp
-                                <div class="hero-slide flex-none relative grid gap-4 lg:gap-5 grid-cols-[38%_62%]">
+                                <div class="hero-slide flex-none relative rounded-3xl overflow-hidden">
                                     {{-- Overlay samping: menggantikan blur, makin pinggir makin gelap --}}
-                                    <div class="side-shade pointer-events-none absolute inset-0 z-10 rounded-2xl bg-slate-900/80" style="opacity: 0"></div>
+                                    <div class="side-shade pointer-events-none absolute inset-0 z-10 bg-slate-900/80" style="opacity: 0"></div>
 
-                                    {{-- Dark Card --}}
-                                    <div class="bg-slate-800 rounded-2xl p-6 lg:p-8 flex flex-col justify-between h-[300px] sm:h-[360px] lg:h-[420px]">
-                                        <div>
-                                            <h3 class="text-white text-lg lg:text-[26px] font-bold leading-snug">{{ $slider->title }}</h3>
+                                    {{-- Image full-slide --}}
+                                    <div class="rounded-3xl overflow-hidden bg-slate-800 h-[300px] sm:h-[360px] lg:h-[420px]">
+                                        <img
+                                            src="{{ asset('storage/' . $slider->image) }}"
+                                            alt="{{ $slider->title }}"
+                                            class="w-full h-full object-cover"
+                                            @if($copy !== 1 || $index !== 0) loading="lazy" @endif
+                                        >
+                                    </div>
+
+                                    {{-- Keterangan di atas gambar (seperti skansaba.dev) --}}
+                                    <div class="absolute inset-x-0 bottom-0 z-20 p-5 lg:p-7 pointer-events-none">
+                                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
+
+                                        <div class="relative">
+                                            <h3 class="text-white text-lg lg:text-2xl font-bold leading-snug drop-shadow-md">{{ $slider->title }}</h3>
                                             @if($slider->subtitle)
-                                                <p class="text-slate-400 text-[11px] lg:text-sm leading-relaxed mt-4 lg:mt-6 line-clamp-5">
+                                                <p class="text-white/75 text-[11px] lg:text-sm leading-relaxed mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
                                                     {{ $slider->subtitle }}
                                                 </p>
                                             @endif
@@ -220,7 +232,7 @@
 
                                         {{-- Progress bar: hanya slide aktif yang beranimasi & memicu geser --}}
                                         <div
-                                            class="h-[3px] bg-white/25 rounded-full overflow-hidden mt-4"
+                                            class="relative h-[3px] bg-white/25 rounded-full overflow-hidden mt-4"
                                             x-show="isActive({{ $pos }})"
                                         >
                                             <template x-for="tick in [index]" :key="'bar-{{ $pos }}-' + tick">
@@ -231,16 +243,6 @@
                                                 ></div>
                                             </template>
                                         </div>
-                                    </div>
-
-                                    {{-- Image --}}
-                                    <div class="rounded-2xl overflow-hidden bg-slate-800 h-[300px] sm:h-[360px] lg:h-[420px]">
-                                        <img
-                                            src="{{ asset('storage/' . $slider->image) }}"
-                                            alt="{{ $slider->title }}"
-                                            class="w-full h-full object-cover"
-                                            @if($copy !== 1 || $index !== 0) loading="lazy" @endif
-                                        >
                                     </div>
                                 </div>
                             @endforeach

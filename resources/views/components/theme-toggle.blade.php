@@ -23,16 +23,21 @@
         const html = document.documentElement;
         const nextDark = !html.classList.contains('dark');
         localStorage.setItem('theme', nextDark ? 'dark' : 'light');
-        html.classList.add('theme-transition');
-        if (window.applyTheme) {
-            dark = window.applyTheme();
+        const apply = () => {
+            if (window.applyTheme) {
+                dark = window.applyTheme();
+            } else {
+                dark = html.classList.toggle('dark', nextDark);
+                html.style.colorScheme = dark ? 'dark' : 'light';
+            }
+            $el.setAttribute('aria-checked', dark ? 'true' : 'false');
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark } }));
+        };
+        if (window.playThemeWave) {
+            window.playThemeWave(nextDark, apply);
         } else {
-            dark = html.classList.toggle('dark', nextDark);
-            html.style.colorScheme = dark ? 'dark' : 'light';
+            apply();
         }
-        $el.setAttribute('aria-checked', dark ? 'true' : 'false');
-        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark } }));
-        setTimeout(() => html.classList.remove('theme-transition'), 350);
     "
     @keydown.space.prevent="$el.click()"
     type="button"
