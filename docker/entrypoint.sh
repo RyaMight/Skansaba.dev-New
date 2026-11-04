@@ -45,17 +45,18 @@ if [ ! -f .env ]; then
 fi
 
 # DB_HOST di dalam container HARUS host.docker.internal (MySQL ada di host).
-if grep -q "^DB_HOST=127.0.0.1" .env; then
-    echo "[entrypoint] Menyesuaikan DB_HOST -> host.docker.internal"
-    sed -i 's/^DB_HOST=127.0.0.1/DB_HOST=host.docker.internal/' .env
-fi
-if ! grep -q "^DB_HOST=" .env; then
-    echo "DB_HOST=host.docker.internal" >> .env
+# Catatan: .env di-mount dari host, jadi TIDAK boleh di-modify via sed -i
+# (bind mount = file "resource busy" saat di-replace). Edit manual di host.
+DB_HOST_VAL="$(env_value DB_HOST)"
+if [ "$DB_HOST_VAL" = "127.0.0.1" ] || [ -z "$DB_HOST_VAL" ]; then
+    echo "[entrypoint] PERINGATAN: DB_HOST di .env adalah '$DB_HOST_VAL'."
+    echo "[entrypoint] Di dalam container, MySQL host harus diakses via host.docker.internal."
+    echo "[entrypoint] Fix permanen di host:  sed -i 's/^DB_HOST=127.0.0.1/DB_HOST=host.docker.internal/' .env"
+    echo "[entrypoint] Untuk sesi ini, koneksi dipaksa via host.docker.internal."
+    DB_HOST_VAL="host.docker.internal"
 fi
 
-# Baca konfigurasi DB dari file .env (dengan fallback env var container)
-DB_HOST_VAL="${DB_HOST:-$(env_value DB_HOST)}"
-DB_HOST_VAL="${DB_HOST_VAL:-host.docker.internal}"
+# Baca konfigurasi DB lainnya dari file .env (dengan fallback env var container)
 DB_PORT_VAL="${DB_PORT:-$(env_value DB_PORT)}"
 DB_PORT_VAL="${DB_PORT_VAL:-3306}"
 DB_DATABASE_VAL="${DB_DATABASE:-$(env_value DB_DATABASE)}"
