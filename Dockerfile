@@ -86,7 +86,8 @@ WORKDIR /var/www/html
 # Composer binary dari stage 1 (untuk artisan migrate)
 COPY --from=vendor /usr/bin/composer /usr/local/bin/composer
 
-# Kode aplikasi
+# Kode aplikasi (`.env` tidak ikut — di-exclude .dockerignore dan di-mount
+# langsung dari host via compose volume, agar konfigurasi server asli tetap terpakai)
 COPY --chown=www-data:www-data . /var/www/html
 COPY --from=vendor --chown=www-data:www-data /app/vendor /var/www/html/vendor
 COPY --from=assets --chown=www-data:www-data /app/public/build /var/www/html/public/build

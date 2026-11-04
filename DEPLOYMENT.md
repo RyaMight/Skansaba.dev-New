@@ -7,10 +7,10 @@ Panduan lengkap menjalankan web ini di server dengan satu perintah build.
 | File | Fungsi |
 |---|---|
 | `Dockerfile` | Build image produksi: PHP 8.3-FPM + Nginx + Supervisor + GD/Intl/OPcache, multi-stage (composer vendor + Vite assets sudah di-build di dalam image) |
-| `compose.yaml` | Orkestrasi: service `app` + MySQL 8.4 dengan healthcheck |
-| `docker/entrypoint.sh` | Bootstrap otomatis saat container start: generate `.env` + `APP_KEY`, tunggu MySQL, `migrate`, seed sekali, `storage:link`, cache config/route/view |
+| `compose.yaml` | Service `app` saja — MySQL pakai yang sudah ter-install di host (via `host.docker.internal`) |
+| `docker/entrypoint.sh` | Bootstrap saat container start: pakai `.env` host (mount), sinkronkan DB_HOST, tunggu MySQL, `migrate`, **seed hanya jika DB kosong**, `storage:link`, cache |
 | `.dockerignore` | Mengecualikan node_modules, .git, env, dll dari build context |
-| `.env.docker.example` | Template variabel untuk compose (port, password DB) |
+| `.env.docker.example` | Template variabel untuk compose (port) |
 
 ## Cara deploy (dari nol)
 
@@ -33,13 +33,15 @@ docker compose up -d --build
 Selesai — web jalan di `http://IP-SERVER:8000` (atau port yang kamu set).
 
 ### Yang otomatis terjadi saat pertama kali start
-1. `.env` Laravel dibuat (APP_KEY di-generate sekali)
-2. Tunggu MySQL healthy → `php artisan migrate`
-3. Seeder jalan **sekali** (ditandai file `storage/app/.seeded`) → isi beranda, karya, prestasi, berita, dll
-4. `php artisan storage:link` + cache config/route/view
-5. Supervisor menyalakan php-fpm + nginx + Laravel scheduler
+1. `.env` Laravel host di-mount ke container dan dipakai (DB_HOST 127.0.0.1 → disesuaikan otomatis ke `host.docker.internal`)
+2. `APP_KEY` sudah ada dari `.env` — tidak digenerate ulang
+3. Tunggu MySQL host siap → `php artisan migrate`
+4. **Seed hanya jika database kosong** (tabel `users` 0 baris) → data + foto dari seeder teman-teman terpasang
+   - Database yang sudah terisi (`skansabadev_landing_page`) **tidak disentuh**
+5. `php artisan storage:link` + cache config/route/view
+6. Supervisor menyalakan php-fpm + nginx + Laravel scheduler
 
-### Login default (dari seeder)
+### Login default (dari seeder, hanya jika DB kosong saat pertama start)
 - Admin: `admin@rpl.sch.id` / `admin123`
 - Guru: `guru@rpl.sch.id` / `guru123`
 - Siswa: NISN `0061234567` / `skansabajaya123`
@@ -76,7 +78,24 @@ docker compose up -d --build
 
 Migrasi baru otomatis dijalankan oleh entrypoint saat container start.
 
-## Catatan
+## Sinkronisasi .env
+
+`compose.yaml` me-mount `./.env` (host) ke `/var/www/html/.env` (container) — file Laravel .env asli server-mu **langsung terpakai**, tidak digenerate/ditimpa.
+
+Syarat isinya (sudah disesuaikan entrypoint otomatis):
+- `DB_HOST=127.0.0.1` akan otomatis diubah ke `host.docker.internal` saat container start
+- Lainnya (`DB_DATABASE=skansabadev_landing_page`, username, password) tetap
+
+## MySQL host: izinkan koneksi dari container
+
+```sql
+-- sudo mysql -u root -p
+CREATE USER IF NOT EXISTS 'skansaba_user'@'%' IDENTIFIED BY '1324';
+GRANT ALL PRIVILEGES ON skansabadev_landing_page.* TO 'skansaba_user'@'%';
+FLUSH PRIVILEGES;
+```
+
+Dan di `/etc/mysql/mysql.conf.d/mysqld.cnf`: `bind-address = 0.0.0.0`, lalu `sudo systemctl restart mysql`.
 
 - **Seed hanya sekali** — restart/rebuild tidak akan menghapus atau meng-seed ulang data.
   Kalau benar-benar mau reset + seed ulang:
