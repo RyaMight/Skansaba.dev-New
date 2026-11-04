@@ -1,74 +1,62 @@
 // ============================================
-// Transisi tema: efek "ink melt" SAMA PERSIS dengan video
-// referensi, via sprite-sheet 30 frame (konversi video).
-// Sprite: public/media/theme-melt-sprite.png (tile vertikal)
-//   frame 0  = melt menutup penuh (hitam)
-//   frame 29 = terbuka penuh (putih)
-// Alur: frame berjalan 29 -> 0 (melt naik menutup, SEARAH video)
-//   -> tema diganti -> frame 0 -> 29 (melt turun membuka).
-// Dipakai via window.playThemeWave(targetDark, applyCallback).
+// Transisi tema: "smooth reveal" — lingkaran cahaya meluas
+// dari tombol toggle, menyapu seluruh layar dengan easing
+// lembut. Tanpa overlay tambahan: pakai View Transitions API
+// jika tersedia (Chrome/Edge), fallback fade halus.
+// Dipanggil dari <x-theme-toggle> via window.playThemeWave.
 // ============================================
 
 (function () {
-    const FRAMES = 30;
-    let playing = false;
+    // Simpan posisi klik terakhir dari tombol toggle
+    let origin = { x: window.innerWidth - 60, y: 40 };
 
-    function setFrame(maskEl, n) {
-        maskEl.style.setProperty('--frame', String(n));
-    }
-
-    // Jalankan frame dari `from` ke `to` (inklusif) dengan interval tetap.
-    // resolve(frameAkhir) dipanggil setelah frame terakhir tercapai.
-    function animateFrames(maskEl, from, to, msPerFrame, resolve) {
-        let cur = from;
-        setFrame(maskEl, cur);
-        const step = from < to ? 1 : -1;
-
-        const timer = setInterval(() => {
-            cur += step;
-            const done = step > 0 ? cur >= to : cur <= to;
-            setFrame(maskEl, done ? to : cur);
-            if (done) {
-                clearInterval(timer);
-                resolve(to);
-            }
-        }, msPerFrame);
-    }
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".theme-switch");
+        if (btn) {
+            const r = btn.getBoundingClientRect();
+            origin = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+        }
+    }, true);
 
     window.playThemeWave = function (targetDark, applyCallback) {
-        const overlay = document.getElementById("theme-melt");
-        const mask = document.getElementById("theme-melt-mask");
+        const html = document.documentElement;
+        const maxR = Math.hypot(
+            Math.max(origin.x, window.innerWidth - origin.x),
+            Math.max(origin.y, window.innerHeight - origin.y)
+        ) * 1.1;
 
-        if (!overlay || !mask || playing) {
-            applyCallback();
+        // View Transitions API (Chrome 111+, Edge) — reveal lingkaran
+        // mulus dari titik tombol, native & sangat halus.
+        if (document.startViewTransition) {
+            const vt = document.startViewTransition(() => {
+                applyCallback();
+            });
+
+            vt.ready.then(() => {
+                document.documentElement.animate(
+                    {
+                        clipPath: [
+                            `circle(0px at ${origin.x}px ${origin.y}px)`,
+                            `circle(${maxR}px at ${origin.x}px ${origin.y}px)`,
+                        ],
+                    },
+                    {
+                        duration: 650,
+                        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                        pseudoElement: "::view-transition-new(root)",
+                    }
+                );
+            });
+
+            vt.finished.finally(() => {
+                html.classList.remove("theme-transition");
+            });
             return;
         }
-        playing = true;
 
-        // Warna melt = latar tema TUJUAN
-        mask.style.background = targetDark ? "#030712" : "#ffffff";
-
-        // Pergantian tema terjadi di balik melt — tanpa cross-fade
-        document.documentElement.classList.remove("theme-transition");
-
-        overlay.style.transition = "opacity 80ms ease";
-        overlay.style.opacity = "1";
-
-        // Fase 1: melt naik menutup layar (frame 29 -> 0), ~550ms total
-        animateFrames(mask, FRAMES - 1, 0, 18, () => {
-            // Fase 2: layar tertutup -> ganti tema
-            applyCallback();
-
-            setTimeout(() => {
-                // Fase 3: melt turun membuka (frame 0 -> 29)
-                animateFrames(mask, 0, FRAMES - 1, 18, () => {
-                    overlay.style.opacity = "0";
-                    setTimeout(() => {
-                        setFrame(mask, FRAMES - 1);
-                        playing = false;
-                    }, 120);
-                });
-            }, 100);
-        });
+        // Fallback: crossfade lembut (Firefox/Safari)
+        html.classList.add("theme-transition");
+        applyCallback();
+        setTimeout(() => html.classList.remove("theme-transition"), 450);
     };
 })();

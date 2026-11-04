@@ -1,9 +1,7 @@
 {{--
     Toggle Dark/Light Mode — replika uiverse "slippery-ape-47" (ZenonAiden):
     tombol lingkaran berisi ikon bulan/matahari yang berputar + scale saat berganti.
-    - Mode terang: lingkaran terang (#e8e8e8) berisi bulan gelap, sedikit translate.
-    - Mode gelap: lingkaran gelap (#212121) berisi matahari terang, translate berlawanan.
-    Terhubung ke script theme-init di layouts (localStorage 'theme').
+    Transisi tema pakai efek reveal lingkaran dari tombol (theme-melt.js).
     Pemakaian: <x-theme-toggle />
 --}}
 <button
@@ -24,12 +22,8 @@
         const nextDark = !html.classList.contains('dark');
         localStorage.setItem('theme', nextDark ? 'dark' : 'light');
         const apply = () => {
-            if (window.applyTheme) {
-                dark = window.applyTheme();
-            } else {
-                dark = html.classList.toggle('dark', nextDark);
-                html.style.colorScheme = dark ? 'dark' : 'light';
-            }
+            dark = html.classList.toggle('dark', nextDark);
+            html.style.colorScheme = dark ? 'dark' : 'light';
             $el.setAttribute('aria-checked', dark ? 'true' : 'false');
             window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark } }));
         };

@@ -87,7 +87,5 @@
 
     {{-- Livewire Scripts --}}
     @livewireScripts
-
-    <x-theme-wave-overlay />
 </body>
 </html>

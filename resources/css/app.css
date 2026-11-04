@@ -8,10 +8,25 @@
    agar bisa dikendalikan tombol toggle + tersimpan di localStorage. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Transisi halus saat ganti tema */
+/* Transisi tema halus (fallback / theme-transition class) */
 html.theme-transition,
 html.theme-transition * {
-    transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease !important;
+    transition: background-color 400ms ease, border-color 400ms ease, color 400ms ease !important;
+}
+
+/* View Transitions API: reveal lingkaran dari tombol toggle */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 9999;
 }
 
 /* ============================================
@@ -449,26 +464,6 @@ html.theme-transition * {
 /* Sembunyikan elemen Alpine.js sebelum di-init (cegah flash) */
 [x-cloak] { display: none !important; }
 
-/* ============================================
-   Transisi tema: efek melt dari video referensi
-   Sprite 30 frame (384x216 per frame, tile vertikal).
-   frame 0 = layar tertutup penuh, frame 29 = terbuka penuh.
-   JS mengubah --frame 0..29; background-position ikut geser.
-   ============================================ */
-.theme-melt-frame {
-    --frame: 0;
-    --frames: 30;
-    -webkit-mask-image: url('/media/theme-melt-sprite.png');
-    mask-image: url('/media/theme-melt-sprite.png');
-    /* mask lebih besar dari elemen: tinggi = frames x 100% */
-    -webkit-mask-size: 100% calc(var(--frames) * 100%);
-    mask-size: 100% calc(var(--frames) * 100%);
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    /* frame N berada di offset Y = N / (frames-1) dari bawah */
-    -webkit-mask-position: 0 calc(var(--frame) / (var(--frames) - 1) * 100%);
-    mask-position: 0 calc(var(--frame) / (var(--frames) - 1) * 100%);
-}
 
 /* ============================================
    Theme Switch Button (Dark/Light Toggle)
