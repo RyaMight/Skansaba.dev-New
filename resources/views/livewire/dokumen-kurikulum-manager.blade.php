@@ -1,10 +1,10 @@
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-800 py-8">
     <div class="max-w-7xl mx-auto px-6">
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Kelola Dokumen Kurikulum</h1>
-                <p class="text-gray-600 mt-1">Manajemen dokumen kurikulum, silabus, dan modul pengajaran</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Dokumen Kurikulum</h1>
+                <p class="text-gray-600 dark:text-gray-300 mt-1">Manajemen dokumen kurikulum, silabus, dan modul pengajaran</p>
             </div>
             <button 
                 wire:click="openCreateModal"
@@ -19,31 +19,31 @@
 
         {{-- Flash Messages --}}
         @if(session()->has('message'))
-            <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-green-50 dark:bg-green-500/10 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
                 {{ session('message') }}
             </div>
         @endif
 
         @if(session()->has('error'))
-            <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-red-50 dark:bg-red-500/10 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
                 {{ session('error') }}
             </div>
         @endif
 
         {{-- Filters --}}
-        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-6 mb-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
                     <input 
                         type="text" 
                         wire:model.live="search" 
                         placeholder="Cari judul dokumen..."
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                     >
                 </div>
                 
                 <div>
-                    <select wire:model.live="filterJenis" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
+                    <select wire:model.live="filterJenis" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
                         <option value="">Semua Jenis</option>
                         <option value="kurikulum">Kurikulum</option>
                         <option value="silabus">Silabus</option>
@@ -58,12 +58,12 @@
                         type="number" 
                         wire:model.live="filterTahun" 
                         placeholder="Filter tahun..."
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
                     >
                 </div>
                 
                 <div>
-                    <select wire:model.live="filterStatus" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
+                    <select wire:model.live="filterStatus" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
                         <option value="">Semua Status</option>
                         <option value="draft">Draft</option>
                         <option value="published">Published</option>
@@ -74,36 +74,36 @@
         </div>
 
         {{-- Table --}}
-        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-gray-50 border-b border-gray-200">
+                    <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer" wire:click="sortBy('judul')">
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider cursor-pointer" wire:click="sortBy('judul')">
                                 Judul Dokumen
                                 @if($sortField === 'judul')
                                     <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
                                 @endif
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Jenis</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer" wire:click="sortBy('tahun_berlaku')">
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Jenis</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider cursor-pointer" wire:click="sortBy('tahun_berlaku')">
                                 Tahun Berlaku
                                 @if($sortField === 'tahun_berlaku')
                                     <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
                                 @endif
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">File</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">File</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @forelse($dokumenList as $item)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition">
                                 <td class="px-6 py-4">
-                                    <div class="font-semibold text-gray-900">{{ $item->judul }}</div>
+                                    <div class="font-semibold text-gray-900 dark:text-gray-50">{{ $item->judul }}</div>
                                     @if($item->published_at)
-                                        <div class="text-xs text-gray-500 mt-1">Dipublikasi: {{ $item->published_at->format('d M Y') }}</div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Dipublikasi: {{ $item->published_at->format('d M Y') }}</div>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
@@ -112,21 +112,21 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="text-sm font-medium text-gray-900">{{ $item->tahun_berlaku }}</span>
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-50">{{ $item->tahun_berlaku }}</span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-700">
+                                        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
                                             {{ $item->file_extension }}
                                         </span>
-                                        <span class="text-xs text-gray-500">{{ $item->formatted_file_size }}</span>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ $item->formatted_file_size }}</span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
-                                        @if($item->status === 'published') bg-green-100 text-green-800
-                                        @elseif($item->status === 'draft') bg-gray-100 text-gray-800
-                                        @else bg-red-100 text-red-800
+                                        @if($item->status === 'published') bg-green-100 dark:bg-green-50 dark:bg-green-500//20 text-green-800
+                                        @elseif($item->status === 'draft') bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100
+                                        @else bg-red-100 dark:bg-red-50 dark:bg-red-500//20 text-red-800
                                         @endif">
                                         {{ ucfirst($item->status) }}
                                     </span>
@@ -135,7 +135,7 @@
                                     <div class="flex items-center gap-2">
                                         <button 
                                             wire:click="openDetailModal({{ $item->id }})"
-                                            class="text-blue-600 hover:text-blue-800 transition"
+                                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 transition"
                                             title="Lihat Detail"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -147,7 +147,7 @@
                                             <a 
                                                 href="{{ $item->file_url }}"
                                                 download
-                                                class="text-green-600 hover:text-green-800 transition"
+                                                class="text-green-600 dark:text-green-400 hover:text-green-800 transition"
                                                 title="Download"
                                             >
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,7 +157,7 @@
                                         @endif
                                         <button 
                                             wire:click="openEditModal({{ $item->id }})"
-                                            class="text-yellow-600 hover:text-yellow-800 transition"
+                                            class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 transition"
                                             title="Edit"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@
                                         <button 
                                             wire:click="delete({{ $item->id }})"
                                             wire:confirm="Apakah Anda yakin ingin menghapus dokumen ini?"
-                                            class="text-red-600 hover:text-red-800 transition"
+                                            class="text-red-600 dark:text-red-400 hover:text-red-800 transition"
                                             title="Hapus"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -179,8 +179,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-6 py-12 text-center text-gray-500">
-                                    <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td colspan="6" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                    <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                     </svg>
                                     <p class="text-lg font-medium">Belum ada dokumen</p>
@@ -198,14 +198,14 @@
     @if($showModal)
         <div class="fixed inset-0 z-50 overflow-y-auto" x-data="{ show: @entangle('showModal') }">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
-                <div class="fixed inset-0 transition-opacity bg-gray-500/75" wire:click="closeModal"></div>
+                <div class="fixed inset-0 transition-opacity bg-gray-50 dark:bg-gray-900/75" wire:click="closeModal"></div>
 
-                <div class="relative inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div class="relative inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900">
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50">
                             {{ $isEditMode ? 'Edit Dokumen' : 'Tambah Dokumen Baru' }}
                         </h3>
-                        <button wire:click="closeModal" class="text-gray-400 hover:text-gray-600 transition">
+                        <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 transition">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                             </svg>
@@ -215,11 +215,11 @@
                     <form wire:submit.prevent="save">
                         {{-- Judul --}}
                         <div class="mb-6">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Judul Dokumen *</label>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Judul Dokumen *</label>
                             <input 
                                 type="text" 
                                 wire:model="judul" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                 placeholder="Contoh: Kurikulum Merdeka RPL 2024"
                             >
                             @error('judul') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
@@ -228,10 +228,10 @@
                         {{-- Jenis & Tahun --}}
                         <div class="grid grid-cols-2 gap-4 mb-6">
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Jenis Dokumen *</label>
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Jenis Dokumen *</label>
                                 <select 
                                     wire:model="jenis" 
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
                                 >
                                     <option value="kurikulum">Kurikulum</option>
                                     <option value="silabus">Silabus</option>
@@ -243,13 +243,13 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">Tahun Berlaku *</label>
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Tahun Berlaku *</label>
                                 <input 
                                     type="number" 
                                     wire:model="tahun_berlaku" 
                                     min="2000" 
                                     max="{{ date('Y') + 10 }}"
-                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
                                     placeholder="{{ date('Y') }}"
                                 >
                                 @error('tahun_berlaku') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
@@ -258,10 +258,10 @@
 
                         {{-- File Upload --}}
                         <div class="mb-6">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                                 File Dokumen {{ !$isEditMode ? '*' : '(Opsional untuk update)' }}
                             </label>
-                            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-[#12B4E0] transition">
+                            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-[#12B4E0] transition">
                                 <input 
                                     type="file" 
                                     wire:model="file" 
@@ -270,36 +270,36 @@
                                     id="fileInput"
                                 >
                                 <label for="fileInput" class="cursor-pointer">
-                                    <svg class="w-12 h-12 mx-auto text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-12 h-12 mx-auto text-gray-400 dark:text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
                                     </svg>
-                                    <p class="text-sm text-gray-600 font-medium">Klik untuk pilih file</p>
-                                    <p class="text-xs text-gray-500 mt-1">PDF, DOC, DOCX (Max 10MB)</p>
+                                    <p class="text-sm text-gray-600 dark:text-gray-300 font-medium">Klik untuk pilih file</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">PDF, DOC, DOCX (Max 10MB)</p>
                                     
                                     @if($file)
-                                        <div class="mt-4 inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
-                                            <svg class="w-5 h-5 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <div class="mt-4 inline-flex items-center px-4 py-2 bg-green-50 dark:bg-green-500/10 border border-green-200 rounded-lg">
+                                            <svg class="w-5 h-5 text-green-600 dark:text-green-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
                                             <span class="text-sm text-green-700 font-medium">{{ $file->getClientOriginalName() }}</span>
                                         </div>
                                     @elseif($currentFile)
-                                        <div class="mt-4 text-sm text-gray-600">
+                                        <div class="mt-4 text-sm text-gray-600 dark:text-gray-300">
                                             File saat ini: <span class="font-medium">{{ basename($currentFile) }}</span>
                                         </div>
                                     @endif
                                 </label>
                             </div>
                             @error('file') <span class="text-red-500 text-sm mt-1">{{ $message }}</span> @enderror
-                            <p class="text-xs text-gray-500 mt-2">⚠️ File akan tersedia untuk diunduh publik setelah dipublikasi</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">⚠️ File akan tersedia untuk diunduh publik setelah dipublikasi</p>
                         </div>
 
                         {{-- Status --}}
                         <div class="mb-6">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">Status Publikasi *</label>
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">Status Publikasi *</label>
                             <select 
                                 wire:model="status" 
-                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
+                                class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]"
                             >
                                 <option value="draft">Draft</option>
                                 <option value="published">Published</option>
@@ -313,7 +313,7 @@
                             <button 
                                 type="button"
                                 wire:click="closeModal"
-                                class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition"
+                                class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                             >
                                 Batal
                             </button>
@@ -338,9 +338,9 @@
     @if($showDetailModal && $detailDokumen)
         <div class="fixed inset-0 z-50 overflow-y-auto">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
-                <div class="fixed inset-0 transition-opacity bg-gray-500/75" wire:click="closeDetailModal"></div>
+                <div class="fixed inset-0 transition-opacity bg-gray-50 dark:bg-gray-900/75" wire:click="closeDetailModal"></div>
 
-                <div class="relative inline-block w-full max-w-3xl p-0 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                <div class="relative inline-block w-full max-w-3xl p-0 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
                     {{-- Header with gradient --}}
                     <div class="bg-gradient-to-r from-[#12B4E0] to-[#0e91b8] px-8 py-6 text-white">
                         <div class="flex items-start justify-between">
@@ -373,41 +373,41 @@
                     <div class="px-8 py-6">
                         <div class="grid grid-cols-2 gap-6 mb-6">
                             <div>
-                                <label class="block text-sm font-semibold text-gray-600 mb-1">Jenis Dokumen</label>
+                                <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Jenis Dokumen</label>
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium {{ $detailDokumen->jenis_badge_color }}">
                                     {{ ucfirst($detailDokumen->jenis) }}
                                 </span>
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-gray-600 mb-1">Tahun Berlaku</label>
-                                <p class="text-gray-900 font-semibold">{{ $detailDokumen->tahun_berlaku }}</p>
+                                <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Tahun Berlaku</label>
+                                <p class="text-gray-900 dark:text-gray-50 font-semibold">{{ $detailDokumen->tahun_berlaku }}</p>
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-gray-600 mb-1">Status</label>
+                                <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Status</label>
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
-                                    @if($detailDokumen->status === 'published') bg-green-100 text-green-800
-                                    @elseif($detailDokumen->status === 'draft') bg-gray-100 text-gray-800
-                                    @else bg-red-100 text-red-800
+                                    @if($detailDokumen->status === 'published') bg-green-100 dark:bg-green-50 dark:bg-green-500//20 text-green-800
+                                    @elseif($detailDokumen->status === 'draft') bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100
+                                    @else bg-red-100 dark:bg-red-50 dark:bg-red-500//20 text-red-800
                                     @endif">
                                     {{ ucfirst($detailDokumen->status) }}
                                 </span>
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-gray-600 mb-1">Ukuran File</label>
-                                <p class="text-gray-900 font-semibold">{{ $detailDokumen->formatted_file_size }} ({{ $detailDokumen->file_extension }})</p>
+                                <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Ukuran File</label>
+                                <p class="text-gray-900 dark:text-gray-50 font-semibold">{{ $detailDokumen->formatted_file_size }} ({{ $detailDokumen->file_extension }})</p>
                             </div>
                         </div>
 
                         @if($detailDokumen->published_at)
                             <div class="mb-6">
-                                <label class="block text-sm font-semibold text-gray-600 mb-1">Tanggal Dipublikasi</label>
-                                <p class="text-gray-900">{{ $detailDokumen->published_at->format('d F Y, H:i') }} WIB</p>
+                                <label class="block text-sm font-semibold text-gray-600 dark:text-gray-300 mb-1">Tanggal Dipublikasi</label>
+                                <p class="text-gray-900 dark:text-gray-50">{{ $detailDokumen->published_at->format('d F Y, H:i') }} WIB</p>
                             </div>
                         @endif
 
                         {{-- Download Button --}}
                         @if($detailDokumen->status === 'published')
-                            <div class="border-t border-gray-200 pt-6">
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                                 <a 
                                     href="{{ $detailDokumen->file_url }}"
                                     download
@@ -420,8 +420,8 @@
                                 </a>
                             </div>
                         @else
-                            <div class="border-t border-gray-200 pt-6">
-                                <div class="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-3">
+                            <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
+                                <div class="bg-yellow-50 dark:bg-yellow-500/10 border border-yellow-200 rounded-lg px-4 py-3">
                                     <p class="text-sm text-yellow-800">
                                         <strong>Catatan:</strong> Dokumen ini belum dipublikasi dan tidak dapat diunduh publik.
                                     </p>

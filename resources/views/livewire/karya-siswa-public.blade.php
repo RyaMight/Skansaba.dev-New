@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-800">
     {{-- Header dengan Breadcrumb --}}
-    <section class="bg-white py-8">
+    <section class="bg-white dark:bg-gray-900 py-8">
         <div class="max-w-7xl mx-auto px-6 text-center">
             {{-- Breadcrumb --}}
-            <div class="flex items-center justify-center gap-2 text-sm text-gray-600 mb-4">
+            <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
@@ -12,26 +12,26 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">Karya Siswa</span>
             </div>
             
-            <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 mb-3">
+            <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
                 Karya <span style="color: {{ $globalSettings->primary_color_style }}">Siswa</span>
             </h1>
-            <p class="text-gray-600 text-lg max-w-4xl mx-auto">Portofolio dan proyek karya siswa RPL</p>
+            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">Portofolio dan proyek karya siswa RPL</p>
         </div>
     </section>
 
     {{-- Search Only --}}
-    <section class="py-6 bg-white">
+    <section class="py-6 bg-white dark:bg-gray-900">
         <div class="max-w-7xl mx-auto px-6">
             <div class="max-w-2xl">
                 <div class="relative">
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                     </svg>
                     <input 
                         type="text" 
                         wire:model.live.debounce.300ms="search" 
                         placeholder="Cari karya atau nama siswa..."
-                        class="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-700"
+                        class="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-transparent text-gray-700 dark:text-gray-200"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
                     >
                 </div>
@@ -45,7 +45,7 @@
             {{-- Top Showcase (2 Featured Projects) --}}
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {{-- Showcase 1: Sistem Informasi Manajemen Sekolah --}}
-                <div class="bg-white rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 flex flex-col md:flex-row items-center gap-6">
+                <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 flex flex-col md:flex-row items-center gap-6">
                     {{-- Web Browser Mockup --}}
                     <div class="w-full md:w-[320px] bg-[#161a23] rounded-2xl p-2.5 shadow-md border border-slate-800 text-white shrink-0 select-none">
                         {{-- Browser Window Top Bar --}}
@@ -76,7 +76,7 @@
                             </div>
 
                             {{-- Mini Dashboard (Light background) --}}
-                            <div class="flex-1 bg-white p-2.5 text-slate-800">
+                            <div class="flex-1 bg-white dark:bg-gray-900 p-2.5 text-slate-800">
                                 <div class="flex items-center justify-between mb-2">
                                     <div class="text-[9px] font-bold text-slate-800 leading-tight">Dashboard Ringkasan</div>
                                     <span class="text-[7px] text-slate-500 bg-slate-100 border border-slate-200 px-1 py-0.5 rounded leading-none">2024 / Genap</span>
@@ -106,10 +106,10 @@
                                 <div class="flex items-end justify-between gap-2 pt-1.5 border-t border-slate-100">
                                     <div class="flex items-end gap-1 h-9">
                                         <div class="w-1.5 bg-sky-400 rounded-t h-4"></div>
-                                        <div class="w-1.5 bg-sky-500 rounded-t h-6"></div>
+                                        <div class="w-1.5 bg-sky-50 dark:$110 rounded-t h-6"></div>
                                         <div class="w-1.5 bg-sky-400 rounded-t h-3"></div>
                                         <div class="w-1.5 bg-sky-600 rounded-t h-8"></div>
-                                        <div class="w-1.5 bg-sky-500 rounded-t h-5"></div>
+                                        <div class="w-1.5 bg-sky-50 dark:$110 rounded-t h-5"></div>
                                         <div class="w-1.5 bg-sky-600 rounded-t h-7"></div>
                                     </div>
                                     <div class="relative w-8 h-8 flex items-center justify-center shrink-0">
@@ -149,18 +149,18 @@
                 </div>
 
                 {{-- Showcase 2: Aplikasi E-Commerce Lokal --}}
-                <div class="bg-white rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 flex flex-col md:flex-row items-center gap-6">
+                <div class="bg-white dark:bg-gray-900 rounded-3xl p-6 lg:p-7 shadow-xs border border-slate-100 flex flex-col md:flex-row items-center gap-6">
                     {{-- 2 Smartphone Mockup --}}
                     <div class="w-full md:w-[320px] flex items-center justify-center gap-3 shrink-0 select-none">
                         {{-- Phone 1 --}}
                         <div class="w-[125px] bg-[#141822] rounded-[1.8rem] p-1.5 shadow-md border-2 border-slate-800 shrink-0">
-                            <div class="bg-white rounded-[1.4rem] p-2 flex flex-col justify-between h-[180px] overflow-hidden">
+                            <div class="bg-white dark:bg-gray-900 rounded-[1.4rem] p-2 flex flex-col justify-between h-[180px] overflow-hidden">
                                 <div>
                                     <div class="flex items-center justify-between pb-1 border-b border-slate-100">
                                         <span class="text-[8px] font-bold text-slate-800">E-Market</span>
-                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-50 dark:$110"></span>
                                     </div>
-                                    <div class="bg-sky-100 text-sky-700 text-center py-2 rounded-md font-bold text-[8px] my-2">
+                                    <div class="bg-sky-100 dark:bg-sky-50 dark:bg-sky-500//20 text-sky-700 text-center py-2 rounded-md font-bold text-[8px] my-2">
                                         Promo 50%
                                     </div>
                                     <div class="grid grid-cols-2 gap-1">
@@ -178,7 +178,7 @@
 
                         {{-- Phone 2 --}}
                         <div class="w-[125px] bg-[#141822] rounded-[1.8rem] p-1.5 shadow-md border-2 border-slate-800 shrink-0">
-                            <div class="bg-white rounded-[1.4rem] p-2 flex flex-col justify-between h-[180px] overflow-hidden">
+                            <div class="bg-white dark:bg-gray-900 rounded-[1.4rem] p-2 flex flex-col justify-between h-[180px] overflow-hidden">
                                 <div>
                                     <div class="flex items-center justify-between pb-1 border-b border-slate-100">
                                         <span class="text-[8px] font-bold text-slate-800">Katalog Toko</span>
@@ -240,7 +240,7 @@
                     Karya Siswa <span class="font-normal text-slate-400">Skills Filter</span>
                 </h2>
                 <div class="mt-5 flex justify-center">
-                    <div x-data="{ activeSkill: 'Frontend' }" class="inline-flex items-center bg-white p-1 rounded-full border border-slate-200 shadow-xs">
+                    <div x-data="{ activeSkill: 'Frontend' }" class="inline-flex items-center bg-white dark:bg-gray-900 p-1 rounded-full border border-slate-200 shadow-xs">
                         <button 
                             type="button" 
                             @click="activeSkill = 'Frontend'" 
@@ -287,7 +287,7 @@
                 @endphp
 
                 @foreach($developers as $dev)
-                    <div class="bg-white rounded-2xl p-3.5 border border-slate-100 shadow-xs flex flex-col justify-between hover:shadow-md transition">
+                    <div class="bg-white dark:bg-gray-900 rounded-2xl p-3.5 border border-slate-100 shadow-xs flex flex-col justify-between hover:shadow-md transition">
                         <div>
                             {{-- Avatar Placeholder --}}
                             <div class="w-full aspect-[4/3.5] bg-[#d3d9e2] rounded-xl flex items-center justify-center overflow-hidden">

@@ -17,7 +17,7 @@
     type="button"
     role="switch"
     aria-label="Ganti mode gelap/terang"
-    class="relative inline-flex h-9 w-[68px] shrink-0 items-center rounded-full border-2 border-gray-200 bg-sky-500 transition-colors duration-300 cursor-pointer dark:bg-slate-950 dark:border-gray-700"
+    class="relative inline-flex h-9 w-[68px] shrink-0 items-center rounded-full border-2 border-gray-200 dark:border-gray-700 bg-sky-50 dark:$110 transition-colors duration-300 cursor-pointer dark:bg-slate-950 dark:border-gray-700"
 >
     {{-- Ikon matahari (mode terang aktif) --}}
     <span class="absolute left-3 flex items-center justify-center text-white transition-opacity duration-300 dark:opacity-0">
@@ -35,6 +35,6 @@
         </svg>
     </span>
 
-    {{-- Knob geser: kanan saat terang, kiri saat gelap --}}
-    <span class="absolute right-1 h-6 w-6 rounded-full bg-white shadow-md transition-transform duration-300 dark:-translate-x-[36px]"></span>
+    {{-- Knob geser: kanan saat terang, kiri saat gelap — animasi slide murni utility Tailwind --}}
+    <span class="absolute right-1 h-6 w-6 rounded-full bg-white dark:bg-gray-900 shadow-md transition-all duration-300 dark:translate-x-[-36px]"></span>
 </button>

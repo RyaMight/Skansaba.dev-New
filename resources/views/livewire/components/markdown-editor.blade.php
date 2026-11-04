@@ -1,12 +1,12 @@
 <div class="space-y-3" x-data="markdownEditorComponent()">
     {{-- Label --}}
-    <label class="block text-sm font-medium text-gray-700">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
         {{ $label }}
         @if($required) <span class="text-red-500">*</span> @endif
     </label>
 
     {{-- Toolbar --}}
-    <div class="flex items-center gap-1 p-2 bg-gray-50 border border-gray-300 rounded-t-lg">
+    <div class="flex items-center gap-1 p-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-t-lg">
         <button 
             type="button"
             @click="insertBold()"
@@ -79,7 +79,7 @@
             type="button"
             wire:click="togglePreview"
             class="px-3 py-1 text-xs font-medium rounded transition-colors"
-            :class="$wire.showPreview ? 'bg-blue-100 text-blue-700' : 'bg-gray-200 text-gray-600'"
+            :class="$wire.showPreview ? 'bg-blue-100 dark:bg-blue-50 dark:bg-blue-500//20 text-blue-700' : 'bg-gray-200 text-gray-600 dark:text-gray-300'"
             title="Toggle Preview"
         >
             <span x-show="$wire.showPreview">👁️ Preview</span>
@@ -92,7 +92,7 @@
         x-ref="textarea"
         wire:model.live="value"
         rows="{{ $rows }}"
-        class="w-full px-3 py-2 border border-gray-300 rounded-b-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent font-mono text-sm"
+        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-b-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent font-mono text-sm"
         placeholder="{{ $placeholder }}"
         @keydown.ctrl.b.prevent="insertBold()"
         @keydown.meta.b.prevent="insertBold()"
@@ -101,13 +101,13 @@
     ></textarea>
 
     @error('value') 
-        <p class="text-sm text-red-600">{{ $message }}</p> 
+        <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p> 
     @enderror
 
     {{-- Live Preview --}}
     @if($showPreview && $value)
-        <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 max-h-64 overflow-y-auto">
-            <p class="text-xs font-semibold text-gray-600 mb-3 uppercase tracking-wide flex items-center">
+        <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 max-h-64 overflow-y-auto">
+            <p class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-3 uppercase tracking-wide flex items-center">
                 <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>

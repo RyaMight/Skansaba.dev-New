@@ -1,10 +1,10 @@
-<div class="min-h-screen bg-gray-50 py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-800 py-8">
     <div class="max-w-7xl mx-auto px-6">
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Kelola Fasilitas</h1>
-                <p class="text-gray-600 mt-1">Manajemen data fasilitas jurusan RPL</p>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Fasilitas</h1>
+                <p class="text-gray-600 dark:text-gray-300 mt-1">Manajemen data fasilitas jurusan RPL</p>
             </div>
             <button 
                 wire:click="openCreateModal"
@@ -19,31 +19,31 @@
 
         {{-- Flash Messages --}}
         @if(session()->has('message'))
-            <div class="mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-green-50 dark:bg-green-500/10 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
                 {{ session('message') }}
             </div>
         @endif
 
         @if(session()->has('error'))
-            <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+            <div class="mb-6 bg-red-50 dark:bg-red-500/10 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
                 {{ session('error') }}
             </div>
         @endif
 
         {{-- Filters --}}
-        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm p-6 mb-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <input 
                         type="text" 
                         wire:model.live="search" 
                         placeholder="Cari tempat/ruangan..."
-                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                     >
                 </div>
                 
                 <div>
-                    <select wire:model.live="filterStatus" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
+                    <select wire:model.live="filterStatus" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0]">
                         <option value="">Semua Status</option>
                         <option value="draft">Draft</option>
                         <option value="published">Published</option>
@@ -54,41 +54,41 @@
         </div>
 
         {{-- Table --}}
-        <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
-                    <thead class="bg-gray-50 border-b border-gray-200">
+                    <thead class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Gambar</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer" wire:click="sortBy('tempat')">
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Gambar</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider cursor-pointer" wire:click="sortBy('tempat')">
                                 Tempat/Ruangan
                                 @if($sortField === 'tempat')
                                     <span>{{ $sortDirection === 'asc' ? '↑' : '↓' }}</span>
                                 @endif
                             </th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Fasilitas</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Fasilitas</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         @forelse($fasilitasList as $item)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800 transition">
                                 <td class="px-6 py-4">
                                     @if($item->gambar)
                                         <img src="{{ Storage::url($item->gambar) }}" alt="{{ $item->tempat }}" class="w-24 h-14 object-cover rounded-lg">
                                     @else
                                         <div class="w-24 h-14 bg-gray-200 rounded-lg flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <svg class="w-8 h-8 text-gray-400 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                             </svg>
                                         </div>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="font-semibold text-gray-900">{{ $item->tempat }}</div>
+                                    <div class="font-semibold text-gray-900 dark:text-gray-50">{{ $item->tempat }}</div>
                                     @if($item->deskripsi)
-                                        <div class="text-sm text-gray-600 mt-1">{{ Str::limit($item->deskripsi, 60) }}</div>
+                                        <div class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ Str::limit($item->deskripsi, 60) }}</div>
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
@@ -100,20 +100,20 @@
                                                 </span>
                                             @endforeach
                                             @if(count($item->fasilitas) > 3)
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
                                                     +{{ count($item->fasilitas) - 3 }} lagi
                                                 </span>
                                             @endif
                                         @else
-                                            <span class="text-sm text-gray-400 italic">Belum ada fasilitas</span>
+                                            <span class="text-sm text-gray-400 dark:text-gray-400 italic">Belum ada fasilitas</span>
                                         @endif
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
-                                        @if($item->status === 'published') bg-green-100 text-green-800
-                                        @elseif($item->status === 'draft') bg-gray-100 text-gray-800
-                                        @else bg-red-100 text-red-800
+                                        @if($item->status === 'published') bg-green-100 dark:bg-green-50 dark:bg-green-500//20 text-green-800
+                                        @elseif($item->status === 'draft') bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100
+                                        @else bg-red-100 dark:bg-red-50 dark:bg-red-500//20 text-red-800
                                         @endif">
                                         {{ ucfirst($item->status) }}
                                     </span>
@@ -122,7 +122,7 @@
                                     <div class="flex items-center gap-2">
                                         <button 
                                             wire:click="openDetailModal({{ $item->id }})"
-                                            class="text-blue-600 hover:text-blue-800 transition"
+                                            class="text-blue-600 dark:text-blue-400 hover:text-blue-800 transition"
                                             title="Lihat Detail"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +132,7 @@
                                         </button>
                                         <button 
                                             wire:click="openEditModal({{ $item->id }})"
-                                            class="text-yellow-600 hover:text-yellow-800 transition"
+                                            class="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 transition"
                                             title="Edit"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,7 +142,7 @@
                                         <button 
                                             wire:click="delete({{ $item->id }})"
                                             wire:confirm="Apakah Anda yakin ingin menghapus fasilitas ini?"
-                                            class="text-red-600 hover:text-red-800 transition"
+                                            class="text-red-600 dark:text-red-400 hover:text-red-800 transition"
                                             title="Hapus"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -154,8 +154,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                                    <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <td colspan="5" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
+                                    <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                                     </svg>
                                     <p class="text-lg font-medium">Tidak ada data fasilitas</p>
@@ -172,12 +172,12 @@
     {{-- Create/Edit Modal --}}
     @if($showModal)
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto">
-                <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-                    <h2 class="text-2xl font-bold text-gray-900">
+            <div class="bg-white dark:bg-gray-900 rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+                <div class="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50">
                         {{ $isEditMode ? 'Edit Fasilitas' : 'Tambah Fasilitas' }}
                     </h2>
-                    <button wire:click="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <button wire:click="closeModal" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -197,14 +197,14 @@
                             <div class="space-y-6">
                                 {{-- Tempat --}}
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                                         Tempat/Ruangan <span class="text-red-500">*</span>
                                     </label>
                                     <input 
                                         type="text" 
                                         wire:model="tempat"
                                         placeholder="contoh: Lab RPL 1, Lab 19"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent @error('tempat') border-red-500 @enderror"
+                                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent @error('tempat') border-red-500 @enderror"
                                     >
                                     @error('tempat') 
                                         <span class="text-red-500 text-sm mt-1">{{ $message }}</span> 
@@ -213,12 +213,12 @@
 
                                 {{-- Status --}}
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                                         Status <span class="text-red-500">*</span>
                                     </label>
                                     <select 
                                         wire:model="status"
-                                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] @error('status') border-red-500 @enderror"
+                                        class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] @error('status') border-red-500 @enderror"
                                     >
                                         <option value="draft">Draft</option>
                                         <option value="published">Published</option>
@@ -263,10 +263,10 @@
 
                             {{-- Right Column: Badge Repeater --}}
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-200 mb-2">
                                     Daftar Fasilitas
                                 </label>
-                                <div class="bg-gray-50 border border-gray-300 rounded-lg p-4">
+                                <div class="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-4">
                                     {{-- Input untuk menambahkan item --}}
                                     <div class="flex gap-2 mb-4">
                                         <input 
@@ -274,7 +274,7 @@
                                             wire:model="newFasilitasItem"
                                             wire:keydown.enter.prevent="addFasilitasItem"
                                             placeholder="Ketik fasilitas (contoh: Laptop ROG x19)"
-                                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
+                                            class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                         >
                                         <button 
                                             type="button"
@@ -308,7 +308,7 @@
                                                 </button>
                                             </div>
                                         @empty
-                                            <div class="w-full text-center text-gray-400 italic py-8">
+                                            <div class="w-full text-center text-gray-400 dark:text-gray-400 italic py-8">
                                                 <svg class="w-12 h-12 mx-auto mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                                                 </svg>
@@ -319,15 +319,15 @@
                                     </div>
 
                                     {{-- Example Hints --}}
-                                    <div class="mt-4 pt-4 border-t border-gray-300">
-                                        <p class="text-xs text-gray-600 font-semibold mb-2">Contoh fasilitas:</p>
+                                    <div class="mt-4 pt-4 border-t border-gray-300 dark:border-gray-600">
+                                        <p class="text-xs text-gray-600 dark:text-gray-300 font-semibold mb-2">Contoh fasilitas:</p>
                                         <div class="flex flex-wrap gap-1">
-                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs">Laptop ROG x19</span>
-                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs">AC x5</span>
-                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs">Proyektor</span>
-                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs">Router Mikrotik</span>
-                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs">Meja x20</span>
-                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 rounded text-xs">Kursi x40</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 dark:text-gray-200 rounded text-xs">Laptop ROG x19</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 dark:text-gray-200 rounded text-xs">AC x5</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 dark:text-gray-200 rounded text-xs">Proyektor</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 dark:text-gray-200 rounded text-xs">Router Mikrotik</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 dark:text-gray-200 rounded text-xs">Meja x20</span>
+                                            <span class="inline-flex items-center px-2 py-0.5 bg-gray-200 text-gray-700 dark:text-gray-200 rounded text-xs">Kursi x40</span>
                                         </div>
                                     </div>
                                 </div>
@@ -336,11 +336,11 @@
                     </div>
 
                     {{-- Footer --}}
-                    <div class="sticky bottom-0 bg-gray-50 border-t border-gray-200 px-6 py-4 flex items-center justify-end gap-3">
+                    <div class="sticky bottom-0 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3">
                         <button 
                             type="button"
                             wire:click="closeModal"
-                            class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold transition"
+                            class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold transition"
                         >
                             Batal
                         </button>
@@ -359,7 +359,7 @@
     {{-- Detail Modal --}}
     @if($showDetailModal && $detailFasilitas)
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="bg-white dark:bg-gray-900 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
                 {{-- Header dengan Gradient --}}
                 <div class="relative h-48 bg-gradient-to-r from-[#12B4E0] to-[#0e91b8] rounded-t-lg">
                     @if($detailFasilitas->gambar)
@@ -379,18 +379,18 @@
                     {{-- Gambar Ruangan --}}
                     @if($detailFasilitas->gambar)
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Foto Ruangan</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">Foto Ruangan</h3>
                             <img src="{{ Storage::url($detailFasilitas->gambar) }}" alt="{{ $detailFasilitas->tempat }}" class="w-full rounded-lg shadow-lg">
                         </div>
                     @endif
 
                     {{-- Status --}}
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-3">Status</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">Status</h3>
                         <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium
-                            @if($detailFasilitas->status === 'published') bg-green-100 text-green-800
-                            @elseif($detailFasilitas->status === 'draft') bg-gray-100 text-gray-800
-                            @else bg-red-100 text-red-800
+                            @if($detailFasilitas->status === 'published') bg-green-100 dark:bg-green-50 dark:bg-green-500//20 text-green-800
+                            @elseif($detailFasilitas->status === 'draft') bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100
+                            @else bg-red-100 dark:bg-red-50 dark:bg-red-500//20 text-red-800
                             @endif">
                             {{ ucfirst($detailFasilitas->status) }}
                         </span>
@@ -399,7 +399,7 @@
                     {{-- Deskripsi --}}
                     @if($detailFasilitas->deskripsi)
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Deskripsi</h3>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">Deskripsi</h3>
                             <div class="prose prose-sm max-w-none">
                                 {!! $detailFasilitas->deskripsi_html !!}
                             </div>
@@ -409,9 +409,9 @@
                     {{-- Daftar Fasilitas --}}
                     @if($detailFasilitas->fasilitas && count($detailFasilitas->fasilitas) > 0)
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 mb-3">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">
                                 Daftar Fasilitas 
-                                <span class="text-sm text-gray-500 font-normal">({{ $detailFasilitas->fasilitas_count }} item)</span>
+                                <span class="text-sm text-gray-500 dark:text-gray-400 font-normal">({{ $detailFasilitas->fasilitas_count }} item)</span>
                             </h3>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($detailFasilitas->fasilitas as $fas)
@@ -424,27 +424,27 @@
                     @endif
 
                     {{-- Metadata --}}
-                    <div class="border-t border-gray-200 pt-4">
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-4">
                         <div class="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                                <span class="text-gray-600">Dibuat oleh:</span>
-                                <span class="font-semibold text-gray-900 ml-2">{{ $detailFasilitas->user->name ?? 'N/A' }}</span>
+                                <span class="text-gray-600 dark:text-gray-300">Dibuat oleh:</span>
+                                <span class="font-semibold text-gray-900 dark:text-gray-50 ml-2">{{ $detailFasilitas->user->name ?? 'N/A' }}</span>
                             </div>
                             <div>
-                                <span class="text-gray-600">Dibuat pada:</span>
-                                <span class="font-semibold text-gray-900 ml-2">{{ $detailFasilitas->created_at->format('d M Y H:i') }}</span>
+                                <span class="text-gray-600 dark:text-gray-300">Dibuat pada:</span>
+                                <span class="font-semibold text-gray-900 dark:text-gray-50 ml-2">{{ $detailFasilitas->created_at->format('d M Y H:i') }}</span>
                             </div>
                             @if($detailFasilitas->published_at)
                                 <div>
-                                    <span class="text-gray-600">Dipublikasi:</span>
-                                    <span class="font-semibold text-gray-900 ml-2">{{ $detailFasilitas->published_at->format('d M Y H:i') }}</span>
+                                    <span class="text-gray-600 dark:text-gray-300">Dipublikasi:</span>
+                                    <span class="font-semibold text-gray-900 dark:text-gray-50 ml-2">{{ $detailFasilitas->published_at->format('d M Y H:i') }}</span>
                                 </div>
                             @endif
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 border-t border-gray-200 px-6 py-4 flex items-center justify-end gap-3 rounded-b-lg">
+                <div class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3 rounded-b-lg">
                     <button 
                         wire:click="closeDetailModal"
                         class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-semibold transition"

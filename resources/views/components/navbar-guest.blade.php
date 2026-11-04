@@ -79,14 +79,14 @@
                                 <img 
                                     src="{{ auth()->user()->photo_url }}" 
                                     alt="{{ auth()->user()->name }}" 
-                                    class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 group-hover:border-[var(--primary-color)] transition"
+                                    class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 group-hover:border-[var(--primary-color)] transition"
                                 >
                             @else
-                                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold border-2 border-gray-200 group-hover:border-[var(--primary-color)] transition" style="background-color: {{ $globalSettings->primary_color_style }}">
+                                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold border-2 border-gray-200 dark:border-gray-700 group-hover:border-[var(--primary-color)] transition" style="background-color: {{ $globalSettings->primary_color_style }}">
                                     {{ auth()->user()->initials() }}
                                 </div>
                             @endif
-                            <svg class="w-4 h-4 text-gray-400 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-gray-400 dark:text-gray-400 transition-transform" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                             </svg>
                         </button>
@@ -120,7 +120,7 @@
                             @endif
                             <button 
                                 @click="open = false; $dispatch('confirm-logout')" 
-                                class="w-full flex items-center gap-2 px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 transition cursor-pointer"
+                                class="w-full flex items-center gap-2 px-4 py-2 text-sm text-rose-600 hover:bg-rose-50 dark:bg-rose-500/10 transition cursor-pointer"
                             >
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
@@ -141,7 +141,7 @@
             <button
                 x-data
                 @click="$dispatch('toggle-mobile-menu')"
-                class="lg:hidden p-2 text-gray-700 hover:text-gray-900 dark:text-gray-100 transition"
+                class="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-100 transition"
                 aria-label="Buka menu"
             >
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,7 +183,7 @@
             </div>
             <div class="flex items-center gap-2">
                 <x-theme-toggle />
-                <button @click="open = false" class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 dark:text-gray-300 transition" aria-label="Tutup menu">
+                <button @click="open = false" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-600 dark:text-gray-300 transition" aria-label="Tutup menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -249,7 +249,7 @@
                             <img 
                                 src="{{ auth()->user()->photo_url }}" 
                                 alt="{{ auth()->user()->name }}" 
-                                class="w-9 h-9 rounded-full object-cover border-2 border-gray-200"
+                                class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
                             >
                         @else
                             <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
@@ -322,7 +322,7 @@
                 <div class="flex items-center justify-center gap-3 pt-2">
                     <button 
                         @click="show = false" 
-                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
+                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
                     >
                         Batal
                     </button>
