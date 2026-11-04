@@ -25,12 +25,16 @@ class KaryaSiswa extends Model
         'gambar',
         'url_demo',
         'url_repo',
+        'bukti',
+        'screenshots',
         'status',
         'published_at',
     ];
 
     protected $casts = [
         'tahun' => 'integer',
+        'bukti' => 'array',
+        'screenshots' => 'array',
         'published_at' => 'datetime',
         'teknologi' => 'array',
     ];

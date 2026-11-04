@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900">Kelola Karya Siswa</h1>
+                <h1 class="text-3xl font-bold text-gray-900">{{ auth()->user()->role === 'siswa' ? 'Karya Saya' : 'Kelola Karya Siswa' }}</h1>
                 <p class="text-gray-600 mt-1">Manajemen data karya siswa RPL</p>
             </div>
             <button 
@@ -37,7 +37,7 @@
                     <input 
                         type="text" 
                         wire:model.live="search" 
-                        placeholder="Cari judul, siswa, teknologi..."
+                        placeholder="Cari judul atau nama siswa..."
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                     >
                 </div>
@@ -89,7 +89,6 @@
                             </th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Siswa</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Kategori</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Teknologi</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Tahun</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
@@ -111,9 +110,6 @@
                                     <span class="px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-full">
                                         {{ ucfirst($karya->kategori) }}
                                     </span>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <span class="text-sm text-gray-600">{{ $karya->teknologi }}</span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="px-3 py-1 text-sm font-medium rounded-full
@@ -141,6 +137,22 @@
                                         >
                                             Edit
                                         </button>
+                                        @if(in_array(auth()->user()->role, ['admin', 'guru']) && $karya->status === 'review')
+                                            <button 
+                                                wire:click="approve({{ $karya->id }})"
+                                                wire:confirm="Setujui dan publikasikan karya ini?"
+                                                class="text-green-600 hover:text-green-800 font-semibold"
+                                            >
+                                                Setujui
+                                            </button>
+                                            <button 
+                                                wire:click="reject({{ $karya->id }})"
+                                                wire:confirm="Tolak karya ini? Karya akan dikembalikan ke siswa."
+                                                class="text-orange-600 hover:text-orange-800 font-semibold"
+                                            >
+                                                Tolak
+                                            </button>
+                                        @endif
                                         @if($karya->trashed())
                                             <button 
                                                 wire:click="restore({{ $karya->id }})"
@@ -172,7 +184,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="px-6 py-12 text-center text-gray-500">
+                                <td colspan="6" class="px-6 py-12 text-center text-gray-500">
                                     <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                                     </svg>
@@ -231,105 +243,63 @@
                                             @error('judul') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                                         </div>
 
-                                        {{-- Nama Siswa & Kelas --}}
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Nama Siswa <span class="text-red-500">*</span>
-                                                </label>
-                                                <input 
-                                                    type="text" 
-                                                    wire:model="nama_siswa"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                                                >
-                                                @error('nama_siswa') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Kelas <span class="text-red-500">*</span>
-                                                </label>
-                                                <input 
-                                                    type="text" 
-                                                    wire:model="kelas"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                                                    placeholder="Contoh: XII RPL 1"
-                                                >
-                                                @error('kelas') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
-                                            </div>
-                                        </div>
+                                        {{-- Nama siswa & kelas diambil otomatis dari akun --}}
 
-                                        {{-- Kategori & Teknologi --}}
+                                        {{-- Kategori & Tahun --}}
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                                     Kategori <span class="text-red-500">*</span>
                                                 </label>
                                                 <select 
-                                                    wire:model="kategori"
+                                                    wire:model.live="kategori"
                                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
                                                 >
                                                     <option value="">Pilih Kategori</option>
-                                                    <option value="web">Web</option>
-                                                    <option value="mobile">Mobile</option>
-                                                    <option value="desktop">Desktop</option>
-                                                    <option value="game">Game</option>
-                                                    <option value="iot">IoT</option>
-                                                    <option value="lainnya">Lainnya</option>
+                                                    @foreach([
+                                                        'web' => 'Web',
+                                                        'mobile' => 'Mobile',
+                                                        'desktop' => 'Desktop',
+                                                        'game' => 'Game',
+                                                        'iot' => 'IoT',
+                                                        'ui-ux' => 'UI/UX Design',
+                                                        'jaringan' => 'Jaringan',
+                                                        'data' => 'Data Science',
+                                                        'animasi-3d' => 'Animasi & 3D',
+                                                        'video' => 'Video / Motion',
+                                                        'desain-grafis' => 'Desain Grafis',
+                                                        'robotika' => 'Robotika',
+                                                        'ai' => 'AI / Machine Learning',
+                                                        'lainnya' => 'Lainnya (tulis sendiri)',
+                                                    ] as $value => $label)
+                                                        <option value="{{ $value }}">{{ $label }}</option>
+                                                    @endforeach
                                                 </select>
                                                 @error('kategori') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
+                                        </div>
+
+                                        {{-- Kategori lainnya (free text) --}}
+                                        @if($kategori === 'lainnya')
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Teknologi <span class="text-red-500">*</span>
+                                                    Tulis Kategori <span class="text-red-500">*</span>
                                                 </label>
                                                 <input 
                                                     type="text" 
-                                                    wire:model="teknologi"
+                                                    wire:model="kategori_lainnya"
                                                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                                                    placeholder="Contoh: React, Laravel"
+                                                    placeholder="Contoh: Musik Digital, Embedded System..."
                                                 >
-                                                @error('teknologi') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                                @error('kategori_lainnya') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                                             </div>
-                                        </div>
+                                        @endif
 
-                                        {{-- Tahun & Status --}}
+                                        {{-- URL Demo & Repo (opsional) --}}
                                         <div class="grid grid-cols-2 gap-4">
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Tahun <span class="text-red-500">*</span>
-                                                </label>
-                                                <select 
-                                                    wire:model="tahun"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                                                >
-                                                    @foreach($years as $year)
-                                                        <option value="{{ $year }}">{{ $year }}</option>
-                                                    @endforeach
-                                                </select>
-                                                @error('tahun') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
-                                            </div>
-                                            <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                    Status <span class="text-red-500">*</span>
-                                                </label>
-                                                <select 
-                                                    wire:model="status"
-                                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                                                >
-                                                    <option value="draft">Draft</option>
-                                                    <option value="review">Review</option>
-                                                    <option value="published">Published</option>
-                                                    <option value="archived">Archived</option>
-                                                </select>
-                                                @error('status') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
-                                            </div>
-                                        </div>
-
-                                        {{-- URL Demo & Repo --}}
-                                        <div class="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                    URL Demo
+                                                    URL Demo <span class="text-gray-400 text-xs">(opsional)</span>
                                                 </label>
                                                 <input 
                                                     type="url" 
@@ -341,7 +311,7 @@
                                             </div>
                                             <div>
                                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                                    URL Repository
+                                                    URL Repository <span class="text-gray-400 text-xs">(opsional)</span>
                                                 </label>
                                                 <input 
                                                     type="url" 
@@ -356,17 +326,51 @@
 
                                     {{-- Right Column --}}
                                     <div class="space-y-6">
-                                        {{-- Image Cropper (16:9 ratio) --}}
-                                        <x-image-cropper
-                                            modelName="gambar"
-                                            label="Screenshot Karya"
-                                            :aspectRatio="16/9"
-                                            aspectRatioLabel="16:9"
-                                            :maxWidth="1920"
-                                            :maxHeight="1080"
-                                            :currentImage="$currentGambar"
-                                            :previewSize="200"
-                                        />
+                                        {{-- Screenshots (max 7, first = cover) --}}
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                Screenshot Karya
+                                                <span class="text-gray-400 text-xs">(maksimal 7, screenshot pertama menjadi cover)</span>
+                                            </label>
+
+                                            {{-- Preview grid --}}
+                                            <div class="grid grid-cols-4 gap-3">
+                                                {{-- Existing --}}
+                                                @foreach($existingScreenshots as $path)
+                                                    <div class="relative group aspect-video rounded-lg overflow-hidden border border-gray-200">
+                                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($path) }}" class="w-full h-full object-cover" alt="Screenshot">
+                                                        <button type="button" wire:click="removeScreenshot('{{ $path }}')" wire:confirm="Hapus screenshot ini?"
+                                                            class="absolute top-1 right-1 p-1 bg-red-600 text-white rounded-full opacity-0 group-hover:opacity-100 transition"
+                                                            title="Hapus">
+                                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                                        </button>
+                                                        @if($loop->first && $currentGambar === $path)
+                                                            <span class="absolute bottom-1 left-1 px-1.5 py-0.5 bg-[#12B4E0] text-white text-[10px] font-semibold rounded">Cover</span>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+
+                                                {{-- New uploads preview --}}
+                                                @foreach($screenshots as $file)
+                                                    <div class="relative aspect-video rounded-lg overflow-hidden border-2 border-dashed border-[#12B4E0]">
+                                                        <img src="{{ $file->temporaryUrl() }}" class="w-full h-full object-cover" alt="Screenshot baru">
+                                                        <span class="absolute bottom-1 left-1 px-1.5 py-0.5 bg-gray-700 text-white text-[10px] font-semibold rounded">Baru</span>
+                                                    </div>
+                                                @endforeach
+
+                                                {{-- Add tile --}}
+                                                @if(count($existingScreenshots) + count($screenshots) < 7)
+                                                    <label class="aspect-video flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#12B4E0] hover:bg-sky-50 transition text-gray-400 hover:text-[#12B4E0]">
+                                                        <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                                        <span class="text-xs font-medium">Tambah</span>
+                                                        <input type="file" wire:model="screenshots" accept=".jpg,.jpeg,.png,.webp" multiple class="hidden">
+                                                    </label>
+                                                @endif
+                                            </div>
+
+                                            @error('screenshots.*') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+                                            <div wire:loading wire:target="screenshots" class="mt-2 text-sm text-gray-500">Mengunggah screenshot...</div>
+                                        </div>
 
                                         {{-- Markdown Editor --}}
                                         <x-markdown-editor
@@ -376,6 +380,42 @@
                                             :rows="12"
                                             :required="true"
                                         />
+
+                                        {{-- Bukti (sertifikat, screenshot, dll) --}}
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                                Bukti Karya <span class="text-gray-400 text-xs">(gambar/PDF, maks 5MB per file)</span>
+                                            </label>
+                                            <input
+                                                type="file"
+                                                wire:model="bukti"
+                                                multiple
+                                                accept=".jpg,.jpeg,.png,.webp,.pdf"
+                                                class="w-full text-sm text-gray-600 file:mr-4 file:px-4 file:py-2 file:rounded-lg file:border-0 file:bg-[#12B4E0] file:text-white file:font-semibold file:cursor-pointer"
+                                            >
+                                            @error('bukti.*') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+
+                                            {{-- Existing bukti --}}
+                                            @if(count($existingBukti) > 0)
+                                                <ul class="mt-3 space-y-2">
+                                                    @foreach($existingBukti as $path)
+                                                        <li class="flex items-center justify-between text-sm bg-gray-50 rounded-lg px-3 py-2">
+                                                            <a href="{{ \Illuminate\Support\Facades\Storage::url($path) }}" target="_blank" class="text-blue-600 hover:underline truncate">
+                                                                {{ basename($path) }}
+                                                            </a>
+                                                            <button type="button" wire:click="removeBukti('{{ $path }}')" class="text-red-600 hover:text-red-800 font-semibold ml-2">
+                                                                Hapus
+                                                            </button>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+
+                                            {{-- Loading indicator --}}
+                                            <div wire:loading wire:target="bukti" class="mt-2 text-sm text-gray-500">
+                                                Mengunggah bukti...
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -390,16 +430,65 @@
                                     </button>
                                     <button 
                                         type="submit"
-                                        class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg font-semibold hover:bg-[#0e91b8] transition flex items-center gap-2"
+                                        wire:loading.attr="disabled"
+                                        wire:target="save"
+                                        class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg font-semibold hover:bg-[#0e91b8] transition flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                                     >
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg wire:loading wire:target="save" class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                                        </svg>
+                                        <svg wire:loading.remove wire:target="save" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                         </svg>
-                                        {{ $isEditMode ? 'Simpan Perubahan' : 'Tambah Karya' }}
+                                        <span wire:loading.remove wire:target="save">{{ $isEditMode ? 'Simpan Perubahan' : 'Ajukan Karya' }}</span>
+                                        <span wire:loading wire:target="save">Menyimpan...</span>
                                     </button>
                                 </div>
                             </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        {{-- Popup konfirmasi pengajuan (siswa) --}}
+        @if($showSubmitInfoModal)
+            <div class="fixed inset-0 z-[60] flex items-center justify-center px-4" x-data="{ show: true }">
+                <div class="absolute inset-0 bg-gray-900/75" @click="$wire.closeSubmitInfoModal()"></div>
+                <div class="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-8 text-center" x-show="show" x-transition>
+                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-sky-100 mb-5">
+                        <svg class="h-8 w-8 text-[#12B4E0]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Ajukan Karya Ini?</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-6">
+                        Karya yang kamu kirim akan <strong>direview admin terlebih dahulu</strong> sebelum ditayangkan di halaman publik.
+                        Kamu bisa memantau statusnya di halaman ini — jika disetujui, karya akan muncul dengan status <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Published</span>.
+                    </p>
+                    <div class="flex items-center justify-center gap-3">
+                        <button 
+                            type="button"
+                            @click="$wire.closeSubmitInfoModal()"
+                            class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 font-semibold hover:bg-gray-50 transition"
+                        >
+                            Kembali
+                        </button>
+                        <button 
+                            type="button"
+                            wire:click="save(true)"
+                            wire:loading.attr="disabled"
+                            wire:target="save"
+                            class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg font-semibold hover:bg-[#0e91b8] transition disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2"
+                        >
+                            <svg wire:loading wire:target="save" class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                            </svg>
+                            <span wire:loading.remove wire:target="save">Ya, Ajukan</span>
+                            <span wire:loading wire:target="save">Mengirim...</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -456,6 +545,17 @@
                                     </div>
                                 </div>
 
+                                {{-- Screenshot gallery --}}
+                                @if(count($detailKarya->screenshots ?? []) > 0)
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                        @foreach($detailKarya->screenshots as $path)
+                                            <a href="{{ \Illuminate\Support\Facades\Storage::url($path) }}" target="_blank" class="block aspect-video rounded-lg overflow-hidden border border-gray-200 hover:opacity-90 transition">
+                                                <img src="{{ \Illuminate\Support\Facades\Storage::url($path) }}" class="w-full h-full object-cover" alt="Screenshot {{ $detailKarya->judul }}">
+                                            </a>
+                                        @endforeach
+                                    </div>
+                                @endif
+
                                 {{-- Image --}}
                                 @if($detailKarya->gambar)
                                     <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
@@ -474,8 +574,8 @@
                                         <p class="text-lg font-bold text-gray-900">{{ $detailKarya->tahun }}</p>
                                     </div>
                                     <div>
-                                        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">Teknologi</p>
-                                        <p class="text-sm font-medium text-gray-900">{{ $detailKarya->teknologi }}</p>
+                                        <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">Kelas</p>
+                                        <p class="text-sm font-medium text-gray-900">{{ $detailKarya->kelas }}</p>
                                     </div>
                                     <div>
                                         <p class="text-xs font-semibold text-gray-600 uppercase tracking-wide mb-1">Dibuat oleh</p>
@@ -524,6 +624,25 @@
                                         {!! $detailKarya->deskripsi_html !!}
                                     </div>
                                 </div>
+
+                                {{-- Bukti --}}
+                                @if(count($detailKarya->bukti ?? []) > 0)
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-900 mb-3">Bukti Karya</h3>
+                                        <ul class="space-y-2">
+                                            @foreach($detailKarya->bukti as $path)
+                                                <li>
+                                                    <a href="{{ \Illuminate\Support\Facades\Storage::url($path) }}" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:underline">
+                                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                                        </svg>
+                                                        {{ basename($path) }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 

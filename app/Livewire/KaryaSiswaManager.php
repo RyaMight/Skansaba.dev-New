@@ -6,6 +6,7 @@ use App\Models\KaryaSiswa;
 use App\Services\ImageService;
 use App\Services\MarkdownService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
@@ -37,21 +38,22 @@ class KaryaSiswaManager extends Component
     public $judul = '';
     public $deskripsi = '';
     public $kategori = '';
-    public $teknologi = '';
-    public $nama_siswa = '';
-    public $kelas = '';
-    public $tahun = '';
+    public $kategori_lainnya = '';
     public $gambar = null;
     public $currentGambar = null;
     public $url_demo = '';
     public $url_repo = '';
     public $status = 'draft';
+    public $bukti = []; // uploaded files (Livewire TemporaryUploadedFile[])
+    public $existingBukti = []; // paths already stored on the model
+    public $screenshots = []; // new screenshot uploads (max 7)
+    public $existingScreenshots = []; // paths already stored on the model
+    public $showSubmitInfoModal = false;
 
     protected $listeners = ['refreshKaryaSiswas' => 'loadKaryaSiswas'];
 
     public function mount()
     {
-        $this->tahun = date('Y');
         $this->loadKaryaSiswas();
     }
 
@@ -66,8 +68,7 @@ class KaryaSiswaManager extends Component
                 $q->where(function ($query) {
                     $query->where('judul', 'like', '%' . $this->search . '%')
                         ->orWhere('nama_siswa', 'like', '%' . $this->search . '%')
-                        ->orWhere('kelas', 'like', '%' . $this->search . '%')
-                        ->orWhere('teknologi', 'like', '%' . $this->search . '%');
+                        ->orWhere('kelas', 'like', '%' . $this->search . '%');
                 });
             })
             ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
@@ -119,7 +120,7 @@ class KaryaSiswaManager extends Component
     public function openEditModal($id)
     {
         $karya = KaryaSiswa::findOrFail($id);
-        
+
         // Authorization check
         if (Auth::user()->role === 'siswa' && $karya->user_id !== Auth::id()) {
             session()->flash('error', 'Anda tidak memiliki akses untuk mengubah karya ini.');
@@ -130,49 +131,110 @@ class KaryaSiswaManager extends Component
         $this->judul = $karya->judul;
         $this->deskripsi = $karya->deskripsi;
         $this->kategori = $karya->kategori;
-        $this->teknologi = $karya->teknologi;
-        $this->nama_siswa = $karya->nama_siswa;
-        $this->kelas = $karya->kelas;
-        $this->tahun = $karya->tahun;
         $this->currentGambar = $karya->gambar;
         $this->url_demo = $karya->url_demo ?? '';
         $this->url_repo = $karya->url_repo ?? '';
         $this->status = $karya->status;
+        $this->existingBukti = $karya->bukti ?? [];
+        $this->existingScreenshots = $karya->screenshots ?? [];
+
+        // "Lainnya" category: prefill the free-text input
+        if (!in_array($karya->kategori, $this->kategoriOptions())) {
+            $this->kategori_lainnya = $karya->kategori;
+            $this->kategori = 'lainnya';
+        }
         
         $this->isEditMode = true;
         $this->showModal = true;
     }
 
-    public function save()
+    public function updatedKategori($value)
+    {
+        // Clear free-text when user re-picks a fixed category
+        if ($value !== 'lainnya') {
+            $this->kategori_lainnya = '';
+        }
+    }
+
+    public function kategoriOptions(): array
+    {
+        return [
+            'web', 'mobile', 'desktop', 'game', 'iot',
+            'ui-ux', 'jaringan', 'data', 'animasi-3d',
+            'video', 'desain-grafis', 'robotika', 'ai',
+            'lainnya',
+        ];
+    }
+
+    public function save($confirmSubmit = false)
     {
         $this->validate([
             'judul' => 'required|string|max:255',
             'deskripsi' => 'required|string|min:10',
             'kategori' => 'required|string|max:255',
-            'teknologi' => 'required|string|max:255',
-            'nama_siswa' => 'required|string|max:255',
-            'kelas' => 'required|string|max:255',
-            'tahun' => 'required|integer|min:2000|max:' . (date('Y') + 1),
+            'kategori_lainnya' => 'required_if:kategori,lainnya|nullable|string|max:255',
             'gambar' => 'nullable|string',
             'url_demo' => 'nullable|url|max:255',
             'url_repo' => 'nullable|url|max:255',
-            'status' => 'required|in:draft,review,published,archived',
+            'bukti.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,webp,pdf',
+            'screenshots.*' => 'nullable|image|max:5120|mimes:jpg,jpeg,png,webp',
         ]);
 
+        $isSiswa = Auth::user()->role === 'siswa';
+
+        // First save press: show the confirmation popup for students instead of saving.
+        // Validation already passed above, so the popup only appears for a complete form.
+        if ($isSiswa && $confirmSubmit === false) {
+            $this->showSubmitInfoModal = true;
+            return;
+        }
+
+        // Siswa submits for approval: status choice is not theirs to make.
+        if ($isSiswa) {
+            $this->status = 'review';
+        }
+
         try {
+            $kategori = $this->kategori === 'lainnya' && $this->kategori_lainnya
+                ? strtolower(trim($this->kategori_lainnya))
+                : $this->kategori;
+
+            $user = Auth::user();
             $data = [
-                'user_id' => Auth::id(),
+                'user_id' => $user->id,
                 'judul' => $this->judul,
                 'deskripsi' => $this->deskripsi,
-                'kategori' => $this->kategori,
-                'teknologi' => $this->teknologi,
-                'nama_siswa' => $this->nama_siswa,
-                'kelas' => $this->kelas,
-                'tahun' => $this->tahun,
+                'kategori' => $kategori,
+                'tahun' => date('Y'),
                 'url_demo' => $this->url_demo ?: null,
                 'url_repo' => $this->url_repo ?: null,
                 'status' => $this->status,
+                'bukti' => $this->existingBukti,
+                'screenshots' => $this->existingScreenshots,
+                // Nama siswa & kelas diambil dari akun, bukan input manual
+                'nama_siswa' => $user->name,
+                'kelas' => $user->kelas ?? '-',
             ];
+
+            // Store newly uploaded bukti files
+            foreach ($this->bukti as $file) {
+                $data['bukti'][] = $file->store('karya-siswa/bukti', 'public');
+            }
+            $this->bukti = [];
+
+            // Store new screenshots (max 7 total)
+            foreach ($this->screenshots as $file) {
+                if (count($data['screenshots']) >= 7) {
+                    break;
+                }
+                $data['screenshots'][] = $file->store('karya-siswa/screenshots', 'public');
+            }
+            $this->screenshots = [];
+
+            // First screenshot becomes the cover for public display
+            if (empty($data['gambar']) && !empty($data['screenshots'])) {
+                $data['gambar'] = $data['screenshots'][0];
+            }
 
             // Handle image upload via ImageService
             if ($this->gambar && str_starts_with($this->gambar, 'data:image')) {
@@ -238,16 +300,25 @@ class KaryaSiswaManager extends Component
             $this->closeModal();
             $this->loadKaryaSiswas();
 
+            if ($isSiswa) {
+                session()->flash('message', 'Karya berhasil diajukan! Menunggu persetujuan admin sebelum dipublikasikan.');
+            }
+
         } catch (\Exception $e) {
             session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+
+    public function closeSubmitInfoModal()
+    {
+        $this->showSubmitInfoModal = false;
     }
 
     public function delete($id)
     {
         try {
             $karya = KaryaSiswa::findOrFail((int)$id);
-            
+
             // Authorization check
             if (Auth::user()->role === 'siswa' && $karya->user_id !== Auth::id()) {
                 session()->flash('error', 'Anda tidak memiliki akses untuk menghapus karya ini.');
@@ -260,8 +331,143 @@ class KaryaSiswaManager extends Component
             }
 
             $karya->delete();
-            
+
             session()->flash('message', 'Karya siswa berhasil dihapus!');
+            $this->loadKaryaSiswas();
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Admin/guru approves a submitted (review) karya → published.
+     */
+    public function approve($id)
+    {
+        if (!in_array(Auth::user()->role, ['admin', 'guru'])) {
+            session()->flash('error', 'Hanya admin/guru yang dapat menyetujui karya.');
+            return;
+        }
+
+        try {
+            $karya = KaryaSiswa::findOrFail((int)$id);
+
+            if ($karya->status !== 'review') {
+                session()->flash('error', 'Hanya karya berstatus review yang dapat disetujui.');
+                return;
+            }
+
+            $karya->status = 'published';
+            $karya->published_at = now();
+            $karya->save();
+
+            session()->flash('message', 'Karya berhasil disetujui dan dipublikasikan.');
+            $this->loadKaryaSiswas();
+        } catch (\Exception $e) {
+            session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Admin/guru rejects a submitted (review) karya → draft for revision.
+     */
+    public function reject($id)
+    {
+        if (!in_array(Auth::user()->role, ['admin', 'guru'])) {
+            session()->flash('error', 'Hanya admin/guru yang dapat menolak karya.');
+            return;
+        }
+
+        try {
+            $karya = KaryaSiswa::findOrFail((int)$id);
+
+            if ($karya->status !== 'review') {
+                session()->flash('error', 'Hanya karya berstatus review yang dapat ditolak.');
+                return;
+            }
+
+            $karya->status = 'draft';
+            $karya->save();
+
+            session()->flash('message', 'Karya ditolak dan dikembalikan ke siswa sebagai draft.');
+            $this->loadKaryaSiswas();
+        } catch (\Exception $e) {
+            session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
+    }
+
+    public function removeBukti($path)
+    {
+        $karya = KaryaSiswa::findOrFail((int)$this->karyaSiswaId);
+
+        if (Auth::user()->role === 'siswa' && $karya->user_id !== Auth::id()) {
+            session()->flash('error', 'Anda tidak memiliki akses.');
+            return;
+        }
+
+        Storage::disk('public')->delete($path);
+
+        $bukti = collect($karya->bukti ?? [])
+            ->reject(fn($p) => $p === $path)
+            ->values()
+            ->all();
+
+        $karya->update(['bukti' => $bukti]);
+        $this->existingBukti = $bukti;
+    }
+
+    public function removeScreenshot($path)
+    {
+        $karya = KaryaSiswa::findOrFail((int)$this->karyaSiswaId);
+
+        if (Auth::user()->role === 'siswa' && $karya->user_id !== Auth::id()) {
+            session()->flash('error', 'Anda tidak memiliki akses.');
+            return;
+        }
+
+        Storage::disk('public')->delete($path);
+
+        $screenshots = collect($karya->screenshots ?? [])
+            ->reject(fn($p) => $p === $path)
+            ->values()
+            ->all();
+
+        $karya->update(['screenshots' => $screenshots]);
+
+        // Cover (gambar) removed → promote first screenshot
+        if ($karya->gambar === $path) {
+            $karya->update(['gambar' => $screenshots[0] ?? null]);
+        }
+
+        $this->existingScreenshots = $screenshots;
+        $this->currentGambar = $karya->gambar;
+    }
+
+    public function forceDelete($id)
+    {
+        try {
+            $karya = KaryaSiswa::withTrashed()->findOrFail((int)$id);
+
+            // Authorization check
+            if (Auth::user()->role === 'siswa' && $karya->user_id !== Auth::id()) {
+                session()->flash('error', 'Anda tidak memiliki akses untuk menghapus karya ini.');
+                return;
+            }
+
+            // Delete image permanently
+            if ($karya->gambar) {
+                app(ImageService::class)->delete($karya->gambar);
+            }
+
+            // Delete bukti & screenshot files permanently
+            foreach (array_merge($karya->bukti ?? [], $karya->screenshots ?? []) as $path) {
+                Storage::disk('public')->delete($path);
+            }
+
+            $karya->forceDelete();
+
+            session()->flash('message', 'Karya siswa berhasil dihapus permanen!');
             $this->loadKaryaSiswas();
 
         } catch (\Exception $e) {
@@ -275,26 +481,6 @@ class KaryaSiswaManager extends Component
             KaryaSiswa::withTrashed()->findOrFail($id)->restore();
             session()->flash('message', 'Karya siswa berhasil dipulihkan!');
             $this->loadKaryaSiswas();
-        } catch (\Exception $e) {
-            session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
-    }
-
-    public function forceDelete($id)
-    {
-        try {
-            $karya = KaryaSiswa::withTrashed()->findOrFail($id);
-            
-            // Delete image permanently
-            if ($karya->gambar) {
-                app(ImageService::class)->delete($karya->gambar);
-            }
-
-            $karya->forceDelete();
-            
-            session()->flash('message', 'Karya siswa berhasil dihapus permanen!');
-            $this->loadKaryaSiswas();
-
         } catch (\Exception $e) {
             session()->flash('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
@@ -315,6 +501,7 @@ class KaryaSiswaManager extends Component
     public function closeModal()
     {
         $this->showModal = false;
+        $this->showSubmitInfoModal = false;
         $this->resetForm();
     }
 
@@ -325,24 +512,27 @@ class KaryaSiswaManager extends Component
             'judul',
             'deskripsi',
             'kategori',
-            'teknologi',
-            'nama_siswa',
-            'kelas',
-            'tahun',
+            'kategori_lainnya',
             'gambar',
             'currentGambar',
             'url_demo',
             'url_repo',
             'status',
+            'bukti',
+            'existingBukti',
+            'screenshots',
+            'existingScreenshots',
         ]);
-        $this->tahun = date('Y');
         $this->status = 'draft';
     }
 
     public function render()
     {
         return view('livewire.karya-siswa-manager', [
-            'years' => range(date('Y'), 2000),
+            'years' => KaryaSiswa::query()
+                ->selectRaw('DISTINCT tahun')
+                ->orderByDesc('tahun')
+                ->pluck('tahun'),
         ]);
     }
 }

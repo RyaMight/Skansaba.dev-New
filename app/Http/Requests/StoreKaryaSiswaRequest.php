@@ -16,10 +16,7 @@ class StoreKaryaSiswaRequest extends FormRequest
         return [
             'judul' => ['required', 'string', 'max:255'],
             'deskripsi' => ['required', 'string', 'min:10'],
-            'kategori' => ['required', 'string', 'max:255'], // web, mobile, desktop, game, etc
-            'teknologi' => ['required', 'string', 'max:255'], // tech stack
-            'nama_siswa' => ['required', 'string', 'max:255'],
-            'kelas' => ['required', 'string', 'max:255'],
+            'kategori' => ['required', 'string', 'max:255'], // web, mobile, ... or free text
             'tahun' => ['required', 'integer', 'min:2000', 'max:' . (date('Y') + 1)],
             'gambar' => ['nullable', 'string'], // Base64 from cropper
             'url_demo' => ['nullable', 'url', 'max:255'],
@@ -35,9 +32,6 @@ class StoreKaryaSiswaRequest extends FormRequest
             'deskripsi.required' => 'Deskripsi karya wajib diisi',
             'deskripsi.min' => 'Deskripsi minimal 10 karakter',
             'kategori.required' => 'Kategori karya wajib dipilih',
-            'teknologi.required' => 'Teknologi yang digunakan wajib diisi',
-            'nama_siswa.required' => 'Nama siswa wajib diisi',
-            'kelas.required' => 'Kelas wajib diisi',
             'tahun.required' => 'Tahun karya wajib diisi',
             'tahun.min' => 'Tahun minimal 2000',
             'tahun.max' => 'Tahun tidak valid',

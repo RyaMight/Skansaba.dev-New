@@ -83,6 +83,12 @@ class KaryaSiswaController extends Controller
             $data = $request->validated();
             $data['user_id'] = Auth::id();
 
+            // Siswa submits for approval: cannot self-publish
+            if (Auth::user()->role === 'siswa') {
+                $data['status'] = 'review';
+                unset($data['published_at']);
+            }
+
             // Handle image upload via ImageService
             if ($request->hasFile('gambar')) {
                 $imageService = app(ImageService::class);

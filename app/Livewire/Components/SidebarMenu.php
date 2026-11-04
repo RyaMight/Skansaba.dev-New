@@ -10,11 +10,29 @@ class SidebarMenu extends Component
     public bool $isMobileOpen = false;
 
     /**
-     * Get menu items with role-based filtering
+     * Filter menu items based on user role
      */
     public function getMenuItems(): array
     {
-        $user = auth()->user();
+        $isAdmin = in_array(auth()->user()->role, ['admin', 'guru']);
+
+        return collect($this->allMenuItems())
+            ->filter(fn($item) => in_array(auth()->user()->role, $item['access']))
+            ->when(!$isAdmin, function ($items) {
+                // Rename "Karya Siswa" to "Karya Saya" for non-admin viewers
+                $items->transform(function ($item) {
+                    if ($item['key'] === 'karya_siswa') {
+                        $item['label'] = 'Karya Saya';
+                    }
+                    return $item;
+                });
+            })
+            ->values()
+            ->toArray();
+    }
+
+    private function allMenuItems(): array
+    {
         $allMenuItems = [
             [
                 'key' => 'dashboard_siswa',
@@ -70,7 +88,7 @@ class SidebarMenu extends Component
                 'label' => 'Karya Siswa',
                 'route' => 'karya-siswa.index',
                 'icon' => 'code',
-                'access' => ['admin', 'guru'],
+                'access' => ['admin', 'guru', 'siswa'],
             ],
             [
                 'key' => 'fasilitas',
@@ -153,11 +171,7 @@ class SidebarMenu extends Component
             ],
         ];
 
-        // Filter menu items based on user role
-        return collect($allMenuItems)
-            ->filter(fn($item) => in_array($user->role, $item['access']))
-            ->values()
-            ->toArray();
+        return $allMenuItems;
     }
 
     /**
