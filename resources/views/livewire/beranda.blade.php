@@ -173,7 +173,7 @@
                     <div class="hidden sm:flex items-center gap-3 flex-shrink-0 pb-1">
                         <button
                             @click="back()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide sebelumnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -182,7 +182,7 @@
                         </button>
                         <button
                             @click="advance()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
                             aria-label="Slide berikutnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -279,7 +279,7 @@
             @endif
         @else
             <div class="site-container">
-                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm" data-reveal>
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     Belum ada slide yang ditambahkan
                 </div>
             </div>
@@ -381,7 +381,7 @@
                                             @if($mitra->logo)
                                                 <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
-                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-500 text-center">{{ $mitra->nama_mitra }}</span>
+                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
                                         </div>
                                     @endforeach
@@ -400,7 +400,7 @@
                                             @if($mitra->logo)
                                                 <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
-                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-500 text-center">{{ $mitra->nama_mitra }}</span>
+                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
                                         </div>
                                     @endforeach
@@ -410,7 +410,7 @@
                     </div>
                 </div>
             @else
-                <p class="text-center text-gray-400 dark:text-gray-500 text-sm" data-reveal>Belum ada mitra yang ditampilkan</p>
+                <p class="text-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>Belum ada mitra yang ditampilkan</p>
             @endif
         </div>
     </section>
@@ -541,7 +541,7 @@
                     {{-- Arrows --}}
                     <button
                         @click="scrollCards(-1)"
-                        class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
                         aria-label="Geser kiri"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -550,7 +550,7 @@
                     </button>
                     <button
                         @click="scrollCards(1)"
-                        class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
+                        class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-white dark:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 z-30"
                         aria-label="Geser kanan"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -567,7 +567,7 @@
                     </div>
                 </div>
             @else
-                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm" data-reveal>
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     Belum ada karya siswa yang dipublikasikan
                 </div>
             @endif
@@ -737,13 +737,13 @@
 
                                 <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                                     <div class="overflow-hidden">
-                                        <div class="flex items-center gap-2 text-xs text-gray-400 pt-3">
+                                        <div class="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 pt-3">
                                             <span>{{ $item->published_at?->format('d M Y') }}</span>
                                             <span class="w-1 h-1 rounded-full bg-gray-300"></span>
                                             <span>{{ $item->views }} views</span>
                                         </div>
 
-                                        <p class="text-sm text-gray-500 line-clamp-2 mt-2">
+                                        <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-2">
                                             {{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}
                                         </p>
 
@@ -774,7 +774,7 @@
                     </a>
                 </div>
             @else
-                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm" data-reveal>
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     Belum ada berita yang dipublikasikan
                 </div>
             @endif

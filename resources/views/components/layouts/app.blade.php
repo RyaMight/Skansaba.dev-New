@@ -51,7 +51,7 @@
             </div>
         @else
             {{-- Login Layout --}}
-            <div class="w-full flex items-center justify-center bg-gray-50">
+            <div class="w-full flex items-center justify-center bg-gray-50 dark:bg-gray-950">
                 {{ $slot }}
             </div>
         @endauth

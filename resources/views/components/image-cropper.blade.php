@@ -182,22 +182,22 @@
     }
 }" @croppie-update.window="updateCrop()">
     <div class="space-y-4">
-        <label class="block text-sm font-medium text-gray-700">
+        <label class="block text-sm font-medium text-gray-700 dark:text-gray-200">
             {{ $label }}
             @if($required) <span class="text-red-500">*</span> @endif
         </label>
 
-        <div class="flex items-center gap-2 text-xs text-gray-600 bg-blue-50 border border-blue-200 rounded-lg p-3">
-            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300 bg-blue-50 dark:bg-blue-500/10 border border-blue-200 rounded-lg p-3">
+            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
             <span>Rasio <strong>{{ $aspectRatioLabel }}</strong>. Format: JPG, PNG, WebP.</span>
         </div>
 
         @if($currentImage)
-            <div x-show="!showCropper" class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-                <p class="text-xs font-semibold text-gray-600 mb-2">Gambar Saat Ini:</p>
-                <img src="{{ asset('storage/' . $currentImage) }}" alt="Current" class="w-full max-w-md h-auto object-cover rounded-lg border-2 border-gray-300">
+            <div x-show="!showCropper" class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                <p class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-2">Gambar Saat Ini:</p>
+                <img src="{{ asset('storage/' . $currentImage) }}" alt="Current" class="w-full max-w-md h-auto object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600">
             </div>
         @endif
 
@@ -206,40 +206,40 @@
             x-ref="fileInput"
             @change="handleFileChange($event)"
             accept="image/jpeg,image/jpg,image/png,image/webp"
-            class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#12B4E0] file:text-white hover:file:bg-[#0e91b8] cursor-pointer"
+            class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#12B4E0] file:text-white hover:file:bg-[#0e91b8] cursor-pointer"
         >
 
-        @error($modelName) <p class="text-sm text-red-600">{{ $message }}</p> @enderror
+        @error($modelName) <p class="text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
 
         <div x-show="showCropper" x-cloak class="space-y-4">
-            <div class="bg-gray-50 border border-gray-300 rounded-lg p-3">
+            <div class="bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3">
                 <div class="flex items-center justify-between gap-2">
                     <div class="flex gap-2">
-                        <button type="button" @click="rotate(-90)" class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm">← Rotate</button>
-                        <button type="button" @click="rotate(90)" class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 text-sm">Rotate →</button>
+                        <button type="button" @click="rotate(-90)" class="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-sm">← Rotate</button>
+                        <button type="button" @click="rotate(90)" class="px-3 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-sm">Rotate →</button>
                     </div>
-                    <button type="button" @click="clearImage()" class="px-3 py-2 bg-red-50 border border-red-300 text-red-700 rounded-lg hover:bg-red-100 text-sm">Hapus</button>
+                    <button type="button" @click="clearImage()" class="px-3 py-2 bg-red-50 dark:bg-red-500/10 border border-red-300 text-red-700 rounded-lg hover:bg-red-100 dark:bg-red-50 dark:bg-red-500//20 text-sm">Hapus</button>
                 </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-start gap-4">
                 <div class="w-full md:flex-1 overflow-hidden">
-                    <div x-ref="croppieContainer" class="bg-gray-100 rounded-lg border-2 border-gray-300 w-full overflow-hidden"></div>
+                    <div x-ref="croppieContainer" class="bg-gray-100 dark:bg-gray-800 rounded-lg border-2 border-gray-300 dark:border-gray-600 w-full overflow-hidden"></div>
                 </div>
 
                 <div class="w-full md:w-48 shrink-0 space-y-3">
                     <div>
-                        <p class="text-xs font-semibold text-gray-600 mb-1.5">Preview Hasil:</p>
-                        <div class="crop-preview-box bg-gray-100 mx-auto" style="width: 140px; height: 140px;">
+                        <p class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-1.5">Preview Hasil:</p>
+                        <div class="crop-preview-box bg-gray-100 dark:bg-gray-800 mx-auto" style="width: 140px; height: 140px;">
                             <img x-show="cropResult" :src="cropResult" alt="Preview">
                         </div>
                     </div>
                     
-                    <div class="text-[11px] text-gray-600 space-y-1 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
+                    <div class="text-[11px] text-gray-600 dark:text-gray-300 space-y-1 bg-gray-50 dark:bg-gray-800 p-2.5 rounded-lg border border-gray-200 dark:border-gray-700">
                         <p class="truncate"><strong>File:</strong> <span x-text="fileName" class="font-mono"></span></p>
                         <p><strong>Rasio:</strong> {{ $aspectRatioLabel }}</p>
                         <p><strong>Output:</strong> {{ $resolvedMaxWidth }}x{{ $resolvedMaxHeight }}px</p>
-                        <p class="text-green-600 font-medium">✓ Auto: WebP & Compress</p>
+                        <p class="text-green-600 dark:text-green-400 font-medium">✓ Auto: WebP & Compress</p>
                     </div>
                 </div>
             </div>

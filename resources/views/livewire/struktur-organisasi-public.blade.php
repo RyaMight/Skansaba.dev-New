@@ -24,7 +24,8 @@
         <div class="site-container">
             @if($members->count() > 0)
                 <div class="space-y-14 lg:space-y-20">
-                    @foreach($members as $index => $member)                        @php $flip = $index % 2 === 1; @endphp
+                    @foreach($members as $index => $member)
+                        @php $flip = $index % 2 === 1; @endphp
                         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center" data-reveal>
 
                             {{-- Foto --}}

@@ -1,7 +1,7 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-800 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full">
         {{-- Login Card --}}
-        <div class="bg-white rounded-xl shadow-lg p-8">
+        <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-8">
             {{-- Logo & Branding --}}
             <div class="text-center mb-8">
                 @if($globalSettings->logo_primary_url)
@@ -13,15 +13,15 @@
                         </svg>
                     </div>
                 @endif
-                <h1 class="text-2xl font-bold text-gray-900">{{ $globalSettings->site_name ?? 'CMS Jurusan RPL' }}</h1>
-                <p class="text-sm text-gray-600 mt-1">{{ $globalSettings->site_tagline ?? 'Sekolah Menengah Kejuruan' }}</p>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $globalSettings->site_name ?? 'CMS Jurusan RPL' }}</h1>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ $globalSettings->site_tagline ?? 'Sekolah Menengah Kejuruan' }}</p>
             </div>
 
             {{-- Login Form --}}
             <form wire:submit.prevent="login" class="space-y-6">
                 {{-- Email / NISN Field --}}
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         Email atau NISN
                     </label>
                     <input 
@@ -29,20 +29,20 @@
                         id="email" 
                         wire:model.live.debounce.300ms="email"
                         @disabled($isLoading)
-                        class="appearance-none block w-full px-3 py-2.5 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 disabled:text-gray-500"
+                        class="appearance-none block w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 dark:bg-gray-800 disabled:text-gray-500 dark:text-gray-400"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
                         placeholder="Masukkan Email atau NISN"
                         autocomplete="username"
                         autofocus
                     >
                     @error('email')
-                        <p class="mt-1.5 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
                 {{-- Password Field --}}
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
                         Password
                     </label>
                     <div class="relative">
@@ -51,7 +51,7 @@
                             id="password" 
                             wire:model.live.debounce.300ms="password"
                             @disabled($isLoading)
-                            class="appearance-none block w-full px-3 py-2.5 pr-10 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 disabled:text-gray-500"
+                            class="appearance-none block w-full px-3 py-2.5 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 dark:bg-gray-800 disabled:text-gray-500 dark:text-gray-400"
                             style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
                             placeholder="Masukkan password"
                             autocomplete="current-password"
@@ -60,7 +60,7 @@
                             type="button" 
                             wire:click="togglePassword"
                             @disabled($isLoading)
-                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 transition disabled:hover:text-gray-400"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 transition disabled:hover:text-gray-400"
                             tabindex="-1"
                         >
                             @if($showPassword)
@@ -78,7 +78,7 @@
                         </button>
                     </div>
                     @error('password')
-                        <p class="mt-1.5 text-sm text-red-600">{{ $message }}</p>
+                        <p class="mt-1.5 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>
 
@@ -110,7 +110,7 @@
 
             {{-- Footer --}}
             <div class="mt-6 text-center">
-                <p class="text-xs text-gray-500">
+                <p class="text-xs text-gray-500 dark:text-gray-400">
                     © {{ date('Y') }} Jurusan RPL. Hanya untuk staff internal.
                 </p>
             </div>

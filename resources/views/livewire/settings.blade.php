@@ -1,7 +1,7 @@
 <div class="p-6 max-w-3xl mx-auto space-y-6">
     {{-- Flash Message --}}
     @if (session()->has('message'))
-        <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-sm flex items-center justify-between">
+        <div class="p-4 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 text-emerald-700 rounded-xl text-sm flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -18,24 +18,24 @@
 
     {{-- Page Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Pengaturan</h1>
-        <p class="text-sm text-gray-500 mt-0.5">Kelola akun dan keamanan Anda di sini.</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">Pengaturan</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kelola akun dan keamanan Anda di sini.</p>
     </div>
 
     {{-- Info Akun --}}
-    <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100">
-        <h2 class="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Informasi Akun</h2>
+    <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
+        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">Informasi Akun</h2>
         <div class="flex items-center gap-4">
             @if($user->photo_url)
-                <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
+                <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700">
             @else
                 <div class="w-14 h-14 rounded-full flex items-center justify-center text-white text-lg font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
                     {{ $user->initials() }}
                 </div>
             @endif
             <div class="min-w-0">
-                <p class="text-sm font-bold text-gray-900 truncate">{{ $user->name }}</p>
-                <p class="text-xs text-gray-500 truncate">{{ $user->email }}</p>
+                <p class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate">{{ $user->name }}</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ $user->email }}</p>
                 <span class="inline-block mt-1 px-2 py-0.5 text-[10px] font-semibold rounded-full {{ $user->role_badge_color }}">
                     {{ $user->role_label }}
                 </span>
@@ -44,28 +44,28 @@
     </div>
 
     {{-- Ubah Password --}}
-    <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100">
-        <h2 class="text-base font-bold text-gray-900 mb-1">Ubah Password</h2>
-        <p class="text-xs text-gray-500 mb-4">Gunakan password yang kuat dan mudah Anda ingat.</p>
+    <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
+        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-1">Ubah Password</h2>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Gunakan password yang kuat dan mudah Anda ingat.</p>
 
         <form wire:submit.prevent="updateUserPassword" class="space-y-4">
             {{-- Password Saat Ini --}}
             <div>
-                <label class="block text-xs font-semibold text-gray-700 mb-1">Password Saat Ini</label>
+                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Password Saat Ini</label>
                 <div class="relative" x-data="{ show: false }">
                     <input 
                         type="password" 
                         x-ref="input"
                         :type="show ? 'text' : 'password'"
                         wire:model="current_password" 
-                        class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
+                        class="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
                         placeholder="Masukkan password saat ini"
                         autocomplete="current-password"
                     >
                     <button 
                         type="button" 
                         @click="show = !show" 
-                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 focus:outline-none cursor-pointer"
                         :aria-label="show ? 'Sembunyikan password' : 'Lihat password'"
                         tabindex="-1"
                     >
@@ -85,21 +85,21 @@
 
             {{-- Password Baru --}}
             <div>
-                <label class="block text-xs font-semibold text-gray-700 mb-1">Password Baru</label>
+                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Password Baru</label>
                 <div class="relative" x-data="{ show: false }">
                     <input 
                         type="password" 
                         x-ref="input"
                         :type="show ? 'text' : 'password'"
                         wire:model="password" 
-                        class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
+                        class="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
                         placeholder="Masukkan password baru"
                         autocomplete="new-password"
                     >
                     <button 
                         type="button" 
                         @click="show = !show" 
-                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 focus:outline-none cursor-pointer"
                         :aria-label="show ? 'Sembunyikan password' : 'Lihat password'"
                         tabindex="-1"
                     >
@@ -119,21 +119,21 @@
 
             {{-- Konfirmasi Password --}}
             <div>
-                <label class="block text-xs font-semibold text-gray-700 mb-1">Konfirmasi Password Baru</label>
+                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Konfirmasi Password Baru</label>
                 <div class="relative" x-data="{ show: false }">
                     <input 
                         type="password" 
                         x-ref="input"
                         :type="show ? 'text' : 'password'"
                         wire:model="password_confirmation" 
-                        class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
+                        class="w-full px-3 py-2 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
                         placeholder="Ulangi password baru"
                         autocomplete="new-password"
                     >
                     <button 
                         type="button" 
                         @click="show = !show" 
-                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 focus:outline-none cursor-pointer"
                         :aria-label="show ? 'Sembunyikan password' : 'Lihat password'"
                         tabindex="-1"
                     >
@@ -151,7 +151,7 @@
                 @error('password') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
             </div>
 
-            <div class="flex justify-end pt-2 border-t border-gray-100">
+            <div class="flex justify-end pt-2 border-t border-gray-100 dark:border-gray-800">
                 <button 
                     type="submit" 
                     wire:loading.attr="disabled"
@@ -163,7 +163,7 @@
                 <button 
                     type="button" 
                     wire:click="$refresh" 
-                    class="ml-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm hover:bg-gray-50 transition cursor-pointer"
+                    class="ml-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
                 >
                     Reset
                 </button>

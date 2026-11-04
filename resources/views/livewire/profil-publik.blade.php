@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-800">
     <div class="max-w-5xl mx-auto px-4 py-8 md:py-12">
         {{-- Tombol kembali ke editor (hanya untuk pemilik profil yang datang dari editor) --}}
         @if(auth()->check() && auth()->id() === $profileUser->id && request()->query('from') === 'editor')
@@ -6,7 +6,7 @@
                 <button
                     type="button"
                     onclick="window.close(); if(!window.closed) window.location.href = '{{ route('siswa.profil-publik') }}';"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-lg text-xs font-semibold shadow-xs transition"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg text-xs font-semibold shadow-xs transition"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
@@ -19,7 +19,7 @@
 
             {{-- Sidebar: Avatar & Info --}}
             <div class="space-y-5">
-                <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100 text-center md:text-left">
+                <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800 text-center md:text-left">
                     <div class="w-32 h-32 mx-auto md:mx-0 rounded-full overflow-hidden bg-slate-100 ring-4 ring-white shadow-md">
                         @if($profileUser->photo_url)
                             <img src="{{ $profileUser->photo_url }}" alt="{{ $profileUser->name }}" class="w-full h-full object-cover">
@@ -30,34 +30,34 @@
                         @endif
                     </div>
 
-                    <h1 class="text-xl font-bold text-gray-900 mt-4">{{ $profileUser->name }}</h1>
-                    <p class="text-sm text-gray-500">{{ '@' . ($profileUser->username ?: $profileUser->id) }}</p>
+                    <h1 class="text-xl font-bold text-gray-900 dark:text-gray-50 mt-4">{{ $profileUser->name }}</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ '@' . ($profileUser->username ?: $profileUser->id) }}</p>
 
                     @if($profileUser->headline)
-                        <p class="text-sm text-gray-700 mt-3 leading-relaxed">{{ $profileUser->headline }}</p>
+                        <p class="text-sm text-gray-700 dark:text-gray-200 mt-3 leading-relaxed">{{ $profileUser->headline }}</p>
                     @endif
 
                     @if($profileUser->bio)
-                        <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ $profileUser->bio }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">{{ $profileUser->bio }}</p>
                     @endif
 
                     {{-- Keahlian --}}
                     @if(count($keahlianList))
                         <div class="mt-4">
-                            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Keahlian</p>
+                            <p class="text-[10px] font-semibold text-gray-400 dark:text-gray-400 uppercase tracking-wider mb-2">Keahlian</p>
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($keahlianList as $skill)
-                                    <span class="inline-flex items-center px-2.5 py-1 bg-sky-50 text-sky-700 border border-sky-200/60 rounded-md text-[11px] font-medium">{{ $skill }}</span>
+                                    <span class="inline-flex items-center px-2.5 py-1 bg-sky-50 dark:bg-sky-500/10 text-sky-700 border border-sky-200/60 rounded-md text-[11px] font-medium">{{ $skill }}</span>
                                 @endforeach
                             </div>
                         </div>
                     @endif
 
                     {{-- Info sekolah --}}
-                    <div class="mt-4 pt-4 border-t border-gray-100 space-y-2 text-xs text-gray-600">
+                    <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 space-y-2 text-xs text-gray-600 dark:text-gray-300">
                         @if($profileUser->kelas)
                             <p class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-3.5 h-3.5 text-gray-400 dark:text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                                 </svg>
                                 <span>Kelas {{ $profileUser->kelas }}</span>
@@ -65,14 +65,14 @@
                         @endif
                         @if($showEmail)
                             <p class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-3.5 h-3.5 text-gray-400 dark:text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                 </svg>
                                 <a href="mailto:{{ $profileUser->email }}" class="truncate hover:text-sky-600 transition">{{ $profileUser->email }}</a>
                             </p>
                         @endif
                         <p class="flex items-center gap-2">
-                            <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3.5 h-3.5 text-gray-400 dark:text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
                             <span>SMK — Jurusan RPL</span>
@@ -92,8 +92,8 @@
                         $activeChannels = collect($channels)->filter(fn ($c, $k) => !empty($saluran[$k]['active']) && !empty($saluran[$k]['url']));
                     @endphp
                     @if($activeChannels->isNotEmpty())
-                        <div class="mt-4 pt-4 border-t border-gray-100">
-                            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Terhubung</p>
+                        <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <p class="text-[10px] font-semibold text-gray-400 dark:text-gray-400 uppercase tracking-wider mb-2">Terhubung</p>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($activeChannels as $key => $ch)
                                     <a
@@ -126,18 +126,18 @@
             {{-- Main Content --}}
             <div class="space-y-6 min-w-0">
                 {{-- README Profil (ala GitHub profile README) --}}
-                <div class="bg-white rounded-2xl shadow-xs border border-gray-100 overflow-hidden">
-                    <div class="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-xs border border-gray-100 dark:border-gray-800 overflow-hidden">
+                    <div class="flex items-center gap-2 px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                        <svg class="w-4 h-4 text-gray-400 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
-                        <span class="text-sm font-semibold text-gray-700">{{ ($profileUser->username ?: $profileUser->id) }} / README</span>
+                        <span class="text-sm font-semibold text-gray-700 dark:text-gray-200">{{ ($profileUser->username ?: $profileUser->id) }} / README</span>
                     </div>
                     <div class="p-6">
                         @if($readmeHtml)
                             <div class="prose prose-sm prose-slate max-w-none">{!! $readmeHtml !!}</div>
                         @else
-                            <p class="text-sm text-gray-400 italic">Siswa ini belum menambahkan README.</p>
+                            <p class="text-sm text-gray-400 dark:text-gray-400 italic">Siswa ini belum menambahkan README.</p>
                         @endif
                     </div>
                 </div>
@@ -145,18 +145,18 @@
                 {{-- Karya Published --}}
                 <div>
                     <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-base font-bold text-gray-900">Karya & Proyek</h2>
-                        <span class="text-xs text-gray-400">{{ $karya->count() }} karya</span>
+                        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50">Karya & Proyek</h2>
+                        <span class="text-xs text-gray-400 dark:text-gray-400">{{ $karya->count() }} karya</span>
                     </div>
 
                     @if($karya->isEmpty())
-                        <div class="bg-white rounded-2xl border border-gray-100 p-8 text-center">
-                            <p class="text-sm text-gray-400">Belum ada karya yang dipublikasikan.</p>
+                        <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-8 text-center">
+                            <p class="text-sm text-gray-400 dark:text-gray-400">Belum ada karya yang dipublikasikan.</p>
                         </div>
                     @else
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             @foreach($karya as $item)
-                                <a href="{{ route('karya.detail', $item->id) }}" class="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md hover:border-sky-200 transition group">
+                                <a href="{{ route('karya.detail', $item->id) }}" class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-md hover:border-sky-200 transition group">
                                     <div class="aspect-video bg-slate-100 overflow-hidden flex items-center justify-center">
                                         @if($item->gambar_url)
                                             <img src="{{ $item->gambar_url }}" alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-300">
@@ -167,12 +167,12 @@
                                         @endif
                                     </div>
                                     <div class="p-4">
-                                        <h3 class="text-sm font-bold text-gray-900 truncate group-hover:text-sky-600 transition">{{ $item->judul }}</h3>
-                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ $item->deskripsi_excerpt }}</p>
+                                        <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate group-hover:text-sky-600 transition">{{ $item->judul }}</h3>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{{ $item->deskripsi_excerpt }}</p>
                                         @if($item->teknologi && is_array($item->teknologi) && count($item->teknologi))
                                             <div class="flex flex-wrap gap-1 mt-2.5">
                                                 @foreach(array_slice($item->teknologi, 0, 4) as $tech)
-                                                    <span class="inline-flex px-2 py-0.5 bg-sky-50 text-sky-700 border border-sky-200/60 rounded text-[10px] font-medium">{{ $tech }}</span>
+                                                    <span class="inline-flex px-2 py-0.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 border border-sky-200/60 rounded text-[10px] font-medium">{{ $tech }}</span>
                                                 @endforeach
                                             </div>
                                         @endif
@@ -187,20 +187,20 @@
                 @if($prestasi->isNotEmpty())
                     <div>
                         <div class="flex items-center justify-between mb-3">
-                            <h2 class="text-base font-bold text-gray-900">Prestasi</h2>
-                            <span class="text-xs text-gray-400">{{ $prestasi->count() }} prestasi</span>
+                            <h2 class="text-base font-bold text-gray-900 dark:text-gray-50">Prestasi</h2>
+                            <span class="text-xs text-gray-400 dark:text-gray-400">{{ $prestasi->count() }} prestasi</span>
                         </div>
-                        <div class="bg-white rounded-2xl border border-gray-100 divide-y divide-gray-50">
+                        <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 divide-y divide-gray-50">
                             @foreach($prestasi as $item)
                                 <div class="flex items-start gap-4 p-4">
-                                    <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-500 shrink-0">
+                                    <div class="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-500/10 flex items-center justify-center text-amber-500 shrink-0">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                                         </svg>
                                     </div>
                                     <div class="min-w-0">
-                                        <p class="text-sm font-semibold text-gray-900">{{ $item->judul }}</p>
-                                        <p class="text-xs text-gray-500 mt-0.5">
+                                        <p class="text-sm font-semibold text-gray-900 dark:text-gray-50">{{ $item->judul }}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                             {{ $item->tingkat ?? '-' }}
                                             @if($item->penyelenggara) • {{ $item->penyelenggara }} @endif
                                             @if($item->tanggal_prestasi) • {{ $item->tanggal_prestasi->format('M Y') }} @endif

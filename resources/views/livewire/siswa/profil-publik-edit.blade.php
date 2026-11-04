@@ -57,14 +57,14 @@
                 </button>
             </div>
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Profil Publik</h1>
-                <p class="text-sm text-gray-500 mt-0.5">Inilah yang dilihat orang (termasuk HRD) saat membuka profil kamu. Hias se-menarik mungkin!</p>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">Profil Publik</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Inilah yang dilihat orang (termasuk HRD) saat membuka profil kamu. Hias se-menarik mungkin!</p>
             </div>
         </div>
         <a
             href="{{ $user->profil_url }}?from=editor"
             target="_blank"
-            class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-300 text-sky-600 bg-sky-50/50 hover:bg-sky-50 rounded-lg text-xs font-semibold transition shrink-0"
+            class="inline-flex items-center gap-1.5 px-4 py-2 border border-sky-300 text-sky-600 bg-sky-50 dark:bg-sky-500//50 hover:bg-sky-50 dark:bg-sky-500/10 rounded-lg text-xs font-semibold transition shrink-0"
         >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -75,10 +75,10 @@
     </div>
 
     {{-- Link Profil Publik --}}
-    <div class="bg-white rounded-2xl p-5 shadow-xs border border-gray-100">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Bagikan Link Profil Kamu ke HRD</p>
+    <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-xs border border-gray-100 dark:border-gray-800">
+        <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Bagikan Link Profil Kamu ke HRD</p>
         <div class="flex items-center gap-2">
-            <code class="flex-1 text-sm bg-gray-50 border border-gray-200 rounded-lg px-3 py-2.5 text-gray-700 truncate">{{ $user->profil_url }}</code>
+            <code class="flex-1 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 text-gray-700 dark:text-gray-200 truncate">{{ $user->profil_url }}</code>
             <button
                 type="button"
                 x-data
@@ -94,60 +94,60 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {{-- Biodata --}}
-        <form wire:submit="saveBiodata" class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100 space-y-4">
-            <h3 class="text-base font-bold text-gray-900 pb-3 border-b border-gray-100">Biodata Singkat</h3>
+        <form wire:submit="saveBiodata" class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800 space-y-4">
+            <h3 class="text-base font-bold text-gray-900 dark:text-gray-50 pb-3 border-b border-gray-100 dark:border-gray-800">Biodata Singkat</h3>
 
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Headline</label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Headline</label>
                 <input
                     type="text"
                     wire:model="headline"
                     maxlength="120"
-                    class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
                     placeholder="Contoh: Fullstack Web Developer | Siswa XII RPL 1"
                 >
-                <p class="text-[11px] text-gray-400 mt-1">Muncul di bawah nama kamu, satu kalimat yang menjelaskan siapa kamu.</p>
+                <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-1">Muncul di bawah nama kamu, satu kalimat yang menjelaskan siapa kamu.</p>
                 @error('headline') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
             </div>
 
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Bio</label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Bio</label>
                 <textarea
                     wire:model="bio"
                     rows="3"
                     maxlength="500"
-                    class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
                     placeholder="Ceritakan singkat tentang minat dan tujuan karier kamu..."
                 ></textarea>
                 @error('bio') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
             </div>
 
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Keahlian <span class="text-gray-400">(pisahkan dengan koma)</span></label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Keahlian <span class="text-gray-400 dark:text-gray-400">(pisahkan dengan koma)</span></label>
                 <input
                     type="text"
                     wire:model="keahlian"
                     maxlength="255"
-                    class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                    class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
                     placeholder="Contoh: Laravel, React, Figma, Flutter"
                 >
-                <p class="text-[11px] text-gray-400 mt-1">Akan tampil sebagai badge keahlian di profil publik.</p>
+                <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-1">Akan tampil sebagai badge keahlian di profil publik.</p>
                 @error('keahlian') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
             </div>
 
             <div>
-                <label class="block text-xs font-medium text-gray-700 mb-1">Username Kustom <span class="text-gray-400">(opsional)</span></label>
+                <label class="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Username Kustom <span class="text-gray-400 dark:text-gray-400">(opsional)</span></label>
                 <div class="flex items-center gap-0">
-                    <span class="px-3 py-2 text-sm text-gray-500 bg-gray-50 border border-r-0 border-gray-300 rounded-l-lg">/profil/</span>
+                    <span class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 border border-r-0 border-gray-300 dark:border-gray-600 rounded-l-lg">/profil/</span>
                     <input
                         type="text"
                         wire:model="username"
                         maxlength="50"
-                        class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                        class="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-r-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
                         placeholder="ahmad-syahputra"
                     >
                 </div>
-                <p class="text-[11px] text-gray-400 mt-1">Huruf kecil, angka, dan tanda hubung. Kalau kosong, otomatis pakai ID akun.</p>
+                <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-1">Huruf kecil, angka, dan tanda hubung. Kalau kosong, otomatis pakai ID akun.</p>
                 @error('username') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
             </div>
 
@@ -164,33 +164,33 @@
         </form>
 
         {{-- README Profil --}}
-        <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100 flex flex-col">
-            <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800 flex flex-col">
+            <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800 mb-4">
                 <div>
-                    <h3 class="text-base font-bold text-gray-900">README Profil</h3>
-                    <p class="text-[11px] text-gray-400 mt-0.5">Tampilan utama profil publik kamu — hias dengan Markdown seperti README GitHub.</p>
+                    <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">README Profil</h3>
+                    <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-0.5">Tampilan utama profil publik kamu — hias dengan Markdown seperti README GitHub.</p>
                 </div>
-                <span class="text-[10px] font-semibold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full shrink-0">Markdown</span>
+                <span class="text-[10px] font-semibold text-sky-600 bg-sky-50 dark:bg-sky-500/10 px-2 py-0.5 rounded-full shrink-0">Markdown</span>
             </div>
 
             @if($user->profil_readme)
-                <div class="flex-1 overflow-y-auto max-h-64 bg-gray-50/60 border border-gray-100 rounded-xl p-4 prose prose-sm prose-slate max-w-none">
+                <div class="flex-1 overflow-y-auto max-h-64 bg-gray-50/60 border border-gray-100 dark:border-gray-800 rounded-xl p-4 prose prose-sm prose-slate max-w-none">
                     {!! app(\App\Services\MarkdownService::class)->parseReadme($user->profil_readme) !!}
                 </div>
             @else
-                <div class="flex-1 flex flex-col items-center justify-center text-center py-10 border-2 border-dashed border-gray-100 rounded-xl">
+                <div class="flex-1 flex flex-col items-center justify-center text-center py-10 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-xl">
                     <svg class="w-10 h-10 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    <p class="text-sm text-gray-400 font-medium">README masih kosong</p>
-                    <p class="text-xs text-gray-400 mt-1 max-w-[240px]">Tulis perkenalan, keahlian, pengalaman proyek, dan kontak agar HRD tertarik merekrut kamu.</p>
+                    <p class="text-sm text-gray-400 dark:text-gray-400 font-medium">README masih kosong</p>
+                    <p class="text-xs text-gray-400 dark:text-gray-400 mt-1 max-w-[240px]">Tulis perkenalan, keahlian, pengalaman proyek, dan kontak agar HRD tertarik merekrut kamu.</p>
                 </div>
             @endif
 
             <button
                 type="button"
                 wire:click="openEditorModal"
-                class="mt-4 w-full px-4 py-2.5 {{ $user->profil_readme ? 'bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700' : 'bg-[#0284c7] hover:bg-[#0369a1] text-white' }} rounded-lg text-sm font-semibold transition cursor-pointer"
+                class="mt-4 w-full px-4 py-2.5 {{ $user->profil_readme ? 'bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200' : 'bg-[#0284c7] hover:bg-[#0369a1] text-white' }} rounded-lg text-sm font-semibold transition cursor-pointer"
             >
                 {{ $user->profil_readme ? 'Edit README' : 'Tulis README Sekarang' }}
             </button>
@@ -198,11 +198,11 @@
     </div>
 
     {{-- Aset SVG README --}}
-    <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100">
-        <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+    <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
+        <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800 mb-4">
             <div>
-                <h3 class="text-base font-bold text-gray-900">Aset SVG README</h3>
-                <p class="text-[11px] text-gray-400 mt-0.5">Upload gambar SVG (infografis, kartu statistik, dll) lalu sisipkan ke README profil kamu.</p>
+                <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">Aset SVG README</h3>
+                <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-0.5">Upload gambar SVG (infografis, kartu statistik, dll) lalu sisipkan ke README profil kamu.</p>
             </div>
             <span class="text-[10px] font-semibold text-violet-600 bg-violet-50 px-2 py-0.5 rounded-full shrink-0">Maks {{ \App\Services\SvgService::MAX_FILES_PER_USER }} file · 1 MB</span>
         </div>
@@ -211,15 +211,15 @@
             {{-- Form upload --}}
             <form wire:submit="uploadSvg" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-medium text-gray-700 mb-1">Upload File SVG</label>
+                    <label class="block text-xs font-medium text-gray-700 dark:text-gray-200 mb-1">Upload File SVG</label>
                     <input
                         type="file"
                         accept=".svg,image/svg+xml"
                         wire:model="fileSvg"
-                        class="w-full text-sm text-gray-700 border border-gray-300 rounded-lg cursor-pointer file:mr-3 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:border-0 file:bg-sky-50 file:text-sky-600 hover:file:bg-sky-100 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                        class="w-full text-sm text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer file:mr-3 file:px-3 file:py-1.5 file:text-xs file:font-semibold file:border-0 file:bg-sky-50 dark:bg-sky-500/10 file:text-sky-600 hover:file:bg-sky-100 dark:bg-sky-50 dark:bg-sky-500//20 focus:ring-2 focus:ring-sky-500 focus:outline-none"
                     >
                     @error('fileSvg') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
-                    <p class="text-[11px] text-gray-400 mt-1">SVG otomatis disanitasi demi keamanan. Maksimal 1 MB per file.</p>
+                    <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-1">SVG otomatis disanitasi demi keamanan. Maksimal 1 MB per file.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <button
@@ -235,24 +235,24 @@
 
             {{-- Daftar aset --}}
             <div>
-                <p class="text-xs font-medium text-gray-700 mb-2">Aset Saya ({{ $asetSvgList->count() }}/{{ \App\Services\SvgService::MAX_FILES_PER_USER }})</p>
+                <p class="text-xs font-medium text-gray-700 dark:text-gray-200 mb-2">Aset Saya ({{ $asetSvgList->count() }}/{{ \App\Services\SvgService::MAX_FILES_PER_USER }})</p>
                 @if($asetSvgList->isEmpty())
-                    <div class="flex flex-col items-center justify-center text-center py-8 border-2 border-dashed border-gray-100 rounded-xl">
+                    <div class="flex flex-col items-center justify-center text-center py-8 border-2 border-dashed border-gray-100 dark:border-gray-800 rounded-xl">
                         <svg class="w-8 h-8 text-gray-300 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
-                        <p class="text-xs text-gray-400">Belum ada aset SVG</p>
+                        <p class="text-xs text-gray-400 dark:text-gray-400">Belum ada aset SVG</p>
                     </div>
                 @else
                     <ul class="space-y-2 max-h-64 overflow-y-auto pr-1">
                         @foreach($asetSvgList as $aset)
-                            <li class="flex items-center gap-3 border border-gray-100 rounded-xl p-2 hover:bg-gray-50 transition">
-                                <div class="w-12 h-12 shrink-0 rounded-lg border border-gray-100 bg-white flex items-center justify-center overflow-hidden">
+                            <li class="flex items-center gap-3 border border-gray-100 dark:border-gray-800 rounded-xl p-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
+                                <div class="w-12 h-12 shrink-0 rounded-lg border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden">
                                     <img src="{{ $aset->url }}" alt="{{ $aset->nama_file }}" class="max-w-full max-h-full object-contain p-1">
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-xs font-semibold text-gray-800 truncate" title="{{ $aset->nama_file }}">{{ $aset->nama_file }}</p>
-                                    <p class="text-[10px] text-gray-400">{{ $aset->size_human }}</p>
+                                    <p class="text-xs font-semibold text-gray-800 dark:text-gray-100 truncate" title="{{ $aset->nama_file }}">{{ $aset->nama_file }}</p>
+                                    <p class="text-[10px] text-gray-400 dark:text-gray-400">{{ $aset->size_human }}</p>
                                 </div>
                                 <div class="flex items-center gap-1 shrink-0">
                                     <button
@@ -260,14 +260,14 @@
                                         x-data
                                         @click="navigator.clipboard.writeText($el.dataset.snippet); $el.textContent = 'Tersalin!'; setTimeout(() => $el.textContent = 'Salin', 2000);"
                                         data-snippet="{{ $aset->snippet }}"
-                                        class="px-2.5 py-1.5 text-[11px] font-semibold border border-gray-200 rounded-lg hover:bg-gray-100 transition cursor-pointer"
+                                        class="px-2.5 py-1.5 text-[11px] font-semibold border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer"
                                     >Salin</button>
                                     <button
                                         type="button"
                                         wire:click="deleteSvg({{ $aset->id }})"
                                         wire:confirm="Hapus aset '{{ $aset->nama_file }}'? Snippet di README yang memakainya akan rusak."
                                         wire:loading.attr="disabled"
-                                        class="px-2.5 py-1.5 text-[11px] font-semibold border border-rose-200 text-rose-600 rounded-lg hover:bg-rose-50 transition cursor-pointer"
+                                        class="px-2.5 py-1.5 text-[11px] font-semibold border border-rose-200 text-rose-600 rounded-lg hover:bg-rose-50 dark:bg-rose-500/10 transition cursor-pointer"
                                     >Hapus</button>
                                 </div>
                             </li>
@@ -281,10 +281,10 @@
     {{-- README Editor Modal --}}
     @if($showEditorModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-            <div class="bg-white rounded-2xl max-w-3xl w-full shadow-xl border border-gray-100 flex flex-col max-h-[92vh]">
-                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                    <h3 class="text-lg font-bold text-gray-900">Edit README Profil</h3>
-                    <button type="button" wire:click="closeEditorModal" class="text-gray-400 hover:text-gray-600">
+            <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-3xl w-full shadow-xl border border-gray-100 dark:border-gray-800 flex flex-col max-h-[92vh]">
+                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">Edit README Profil</h3>
+                    <button type="button" wire:click="closeEditorModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -303,8 +303,8 @@
 
                     {{-- Sisipkan aset SVG ke README --}}
                     @if($asetSvgList->isNotEmpty())
-                        <div class="border border-gray-100 rounded-xl p-3 bg-gray-50/60">
-                            <p class="text-[11px] font-semibold text-gray-500 uppercase tracking-wider mb-2">Sisipkan Aset SVG</p>
+                        <div class="border border-gray-100 dark:border-gray-800 rounded-xl p-3 bg-gray-50/60">
+                            <p class="text-[11px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Sisipkan Aset SVG</p>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($asetSvgList as $aset)
                                     <button
@@ -322,21 +322,21 @@
                                                 ta.focus();
                                             }
                                         "
-                                        class="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white border border-gray-200 rounded-lg hover:bg-sky-50 hover:border-sky-200 transition cursor-pointer"
+                                        class="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-sky-50 dark:bg-sky-500/10 hover:border-sky-200 transition cursor-pointer"
                                         title="{{ $aset->nama_file }}"
                                     >
                                         <img src="{{ $aset->url }}" alt="" class="w-4 h-4 object-contain">
-                                        <span class="text-[11px] font-medium text-gray-700 max-w-[140px] truncate">{{ $aset->nama_file }}</span>
+                                        <span class="text-[11px] font-medium text-gray-700 dark:text-gray-200 max-w-[140px] truncate">{{ $aset->nama_file }}</span>
                                     </button>
                                 @endforeach
                             </div>
-                            <p class="text-[10px] text-gray-400 mt-2">Klik untuk menyisipkan snippet di posisi kursor.</p>
+                            <p class="text-[10px] text-gray-400 dark:text-gray-400 mt-2">Klik untuk menyisipkan snippet di posisi kursor.</p>
                         </div>
                     @endif
                 </div>
 
-                <div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-gray-100">
-                    <button type="button" wire:click="closeEditorModal" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition text-sm cursor-pointer">
+                <div class="flex items-center justify-end gap-2 px-6 py-4 border-t border-gray-100 dark:border-gray-800">
+                    <button type="button" wire:click="closeEditorModal" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm cursor-pointer">
                         Batal
                     </button>
                     <button
@@ -356,10 +356,10 @@
     {{-- Modal Edit Foto Profil --}}
     @if($showEditModal)
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
-            <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-xl border border-gray-100 space-y-4 max-h-[92vh] overflow-y-auto">
-                <div class="flex items-center justify-between pb-3 border-b border-gray-100">
-                    <h3 class="text-lg font-bold text-gray-900">Ganti Foto Profil</h3>
-                    <button type="button" wire:click="closeEditModal" class="text-gray-400 hover:text-gray-600">
+            <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-lg w-full p-6 shadow-xl border border-gray-100 dark:border-gray-800 space-y-4 max-h-[92vh] overflow-y-auto">
+                <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">Ganti Foto Profil</h3>
+                    <button type="button" wire:click="closeEditModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -382,8 +382,8 @@
                         />
                     </div>
 
-                    <div class="flex items-center justify-end gap-2 pt-3 border-t border-gray-100">
-                        <button type="button" wire:click="closeEditModal" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                    <div class="flex items-center justify-end gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
+                        <button type="button" wire:click="closeEditModal" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer">
                             Batal
                         </button>
                         <button

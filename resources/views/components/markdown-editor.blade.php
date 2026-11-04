@@ -65,31 +65,31 @@
         if (!markdown) return '';
         
         let html = markdown
-            .replace(/^### (.*$)/gim, '<h3 class=\'text-lg font-semibold text-gray-800 mb-2 mt-3\'>$1</h3>')
-            .replace(/^## (.*$)/gim, '<h2 class=\'text-xl font-bold text-gray-800 mb-3 mt-4\'>$1</h2>')
-            .replace(/^# (.*$)/gim, '<h1 class=\'text-2xl font-bold text-gray-900 mb-4 mt-5\'>$1</h1>')
+            .replace(/^### (.*$)/gim, '<h3 class=\'text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2 mt-3\'>$1</h3>')
+            .replace(/^## (.*$)/gim, '<h2 class=\'text-xl font-bold text-gray-800 dark:text-gray-100 mb-3 mt-4\'>$1</h2>')
+            .replace(/^# (.*$)/gim, '<h1 class=\'text-2xl font-bold text-gray-900 dark:text-gray-50 mb-4 mt-5\'>$1</h1>')
             .replace(/\*\*(.*?)\*\*/gim, '<strong class=\'font-semibold\'>$1</strong>')
             .replace(/\*(.*?)\*/gim, '<em class=\'italic\'>$1</em>')
             .replace(/^- (.*$)/gim, '<li class=\'ml-4\'>$1</li>')
-            .replace(/\n\n/gim, '</p><p class=\'text-gray-700 leading-relaxed mb-3\'>')
-            .replace(/`(.*?)`/gim, '<code class=\'bg-gray-100 text-red-600 px-1 rounded text-sm font-mono\'>$1</code>');
+            .replace(/\n\n/gim, '</p><p class=\'text-gray-700 dark:text-gray-200 leading-relaxed mb-3\'>')
+            .replace(/`(.*?)`/gim, '<code class=\'bg-gray-100 dark:bg-gray-800 text-red-600 dark:text-red-400 px-1 rounded text-sm font-mono\'>$1</code>');
         
-        html = html.replace(/(<li.*?<\/li>)+/gim, '<ul class=\'list-disc list-inside space-y-1 mb-3 text-gray-700\'>$&</ul>');
+        html = html.replace(/(<li.*?<\/li>)+/gim, '<ul class=\'list-disc list-inside space-y-1 mb-3 text-gray-700 dark:text-gray-200\'>$&</ul>');
         
         if (!html.startsWith('<h')) {
-            html = '<p class=\'text-gray-700 leading-relaxed mb-3\'>' + html + '</p>';
+            html = '<p class=\'text-gray-700 dark:text-gray-200 leading-relaxed mb-3\'>' + html + '</p>';
         }
         
         return html;
     }
 }"
-    <label class="block text-sm font-medium text-gray-700 mb-2">
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
         {{ $label }}
         @if($required) <span class="text-red-500">*</span> @endif
     </label>
 
     {{-- Toolbar --}}
-    <div class="flex items-center gap-1 p-2 bg-gray-50 border border-gray-300 rounded-t-lg">
+    <div class="flex items-center gap-1 p-2 bg-gray-50 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-t-lg">
         <button 
             type="button"
             @click="insertBold()"
@@ -162,7 +162,7 @@
         x-ref="textarea"
         wire:model.live="{{ $modelName }}"
         rows="{{ $rows }}"
-        class="w-full px-3 py-2 border border-gray-300 rounded-b-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent font-mono text-sm"
+        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-b-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent font-mono text-sm"
         placeholder="{{ $placeholder }}"
         @keydown.ctrl.b.prevent="insertBold()"
         @keydown.meta.b.prevent="insertBold()"
@@ -171,13 +171,13 @@
     ></textarea>
 
     @error($modelName) 
-        <p class="mt-1 text-sm text-red-600">{{ $message }}</p> 
+        <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> 
     @enderror
 
     {{-- Live Preview --}}
     <div x-show="content && content.length > 0">
-        <div class="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200 max-h-64 overflow-y-auto">
-            <p class="text-xs font-semibold text-gray-600 mb-3 uppercase tracking-wide flex items-center">
+        <div class="mt-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 max-h-64 overflow-y-auto">
+            <p class="text-xs font-semibold text-gray-600 dark:text-gray-300 mb-3 uppercase tracking-wide flex items-center">
                 <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>

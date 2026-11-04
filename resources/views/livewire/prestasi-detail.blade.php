@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-800">
     {{-- Hero Section --}}
-    <section class="bg-white py-12">
+    <section class="bg-white dark:bg-gray-900 py-12">
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex justify-center mb-6">
-                <a href="/prestasi" class="inline-flex items-center gap-2 text-gray-600 hover:opacity-80 transition" style="color: {{ $globalSettings->primary_color_style }}">
+                <a href="/prestasi" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:opacity-80 transition" style="color: {{ $globalSettings->primary_color_style }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
@@ -12,18 +12,18 @@
             </div>
 
             <div class="flex items-center gap-3 mb-4">
-                <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full">
+                <span class="inline-block px-3 py-1 bg-yellow-100 dark:bg-yellow-50 dark:bg-yellow-500//20 text-yellow-800 text-sm font-semibold rounded-full">
                     🏆 {{ ucfirst($prestasi->jenis) }}
                 </span>
-                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
+                <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-50 dark:bg-blue-500//20 text-blue-800 text-sm font-semibold rounded-full">
                     {{ ucfirst($prestasi->tingkat) }}
                 </span>
-                <span class="text-sm text-gray-500">{{ $prestasi->tanggal_prestasi->format('d F Y') }}</span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">{{ $prestasi->tanggal_prestasi->format('d F Y') }}</span>
             </div>
 
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ $prestasi->judul }}</h1>
+            <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ $prestasi->judul }}</h1>
 
-            <div class="flex items-center gap-6 text-sm text-gray-600">
+            <div class="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-300">
                 <div class="flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -49,7 +49,7 @@
     {{-- Content --}}
     <section class="py-12">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
                 @if($prestasi->gambar)
                     <img src="{{ asset('storage/' . $prestasi->gambar) }}" alt="{{ $prestasi->judul }}" class="w-full aspect-video object-cover">
@@ -66,7 +66,7 @@
                     {{-- Certificate --}}
                     @if($prestasi->sertifikat)
                         <div class="mt-8 pt-8 border-t">
-                            <h3 class="text-lg font-bold text-gray-900 mb-4">Sertifikat</h3>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-4">Sertifikat</h3>
                             <a href="{{ asset('storage/' . $prestasi->sertifikat) }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white hover:opacity-90 transition" style="background-color: {{ $globalSettings->primary_color_style }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
@@ -82,24 +82,24 @@
 
     {{-- Related Prestasi --}}
     @if($relatedPrestasis->count() > 0)
-        <section class="py-12 bg-white">
+        <section class="py-12 bg-white dark:bg-gray-900">
             <div class="max-w-7xl mx-auto px-6">
-                <h2 class="text-2xl font-bold text-gray-900 mb-8">Prestasi Terkait</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-8">Prestasi Terkait</h2>
                 <div class="grid md:grid-cols-3 gap-6">
                     @foreach($relatedPrestasis as $related)
-                        <a href="/prestasi/{{ $related->id }}" class="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition group">
+                        <a href="/prestasi/{{ $related->id }}" class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition group">
                             @if($related->gambar)
                                 <img src="{{ asset('storage/' . $related->gambar) }}" alt="{{ $related->judul }}" class="w-full aspect-video object-cover group-hover:scale-105 transition duration-300">
                             @else
                                 <div class="w-full aspect-video bg-gradient-to-br" style="background-image: linear-gradient(to bottom right, {{ $globalSettings->primary_color_style }}, {{ $globalSettings->primary_color_style }}dd)"></div>
                             @endif
                             <div class="p-4">
-                                <span class="inline-block px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full mb-3">
+                                <span class="inline-block px-2 py-1 bg-yellow-100 dark:bg-yellow-50 dark:bg-yellow-500//20 text-yellow-800 text-xs font-semibold rounded-full mb-3">
                                     🏆 {{ ucfirst($related->jenis) }}
                                 </span>
-                                <h3 class="font-bold text-gray-900 mb-2 line-clamp-2">{{ $related->judul }}</h3>
-                                <p class="text-sm text-gray-600">{{ $related->nama_siswa }}</p>
-                                <p class="text-xs text-gray-500 mt-1">{{ $related->tanggal_prestasi->format('d M Y') }}</p>
+                                <h3 class="font-bold text-gray-900 dark:text-gray-50 mb-2 line-clamp-2">{{ $related->judul }}</h3>
+                                <p class="text-sm text-gray-600 dark:text-gray-300">{{ $related->nama_siswa }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $related->tanggal_prestasi->format('d M Y') }}</p>
                             </div>
                         </a>
                     @endforeach
