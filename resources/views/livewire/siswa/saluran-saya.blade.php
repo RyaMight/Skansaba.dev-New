@@ -38,6 +38,19 @@
     </div>
 
     <form wire:submit.prevent="save" class="space-y-6">
+        {{-- Banner indikasi ada perubahan yang belum disimpan --}}
+        @if($hasUnsavedChanges)
+            <div
+                class="flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-800 rounded-xl px-4 py-2.5"
+                role="status"
+            >
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M5 19h14a2 2 0 001.741-1.19l3-6a2 2 0 00-2.503-2.684L19 9.184V6a2 2 0 00-2-2H5a2 2 0 00-2 2v13a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-xs font-medium">Ada perubahan yang belum disimpan. Jangan lupa klik "Simpan Perubahan".</span>
+            </div>
+        @endif
+
         {{-- Email Aktif --}}
         <div class="bg-white rounded-2xl p-5 shadow-xs border border-gray-100 space-y-3">
             <div class="flex items-center justify-between">
@@ -324,10 +337,13 @@
         </div>
 
         {{-- Action Button Simpan Perubahan --}}
-        <div class="flex justify-end pt-2">
+        <div class="flex items-center justify-end gap-3 pt-2">
+            @if($hasUnsavedChanges)
+                <span class="text-[11px] text-amber-600 font-medium">• Belum disimpan</span>
+            @endif
             <button
                 type="submit"
-                class="px-5 py-2.5 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-sm font-semibold shadow-xs transition cursor-pointer"
+                class="px-5 py-2.5 {{ $hasUnsavedChanges ? 'bg-amber-500 hover:bg-amber-600 ring-2 ring-amber-300' : 'bg-[#0284c7] hover:bg-[#0369a1]' }} text-white rounded-lg text-sm font-semibold shadow-xs transition cursor-pointer"
             >
                 Simpan Perubahan
             </button>

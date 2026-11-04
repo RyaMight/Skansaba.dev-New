@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "croppie/croppie.css";
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -9,14 +10,75 @@
         "Noto Color Emoji";
 }
 
-/* Cropper.js Preview Box */
+/* ============================================
+   Croppie Studio & Avatar Frame Styling
+   ============================================ */
+.croppie-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    user-select: none;
+}
+
+.croppie-container .cr-boundary {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    z-index: 1;
+    background-color: #0f172a;
+    border-radius: 0.75rem;
+}
+
+.croppie-container .cr-viewport {
+    position: absolute;
+    border: 2px solid rgba(255, 255, 255, 0.95);
+    outline: 1px dashed rgba(14, 165, 233, 0.7);
+    outline-offset: -3px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.65);
+    z-index: 10;
+    transition: border-radius 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.croppie-container .cr-vp-circle {
+    border-radius: 50% !important;
+}
+
+.croppie-container .cr-vp-squircle {
+    border-radius: 28px !important;
+}
+
+.croppie-container .cr-vp-square {
+    border-radius: 8px !important;
+}
+
+.croppie-container .cr-overlay {
+    z-index: 20;
+    position: absolute;
+    cursor: grab;
+    touch-action: none;
+}
+
+.croppie-container .cr-overlay:active {
+    cursor: grabbing;
+}
+
+.croppie-container .cr-slider-wrap {
+    display: none !important;
+}
+
+/* Cropper Preview Box */
 .crop-preview-box {
     width: 200px;
     height: 200px;
     overflow: hidden;
     border-radius: 0.5rem;
-    border: 2px solid #d1d5db;
-    background: #f3f4f6;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -12,8 +12,9 @@
             </div>
 
             <div class="flex items-center gap-3 mb-4">
-                <span class="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-sm font-semibold rounded-full">
-                    🏆 {{ ucfirst($prestasi->jenis) }}
+                <span class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 border border-amber-200/80 text-amber-800 text-sm font-semibold rounded-full">
+                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                    <span>{{ ucfirst($prestasi->jenis) }}</span>
                 </span>
                 <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-semibold rounded-full">
                     {{ ucfirst($prestasi->tingkat) }}
@@ -94,8 +95,9 @@
                                 <div class="w-full aspect-video bg-gradient-to-br" style="background-image: linear-gradient(to bottom right, {{ $globalSettings->primary_color_style }}, {{ $globalSettings->primary_color_style }}dd)"></div>
                             @endif
                             <div class="p-4">
-                                <span class="inline-block px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-semibold rounded-full mb-3">
-                                    🏆 {{ ucfirst($related->jenis) }}
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 border border-amber-200/80 text-amber-800 text-xs font-semibold rounded-full mb-3">
+                                    <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                                    <span>{{ ucfirst($related->jenis) }}</span>
                                 </span>
                                 <h3 class="font-bold text-gray-900 mb-2 line-clamp-2">{{ $related->judul }}</h3>
                                 <p class="text-sm text-gray-600">{{ $related->nama_siswa }}</p>

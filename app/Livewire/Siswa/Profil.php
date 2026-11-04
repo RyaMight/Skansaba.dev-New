@@ -21,6 +21,7 @@ class Profil extends Component
     public string $name = '';
     public string $email = '';
     public string $bio = '';
+    public string $keahlian = '';
     public $photoBase64 = null;
     public $crop_data = null;
 
@@ -42,6 +43,7 @@ class Profil extends Component
         $this->name = $this->user->name ?? '';
         $this->email = $this->user->email ?? 'ahmad.syah@smk.sch.id';
         $this->bio = $this->user->bio ?? 'Tertarik pada Web Development dan UI/UX Design. Senang belajar hal baru dan berkarya di bidang Rekayasa Perangkat Lunak.';
+        $this->keahlian = $this->user->keahlian ?? '';
         $this->photoBase64 = null;
     }
 
@@ -58,12 +60,13 @@ class Profil extends Component
         $this->crop_data = null;
     }
 
-    public function saveProfile()
+    public function saveProfile(?string $base64Photo = null)
     {
         $this->validate([
             'name' => 'required|string|max:100',
             'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
             'bio' => 'nullable|string|max:500',
+            'keahlian' => 'nullable|string|max:255',
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
             'email.required' => 'Email aktif wajib diisi.',
@@ -71,15 +74,17 @@ class Profil extends Component
             'email.unique' => 'Email ini sudah terdaftar oleh pengguna lain.',
         ]);
 
+        $photoData = $base64Photo ?: $this->photoBase64;
+
         // Process base64 cropped photo if provided.
         // Save the new file FIRST, update the DB, then delete the old file —
         // this way the old photo is never lost if processing fails.
-        if ($this->photoBase64 && str_starts_with($this->photoBase64, 'data:image')) {
+        if ($photoData && str_starts_with($photoData, 'data:image')) {
             $oldPhotoPath = $this->user->photo;
 
             // Per-account folder: users/photos/u{id} — each account owns its own directory
             $newPhotoPath = $this->imageService->processBase64AndStore(
-                $this->photoBase64,
+                $photoData,
                 'users/photos/u' . $this->user->id,
                 ['width' => 500, 'height' => 500]
             );
@@ -100,6 +105,7 @@ class Profil extends Component
             'name' => $this->name,
             'email' => $this->email,
             'bio' => $this->bio,
+            'keahlian' => $this->keahlian,
         ]);
 
         // Refresh user model

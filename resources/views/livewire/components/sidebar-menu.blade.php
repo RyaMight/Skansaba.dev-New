@@ -67,7 +67,7 @@
                             wire:navigate
                             class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition"
                             x-bind:class="collapsed ? 'justify-center' : ''"
-                            x-bind:title="collapsed ? '{{ $item['label'] }}' : ''"
+                            x-bind:title="collapsed ? '{{ $item['label'] }}{{ !empty($item['has_badge']) ? ' (' . $item['badge_count'] . ' perlu verifikasi)' : '' }}' : ''"
                             @class([
                                 'bg-blue-50' => request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index'),
                                 'text-gray-700 hover:bg-gray-50' => !(request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index')),
@@ -76,8 +76,32 @@
                                 style="color: {{ $globalSettings->primary_color_style }}"
                             @endif
                         >
-                            <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 flex-shrink-0" x-bind:class="collapsed ? '' : 'mr-3'" />
+                            <div class="relative flex-shrink-0 flex items-center justify-center">
+                                <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 flex-shrink-0" x-bind:class="collapsed ? '' : 'mr-3'" />
+                                @if(!empty($item['has_badge']))
+                                    <span 
+                                        x-show="collapsed" 
+                                        class="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 text-[10px] font-bold text-white bg-amber-500 rounded-full shadow-xs" 
+                                        title="{{ $item['badge_count'] }} karya perlu verifikasi"
+                                    >
+                                        !
+                                    </span>
+                                @endif
+                            </div>
                             <span x-show="!collapsed" x-transition class="truncate">{{ $item['label'] }}</span>
+                            @if(!empty($item['has_badge']))
+                                <span 
+                                    x-show="!collapsed" 
+                                    x-transition 
+                                    class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200/80 rounded-full flex-shrink-0" 
+                                    title="{{ $item['badge_count'] }} karya menunggu verifikasi"
+                                >
+                                    <svg class="w-3.5 h-3.5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                                    </svg>
+                                    <span>{{ $item['badge_count'] }}</span>
+                                </span>
+                            @endif
                         </a>
                     @endif
                 @endforeach
@@ -103,9 +127,13 @@
             <div class="flex-shrink-0 px-3 py-4 border-t border-gray-200">
                 <div class="flex items-center" :class="collapsed ? 'justify-center' : ''">
                     <div class="flex-shrink-0">
-                        <div class="h-10 w-10 rounded-full flex items-center justify-center text-white font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
+                        <div class="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center text-white font-semibold ring-1 ring-gray-200" style="background-color: {{ $globalSettings->primary_color_style }}">
                             @auth
-                                {{ auth()->user()->initials() }}
+                                @if(auth()->user()->photo_url)
+                                    <img src="{{ auth()->user()->photo_url }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                                @else
+                                    {{ auth()->user()->initials() }}
+                                @endif
                             @else
                                 ?
                             @endauth
@@ -215,8 +243,16 @@
                             style="color: {{ $globalSettings->primary_color_style }}"
                         @endif
                     >
-                        <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 mr-3" />
-                        <span>{{ $item['label'] }}</span>
+                        <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 mr-3 flex-shrink-0" />
+                        <span class="truncate">{{ $item['label'] }}</span>
+                        @if(!empty($item['has_badge']))
+                            <span class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold text-amber-800 bg-amber-50 border border-amber-200/80 rounded-full flex-shrink-0">
+                                <svg class="w-3.5 h-3.5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
+                                </svg>
+                                <span>{{ $item['badge_count'] }}</span>
+                            </span>
+                        @endif
                     </a>
                 @endif
             @endforeach
@@ -241,9 +277,13 @@
         <div class="flex-shrink-0 px-3 py-4 border-t border-gray-200">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <div class="h-10 w-10 rounded-full flex items-center justify-center text-white font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
+                    <div class="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center text-white font-semibold ring-1 ring-gray-200" style="background-color: {{ $globalSettings->primary_color_style }}">
                         @auth
-                            {{ auth()->user()->initials() }}
+                            @if(auth()->user()->photo_url)
+                                <img src="{{ auth()->user()->photo_url }}" alt="{{ auth()->user()->name }}" class="w-full h-full object-cover">
+                            @else
+                                {{ auth()->user()->initials() }}
+                            @endif
                         @else
                             ?
                         @endauth

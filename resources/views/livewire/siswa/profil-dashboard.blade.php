@@ -34,7 +34,7 @@
     {{-- Page Header --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Selamat datang, {{ strtok($user->name ?? '', ' ') }} 👋</h1>
+            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Selamat datang, {{ strtok($user->name ?? '', ' ') }}</h1>
             <p class="text-sm text-gray-500 mt-0.5">Ringkasan aktivitas karya dan prestasi kamu.</p>
         </div>
         <div class="flex items-center gap-2">
@@ -57,6 +57,65 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
                 </svg>
                 <span>Hias Profil Publik</span>
+            </a>
+        </div>
+    </div>
+
+    {{-- Student Profile & Tech Stack Hero Banner --}}
+    <div class="bg-white rounded-2xl p-5 shadow-xs border border-gray-100 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-4 min-w-0">
+            <div class="relative w-14 h-14 rounded-full overflow-hidden bg-slate-100 ring-2 ring-gray-100 shrink-0">
+                @if($user->photo_url)
+                    <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
+                @else
+                    <div class="w-full h-full bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center text-white text-lg font-bold">
+                        {{ $user->initials() }}
+                    </div>
+                @endif
+            </div>
+            <div class="min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 class="text-base md:text-lg font-bold text-gray-900 truncate">{{ $user->name }}</h2>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-sky-50 text-sky-700 border border-sky-200/70">
+                        {{ $user->kelas ? 'Kelas ' . $user->kelas : 'Siswa RPL' }}
+                    </span>
+                    <span class="text-xs text-gray-400">• NISN: {{ $user->nisn ?: '-' }}</span>
+                </div>
+                
+                {{-- Keahlian / Tech Stack Badges --}}
+                <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                    <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mr-0.5 flex items-center gap-1">
+                        <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                        <span>Tech Stack:</span>
+                    </span>
+                    @forelse($user->keahlian_list as $skill)
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-sky-50 text-sky-700 border border-sky-200/70 rounded-md text-[11px] font-medium">
+                            <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{{ $skill }}</span>
+                        </span>
+                    @empty
+                        <a href="{{ route('siswa.profil-publik') }}" wire:navigate class="inline-flex items-center gap-1 text-[11px] text-sky-600 hover:text-sky-700 italic hover:underline">
+                            + Tambah Keahlian / Tech Stack
+                        </a>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+
+        <div class="shrink-0 flex items-center gap-2">
+            <a
+                href="{{ route('siswa.profil') }}"
+                wire:navigate
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 border border-slate-200 text-slate-700 hover:bg-slate-50 rounded-lg text-xs font-semibold transition"
+            >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span>Kelola Profil</span>
             </a>
         </div>
     </div>
@@ -175,11 +234,10 @@
                 @php
                     $checks = [
                         'Foto profil' => (bool) $user->photo,
-                        'Headline' => (bool) $user->headline,
                         'Bio' => (bool) $user->bio,
-                        'Keahlian' => (bool) $user->keahlian,
                         'README profil' => (bool) $user->profil_readme,
                         'Username kustom' => (bool) $user->username,
+                        'Keahlian & Tech Stack' => (bool) !empty(trim($user->keahlian ?? '')),
                     ];
                     $filled = count(array_filter($checks));
                     $total = count($checks);

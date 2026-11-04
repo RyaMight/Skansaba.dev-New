@@ -119,4 +119,129 @@ class SiswaProfilPhotoTest extends TestCase
             'Foto harus tersimpan di folder per-akun'
         );
     }
+
+    public function test_modal_edit_foto_menampilkan_fitur_frame_dan_geser(): void
+    {
+        $user = User::create([
+            'name' => 'Dani Siswa',
+            'email' => 'dani@rpl.sch.id',
+            'username' => 'danisiswa',
+            'password' => bcrypt('password123'),
+            'role' => 'siswa',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($user);
+
+        // Test modal di ProfilPublikEdit
+        $comp = Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+            ->call('openEditModal')
+            ->assertSee('Perbarui Foto Profil')
+            ->assertSee('Pilih file foto')
+            ->assertSee('Geser Foto (Kanan - Kiri)')
+            ->assertSee('Bentuk Bingkai Foto Profil')
+            ->assertSee('Gambaran Foto Profil')
+            ->assertSee('Tampilan di Halaman Profil')
+            ->assertSee('Tampilan di Bilah Menu');
+
+        $html = $comp->html();
+        $this->assertMatchesRegularExpression('/x-data="(\{\s*croppie:\s*null,.*?\})"\s*@croppie-update/s', $html);
+        if (preg_match('/x-data="(\{\s*croppie:\s*null,.*?\})"\s*@croppie-update/s', $html, $matches)) {
+            $this->assertStringNotContainsString('"', $matches[1], 'x-data tidak boleh mengandung tanda kutip ganda (") di dalamnya agar HTML attribute tidak pecah');
+        }
+
+        // Test modal di Profil
+        Livewire::test(\App\Livewire\Siswa\Profil::class)
+            ->call('openEditModal')
+            ->assertSee('Edit Profil Siswa')
+            ->assertSee('Geser Foto (Kanan - Kiri)')
+            ->assertSee('Bentuk Bingkai Foto Profil')
+            ->assertSee('Gambaran Foto Profil');
+
+        // Test jika user sudah punya foto, muncul tombol "Edit Ulang Posisi" di samping "Ganti Foto"
+        Storage::fake('public');
+        $photoPath = 'users/photos/u'.$user->id.'/avatar.webp';
+        Storage::disk('public')->put($photoPath, 'dummy-photo-content');
+        $user->update(['photo' => $photoPath]);
+        $this->actingAs($user->fresh());
+        Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+            ->call('openEditModal')
+            ->assertSee('Edit Ulang Posisi')
+            ->assertSee('Ganti Foto');
+    }
+
+    public function test_save_photo_langsung_dengan_argumen_base64_di_profil_publik_edit(): void
+    {
+        Storage::fake('public');
+
+        $user = User::create([
+            'name' => 'Siswa Publik Test',
+            'email' => 'publik@rpl.sch.id',
+            'password' => bcrypt('password123'),
+            'role' => 'siswa',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($user);
+
+        Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+            ->call('savePhoto', $this->tinyBase64Png())
+            ->assertHasNoErrors();
+
+        $user->refresh();
+        $this->assertNotNull($user->photo, 'Foto profil harus tersimpan di database');
+        $this->assertTrue(Storage::disk('public')->exists($user->photo));
+    }
+
+    public function test_save_profile_langsung_dengan_argumen_base64_di_profil_siswa(): void
+    {
+        Storage::fake('public');
+
+        $user = User::create([
+            'name' => 'Siswa Akun Test',
+            'email' => 'akun@rpl.sch.id',
+            'password' => bcrypt('password123'),
+            'role' => 'siswa',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($user);
+
+        Livewire::test(Profil::class)
+            ->call('saveProfile', $this->tinyBase64Png())
+            ->assertHasNoErrors();
+
+        $user->refresh();
+        $this->assertNotNull($user->photo, 'Foto profil harus tersimpan di database');
+        $this->assertTrue(Storage::disk('public')->exists($user->photo));
+    }
+
+    public function test_photo_url_returns_null_when_file_does_not_exist(): void
+    {
+        Storage::fake('public');
+
+        $user = User::create([
+            'name' => 'Siswa Missing File',
+            'email' => 'missing@rpl.sch.id',
+            'password' => bcrypt('password123'),
+            'role' => 'siswa',
+            'status' => 'active',
+            'photo' => 'users/photos/u999/non_existent.webp',
+        ]);
+
+        // File belum pernah dibuat di disk fake
+        $this->assertNull(
+            $user->photo_url,
+            'photo_url harus return null jika file fisik tidak ada di disk (mencegah broken 404 image)'
+        );
+
+        // Ketika file dibuat di storage
+        Storage::disk('public')->put($user->photo, 'fake-content');
+        $user->refresh();
+
+        $this->assertNotNull(
+            $user->photo_url,
+            'photo_url harus return URL valid ketika file fisik ada di disk'
+        );
+    }
 }

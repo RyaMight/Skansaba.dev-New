@@ -2,12 +2,19 @@
 
 namespace App\Livewire\Components;
 
+use App\Models\KaryaSiswa;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class SidebarMenu extends Component
 {
     public bool $isMobileOpen = false;
+
+    #[On('karya-updated')]
+    public function refreshPending(): void
+    {
+        // Re-evaluates on next render when karya status updates
+    }
 
     /**
      * Get menu items with role-based filtering
@@ -22,17 +29,21 @@ class SidebarMenu extends Component
         }
 
         $isAdmin = in_array($user->role, ['admin', 'guru']);
+        $pendingKaryaCount = $isAdmin ? KaryaSiswa::where('status', 'review')->count() : 0;
 
         return collect($this->allMenuItems())
             ->filter(fn($item) => in_array($user->role, $item['access']))
-            ->when(!$isAdmin, function ($items) {
-                // Rename "Karya Siswa" to "Karya Saya" for non-admin viewers
-                $items->transform(function ($item) {
-                    if ($item['key'] === 'karya_siswa') {
-                        $item['label'] = 'Karya Saya';
-                    }
-                    return $item;
-                });
+            ->map(function ($item) use ($isAdmin, $pendingKaryaCount) {
+                if (!$isAdmin && $item['key'] === 'karya_siswa') {
+                    $item['label'] = 'Karya Saya';
+                }
+
+                if ($item['key'] === 'karya_verifikasi' && $pendingKaryaCount > 0) {
+                    $item['has_badge'] = true;
+                    $item['badge_count'] = $pendingKaryaCount;
+                }
+
+                return $item;
             })
             ->values()
             ->toArray();
@@ -87,6 +98,20 @@ class SidebarMenu extends Component
                 'key' => 'prestasi_siswa',
                 'label' => 'Prestasi Siswa',
                 'route' => 'prestasi.index',
+                'icon' => 'star',
+                'access' => ['admin', 'guru'],
+            ],
+            [
+                'key' => 'siswa_rpl',
+                'label' => 'Akun Siswa RPL',
+                'route' => 'siswa-rpl.index',
+                'icon' => 'academic-cap',
+                'access' => ['admin', 'guru'],
+            ],
+            [
+                'key' => 'karya_verifikasi',
+                'label' => 'Verifikasi Karya',
+                'route' => 'karya-siswa.verifikasi',
                 'icon' => 'star',
                 'access' => ['admin', 'guru'],
             ],

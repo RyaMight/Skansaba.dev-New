@@ -17,6 +17,7 @@ class KaryaSiswa extends Model
         'user_id',
         'judul',
         'deskripsi',
+        'deskripsi_singkat',
         'kategori',
         'teknologi',
         'nama_siswa',
@@ -27,6 +28,8 @@ class KaryaSiswa extends Model
         'url_repo',
         'bukti',
         'screenshots',
+        'tags',
+        'catatan_admin',
         'status',
         'published_at',
     ];
@@ -35,6 +38,7 @@ class KaryaSiswa extends Model
         'tahun' => 'integer',
         'bukti' => 'array',
         'screenshots' => 'array',
+        'tags' => 'array',
         'published_at' => 'datetime',
         'teknologi' => 'array',
     ];
@@ -47,10 +51,12 @@ class KaryaSiswa extends Model
     /**
      * Get rendered HTML from markdown description
      * MANDATORY: Use MarkdownService for safe server-side rendering
+     * Pakai parseReadme: siswa boleh menyisipkan HTML GitHub-style (<img> typing SVG dll),
+     * output tetap disanitasi (img http/https only, tanpa script/event handler).
      */
     public function getDeskripsiHtmlAttribute()
     {
-        return app(MarkdownService::class)->parseDeskripsi($this->deskripsi);
+        return app(MarkdownService::class)->parseReadme($this->deskripsi);
     }
 
     /**

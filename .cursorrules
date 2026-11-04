@@ -1,0 +1,6 @@
+# Cursor Rules: Codebase Memory & Token Optimization
+
+Always refer to the `memory-bank/` directory to understand project state and architecture:
+- Read `memory-bank/activeContext.md` and `memory-bank/progress.md` before starting tasks.
+- Avoid large whole-project code scans; perform targeted lookups only.
+- Update `memory-bank/activeContext.md` and `memory-bank/progress.md` after completing meaningful work.

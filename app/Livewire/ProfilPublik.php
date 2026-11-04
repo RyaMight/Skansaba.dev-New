@@ -48,7 +48,6 @@ class ProfilPublik extends Component
         return view('livewire.profil-publik', [
             'title' => ($this->profileUser->name ?? 'Profil') . ' - Profil Siswa RPL',
             'readmeHtml' => app(\App\Services\MarkdownService::class)->parseReadme($this->profileUser->profil_readme),
-            'keahlianList' => $this->profileUser->keahlian_list,
             'saluran' => $saluran,
             'showEmail' => !empty($saluran['email']['active']) && !empty($this->profileUser->email),
         ]);

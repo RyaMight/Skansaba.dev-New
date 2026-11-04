@@ -25,9 +25,9 @@ class User extends Authenticatable
         'nisn',
         'kelas',
         'bio',
-        'headline',
         'profil_readme',
         'username',
+        'username_changed_at',
         'phone',
         'keahlian',
         'saluran_kontak',
@@ -60,6 +60,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'last_login_at' => 'datetime',
+            'username_changed_at' => 'datetime',
             'saluran_kontak' => 'array',
         ];
     }
@@ -69,9 +70,18 @@ class User extends Authenticatable
      */
     public function getPhotoUrlAttribute(): ?string
     {
-        if ($this->photo) {
+        if (! $this->photo) {
+            return null;
+        }
+
+        if (str_starts_with($this->photo, 'http://') || str_starts_with($this->photo, 'https://')) {
+            return $this->photo;
+        }
+
+        if (Storage::disk('public')->exists($this->photo)) {
             return Storage::url($this->photo);
         }
+
         return null;
     }
 
@@ -84,6 +94,46 @@ class User extends Authenticatable
             return [];
         }
         return array_values(array_filter(array_map('trim', explode(',', $this->keahlian))));
+    }
+
+    /**
+     * Berikan tag keahlian terverifikasi tambahan (tidak menimpa tag yang sudah ada)
+     */
+    public function giveTag(string $tag): bool
+    {
+        $tag = trim($tag);
+        if (!$tag) {
+            return false;
+        }
+
+        $tags = $this->keahlian_list;
+        if (!in_array($tag, $tags, true)) {
+            $tags[] = $tag;
+            return $this->update(['keahlian' => implode(', ', $tags)]);
+        }
+        return false;
+    }
+
+    /**
+     * Cabut tag keahlian terverifikasi dari akun siswa
+     */
+    public function revokeTag(string $tag): bool
+    {
+        $tag = trim($tag);
+        $tags = $this->keahlian_list;
+        if (in_array($tag, $tags, true)) {
+            $tags = array_values(array_diff($tags, [$tag]));
+            return $this->update(['keahlian' => count($tags) > 0 ? implode(', ', $tags) : null]);
+        }
+        return false;
+    }
+
+    /**
+     * Periksa apakah akun siswa sudah memiliki tag keahlian ini
+     */
+    public function hasTag(string $tag): bool
+    {
+        return in_array(trim($tag), $this->keahlian_list, true);
     }
 
     /**
@@ -106,6 +156,43 @@ class User extends Authenticatable
     public function getProfilUrlAttribute(): string
     {
         return route('profil.public', $this->username ?: $this->id);
+    }
+
+    /**
+     * Cek apakah user boleh mengubah username custom (cooldown 7 hari).
+     */
+    public function canChangeUsername(): bool
+    {
+        if (is_null($this->username_changed_at)) {
+            return true;
+        }
+
+        return $this->username_changed_at->copy()->addDays(7)->isPast();
+    }
+
+    /**
+     * Waktu kapan user boleh mengubah username lagi.
+     */
+    public function usernameAvailableAgainAt(): ?\Carbon\CarbonInterface
+    {
+        if (is_null($this->username_changed_at)) {
+            return null;
+        }
+
+        return $this->username_changed_at->copy()->addDays(7);
+    }
+
+    /**
+     * Sisa hari (ceil) cooldown ganti username.
+     */
+    public function daysUntilNextUsernameChange(): int
+    {
+        $next = $this->usernameAvailableAgainAt();
+        if (! $next || $next->isPast()) {
+            return 0;
+        }
+
+        return (int) ceil(now()->floatDiffInDays($next));
     }
 
     /**
@@ -229,5 +316,10 @@ class User extends Authenticatable
 
         $guruPermissions = ['view_dashboard', 'create_content', 'edit_own_content'];
         return in_array($permission, $guruPermissions);
+    }
+
+    public function karyaSiswas(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(KaryaSiswa::class);
     }
 }

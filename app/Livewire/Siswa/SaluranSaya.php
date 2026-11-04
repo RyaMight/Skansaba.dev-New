@@ -14,6 +14,13 @@ class SaluranSaya extends Component
 {
     public $user;
 
+    // Indikasi ada perubahan yang belum disimpan
+    public bool $hasUnsavedChanges = false;
+
+    // Snapshot state terakhir yang disimpan (untuk deteksi perubahan).
+    // Harus public agar Livewire mem-persist-nya antar request.
+    public array $savedSnapshot = [];
+
     // Email state (bisa diedit sendiri oleh siswa)
     public string $email = '';
 
@@ -110,13 +117,36 @@ class SaluranSaya extends Component
                 'active' => isset($saved[$key]['active']) ? (bool)$saved[$key]['active'] : $defaultVal['active'],
             ];
         }
+
+        $this->savedSnapshot = [
+            'email' => $this->email,
+            'saluran' => $this->saluran,
+        ];
+        $this->hasUnsavedChanges = false;
     }
 
     public function toggleActive($key)
     {
         if (isset($this->saluran[$key])) {
             $this->saluran[$key]['active'] = !$this->saluran[$key]['active'];
+            $this->checkUnsavedChanges();
         }
+    }
+
+    public function updated($property)
+    {
+        $this->checkUnsavedChanges();
+    }
+
+    private function checkUnsavedChanges(): void
+    {
+        // Bandingkan state sekarang dengan snapshot tersimpan (trim url agar whitespace dianggap sama)
+        $normalize = fn ($s) => array_map(
+            fn ($v) => ['url' => trim($v['url'] ?? ''), 'active' => (bool)($v['active'] ?? false)],
+            $s
+        );
+        $this->hasUnsavedChanges = ['email' => $this->email, 'saluran' => $normalize($this->saluran)]
+            != ['email' => $this->savedSnapshot['email'], 'saluran' => $normalize($this->savedSnapshot['saluran'])];
     }
 
     public function save()
@@ -142,6 +172,11 @@ class SaluranSaya extends Component
         ]);
 
         session()->flash('message', 'Email, saluran & kontak berhasil diperbarui!');
+        $this->hasUnsavedChanges = false;
+        $this->savedSnapshot = [
+            'email' => $this->email,
+            'saluran' => $this->saluran,
+        ];
     }
 
     public function render()

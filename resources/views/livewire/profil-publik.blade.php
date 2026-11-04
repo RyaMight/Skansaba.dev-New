@@ -33,24 +33,20 @@
                     <h1 class="text-xl font-bold text-gray-900 mt-4">{{ $profileUser->name }}</h1>
                     <p class="text-sm text-gray-500">{{ '@' . ($profileUser->username ?: $profileUser->id) }}</p>
 
-                    @if($profileUser->headline)
-                        <p class="text-sm text-gray-700 mt-3 leading-relaxed">{{ $profileUser->headline }}</p>
+                    @if(auth()->check() && auth()->id() === $profileUser->id)
+                        <a
+                            href="{{ route('siswa.profil-publik') }}"
+                            class="mt-4 inline-flex w-full items-center justify-center gap-1.5 px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-semibold shadow-xs transition"
+                        >
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                            <span>Edit Profil</span>
+                        </a>
                     @endif
 
                     @if($profileUser->bio)
                         <p class="text-xs text-gray-500 mt-2 leading-relaxed">{{ $profileUser->bio }}</p>
-                    @endif
-
-                    {{-- Keahlian --}}
-                    @if(count($keahlianList))
-                        <div class="mt-4">
-                            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Keahlian</p>
-                            <div class="flex flex-wrap gap-1.5">
-                                @foreach($keahlianList as $skill)
-                                    <span class="inline-flex items-center px-2.5 py-1 bg-sky-50 text-sky-700 border border-sky-200/60 rounded-md text-[11px] font-medium">{{ $skill }}</span>
-                                @endforeach
-                            </div>
-                        </div>
                     @endif
 
                     {{-- Info sekolah --}}
@@ -79,15 +75,39 @@
                         </p>
                     </div>
 
+                    {{-- Keahlian Terverifikasi --}}
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">Keahlian &amp; Tech Stack</p>
+                            @if(auth()->check() && auth()->id() === $profileUser->id)
+                                <a href="{{ route('siswa.profil-publik') }}" class="text-[10px] text-sky-600 hover:underline">Edit</a>
+                            @endif
+                        </div>
+                        @if(count($profileUser->keahlian_list) > 0)
+                            <div class="flex flex-wrap gap-1.5">
+                                @foreach($profileUser->keahlian_list as $skill)
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200/60 rounded-md text-[11px] font-medium">
+                                        <svg class="w-3 h-3 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>{{ $skill }}</span>
+                                    </span>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-xs text-gray-400 italic">Belum ada tag keahlian terdaftar.</p>
+                        @endif
+                    </div>
+
                     {{-- Saluran Kontak --}}
                     @php
                         $channels = [
-                            'instagram' => ['label' => 'Instagram', 'bg' => 'bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600'],
-                            'linkedin' => ['label' => 'LinkedIn', 'bg' => 'bg-[#0077b5]'],
-                            'github' => ['label' => 'GitHub', 'bg' => 'bg-[#24292e]'],
-                            'youtube' => ['label' => 'YouTube', 'bg' => 'bg-red-600'],
-                            'tiktok' => ['label' => 'TikTok', 'bg' => 'bg-black'],
-                            'twitter' => ['label' => 'Twitter/X', 'bg' => 'bg-slate-900'],
+                            'instagram' => ['label' => 'Instagram', 'bg' => 'bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600', 'path' => 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z'],
+                            'linkedin' => ['label' => 'LinkedIn', 'bg' => 'bg-[#0077b5]', 'path' => 'M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z'],
+                            'github' => ['label' => 'GitHub', 'bg' => 'bg-[#24292e]', 'path' => 'M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z'],
+                            'youtube' => ['label' => 'YouTube', 'bg' => 'bg-red-600', 'path' => 'M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z'],
+                            'tiktok' => ['label' => 'TikTok', 'bg' => 'bg-black', 'path' => 'M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z'],
+                            'twitter' => ['label' => 'Twitter/X', 'bg' => 'bg-slate-900', 'path' => 'M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z'],
                         ];
                         $activeChannels = collect($channels)->filter(fn ($c, $k) => !empty($saluran[$k]['active']) && !empty($saluran[$k]['url']));
                     @endphp
@@ -101,8 +121,10 @@
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         title="{{ $ch['label'] }}"
-                                        class="w-8 h-8 rounded-lg {{ $ch['bg'] }} text-white flex items-center justify-center text-[9px] font-bold hover:opacity-80 transition"
-                                    >{{ strtoupper(substr($ch['label'], 0, 2)) }}</a>
+                                        class="w-8 h-8 rounded-lg {{ $ch['bg'] }} text-white flex items-center justify-center hover:opacity-80 transition"
+                                    >
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="{{ $ch['path'] }}"/></svg>
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -168,7 +190,14 @@
                                     </div>
                                     <div class="p-4">
                                         <h3 class="text-sm font-bold text-gray-900 truncate group-hover:text-sky-600 transition">{{ $item->judul }}</h3>
-                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ $item->deskripsi_excerpt }}</p>
+                                        @if(count($item->tags ?? []))
+                                            <div class="flex flex-wrap gap-1 mt-1.5">
+                                                @foreach(array_slice($item->tags, 0, 3) as $tag)
+                                                    <span class="px-1.5 py-0.5 bg-sky-50 text-sky-700 border border-sky-100 rounded text-[10px] font-medium">{{ $tag }}</span>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ $item->deskripsi_singkat ?: $item->deskripsi_excerpt }}</p>
                                         @if($item->teknologi && is_array($item->teknologi) && count($item->teknologi))
                                             <div class="flex flex-wrap gap-1 mt-2.5">
                                                 @foreach(array_slice($item->teknologi, 0, 4) as $tech)

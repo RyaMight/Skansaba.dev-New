@@ -13,6 +13,7 @@ class KaryaSiswaDetail extends Component
     public function mount($id)
     {
         $this->karya = KaryaSiswa::where('status', 'published')
+            ->with('user')
             ->findOrFail($id);
 
         // Get related karya by kategori or tahun

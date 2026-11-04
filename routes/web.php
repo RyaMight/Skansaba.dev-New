@@ -66,11 +66,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/struktur-organisasi-rpl', \App\Livewire\StrukturOrganisasiRplManager::class)->name('struktur-organisasi-rpl.index');
         Route::get('/admin/prestasi', \App\Livewire\PrestasiManager::class)->name('prestasi.index');
         Route::get('/admin/galeri', \App\Livewire\GaleriManager::class)->name('galeri.index');
+        Route::get('/admin/verifikasi-karya', \App\Livewire\KaryaSiswaVerifikasi::class)->name('karya-siswa.verifikasi');
+        Route::get('/admin/siswa-rpl', \App\Livewire\Admin\SiswaRplManager::class)->name('siswa-rpl.index');
     });
 
     // Admin, Guru, and Siswa routes
     Route::middleware('role:admin,guru,siswa')->group(function () {
-        Route::get('/admin/karya-siswa', \App\Livewire\KaryaSiswaManager::class)->name('karya-siswa.index');
+        Route::get('/kelola/karya-siswa', \App\Livewire\KaryaSiswaManager::class)->name('karya-siswa.index');
     });
 
     // Admin and Siswa routes (for alumni)
