@@ -11,9 +11,14 @@ class SidebarMenu extends Component
     public bool $isMobileOpen = false;
 
     #[On('karya-updated')]
+    #[On('profile-photo-updated')]
+    #[On('profile-updated')]
     public function refreshPending(): void
     {
-        // Re-evaluates on next render when karya status updates
+        // Re-evaluates on next render when karya status or user profile photo updates
+        if (auth()->check()) {
+            auth()->setUser(auth()->user()->fresh());
+        }
     }
 
     /**
@@ -33,7 +38,7 @@ class SidebarMenu extends Component
 
         return collect($this->allMenuItems())
             ->filter(fn($item) => in_array($user->role, $item['access']))
-            ->map(function ($item) use ($isAdmin, $pendingKaryaCount) {
+            ->map(function ($item) use ($user, $isAdmin, $pendingKaryaCount) {
                 if (!$isAdmin && $item['key'] === 'karya_siswa') {
                     $item['label'] = 'Karya Saya';
                 }
@@ -41,6 +46,13 @@ class SidebarMenu extends Component
                 if ($item['key'] === 'karya_verifikasi' && $pendingKaryaCount > 0) {
                     $item['has_badge'] = true;
                     $item['badge_count'] = $pendingKaryaCount;
+                    $item['badge_title'] = $pendingKaryaCount . ' karya menunggu verifikasi';
+                }
+
+                if ($item['key'] === 'settings' && $user->isUsingDefaultPassword()) {
+                    $item['has_badge'] = true;
+                    $item['badge_count'] = '!';
+                    $item['badge_title'] = 'Password masih default — segera ganti password';
                 }
 
                 return $item;
@@ -236,8 +248,14 @@ class SidebarMenu extends Component
 
     public function render()
     {
+        $currentUser = auth()->check() ? auth()->user()->fresh() : null;
+        if ($currentUser) {
+            auth()->setUser($currentUser);
+        }
+
         return view('livewire.components.sidebar-menu', [
             'menuItems' => $this->getMenuItems(),
+            'currentUser' => $currentUser,
         ]);
     }
 }

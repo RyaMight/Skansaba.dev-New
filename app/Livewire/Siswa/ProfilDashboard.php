@@ -23,6 +23,8 @@ class ProfilDashboard extends Component
 
     public function render()
     {
+        $this->user = Auth::user()->fresh();
+        Auth::setUser($this->user);
         $userId = $this->user->id;
 
         $karyaCount = KaryaSiswa::where('user_id', $userId)->published()->count();

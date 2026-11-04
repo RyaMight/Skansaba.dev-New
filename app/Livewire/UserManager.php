@@ -231,6 +231,18 @@ class UserManager extends Component
             'status.in' => 'Status harus active atau inactive.',
         ]);
 
+        // Cegah admin menonaktifkan atau menurunkan role akunnya sendiri
+        if ($user->id === auth()->id()) {
+            if ($validated['status'] !== 'active') {
+                $this->addError('status', 'Anda tidak dapat menonaktifkan akun Anda sendiri.');
+                return;
+            }
+            if ($validated['role'] !== 'admin') {
+                $this->addError('role', 'Anda tidak dapat mengubah role akun Anda sendiri.');
+                return;
+            }
+        }
+
         // Process photo if provided.
         // Save the new file FIRST, update the DB, then delete the old file —
         // this way the old photo is never lost if processing fails.
@@ -333,6 +345,6 @@ class UserManager extends Component
 
     public function render()
     {
-        return view('livewire.user-manager')->layout('layouts.app');
+        return view('livewire.user-manager')->layout('components.layouts.app');
     }
 }

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -14,6 +15,10 @@ class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, SoftDeletes;
+
+    public const DEFAULT_ADMIN_PASSWORD = 'RPLskansabaselalujaya';
+    public const DEFAULT_GURU_PASSWORD = 'GURURPLJAYA';
+    public const DEFAULT_SISWA_PASSWORD = 'SKANSABAJAYA321';
 
     /**
      * The attributes that are mass assignable.
@@ -303,6 +308,40 @@ class User extends Authenticatable
     public function isSiswa(): bool
     {
         return $this->role === 'siswa';
+    }
+
+    /**
+     * Periksa apakah akun siswa masih menggunakan password default bawaan.
+     * Hasil disimpan di session per user_id agar tidak membebani bcrypt di tiap request.
+     */
+    public function isUsingDefaultPassword(): bool
+    {
+        if (! $this->isSiswa()) {
+            return false;
+        }
+
+        $sessionKey = 'using_default_password_' . $this->id;
+
+        if (session()->has($sessionKey)) {
+            return (bool) session($sessionKey);
+        }
+
+        $isDefault = Hash::check(self::DEFAULT_SISWA_PASSWORD, $this->password);
+
+        session([$sessionKey => $isDefault]);
+
+        return $isDefault;
+    }
+
+    /**
+     * Tandai di session bahwa password user sudah bukan default lagi.
+     */
+    public function clearDefaultPasswordFlag(): void
+    {
+        session([
+            'using_default_password_' . $this->id => false,
+            'default_password_modal_dismissed_' . $this->id => true,
+        ]);
     }
 
     /**

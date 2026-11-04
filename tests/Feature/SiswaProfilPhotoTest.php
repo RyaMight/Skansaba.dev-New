@@ -244,4 +244,33 @@ class SiswaProfilPhotoTest extends TestCase
             'photo_url harus return URL valid ketika file fisik ada di disk'
         );
     }
+
+    public function test_sidebar_menu_menampilkan_foto_profil_dan_sinkron_saat_diperbarui(): void
+    {
+        Storage::fake('public');
+
+        $user = User::create([
+            'name' => 'Siswa RPL (Uji Coba)',
+            'email' => 'siswa.sidebar@rpl.sch.id',
+            'password' => bcrypt('password123'),
+            'role' => 'siswa',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($user);
+
+        // Sebelum ada foto, sidebar menampilkan inisial "SR"
+        $sidebar = Livewire::test(\App\Livewire\Components\SidebarMenu::class);
+        $sidebar->assertSee('SR');
+
+        // Saat foto disimpan di ProfilPublikEdit, event profile-photo-updated di-dispatch
+        Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+            ->call('savePhoto', $this->tinyBase64Png())
+            ->assertDispatched('profile-photo-updated');
+
+        // Sidebar merespons event profile-photo-updated dan merender <img> photo_url terbaru
+        $user->refresh();
+        $sidebar->dispatch('profile-photo-updated')
+            ->assertSee($user->photo_url, false);
+    }
 }

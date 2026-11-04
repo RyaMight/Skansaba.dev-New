@@ -174,8 +174,10 @@ class ProfilPublikEdit extends Component
             session()->flash('error', 'Gagal memproses foto. Silakan coba lagi.');
         }
 
-        // Refresh user model
+        // Refresh user model & sync auth guard + sidebar
         $this->user = $this->user->fresh();
+        Auth::setUser($this->user);
+        $this->dispatch('profile-photo-updated');
 
         $this->showEditModal = false;
         $this->photoBase64 = null;
@@ -212,7 +214,7 @@ class ProfilPublikEdit extends Component
     public function getProfileCompletionProperty(): array
     {
         $items = [
-            'Foto Profil' => (bool) $this->user->photo,
+            'Foto Profil' => (bool) $this->user->photo_url,
             'Bio Singkat' => ! empty(trim($this->user->bio ?? '')),
             'Keahlian (Skills)' => ! empty(trim($this->user->keahlian ?? '')),
             'Username Kustom' => ! empty(trim($this->user->username ?? '')),
@@ -404,6 +406,9 @@ class ProfilPublikEdit extends Component
 
     public function render()
     {
+        $this->user = $this->user->fresh();
+        Auth::setUser($this->user);
+
         return view('livewire.siswa.profil-publik-edit', [
             'asetSvgList' => $this->asetSvgList(),
         ]);

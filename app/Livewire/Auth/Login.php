@@ -62,6 +62,9 @@ class Login extends Component
             return;
         }
 
+        // Trim input so copy-pasted NISN/Email with spaces doesn't fail
+        $this->email = trim($this->email);
+
         // Validate input
         $this->validate();
 
@@ -95,6 +98,19 @@ class Login extends Component
             
             // Regenerate session
             request()->session()->regenerate();
+
+            $user = Auth::user();
+            if ($user) {
+                $user->updateQuietly(['last_login_at' => now()]);
+
+                if ($user->isSiswa()) {
+                    $isDefault = $this->password === User::DEFAULT_SISWA_PASSWORD;
+                    session([
+                        'using_default_password_' . $user->id => $isDefault,
+                        'default_password_modal_dismissed_' . $user->id => false,
+                    ]);
+                }
+            }
 
             // Audit successful login
             $this->auditSuccessfulLogin();

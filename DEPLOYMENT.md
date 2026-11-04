@@ -42,9 +42,9 @@ Selesai — web jalan di `http://IP-SERVER:8000` (atau port yang kamu set).
 6. Supervisor menyalakan php-fpm + nginx + Laravel scheduler
 
 ### Login default (dari seeder, hanya jika DB kosong saat pertama start)
-- Admin: `admin@rpl.sch.id` / `admin123`
-- Guru: `guru@rpl.sch.id` / `guru123`
-- Siswa: NISN `0061234567` / `skansabajaya123`
+- Admin: `admin@rpl.sch.id` / `RPLskansabaselalujaya`
+- Guru: `guru@rpl.sch.id` / `GURURPLJAYA`
+- Siswa (35 akun): NIS `18332`–`18367` / `SKANSABAJAYA321` (muncul peringatan ganti password saat login pertama)
 
 > Ganti password setelah login pertama!
 

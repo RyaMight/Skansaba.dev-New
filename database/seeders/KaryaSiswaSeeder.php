@@ -25,7 +25,7 @@ class KaryaSiswaSeeder extends Seeder
                 ['email' => 'admin@rpl.sch.id'],
                 [
                     'name' => 'Administrator',
-                    'password' => \Hash::make('admin123'),
+                    'password' => \Hash::make(User::DEFAULT_ADMIN_PASSWORD),
                     'role' => 'admin',
                     'status' => 'active',
                 ]
@@ -137,8 +137,12 @@ class KaryaSiswaSeeder extends Seeder
                 continue;
             }
 
+            $ownerUser = User::where('role', 'siswa')
+                ->whereRaw('LOWER(name) = ?', [strtolower($data['nama_siswa'])])
+                ->first() ?? $admin;
+
             KaryaSiswa::create([
-                'user_id' => $admin->id,
+                'user_id' => $ownerUser->id,
                 'judul' => $data['judul'],
                 'deskripsi' => $data['deskripsi'],
                 'kategori' => $data['kategori'],

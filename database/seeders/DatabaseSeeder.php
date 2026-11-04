@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         $admin = User::create([
             'name' => 'Administrator',
             'email' => 'admin@rpl.sch.id',
-            'password' => Hash::make('admin123'),
+            'password' => Hash::make(User::DEFAULT_ADMIN_PASSWORD),
             'role' => 'admin',
             'status' => 'active',
             'email_verified_at' => now(),
@@ -38,29 +38,22 @@ class DatabaseSeeder extends Seeder
         $guru = User::create([
             'name' => 'Guru RPL',
             'email' => 'guru@rpl.sch.id',
-            'password' => Hash::make('guru123'),
+            'password' => Hash::make(User::DEFAULT_GURU_PASSWORD),
             'role' => 'guru',
             'status' => 'active',
             'email_verified_at' => now(),
         ]);
 
-        $siswa = User::create([
-            'name' => 'Siswa RPL (Uji Coba)',
-            'nisn' => '0061234567',
-            'email' => 'siswa@rpl.sch.id',
-            'password' => Hash::make('skansabajaya123'),
-            'role' => 'siswa',
-            'status' => 'active',
-            'email_verified_at' => now(),
-        ]);
+        // Seed 35 akun siswa RPL
+        $this->call(SiswaRplSeeder::class);
 
         // Pastikan user aktif (deleted_at bersih) — pencegahan ekstra.
         User::query()->update(['deleted_at' => null]);
 
-        $this->command->info('✓ Users created (3 records)');
-        $this->command->info('  ├─ Admin: admin@rpl.sch.id / admin123');
-        $this->command->info('  ├─ Guru:  guru@rpl.sch.id / guru123');
-        $this->command->info('  └─ Siswa: NISN: 0061234567 / skansabajaya123');
+        $this->command->info('✓ Users created (Admin, Guru + 35 Siswa RPL)');
+        $this->command->info('  ├─ Admin: admin@rpl.sch.id / ' . User::DEFAULT_ADMIN_PASSWORD);
+        $this->command->info('  ├─ Guru:  guru@rpl.sch.id / ' . User::DEFAULT_GURU_PASSWORD);
+        $this->command->info('  └─ Siswa: NIS (18332-18367) / ' . User::DEFAULT_SISWA_PASSWORD);
         $this->command->newLine();
 
         // 2. Seed all content tables
@@ -89,17 +82,18 @@ class DatabaseSeeder extends Seeder
         $this->command->info('🎉 Database seeding completed successfully!');
         $this->command->newLine();
         $this->command->info('📊 Summary:');
-        $this->command->info('  ├─ Users: 3 records');
+        $this->command->info('  ├─ Users: 37 records (1 Admin, 1 Guru, 35 Siswa RPL)');
         $this->command->info('  ├─ Global Settings: 1 record');
-        $this->command->info('  ├─ Landing Page Sliders: 3 records');
-        $this->command->info('  ├─ Struktur Organisasi RPL: 7 records');
-        $this->command->info('  ├─ Prospek Karir: 6 records');
+        $this->command->info('  ├─ Landing Page Sliders: 8 records');
+        $this->command->info('  ├─ Struktur Organisasi RPL: 6 records');
+        $this->command->info('  ├─ Prospek Karir: 7 records');
         $this->command->info('  ├─ Karya Siswa: 8 records');
         $this->command->info('  ├─ Prestasi Siswa: 8 records');
-        $this->command->info('  ├─ Berita: 6 records');
-        $this->command->info('  ├─ Galeri: 6 records');
-        $this->command->info('  ├─ Alumni: 6 records');
-        $this->command->info('  └─ Mitra: 9 records');
+        $this->command->info('  ├─ Berita: 3 records');
+        $this->command->info('  ├─ Galeri: 0 records');
+        $this->command->info('  ├─ Alumni: 11 records');
+        $this->command->info('  ├─ Dokumen Kurikulum: 1 record');
+        $this->command->info('  └─ Mitra: 13 records');
         $this->command->newLine();
     }
 }

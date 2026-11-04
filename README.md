@@ -215,11 +215,11 @@ Perintah ini menjalankan `php artisan serve`, queue listener, `php artisan pail`
 
 Login di **http://127.0.0.1:8000/login**:
 
-| Role | Email | Password | Akses |
+| Role | Email / NIS | Password | Akses |
 |---|---|---|---|
-| Admin | `admin@rpl.sch.id` | `admin123` | Semua modul + manajemen user, verifikasi karya, akun siswa RPL & settings |
-| Guru | `guru@rpl.sch.id` | `guru123` | Prestasi, galeri, struktur organisasi, verifikasi karya, akun siswa RPL |
-| Siswa | `siswa@rpl.sch.id` | `skansabajaya123` | Karya siswa, alumni, profil siswa, hias profil publik & saluran kontak |
+| Admin | `admin@rpl.sch.id` | `RPLskansabaselalujaya` | Semua modul + manajemen user, verifikasi karya, akun siswa RPL & settings |
+| Guru | `guru@rpl.sch.id` | `GURURPLJAYA` | Prestasi, galeri, struktur organisasi, verifikasi karya, akun siswa RPL |
+| Siswa (35 Akun) | NIS `18332` – `18367` | `SKANSABAJAYA321` | Karya siswa, alumni, profil siswa, hias profil publik & saluran kontak |
 
 > ⚠️ Segera ganti password default setelah login di environment produksi!
 

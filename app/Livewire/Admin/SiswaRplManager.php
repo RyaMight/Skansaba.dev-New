@@ -103,6 +103,7 @@ class SiswaRplManager extends Component
     public function openCreateModal(): void
     {
         $this->reset(['name', 'nisn', 'kelas', 'email', 'password', 'status', 'keahlian']);
+        $this->password = User::DEFAULT_SISWA_PASSWORD;
         $this->status = 'active';
         $this->showCreateModal = true;
     }

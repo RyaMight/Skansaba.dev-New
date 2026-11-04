@@ -233,7 +233,7 @@
                 <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 mb-4">Kelengkapan Profil</h3>
                 @php
                     $checks = [
-                        'Foto profil' => (bool) $user->photo,
+                        'Foto profil' => (bool) $user->photo_url,
                         'Bio' => (bool) $user->bio,
                         'README profil' => (bool) $user->profil_readme,
                         'Username kustom' => (bool) $user->username,

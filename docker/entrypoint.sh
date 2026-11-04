@@ -54,6 +54,7 @@ if [ "$DB_HOST_VAL" = "127.0.0.1" ] || [ -z "$DB_HOST_VAL" ]; then
     echo "[entrypoint] Fix permanen di host:  sed -i 's/^DB_HOST=127.0.0.1/DB_HOST=host.docker.internal/' .env"
     echo "[entrypoint] Untuk sesi ini, koneksi dipaksa via host.docker.internal."
     DB_HOST_VAL="host.docker.internal"
+    export DB_HOST="host.docker.internal"
 fi
 
 # Baca konfigurasi DB lainnya dari file .env (dengan fallback env var container)

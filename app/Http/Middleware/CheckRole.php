@@ -19,6 +19,16 @@ class CheckRole
             return redirect()->route('login');
         }
 
+        if ($request->user()->status !== 'active') {
+            auth()->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->withErrors([
+                'email' => 'Akun Anda berstatus nonaktif. Silakan hubungi administrator.',
+            ]);
+        }
+
         if (!in_array($request->user()->role, $roles)) {
             abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
