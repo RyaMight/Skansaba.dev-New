@@ -77,6 +77,7 @@ class DatabaseSeeder extends Seeder
             GaleriSeeder::class,
             AlumniSeeder::class,
             MitraSeeder::class,
+            DokumenKurikulumSeeder::class,
             ]);
         
             

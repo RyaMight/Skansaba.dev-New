@@ -2,26 +2,36 @@
 
 namespace App\Livewire\Siswa;
 
-use App\Models\KaryaSiswa;
-use App\Models\Prestasi;
+use App\Models\ProfilAset;
 use App\Services\ImageService;
+use App\Services\MarkdownService;
+use App\Services\SvgService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use RuntimeException;
 
 #[Layout('components.layouts.app')]
 #[Title('Profil Saya - CMS Jurusan RPL')]
 class ProfilPublikEdit extends Component
 {
+    use WithFileUploads;
+
     public $user;
 
     // Form state
     public string $headline = '';
+
     public string $bio = '';
+
     public string $keahlian = '';
+
     public string $username = '';
+
     public $profil_readme = null;
+
     public bool $showEditorModal = false;
 
     public function mount()
@@ -40,8 +50,73 @@ class ProfilPublikEdit extends Component
 
     // Edit modal state (foto profil)
     public bool $showEditModal = false;
+
     public $photoBase64 = null;
+
     public $crop_data = null;
+
+    // Aset SVG README
+    public $fileSvg = null;
+
+    public function updatedFileSvg()
+    {
+        $this->validate([
+            'fileSvg' => 'nullable|file|mimes:svg|max:1024',
+        ], [
+            'fileSvg.mimes' => 'File harus berekstensi .svg',
+            'fileSvg.max' => 'Ukuran SVG maksimal 1 MB.',
+        ]);
+
+        $this->resetErrorBag('fileSvg');
+    }
+
+    public function uploadSvg()
+    {
+        $this->validate([
+            'fileSvg' => 'required|file|mimes:svg|max:1024',
+        ], [
+            'fileSvg.required' => 'Pilih file SVG dulu.',
+            'fileSvg.mimes' => 'File harus berekstensi .svg',
+            'fileSvg.max' => 'Ukuran SVG maksimal 1 MB.',
+        ]);
+
+        $jumlah = ProfilAset::where('user_id', $this->user->id)->count();
+        if ($jumlah >= SvgService::MAX_FILES_PER_USER) {
+            $this->addError('fileSvg', 'Kuota aset penuh. Maksimal '.SvgService::MAX_FILES_PER_USER.' file SVG per akun — hapus salah satu dulu.');
+
+            return;
+        }
+
+        $svgService = app(SvgService::class);
+
+        try {
+            $svgService->store($this->fileSvg, $this->user->id);
+        } catch (RuntimeException $e) {
+            $this->addError('fileSvg', $e->getMessage());
+
+            return;
+        }
+
+        $this->reset('fileSvg');
+        session()->flash('message', 'SVG berhasil diupload! Klik "Sisipkan" untuk menaruhnya di README.');
+    }
+
+    public function deleteSvg(int $asetId)
+    {
+        $aset = ProfilAset::where('user_id', $this->user->id)->find($asetId);
+
+        if ($aset) {
+            app(SvgService::class)->delete($aset);
+            session()->flash('message', 'Aset SVG dihapus.');
+        }
+    }
+
+    protected function asetSvgList()
+    {
+        return ProfilAset::where('user_id', $this->user->id)
+            ->orderByDesc('created_at')
+            ->get();
+    }
 
     protected $imageService;
 
@@ -70,8 +145,9 @@ class ProfilPublikEdit extends Component
      */
     public function savePhoto()
     {
-        if (!$this->photoBase64 || !str_starts_with($this->photoBase64, 'data:image')) {
+        if (! $this->photoBase64 || ! str_starts_with($this->photoBase64, 'data:image')) {
             $this->closeEditModal();
+
             return;
         }
 
@@ -80,7 +156,7 @@ class ProfilPublikEdit extends Component
         // Per-account folder: users/photos/u{id} — each account owns its own directory
         $newPhotoPath = $this->imageService->processBase64AndStore(
             $this->photoBase64,
-            'users/photos/u' . $this->user->id,
+            'users/photos/u'.$this->user->id,
             ['width' => 500, 'height' => 500]
         );
 
@@ -94,7 +170,7 @@ class ProfilPublikEdit extends Component
 
             session()->flash('message', 'Foto profil berhasil diperbarui!');
         } else {
-            logger()->error('Gagal memproses foto profil untuk user ID: ' . $this->user->id);
+            logger()->error('Gagal memproses foto profil untuk user ID: '.$this->user->id);
             session()->flash('error', 'Gagal memproses foto. Coba lagi.');
         }
 
@@ -124,7 +200,7 @@ class ProfilPublikEdit extends Component
         ]);
 
         $this->user->update([
-            'profil_readme' => app(\App\Services\MarkdownService::class)->normalize($this->profil_readme),
+            'profil_readme' => app(MarkdownService::class)->normalize($this->profil_readme),
         ]);
 
         $this->showEditorModal = false;
@@ -142,7 +218,7 @@ class ProfilPublikEdit extends Component
                 'string',
                 'max:50',
                 'regex:/^[a-z0-9][a-z0-9-]*[a-z0-9]$/',
-                'unique:users,username,' . $this->user->id,
+                'unique:users,username,'.$this->user->id,
                 'not_in:admin,api,settings,login,logout,dashboard,profil',
             ],
         ], [
@@ -165,6 +241,8 @@ class ProfilPublikEdit extends Component
 
     public function render()
     {
-        return view('livewire.siswa.profil-publik-edit');
+        return view('livewire.siswa.profil-publik-edit', [
+            'asetSvgList' => $this->asetSvgList(),
+        ]);
     }
 }

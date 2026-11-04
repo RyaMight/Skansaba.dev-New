@@ -10,14 +10,21 @@ class SidebarMenu extends Component
     public bool $isMobileOpen = false;
 
     /**
-     * Filter menu items based on user role
+     * Get menu items with role-based filtering
      */
     public function getMenuItems(): array
     {
-        $isAdmin = in_array(auth()->user()->role, ['admin', 'guru']);
+        $user = auth()->user();
+
+        // Return empty array if user is not authenticated
+        if (!$user) {
+            return [];
+        }
+
+        $isAdmin = in_array($user->role, ['admin', 'guru']);
 
         return collect($this->allMenuItems())
-            ->filter(fn($item) => in_array(auth()->user()->role, $item['access']))
+            ->filter(fn($item) => in_array($user->role, $item['access']))
             ->when(!$isAdmin, function ($items) {
                 // Rename "Karya Siswa" to "Karya Saya" for non-admin viewers
                 $items->transform(function ($item) {
