@@ -40,3 +40,38 @@ function initRevealOnScroll() {
 
 document.addEventListener("DOMContentLoaded", initRevealOnScroll);
 document.addEventListener("livewire:navigated", initRevealOnScroll);
+
+// ============================================
+// Struktur organisasi: slide-in dari kiri/kanan
+// ============================================
+// Berbeda dari reveal biasa: elemen BISA keluar lagi saat
+// scroll naik melewati batas, sehingga animasi terasa
+// "hidup" setiap kali user scroll ulang (bi-directional).
+function initStrukturScroll() {
+    const rows = document.querySelectorAll(".strutur-row");
+
+    if (!rows.length) return;
+
+    const io = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // Masuk: slide-in ke posisi normal
+                    entry.target.classList.add("is-visible");
+                } else if (
+                    entry.boundingClientRect.top > 0
+                ) {
+                    // Keluar: hanya saat elemen kembali di bawah viewport
+                    // (scroll naik) — biarkan animasi replay.
+                    entry.target.classList.remove("is-visible");
+                }
+            });
+        },
+        { threshold: 0.18, rootMargin: "0px 0px -60px 0px" }
+    );
+
+    rows.forEach((el) => io.observe(el));
+}
+
+document.addEventListener("DOMContentLoaded", initStrukturScroll);
+document.addEventListener("livewire:navigated", initStrukturScroll);

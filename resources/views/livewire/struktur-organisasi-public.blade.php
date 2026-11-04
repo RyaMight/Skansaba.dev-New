@@ -18,10 +18,12 @@
                             $flip = $index % 2 === 1;
                             $isKaproli = str_contains(strtolower($member->jabatan), 'ketua program') || str_contains(strtolower($member->jabatan), 'kaproli');
                         @endphp
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center" data-reveal>
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center strutur-row {{ $flip ? 'strutur-row--right' : 'strutur-row--left' }}"
+                        >
 
                             {{-- Foto --}}
-                            <div class="md:col-span-4 {{ $flip ? 'md:order-2 md:col-start-9' : '' }}">
+                            <div class="md:col-span-4 strutur-foto {{ $flip ? 'md:order-2 md:col-start-9' : '' }}">
                                 <a href="/struktur-organisasi/{{ $member->id }}" class="block group">
                                     <div class="relative rounded-3xl overflow-hidden aspect-[4/5] max-w-[320px] mx-auto md:max-w-none shadow-[0_10px_30px_rgba(15,23,42,0.12)] transition-all duration-500 group-hover:shadow-[0_20px_44px_rgba(15,23,42,0.2)] group-hover:-translate-y-1.5">
                                         @if($member->foto_url)
@@ -52,7 +54,7 @@
                             </div>
 
                             {{-- Info --}}
-                            <div class="md:col-span-7 {{ $flip ? 'md:order-1 md:col-start-1 text-left' : '' }}">
+                            <div class="md:col-span-7 strutur-info {{ $flip ? 'md:order-1 md:col-start-1 text-left' : '' }}">
                                 @if($isKaproli)
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold mb-3 strutur-badge-pop"
@@ -80,7 +82,7 @@
                                 <a
                                     href="/struktur-organisasi/{{ $member->id }}"
                                     class="strutur-btn inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:gap-3 hover:shadow-lg hover:-translate-y-0.5"
-                                    style="background-color: #B91C1C"
+                                    style="background-color: {{ $globalSettings->primary_color_style }}"
                                 >
                                     Selengkapnya
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
