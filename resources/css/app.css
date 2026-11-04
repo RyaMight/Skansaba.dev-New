@@ -306,8 +306,7 @@ html.theme-transition * {
 }
 
 /* ============================================
-   Struktur organisasi: deskripsi guru (markdown)
-   - Baris keahlian/pendidikan tampil ringkas seperti desain
+   Struktur organisasi: animasi interaktif
    ============================================ */
 .strutur-desc p {
     margin: 0;
@@ -315,6 +314,125 @@ html.theme-transition * {
 
 .strutur-desc p + p {
     margin-top: 0.75rem;
+}
+
+/* Slide-in dari kiri/kanan sesuai posisi kartu.
+   Bisa MASUK saat scroll turun & KELUAR saat scroll naik
+   (dikendalikan IntersectionObserver di app.js). */
+.strutur-row {
+    opacity: 0;
+    will-change: transform, opacity;
+    transition:
+        opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.strutur-row--left {
+    transform: translateX(-90px);
+}
+
+.strutur-row--right {
+    transform: translateX(90px);
+}
+
+.strutur-row.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Foto & teks punya sedikit delay berbeda = efek beruntun */
+.strutur-row .strutur-foto {
+    transition-delay: 80ms;
+}
+
+.strutur-row .strutur-info {
+    transition-delay: 180ms;
+}
+
+/* Sub-elemen juga ikut slide (di dalam wrapper yang sama) */
+.strutur-row--left .strutur-foto { transform: translateX(-60px); }
+.strutur-row--left .strutur-info { transform: translateX(-30px); }
+.strutur-row--right .strutur-foto { transform: translateX(60px); }
+.strutur-row--right .strutur-info { transform: translateX(30px); }
+
+.strutur-row .strutur-foto,
+.strutur-row .strutur-info {
+    opacity: 0;
+    transition:
+        opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.strutur-row.is-visible .strutur-foto,
+.strutur-row.is-visible .strutur-info {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Badge Kaproli: pop-in lembut saat pertama terlihat */
+.strutur-badge-pop {
+    animation: strutur-pop 600ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes strutur-pop {
+    from { opacity: 0; transform: scale(0.7) translateY(8px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Tombol Selengkapnya: shine melintas saat hover */
+.strutur-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.strutur-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -80%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-20deg);
+    transition: left 600ms ease;
+}
+
+.strutur-btn:hover::after {
+    left: 130%;
+}
+
+/* Di layar kecil: cukup fade-up sederhana (tidak perlu slide lateral) */
+@media (max-width: 767px) {
+    .strutur-row,
+    .strutur-row--left,
+    .strutur-row--right {
+        transform: translateY(40px);
+    }
+
+    .strutur-row.is-visible {
+        transform: translateY(0);
+    }
+
+    .strutur-row .strutur-foto,
+    .strutur-row .strutur-info,
+    .strutur-row--left .strutur-foto,
+    .strutur-row--left .strutur-info,
+    .strutur-row--right .strutur-foto,
+    .strutur-row--right .strutur-info {
+        transform: none;
+        transition-delay: 0ms;
+    }
+}
+
+/* Hormati preferensi pengguna yang mematikan animasi */
+@media (prefers-reduced-motion: reduce) {
+    .strutur-row,
+    .strutur-row .strutur-foto,
+    .strutur-row .strutur-info {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 /* ============================================

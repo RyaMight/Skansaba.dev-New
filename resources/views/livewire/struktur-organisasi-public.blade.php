@@ -2,20 +2,9 @@
     {{-- Header --}}
     <section class="bg-white dark:bg-gray-950 py-10 lg:py-14">
         <div class="site-container text-center">
-            {{-- Badge kecil di atas judul --}}
-            <span
-                class="inline-block px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest uppercase mb-5"
-                style="background-color: {{ $globalSettings->primary_color_style }}1a; color: {{ $globalSettings->primary_color_style }}"
-            >
-                Struktur Organisasi RPL
-            </span>
-
-            <h1 class="text-3xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-4 leading-tight">
-                Pendidik & Tenaga Kependidikan Rekayasa Perangkat Lunak
+            <h1 class="text-3xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-tight" data-reveal>
+                Guru <span style="color: {{ $globalSettings->primary_color_style }}">RPL</span> SMK Negeri 1 Bantul
             </h1>
-            <p class="text-gray-500 dark:text-gray-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-                Mengenal profil dan kompetensi para guru produktif RPL SMK Negeri 1 Bantul yang berdedikasi membimbing siswa menuju keahlian industri digital.
-            </p>
         </div>
     </section>
 
@@ -25,38 +14,61 @@
             @if($members->count() > 0)
                 <div class="space-y-14 lg:space-y-20">
                     @foreach($members as $index => $member)
-                        @php $flip = $index % 2 === 1; @endphp
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center" data-reveal>
+                        @php
+                            $flip = $index % 2 === 1;
+                            $isKaproli = str_contains(strtolower($member->jabatan), 'ketua program') || str_contains(strtolower($member->jabatan), 'kaproli');
+                        @endphp
+                        <div
+                            class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center strutur-row {{ $flip ? 'strutur-row--right' : 'strutur-row--left' }}"
+                        >
 
                             {{-- Foto --}}
-                            <div class="md:col-span-4 {{ $flip ? 'md:order-2 md:col-start-9' : '' }}">
+                            <div class="md:col-span-4 strutur-foto {{ $flip ? 'md:order-2 md:col-start-9' : '' }}">
                                 <a href="/struktur-organisasi/{{ $member->id }}" class="block group">
-                                    <div class="relative rounded-3xl overflow-hidden aspect-[4/5] max-w-[320px] mx-auto md:max-w-none shadow-[0_10px_30px_rgba(15,23,42,0.12)]">
+                                    <div class="relative rounded-3xl overflow-hidden aspect-[4/5] max-w-[320px] mx-auto md:max-w-none shadow-[0_10px_30px_rgba(15,23,42,0.12)] transition-all duration-500 group-hover:shadow-[0_20px_44px_rgba(15,23,42,0.2)] group-hover:-translate-y-1.5">
                                         @if($member->foto_url)
                                             <img
                                                 src="{{ $member->foto_url }}"
                                                 alt="{{ $member->nama }}"
-                                                class="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+                                                class="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
                                             >
                                         @else
                                             <div class="w-full h-full flex items-center justify-center text-white text-6xl font-bold" style="background: linear-gradient(135deg, {{ $globalSettings->primary_color_style }} 0%, {{ $globalSettings->primary_color_style }}cc 100%)">
                                                 {{ strtoupper(substr($member->nama, 0, 2)) }}
                                             </div>
                                         @endif
-                                        {{-- Aksen lingkaran dekoratif seperti desain --}}
-                                        <div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border-[14px] border-white/30 pointer-events-none"></div>
+                                        {{-- Aksen lingkaran dekoratif: berputar & membesar saat hover --}}
+                                        <div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border-[14px] border-white/30 pointer-events-none transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 group-hover:scale-110"></div>
+
+                                        {{-- Badge Kaproli di atas foto --}}
+                                        @if($isKaproli)
+                                            <div class="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold text-white shadow-lg backdrop-blur-sm transition-transform duration-500 group-hover:scale-105" style="background-color: {{ $globalSettings->primary_color_style }}">
+                                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 1l2.928 5.932 6.544.951-4.736 4.617 1.118 6.516L10 15.897l-5.854 3.078 1.118-6.516L.528 7.883l6.544-.951L10 1z"/>
+                                                </svg>
+                                                Ketua Program Keahlian
+                                            </div>
+                                        @endif
                                     </div>
                                 </a>
                             </div>
 
                             {{-- Info --}}
-                            <div class="md:col-span-7 {{ $flip ? 'md:order-1 md:col-start-1 text-left' : '' }}">
-                                <p class="text-xs text-gray-400 dark:text-gray-500 mb-2">
-                                    Tenang Kami <span class="mx-1">›</span> {{ $member->jabatan }}
-                                </p>
+                            <div class="md:col-span-7 strutur-info {{ $flip ? 'md:order-1 md:col-start-1 text-left' : '' }}">
+                                @if($isKaproli)
+                                    <span
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold mb-3 strutur-badge-pop"
+                                        style="background-color: {{ $globalSettings->primary_color_style }}1a; color: {{ $globalSettings->primary_color_style }}"
+                                    >
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 1l2.928 5.932 6.544.951-4.736 4.617 1.118 6.516L10 15.897l-5.854 3.078 1.118-6.516L.528 7.883l6.544-.951L10 1z"/>
+                                        </svg>
+                                        Ketua Program Keahlian PPLG
+                                    </span>
+                                @endif
 
-                                <a href="/struktur-organisasi/{{ $member->id }}" class="group/name">
-                                    <h2 class="text-2xl lg:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-4 transition-colors group-hover/name:text-gray-600 dark:group-hover/name:text-gray-300">
+                                <a href="/struktur-organisasi/{{ $member->id }}" class="group/name block">
+                                    <h2 class="text-2xl lg:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-4 transition-all duration-300 group-hover/name:translate-x-1.5 group-hover/name:text-gray-600 dark:group-hover/name:text-gray-300">
                                         {{ $member->nama }}
                                     </h2>
                                 </a>
@@ -69,10 +81,10 @@
 
                                 <a
                                     href="/struktur-organisasi/{{ $member->id }}"
-                                    class="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:gap-3 hover:shadow-lg"
-                                    style="background-color: #B91C1C"
+                                    class="strutur-btn inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:gap-3 hover:shadow-lg hover:-translate-y-0.5"
+                                    style="background-color: {{ $globalSettings->primary_color_style }}"
                                 >
-                                    Jelajahi
+                                    Selengkapnya
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                                     </svg>
