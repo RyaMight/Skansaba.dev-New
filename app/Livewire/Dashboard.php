@@ -16,6 +16,16 @@ use Livewire\Component;
 class Dashboard extends Component
 {
     /**
+     * Mount lifecycle hook
+     */
+    public function mount()
+    {
+        if (auth()->check() && auth()->user()->isSiswa()) {
+            return $this->redirect(route('siswa.profil'), navigate: true);
+        }
+    }
+
+    /**
      * Get statistics for dashboard widgets
      */
     public function getWidgetData()

@@ -1,0 +1,173 @@
+<div class="p-6 max-w-3xl mx-auto space-y-6">
+    {{-- Flash Message --}}
+    @if (session()->has('message'))
+        <div class="p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl text-sm flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <span>{{ session('message') }}</span>
+            </div>
+            <button type="button" @click="$el.parentElement.remove()" class="text-emerald-500 hover:text-emerald-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+        </div>
+    @endif
+
+    {{-- Page Header --}}
+    <div>
+        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Pengaturan</h1>
+        <p class="text-sm text-gray-500 mt-0.5">Kelola akun dan keamanan Anda di sini.</p>
+    </div>
+
+    {{-- Info Akun --}}
+    <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100">
+        <h2 class="text-base font-bold text-gray-900 mb-4 pb-2 border-b border-gray-100">Informasi Akun</h2>
+        <div class="flex items-center gap-4">
+            @if($user->photo_url)
+                <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200">
+            @else
+                <div class="w-14 h-14 rounded-full flex items-center justify-center text-white text-lg font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
+                    {{ $user->initials() }}
+                </div>
+            @endif
+            <div class="min-w-0">
+                <p class="text-sm font-bold text-gray-900 truncate">{{ $user->name }}</p>
+                <p class="text-xs text-gray-500 truncate">{{ $user->email }}</p>
+                <span class="inline-block mt-1 px-2 py-0.5 text-[10px] font-semibold rounded-full {{ $user->role_badge_color }}">
+                    {{ $user->role_label }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    {{-- Ubah Password --}}
+    <div class="bg-white rounded-2xl p-6 shadow-xs border border-gray-100">
+        <h2 class="text-base font-bold text-gray-900 mb-1">Ubah Password</h2>
+        <p class="text-xs text-gray-500 mb-4">Gunakan password yang kuat dan mudah Anda ingat.</p>
+
+        <form wire:submit.prevent="updateUserPassword" class="space-y-4">
+            {{-- Password Saat Ini --}}
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Password Saat Ini</label>
+                <div class="relative" x-data="{ show: false }">
+                    <input 
+                        type="password" 
+                        x-ref="input"
+                        :type="show ? 'text' : 'password'"
+                        wire:model="current_password" 
+                        class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
+                        placeholder="Masukkan password saat ini"
+                        autocomplete="current-password"
+                    >
+                    <button 
+                        type="button" 
+                        @click="show = !show" 
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+                        :aria-label="show ? 'Sembunyikan password' : 'Lihat password'"
+                        tabindex="-1"
+                    >
+                        {{-- Icon mata terbuka (password terlihat) --}}
+                        <svg x-show="show" x-cloak class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                        {{-- Icon mata tertutup (password tersembunyi) --}}
+                        <svg x-show="!show" x-cloak class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"/>
+                        </svg>
+                    </button>
+                </div>
+                @error('current_password') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+            </div>
+
+            {{-- Password Baru --}}
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Password Baru</label>
+                <div class="relative" x-data="{ show: false }">
+                    <input 
+                        type="password" 
+                        x-ref="input"
+                        :type="show ? 'text' : 'password'"
+                        wire:model="password" 
+                        class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
+                        placeholder="Masukkan password baru"
+                        autocomplete="new-password"
+                    >
+                    <button 
+                        type="button" 
+                        @click="show = !show" 
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+                        :aria-label="show ? 'Sembunyikan password' : 'Lihat password'"
+                        tabindex="-1"
+                    >
+                        {{-- Icon mata terbuka (password terlihat) --}}
+                        <svg x-show="show" x-cloak class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                        {{-- Icon mata tertutup (password tersembunyi) --}}
+                        <svg x-show="!show" x-cloak class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"/>
+                        </svg>
+                    </button>
+                </div>
+                @error('password') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+            </div>
+
+            {{-- Konfirmasi Password --}}
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 mb-1">Konfirmasi Password Baru</label>
+                <div class="relative" x-data="{ show: false }">
+                    <input 
+                        type="password" 
+                        x-ref="input"
+                        :type="show ? 'text' : 'password'"
+                        wire:model="password_confirmation" 
+                        class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
+                        placeholder="Ulangi password baru"
+                        autocomplete="new-password"
+                    >
+                    <button 
+                        type="button" 
+                        @click="show = !show" 
+                        class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+                        :aria-label="show ? 'Sembunyikan password' : 'Lihat password'"
+                        tabindex="-1"
+                    >
+                        {{-- Icon mata terbuka (password terlihat) --}}
+                        <svg x-show="show" x-cloak class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                        </svg>
+                        {{-- Icon mata tertutup (password tersembunyi) --}}
+                        <svg x-show="!show" x-cloak class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88"/>
+                        </svg>
+                    </button>
+                </div>
+                @error('password') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="flex justify-end pt-2 border-t border-gray-100">
+                <button 
+                    type="submit" 
+                    wire:loading.attr="disabled"
+                    class="px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-sm font-semibold transition cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                >
+                    <span wire:loading wire:target="updateUserPassword" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full"></span>
+                    Simpan Password
+                </button>
+                <button 
+                    type="button" 
+                    wire:click="$refresh" 
+                    class="ml-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm hover:bg-gray-50 transition cursor-pointer"
+                >
+                    Reset
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

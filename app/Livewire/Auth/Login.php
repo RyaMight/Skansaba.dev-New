@@ -4,6 +4,7 @@ namespace App\Livewire\Auth;
 
 use App\Http\Requests\LoginRequest;
 use App\Models\LoginAudit;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Livewire\Attributes\Layout;
@@ -20,13 +21,12 @@ class Login extends Component
     public bool $isLoading = false;
 
     protected $rules = [
-        'email' => ['required', 'email'],
+        'email' => ['required', 'string'],
         'password' => ['required', 'string', 'min:6'],
     ];
 
     protected $messages = [
-        'email.required' => 'Email wajib diisi',
-        'email.email' => 'Format email tidak valid',
+        'email.required' => 'Email atau NISN wajib diisi',
         'password.required' => 'Password wajib diisi',
         'password.min' => 'Password minimal :min karakter',
     ];
@@ -77,8 +77,20 @@ class Login extends Component
             return;
         }
 
+        // Determine login field type: email or nisn
+        $loginType = filter_var($this->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'nisn';
+
+        // Check if account exists and is inactive
+        $existingUser = User::where($loginType, $this->email)->first();
+        if ($existingUser && $existingUser->status !== 'active') {
+            $this->isLoading = false;
+            $this->addError('email', 'Akun Anda berstatus nonaktif. Silakan hubungi admin.');
+            $this->auditFailedLogin('Account inactive');
+            return;
+        }
+
         // Attempt authentication
-        if (Auth::attempt(['email' => $this->email, 'password' => $this->password])) {
+        if (Auth::attempt([$loginType => $this->email, 'password' => $this->password])) {
             RateLimiter::clear($rateLimitKey);
             
             // Regenerate session
@@ -99,7 +111,7 @@ class Login extends Component
         // Audit failed login
         $this->auditFailedLogin('Invalid credentials');
 
-        $this->addError('email', 'Email atau password yang Anda masukkan salah.');
+        $this->addError('email', 'Email/NISN atau password yang Anda masukkan salah.');
         $this->password = '';
     }
 

@@ -33,7 +33,12 @@
     cropResult: null,
     
     init() {
-        window.imageCropper = this;
+        // Guard: with multiple croppers on one page, the first one wins.
+        // Each cropper instance is also exposed as this.$el._cropperInstance.
+        if (!window.imageCropper) {
+            window.imageCropper = this;
+        }
+        this.$el._cropperInstance = this;
     },
     
     initCroppie() {
@@ -51,8 +56,8 @@
         
         const viewportWidth = {{ $resolvedViewportWidth }};
         const viewportHeight = {{ $resolvedViewportHeight }};
-        const boundaryWidth = Math.max(viewportWidth + 100, 400);
-        const boundaryHeight = Math.max(viewportHeight + 100, 400);
+        const boundaryWidth = Math.max(viewportWidth + 80, 280);
+        const boundaryHeight = Math.max(viewportHeight + 80, 280);
 
         const viewportConfig = { width: viewportWidth, height: viewportHeight };
         @if($croppieType)
@@ -61,7 +66,7 @@
         
         this.croppie = new Croppie(el, {
             viewport: viewportConfig,
-            boundary: { width: boundaryWidth, height: boundaryHeight },
+            boundary: { width: '100%', height: boundaryHeight },
             showZoomer: true,
             enableOrientation: true,
             enableResize: false,
@@ -133,6 +138,32 @@
         }
     },
     
+    async sendToLivewireAsync() {
+        // Ensures the crop result is freshly generated before sending
+        await this.updateCropAsync();
+        this.sendToLivewire();
+    },
+
+    hasNewImage() {
+        // True when the user picked a new image in THIS cropper instance
+        return this.cropResult !== null;
+    },
+    
+    async updateCropAsync() {
+        if (!this.croppie) return;
+        try {
+            const result = await this.croppie.result({
+                type: 'base64',
+                size: { width: {{ $resolvedMaxWidth }}, height: {{ $resolvedMaxHeight }} },
+                format: 'png',
+                quality: 1
+            });
+            this.cropResult = result;
+        } catch (e) {
+            console.error('Failed to generate crop result:', e);
+        }
+    },
+    
     rotate(degrees) {
         if (this.croppie) {
             this.croppie.rotate(degrees);
@@ -191,24 +222,24 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div class="lg:col-span-2">
-                    <div x-ref="croppieContainer" class="bg-gray-100 rounded-lg border-2 border-gray-300"></div>
+            <div class="flex flex-col md:flex-row items-start gap-4">
+                <div class="w-full md:flex-1 overflow-hidden">
+                    <div x-ref="croppieContainer" class="bg-gray-100 rounded-lg border-2 border-gray-300 w-full overflow-hidden"></div>
                 </div>
 
-                <div class="space-y-3">
+                <div class="w-full md:w-48 shrink-0 space-y-3">
                     <div>
-                        <p class="text-xs font-semibold text-gray-600 mb-2">Preview:</p>
-                        <div class="crop-preview-box bg-gray-100">
+                        <p class="text-xs font-semibold text-gray-600 mb-1.5">Preview Hasil:</p>
+                        <div class="crop-preview-box bg-gray-100 mx-auto" style="width: 140px; height: 140px;">
                             <img x-show="cropResult" :src="cropResult" alt="Preview">
                         </div>
                     </div>
                     
-                    <div class="text-xs text-gray-600 space-y-1 bg-gray-50 p-3 rounded-lg border border-gray-200">
-                        <p><strong>File:</strong> <span x-text="fileName" class="font-mono"></span></p>
+                    <div class="text-[11px] text-gray-600 space-y-1 bg-gray-50 p-2.5 rounded-lg border border-gray-200">
+                        <p class="truncate"><strong>File:</strong> <span x-text="fileName" class="font-mono"></span></p>
                         <p><strong>Rasio:</strong> {{ $aspectRatioLabel }}</p>
                         <p><strong>Output:</strong> {{ $resolvedMaxWidth }}x{{ $resolvedMaxHeight }}px</p>
-                        <p class="text-green-600">✓ Auto: Crop, WebP, Compress</p>
+                        <p class="text-green-600 font-medium">✓ Auto: WebP & Compress</p>
                     </div>
                 </div>
             </div>

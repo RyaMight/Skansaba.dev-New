@@ -24,7 +24,8 @@ class StoreUserRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
+            'nisn' => ['nullable', 'string', 'max:20', 'unique:users,nisn'],
+            'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'role' => ['required', Rule::in(['admin', 'guru', 'siswa'])],
             'status' => ['required', Rule::in(['active', 'inactive'])],

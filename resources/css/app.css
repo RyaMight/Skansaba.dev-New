@@ -28,6 +28,7 @@
     display: block;
 }
 
+<<<<<<< HEAD
 /* ============================================
    Marquee logo mitra - 2 baris berlawanan arah
    ============================================ */
@@ -180,3 +181,6 @@
 .berita-card {
     transform-origin: center center;
 }
+=======
+[x-cloak] { display: none !important; }
+>>>>>>> 4ec5b282cfd8e562892bc677fb7881dcccf2d1e7

@@ -23,6 +23,27 @@ class SidebarMenu extends Component
         
         $allMenuItems = [
             [
+                'key' => 'dashboard_siswa',
+                'label' => 'Dashboard',
+                'route' => 'siswa.profil',
+                'icon' => 'home',
+                'access' => ['siswa'],
+            ],
+            [
+                'key' => 'profil_publik_siswa',
+                'label' => 'Profil Publik',
+                'route' => 'siswa.profil-publik',
+                'icon' => 'star',
+                'access' => ['siswa'],
+            ],
+            [
+                'key' => 'saluran_siswa',
+                'label' => 'Saluran Saya',
+                'route' => 'siswa.saluran',
+                'icon' => 'link',
+                'access' => ['siswa'],
+            ],
+            [
                 'key' => 'dashboard',
                 'label' => 'Dashboard',
                 'route' => 'dashboard',
@@ -55,7 +76,7 @@ class SidebarMenu extends Component
                 'label' => 'Karya Siswa',
                 'route' => 'karya-siswa.index',
                 'icon' => 'code',
-                'access' => ['admin', 'guru', 'siswa'],
+                'access' => ['admin', 'guru'],
             ],
             [
                 'key' => 'fasilitas',
@@ -92,7 +113,7 @@ class SidebarMenu extends Component
                 'label' => 'Alumni',
                 'route' => 'alumni.index',
                 'icon' => 'academic-cap',
-                'access' => ['admin', 'siswa'], // User said only alumni and karya siswa for siswa
+                'access' => ['admin'],
             ],
             [
                 'key' => 'prospek_karir',
@@ -123,6 +144,13 @@ class SidebarMenu extends Component
                 'access' => ['admin'],
             ],
             [
+                'key' => 'settings',
+                'label' => 'Pengaturan',
+                'route' => 'settings',
+                'icon' => 'cog',
+                'access' => ['admin', 'guru', 'siswa'],
+            ],
+            [
                 'key' => 'global_settings',
                 'label' => 'Pengaturan Global',
                 'route' => 'global-settings.index',
@@ -139,7 +167,7 @@ class SidebarMenu extends Component
     }
 
     /**
-     * Check if menu item is active
+     * Check if menu item is active (exact match, plus .index suffix for resource routes)
      */
     public function isActive(string $routeName): bool
     {
@@ -147,7 +175,7 @@ class SidebarMenu extends Component
             return false;
         }
 
-        return request()->routeIs($routeName . '*');
+        return request()->routeIs($routeName) || request()->routeIs($routeName . '.index');
     }
 
     /**
