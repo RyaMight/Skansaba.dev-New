@@ -26,11 +26,32 @@
     {{-- Styles --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    {{-- Dynamic Primary Color CSS Variables --}}
+    {{-- Dynamic Primary Color CSS Variables & Google Translate UI Overrides --}}
     <style>
         :root {
             --primary-color: {{ $globalSettings->primary_color ?? '#12B4E0' }};
             --secondary-color: {{ $globalSettings->secondary_color ?? '#1E3A8A' }};
+        }
+        /* Suppress Google Translate top banner, tooltips, and highlighting */
+        .goog-te-banner-frame.skiptranslate,
+        .goog-te-banner-frame,
+        #goog-gt-tt,
+        .goog-te-balloon-frame,
+        .goog-te-gadget {
+            display: none !important;
+            visibility: hidden !important;
+        }
+        body {
+            top: 0px !important;
+            position: static !important;
+        }
+        .skiptranslate iframe {
+            display: none !important;
+            visibility: hidden !important;
+        }
+        .goog-text-highlight {
+            background: transparent !important;
+            box-shadow: none !important;
         }
     </style>
 
@@ -87,5 +108,22 @@
 
     {{-- Livewire Scripts --}}
     @livewireScripts
+
+    {{-- Google Translate Integration for Dynamic Database Content (Active in EN mode) --}}
+    @if(app()->getLocale() === 'en')
+        <div id="google_translate_element" class="notranslate" style="display:none !important;" aria-hidden="true"></div>
+        <script>
+            function googleTranslateElementInit() {
+                if (window.google && window.google.translate) {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'id',
+                        includedLanguages: 'id,en',
+                        autoDisplay: false
+                    }, 'google_translate_element');
+                }
+            }
+        </script>
+        <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+    @endif
 </body>
 </html>

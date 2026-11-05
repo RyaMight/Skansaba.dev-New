@@ -7,15 +7,15 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <span class="hover:opacity-80 cursor-pointer">Beranda</span>
+                <span class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</span>
                 <span>›</span>
-                <span style="color: {{ $globalSettings->primary_color_style }}">Alumni</span>
+                <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Alumni') }}</span>
             </div>
             
             <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
-                Jejak <span style="color: {{ $globalSettings->primary_color_style }}">Alumni RPL</span>
+                {{ __('Jejak') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Alumni RPL') }}</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">Alumni Jurusan Rekayasa Perangkat Lunak yang telah berkarir di berbagai bidang</p>
+            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">{{ __('Alumni Jurusan Rekayasa Perangkat Lunak yang telah berkarir di berbagai bidang') }}</p>
         </div>
     </section>
 
@@ -30,7 +30,7 @@
                     <input 
                         type="text" 
                         wire:model.live.debounce.300ms="search" 
-                        placeholder="Cari nama alumni..."
+                        placeholder="{{ __('Cari nama alumni...') }}"
                         class="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-transparent text-gray-700 dark:text-gray-200"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
                     >
@@ -49,7 +49,7 @@
                             <span class="inline-flex items-center justify-center w-12 h-12 rounded-full text-white font-bold" style="background-color: {{ $globalSettings->primary_color_style }}">
                                 {{ substr($tahun, -2) }}
                             </span>
-                            Angkatan {{ $tahun }}
+                            {{ __('Angkatan :tahun', ['tahun' => $tahun]) }}
                         </h2>
                         
                         <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -112,12 +112,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">Belum Ada Data Alumni</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data Alumni') }}</h3>
                     <p class="text-gray-600 dark:text-gray-300">
                         @if($search || $filterStatus)
-                            Tidak ada alumni yang sesuai dengan pencarian Anda
+                            {{ __('Tidak ada alumni yang sesuai dengan pencarian Anda') }}
                         @else
-                            Data alumni belum tersedia saat ini
+                            {{ __('Data alumni belum tersedia saat ini') }}
                         @endif
                     </p>
                 </div>

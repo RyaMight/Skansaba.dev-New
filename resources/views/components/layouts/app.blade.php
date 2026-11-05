@@ -62,10 +62,10 @@
             <div class="flex flex-col flex-1 overflow-hidden">
                 {{-- Mobile Header --}}
                 <header class="flex items-center justify-between px-4 py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden">
-                    <span class="text-sm font-bold text-gray-900 dark:text-gray-50">Menu</span>
-                    <div class="flex items-center gap-3">
+                    <span class="text-sm font-bold text-gray-900 dark:text-gray-50">{{ __('Menu') }}</span>
+                    <div class="flex items-center gap-2">
                         <x-theme-toggle />
-                        <button type="button" @click="$dispatch('toggle-mobile-sidebar')" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100">
+                        <button type="button" @click="$dispatch('toggle-mobile-sidebar')" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100" aria-label="{{ __('Buka menu') }}">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
@@ -88,7 +88,7 @@
                                     </svg>
                                 </div>
                                 <span class="leading-normal" style="color: #000000 !important;">
-                                    <strong class="font-bold" style="color: #000000 !important;">Keamanan Akun:</strong> Anda masih menggunakan password bawaan (<code class="font-mono font-bold px-1.5 py-0.5 rounded border" style="background-color: #fde68a !important; color: #000000 !important; border-color: #f59e0b !important;">{{ \App\Models\User::DEFAULT_SISWA_PASSWORD }}</code>). Segera ganti password Anda.
+                                    <strong class="font-bold" style="color: #000000 !important;">{{ __('Keamanan Akun:') }}</strong> {{ __('Anda masih menggunakan password bawaan') }} (<code class="font-mono font-bold px-1.5 py-0.5 rounded border" style="background-color: #fde68a !important; color: #000000 !important; border-color: #f59e0b !important;">{{ \App\Models\User::DEFAULT_SISWA_PASSWORD }}</code>). {{ __('Segera ganti password Anda.') }}
                                 </span>
                             </div>
                             <a 
@@ -97,7 +97,7 @@
                                 class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-white font-semibold transition shadow-xs shrink-0 hover:opacity-90 cursor-pointer"
                                 style="background-color: #d97706 !important; color: #ffffff !important;"
                             >
-                                <span>Ganti Password Sekarang</span>
+                                <span>{{ __('Ganti Password Sekarang') }}</span>
                                 <span>&rarr;</span>
                             </a>
                         </div>
@@ -119,20 +119,20 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">Segera Ganti Password Anda</h3>
-                                        <p class="text-xs text-slate-500 dark:text-gray-400 mt-0.5">Peringatan keamanan akun Siswa RPL</p>
+                                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Segera Ganti Password Anda') }}</h3>
+                                        <p class="text-xs text-slate-500 dark:text-gray-400 mt-0.5">{{ __('Peringatan keamanan akun Siswa RPL') }}</p>
                                     </div>
                                 </div>
 
                                 <div class="text-xs text-slate-700 dark:text-gray-200 leading-relaxed space-y-2 bg-slate-50 dark:bg-gray-800/60 p-4 rounded-xl border border-slate-200/90 dark:border-gray-800">
                                     <p>
-                                        Halo <strong class="text-slate-900 dark:text-white font-semibold">{{ auth()->user()->name }}</strong>, sistem mendeteksi bahwa akun Anda masih menggunakan password default bawaan:
+                                        {{ __('Halo') }} <strong class="text-slate-900 dark:text-white font-semibold">{{ auth()->user()->name }}</strong>, {{ __('sistem mendeteksi bahwa akun Anda masih menggunakan password default bawaan:') }}
                                     </p>
                                     <div class="px-3.5 py-2 rounded-lg text-center font-mono font-bold text-sm tracking-wider border" style="background-color: #fde68a !important; color: #000000 !important; border-color: #f59e0b !important;">
                                         {{ \App\Models\User::DEFAULT_SISWA_PASSWORD }}
                                     </div>
                                     <p class="text-slate-600 dark:text-gray-300">
-                                        Agar akun dan karya portofolio Anda tidak disalahgunakan oleh orang lain, silakan segera mengganti password Anda sekarang.
+                                        {{ __('Agar akun dan karya portofolio Anda tidak disalahgunakan oleh orang lain, silakan segera mengganti password Anda sekarang.') }}
                                     </p>
                                 </div>
 
@@ -142,7 +142,7 @@
                                         @click="sessionStorage.setItem('dismissed_default_pw_{{ auth()->id() }}', '1'); showModal = false"
                                         class="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition cursor-pointer"
                                     >
-                                        Nanti Saja
+                                        {{ __('Nanti Saja') }}
                                     </button>
                                     <a 
                                         href="{{ route('settings') }}"
@@ -150,7 +150,7 @@
                                         @click="sessionStorage.setItem('dismissed_default_pw_{{ auth()->id() }}', '1'); showModal = false"
                                         class="px-4 py-2 text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition shadow-xs cursor-pointer inline-flex items-center gap-1.5"
                                     >
-                                        <span>Ganti Password Sekarang</span>
+                                        <span>{{ __('Ganti Password Sekarang') }}</span>
                                         <span>&rarr;</span>
                                     </a>
                                 </div>

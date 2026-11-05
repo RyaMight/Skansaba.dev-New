@@ -1,8 +1,8 @@
 <div class="p-6">
     <!-- Header -->
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Global Settings</h1>
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">Kelola pengaturan umum website jurusan RPL</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Global Settings') }}</h1>
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">{{ __('Kelola pengaturan umum website jurusan RPL') }}</p>
     </div>
 
     <!-- Success Message -->
@@ -20,11 +20,11 @@
             
             <!-- Site Information Section -->
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">Informasi Situs</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi Situs') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                            Nama Situs <span class="text-red-500">*</span>
+                            {{ __('Nama Situs') }} <span class="text-red-500">*</span>
                         </label>
                         <input type="text" wire:model="site_name" 
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent">
@@ -39,7 +39,7 @@
                         </label>
                         <input type="text" wire:model="site_tagline" 
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                            placeholder="Slogan atau motto jurusan">
+                            placeholder="{{ __('Slogan atau motto jurusan') }}">
                         @error('site_tagline')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
@@ -49,23 +49,23 @@
 
             <!-- Logos and Branding Section -->
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">Logo & Branding</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Logo & Branding') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     
                     <!-- Logo Primary -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                            Logo Utama
+                            {{ __('Logo Utama') }}
                         </label>
                         
                         @if ($logo_primary)
                             <div class="mb-3 relative inline-block">
-                                <img src="{{ Storage::url($logo_primary) }}" alt="Logo Utama" 
+                                <img src="{{ Storage::url($logo_primary) }}" alt="{{ __('Logo Utama') }}" 
                                     class="w-32 h-32 object-contain border border-gray-200 dark:border-gray-700 rounded-lg p-2">
                                 <button type="button" wire:click="deleteLogo('logo_primary')" 
-                                    wire:confirm="Apakah Anda yakin ingin menghapus logo utama?"
+                                    wire:confirm="{{ __('Apakah Anda yakin ingin menghapus logo utama?') }}"
                                     class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg transition-colors"
-                                    title="Hapus logo">
+                                    title="{{ __('Hapus logo') }}">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
@@ -75,8 +75,8 @@
 
                         @if ($new_logo_primary)
                             <div class="mb-3">
-                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Preview baru:</p>
-                                <img src="{{ $new_logo_primary->temporaryUrl() }}" alt="Preview" 
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">{{ __('Preview baru:') }}</p>
+                                <img src="{{ $new_logo_primary->temporaryUrl() }}" alt="{{ __('Preview') }}" 
                                     class="w-32 h-32 object-contain border border-gray-200 dark:border-gray-700 rounded-lg p-2">
                             </div>
                         @endif
@@ -88,23 +88,23 @@
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                         
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Maksimal 5MB. Akan diproses menjadi 400x400px WebP.</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Maksimal 5MB. Akan diproses menjadi 400x400px WebP.') }}</p>
                     </div>
 
                     <!-- Logo Secondary -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                            Logo Sekunder
+                            {{ __('Logo Sekunder') }}
                         </label>
                         
                         @if ($logo_secondary)
                             <div class="mb-3 relative inline-block">
-                                <img src="{{ Storage::url($logo_secondary) }}" alt="Logo Sekunder" 
+                                <img src="{{ Storage::url($logo_secondary) }}" alt="{{ __('Logo Sekunder') }}" 
                                     class="w-32 h-32 object-contain border border-gray-200 dark:border-gray-700 rounded-lg p-2">
                                 <button type="button" wire:click="deleteLogo('logo_secondary')" 
-                                    wire:confirm="Apakah Anda yakin ingin menghapus logo sekunder?"
+                                    wire:confirm="{{ __('Apakah Anda yakin ingin menghapus logo sekunder?') }}"
                                     class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg transition-colors"
-                                    title="Hapus logo">
+                                    title="{{ __('Hapus logo') }}">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
@@ -114,8 +114,8 @@
 
                         @if ($new_logo_secondary)
                             <div class="mb-3">
-                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Preview baru:</p>
-                                <img src="{{ $new_logo_secondary->temporaryUrl() }}" alt="Preview" 
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">{{ __('Preview baru:') }}</p>
+                                <img src="{{ $new_logo_secondary->temporaryUrl() }}" alt="{{ __('Preview') }}" 
                                     class="w-32 h-32 object-contain border border-gray-200 dark:border-gray-700 rounded-lg p-2">
                             </div>
                         @endif
@@ -127,7 +127,7 @@
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                         
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Maksimal 5MB. Akan diproses menjadi 400x400px WebP.</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Maksimal 5MB. Akan diproses menjadi 400x400px WebP.') }}</p>
                     </div>
 
                     <!-- Favicon -->
@@ -141,9 +141,9 @@
                                 <img src="{{ Storage::url($favicon) }}" alt="Favicon" 
                                     class="w-16 h-16 object-contain border border-gray-200 dark:border-gray-700 rounded-lg p-2">
                                 <button type="button" wire:click="deleteLogo('favicon')" 
-                                    wire:confirm="Apakah Anda yakin ingin menghapus favicon?"
+                                    wire:confirm="{{ __('Apakah Anda yakin ingin menghapus favicon?') }}"
                                     class="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg transition-colors"
-                                    title="Hapus favicon">
+                                    title="{{ __('Hapus favicon') }}">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
@@ -153,8 +153,8 @@
 
                         @if ($new_favicon)
                             <div class="mb-3">
-                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">Preview baru:</p>
-                                <img src="{{ $new_favicon->temporaryUrl() }}" alt="Preview" 
+                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-2">{{ __('Preview baru:') }}</p>
+                                <img src="{{ $new_favicon->temporaryUrl() }}" alt="{{ __('Preview') }}" 
                                     class="w-16 h-16 object-contain border border-gray-200 dark:border-gray-700 rounded-lg p-2">
                             </div>
                         @endif
@@ -166,18 +166,18 @@
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
                         
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Maksimal 2MB. Akan diproses menjadi 64x64px WebP.</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Maksimal 2MB. Akan diproses menjadi 64x64px WebP.') }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Theme Colors Section -->
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">Warna Tema</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Warna Tema') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                            Warna Primer <span class="text-red-500">*</span>
+                            {{ __('Warna Primer') }} <span class="text-red-500">*</span>
                         </label>
                         <div class="flex gap-3">
                             <input type="text" wire:model="primary_color" 
@@ -189,12 +189,12 @@
                         @error('primary_color')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Format: rgb(r,g,b) atau #hex</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Format: rgb(r,g,b) atau #hex') }}</p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                            Warna Sekunder <span class="text-red-500">*</span>
+                            {{ __('Warna Sekunder') }} <span class="text-red-500">*</span>
                         </label>
                         <div class="flex gap-3">
                             <input type="text" wire:model="secondary_color" 
@@ -206,32 +206,32 @@
                         @error('secondary_color')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Format: rgb(r,g,b) atau #hex</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Format: rgb(r,g,b) atau #hex') }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Contact Information Section -->
             <div class="p-6">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">Informasi Kontak</h2>
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi Kontak') }}</h2>
                 <div class="space-y-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                            Teks Footer
+                            {{ __('Teks Footer') }}
                         </label>
                         <textarea wire:model="footer_text" rows="3"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                            placeholder="Copyright atau informasi di footer website"></textarea>
+                            placeholder="{{ __('Copyright atau informasi di footer website') }}"></textarea>
                         @error('footer_text')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Maksimal 500 karakter</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Maksimal 500 karakter') }}</p>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                                Email Kontak
+                                {{ __('Email Kontak') }}
                             </label>
                             <input type="email" wire:model="contact_email" 
                                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
@@ -243,7 +243,7 @@
 
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                                Nomor Telepon
+                                {{ __('Nomor Telepon') }}
                             </label>
                             <input type="text" wire:model="contact_phone" 
                                 class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
@@ -260,31 +260,31 @@
                         </label>
                         <input type="text" wire:model="whatsapp" 
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                            placeholder="628123456789 (format internasional tanpa +)">
+                            placeholder="{{ __('628123456789 (format internasional tanpa +)') }}">
                         @error('whatsapp')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Format: 628xxx tanpa tanda + atau spasi</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Format: 628xxx tanpa tanda + atau spasi') }}</p>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                            Alamat
+                            {{ __('Alamat') }}
                         </label>
                         <textarea wire:model="address" rows="3"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent"
-                            placeholder="Alamat lengkap sekolah"></textarea>
+                            placeholder="{{ __('Alamat lengkap sekolah') }}"></textarea>
                         @error('address')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Maksimal 500 karakter</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Maksimal 500 karakter') }}</p>
                     </div>
                 </div>
             </div>
 
             <!-- Social Media Section -->
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-6">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-6">Media Sosial</h2>
+                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-6">{{ __('Media Sosial') }}</h2>
                 <div class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
@@ -381,7 +381,7 @@
                         @error('maps_url')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">Copy iframe embed code dari Google Maps (Share → Embed a map)</p>
+                        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ __('Copy iframe embed code dari Google Maps (Share → Embed a map)') }}</p>
                     </div>
                 </div>
             </div>
@@ -391,8 +391,8 @@
         <div class="mt-6 flex justify-end">
             <button type="submit" 
                 class="px-6 py-3 bg-[#12B4E0] text-white font-medium rounded-lg hover:bg-[#0d8fb3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#12B4E0] transition-colors">
-                <span wire:loading.remove wire:target="save">Simpan Pengaturan</span>
-                <span wire:loading wire:target="save">Menyimpan...</span>
+                <span wire:loading.remove wire:target="save">{{ __('Simpan Pengaturan') }}</span>
+                <span wire:loading wire:target="save">{{ __('Menyimpan...') }}</span>
             </button>
         </div>
     </form>

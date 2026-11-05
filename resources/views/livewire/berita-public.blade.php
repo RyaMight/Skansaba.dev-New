@@ -7,15 +7,15 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <span class="hover:opacity-80 cursor-pointer">Beranda</span>
+                <span class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</span>
                 <span>›</span>
-                <span style="color: {{ $globalSettings->primary_color_style }}">Berita & Artikel</span>
+                <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Berita & Artikel') }}</span>
             </div>
             
             <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
-                Berita & <span style="color: {{ $globalSettings->primary_color_style }}">Artikel</span>
+                {{ __('Berita &') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Artikel') }}</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">Informasi terkini seputar kegiatan dan berita RPL</p>
+            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">{{ __('Informasi terkini seputar kegiatan dan berita RPL') }}</p>
         </div>
     </section>
 
@@ -30,7 +30,7 @@
                     <input 
                         type="text" 
                         wire:model.live.debounce.300ms="search" 
-                        placeholder="Cari berita..."
+                        placeholder="{{ __('Cari berita...') }}"
                         class="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-transparent text-gray-700 dark:text-gray-200"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
                     >
@@ -55,10 +55,10 @@
                                 <div class="flex items-center gap-2 mb-3">
                                     @if($berita->is_highlight)
                                         <span class="inline-block px-2 py-1 text-xs font-semibold rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}22; color: {{ $globalSettings->primary_color_style }}">
-                                            ⭐ Unggulan
+                                            ⭐ {{ __('Unggulan') }}
                                         </span>
                                     @endif
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ $berita->published_at->format('d M Y') }}</span>
+                                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ $berita->published_at->translatedFormat('d M Y') }}</span>
                                 </div>
                                 <h3 class="font-bold text-lg text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80">
                                     {{ $berita->title }}
@@ -68,7 +68,7 @@
                                 </p>
                                 <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
                                     <span>{{ $berita->author->name }}</span>
-                                    <span>{{ $berita->views }} views</span>
+                                    <span>{{ $berita->views }} {{ __('views') }}</span>
                                 </div>
                             </div>
                         </a>
@@ -84,7 +84,7 @@
                     <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
-                    <p class="text-gray-500 dark:text-gray-400 text-lg">Tidak ada berita ditemukan</p>
+                    <p class="text-gray-500 dark:text-gray-400 text-lg">{{ __('Tidak ada berita ditemukan') }}</p>
                 </div>
             @endif
         </div>

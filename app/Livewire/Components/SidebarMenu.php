@@ -46,7 +46,7 @@ class SidebarMenu extends Component
                 if ($item['key'] === 'karya_verifikasi' && $pendingKaryaCount > 0) {
                     $item['has_badge'] = true;
                     $item['badge_count'] = $pendingKaryaCount;
-                    $item['badge_title'] = $pendingKaryaCount . ' karya menunggu verifikasi';
+                    $item['badge_title'] = $pendingKaryaCount . ' karya perlu verifikasi';
                 }
 
                 if ($item['key'] === 'settings' && $user->isUsingDefaultPassword()) {

@@ -13,8 +13,6 @@ class PrestasiSeeder extends Seeder
      */
     public function run(): void
     {
-        Prestasi::truncate();
-
-        $this->command->info('✓ Prestasi seeded (0 records) - kosong sesuai skansaba.dev');
+        $this->call(PrestasiSiswaSeeder::class);
     }
 }

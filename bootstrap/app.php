@@ -18,6 +18,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\CheckRole::class,
         ]);
 
+        $middleware->encryptCookies(except: [
+            'googtrans',
+        ]);
+
+        $middleware->web(append: [
+            \App\Http\Middleware\SetLocale::class,
+        ]);
+
         // Trust semua proxy (Cloudflare Tunnel / cloudflared) supaya
         // Laravel mendeteksi HTTPS dari header X-Forwarded-Proto.
         // Tanpa ini: cookie session Secure tidak ter-set (login gagal)

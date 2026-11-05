@@ -1,8 +1,8 @@
 <div class="p-6">
     {{-- Page Header --}}
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Dashboard</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Selamat datang di CMS Jurusan RPL</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Dashboard') }}</h1>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ __('Selamat datang di CMS Jurusan RPL') }}</p>
     </div>
 
     {{-- Statistics Widgets --}}
@@ -20,7 +20,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Karya Siswa</dt>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('Total Karya Siswa') }}</dt>
                             <dd class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $widgets['total_karya_siswa'] }}</dd>
                         </dl>
                     </div>
@@ -41,7 +41,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Prestasi</dt>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('Total Prestasi') }}</dt>
                             <dd class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $widgets['total_prestasi'] }}</dd>
                         </dl>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Alumni</dt>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('Total Alumni') }}</dt>
                             <dd class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $widgets['total_alumni'] }}</dd>
                         </dl>
                     </div>
@@ -83,7 +83,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Total Galeri</dt>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('Total Galeri') }}</dt>
                             <dd class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $widgets['total_galeri'] }}</dd>
                         </dl>
                     </div>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Konten Draft</dt>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('Konten Draft') }}</dt>
                             <dd class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $widgets['konten_draft'] }}</dd>
                         </dl>
                     </div>
@@ -126,7 +126,7 @@
                     </div>
                     <div class="ml-5 w-0 flex-1">
                         <dl>
-                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">Konten Review</dt>
+                            <dt class="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">{{ __('Konten Review') }}</dt>
                             <dd class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $widgets['konten_review'] }}</dd>
                         </dl>
                     </div>
@@ -141,7 +141,7 @@
         <div class="lg:col-span-2">
             <div class="bg-white dark:bg-gray-900 shadow-sm rounded-lg">
                 <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">Aktivitas Terbaru</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">{{ __('Aktivitas Terbaru') }}</h3>
                 </div>
                 <div class="p-5">
                     @if($recentActivity->isEmpty())
@@ -149,7 +149,7 @@
                             <svg class="mx-auto h-12 w-12 text-gray-400 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Belum ada aktivitas</p>
+                            <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ __('Belum ada aktivitas') }}</p>
                         </div>
                     @else
                         <div class="flow-root">
@@ -196,7 +196,7 @@
         <div class="lg:col-span-1">
             <div class="bg-white dark:bg-gray-900 shadow-sm rounded-lg">
                 <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">Status Konten</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">{{ __('Status Konten') }}</h3>
                 </div>
                 <div class="p-5">
                     <div class="space-y-4">
@@ -205,19 +205,19 @@
                                 <h4 class="text-sm font-medium text-gray-900 dark:text-gray-50 mb-2">{{ $model }}</h4>
                                 <div class="grid grid-cols-2 gap-2">
                                     <div class="px-3 py-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                                        <div class="text-xs text-gray-500 dark:text-gray-400">Draft</div>
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Draft') }}</div>
                                         <div class="text-lg font-semibold text-gray-900 dark:text-gray-50">{{ $counts['draft'] }}</div>
                                     </div>
                                     <div class="px-3 py-2 bg-orange-50 dark:bg-orange-500/10 rounded-lg">
-                                        <div class="text-xs text-orange-600 dark:text-orange-400">Review</div>
+                                        <div class="text-xs text-orange-600 dark:text-orange-400">{{ __('Review') }}</div>
                                         <div class="text-lg font-semibold text-orange-900 dark:text-orange-300">{{ $counts['review'] }}</div>
                                     </div>
                                     <div class="px-3 py-2 bg-green-50 dark:bg-green-500/10 rounded-lg">
-                                        <div class="text-xs text-green-600 dark:text-green-400">Published</div>
+                                        <div class="text-xs text-green-600 dark:text-green-400">{{ __('Published') }}</div>
                                         <div class="text-lg font-semibold text-green-900 dark:text-green-300">{{ $counts['published'] }}</div>
                                     </div>
                                     <div class="px-3 py-2 bg-red-50 dark:bg-red-500/10 rounded-lg">
-                                        <div class="text-xs text-red-600 dark:text-red-400">Archived</div>
+                                        <div class="text-xs text-red-600 dark:text-red-400">{{ __('Archived') }}</div>
                                         <div class="text-lg font-semibold text-red-900 dark:text-red-300">{{ $counts['archived'] }}</div>
                                     </div>
                                 </div>

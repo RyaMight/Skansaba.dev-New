@@ -3,8 +3,8 @@
         {{-- Header Section --}}
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Manajemen Berita</h1>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Kelola berita, pengumuman, dan artikel terbaru.</p>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Manajemen Berita') }}</h1>
+                <p class="text-gray-500 dark:text-gray-400 mt-1">{{ __('Kelola berita, pengumuman, dan artikel terbaru.') }}</p>
             </div>
             <button 
                 wire:click="openCreateModal"
@@ -13,7 +13,7 @@
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
-                Tambah Berita
+                {{ __('Tambah Berita') }}
             </button>
         </div>
 
@@ -32,12 +32,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {{-- Search --}}
                 <div class="lg:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Cari Berita</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ __('Cari Berita') }}</label>
                     <div class="relative">
                         <input 
                             wire:model.live.debounce.300ms="search"
                             type="text" 
-                            placeholder="Cari berdasarkan judul..."
+                            placeholder="{{ __('Cari berdasarkan judul...') }}"
                             class="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                         >
                         <div class="absolute left-3 top-2.5 text-gray-400 dark:text-gray-400">
@@ -55,7 +55,7 @@
                         wire:model.live="filterStatus"
                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                     >
-                        <option value="">Semua Status</option>
+                        <option value="">{{ __('Semua Status') }}</option>
                         <option value="draft">Draft</option>
                         <option value="published">Published</option>
                         <option value="archived">Archived</option>
@@ -70,12 +70,12 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Thumbnail & Berita</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Thumbnail & Berita') }}</th>
                             <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Status</th>
                             <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Highlight</th>
-                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Penulis</th>
-                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Tgl Publish</th>
-                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">Aksi</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Penulis') }}</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Tgl Publish') }}</th>
+                            <th class="px-6 py-4 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider text-right">{{ __('Aksi') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -144,9 +144,9 @@
                                         </button>
                                         <button 
                                             wire:click="delete({{ $berita->id }})"
-                                            wire:confirm="Apakah Anda yakin ingin menghapus berita ini?"
+                                            wire:confirm="{{ __('Apakah Anda yakin ingin menghapus berita ini?') }}"
                                             class="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:bg-red-500/10 rounded-lg transition-colors"
-                                            title="Hapus"
+                                            title="{{ __('Hapus') }}"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -163,8 +163,8 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l4 4v12a2 2 0 01-2 2z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01" />
                                         </svg>
-                                        <p class="text-lg font-medium text-gray-900 dark:text-gray-50">Belum ada berita</p>
-                                        <p class="text-gray-500 dark:text-gray-400">Silakan tambahkan berita baru untuk ditampilkan.</p>
+                                        <p class="text-lg font-medium text-gray-900 dark:text-gray-50">{{ __('Belum ada berita') }}</p>
+                                        <p class="text-gray-500 dark:text-gray-400">{{ __('Silakan tambahkan berita baru untuk ditampilkan.') }}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -191,7 +191,7 @@
                     {{-- Modal Header --}}
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                         <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50">
-                            {{ $isEditMode ? 'Edit Berita' : 'Tambah Berita' }}
+                            {{ $isEditMode ? __('Edit Berita') : __('Tambah Berita') }}
                         </h3>
                         <button type="button" wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,12 +207,12 @@
                             <div class="space-y-6">
                                 {{-- Title --}}
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Judul Berita <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ __('Judul Berita') }} <span class="text-red-500">*</span></label>
                                     <input 
                                         wire:model.live="title"
                                         type="text" 
                                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Masukkan judul berita..."
+                                        placeholder="{{ __('Masukkan judul berita...') }}"
                                         required
                                     >
                                     @error('title') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
@@ -220,23 +220,23 @@
 
                                 {{-- Excerpt --}}
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Ringkasan (Excerpt)</label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ __('Ringkasan (Excerpt)') }}</label>
                                     <textarea 
                                         wire:model.live="excerpt"
                                         rows="2"
                                         class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                        placeholder="Ringkasan singkat berita..."
+                                        placeholder="{{ __('Ringkasan singkat berita...') }}"
                                     ></textarea>
                                     @error('excerpt') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                                 </div>
 
                                 {{-- Content Markdown Editor --}}
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Isi Berita <span class="text-red-500">*</span></label>
+                                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">{{ __('Isi Berita') }} <span class="text-red-500">*</span></label>
                                     <div class="max-h-[500px] overflow-hidden border border-gray-200 dark:border-gray-700 rounded-lg">
                                         <x-markdown-editor 
                                             modelName="content_md" 
-                                            placeholder="Tulis berita Anda di sini menggunakan Markdown..."
+                                            :placeholder="__('Tulis berita Anda di sini menggunakan Markdown...')"
                                         />
                                     </div>
                                     @error('content_md') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
@@ -248,7 +248,7 @@
                                 {{-- Status & Options --}}
                                 <div class="space-y-6">
                                     <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl space-y-4 border border-gray-100 dark:border-gray-800">
-                                        <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm uppercase tracking-wider">Pengaturan Publikasi</h4>
+                                        <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm uppercase tracking-wider">{{ __('Pengaturan Publikasi') }}</h4>
                                         <div>
                                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">Status</label>
                                             <select 
@@ -266,7 +266,7 @@
                                                 <input type="checkbox" wire:model.live="is_highlight" class="sr-only peer">
                                                 <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white dark:bg-gray-900 after:border-gray-300 dark:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                                             </div>
-                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:text-blue-400 transition-colors">Tandai sebagai Highlight</span>
+                                            <span class="text-sm font-medium text-gray-700 dark:text-gray-200 group-hover:text-blue-600 dark:text-blue-400 transition-colors">{{ __('Tandai sebagai Highlight') }}</span>
                                         </label>
                                     </div>
                                 </div>
@@ -274,7 +274,7 @@
                                 {{-- Thumbnail Section --}}
                                 <div>
                                     <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-xl border border-gray-100 dark:border-gray-800">
-                                        <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm uppercase tracking-wider mb-4">Thumbnail Berita (16:9)</h4>
+                                        <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm uppercase tracking-wider mb-4">{{ __('Thumbnail Berita (16:9)') }}</h4>
                                         <x-image-cropper 
                                             modelName="thumbnail" 
                                             :currentImage="$currentThumbnail"
@@ -292,7 +292,7 @@
                     {{-- Modal Footer --}}
                     <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-between">
                         <button type="button" wire:click="closeModal" class="px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-50 font-medium transition-colors">
-                            Batal
+                            {{ __('Batal') }}
                         </button>
                         <div class="flex items-center gap-3">
                             <button 
@@ -301,14 +301,14 @@
                                 class="px-8 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all shadow-sm flex items-center gap-2"
                             >
                                 <span wire:loading.remove wire:target="save">
-                                    {{ $isEditMode ? 'Simpan Perubahan' : 'Terbitkan Berita' }}
+                                    {{ $isEditMode ? __('Simpan Perubahan') : __('Terbitkan Berita') }}
                                 </span>
                                 <span wire:loading wire:target="save" class="flex items-center gap-2">
                                     <svg class="animate-spin h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
                                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                     </svg>
-                                    Memproses...
+                                    {{ __('Memproses...') }}
                                 </span>
                             </button>
                         </div>

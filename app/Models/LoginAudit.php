@@ -75,6 +75,10 @@ class LoginAudit extends Model
     public static function countRecentFailedAttempts(string $email, int $minutes = 15): int
     {
         return static::failed()
+            ->where(function ($q) {
+                $q->whereNull('failure_reason')
+                  ->orWhere('failure_reason', '!=', 'Account temporarily blocked');
+            })
             ->recentAttempts($email, $minutes)
             ->count();
     }

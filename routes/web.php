@@ -13,6 +13,32 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Beranda::class)->name('beranda');
 
+// Switch Language (Bilingual ID / EN & Google Translate Sync)
+Route::get('/locale/{locale}', function (string $locale, \Illuminate\Http\Request $request) {
+    if (!in_array($locale, ['id', 'en'], true)) {
+        $locale = 'id';
+    }
+
+    session()->put('locale', $locale);
+    session()->save();
+
+    $cookieLocale = cookie()->forever('locale', $locale);
+    $response = redirect()->back()->withCookie($cookieLocale);
+
+    if ($locale === 'en') {
+        $response->withCookie(cookie('googtrans', '/id/en', 60 * 24 * 365, '/', null, false, false));
+    } else {
+        $response->withCookie(cookie('googtrans', '/id/id', 60 * 24 * 365, '/', null, false, false));
+    }
+
+    return $response;
+})->name('locale.switch');
+
+// Alias for language switcher: /lang/{locale}
+Route::get('/lang/{locale}', function (string $locale, \Illuminate\Http\Request $request) {
+    return redirect()->route('locale.switch', ['locale' => $locale]);
+})->name('lang.switch');
+
 // Public pages
 Route::get('/prestasi', \App\Livewire\PrestasiPublic::class)->name('prestasi.public');
 Route::get('/prestasi/{id}', \App\Livewire\PrestasiDetail::class)->name('prestasi.detail');

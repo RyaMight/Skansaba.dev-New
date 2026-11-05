@@ -1,50 +1,196 @@
-{{-- Grid profil siswa (dummy) — dipakai di tab "Profil Siswa" --}}
+{{-- Grid Profil Siswa Asli (35 Akun Siswa RPL dari Database) --}}
 @php
-    $profilDummy = [
-        ['nama' => 'Ahmad Fauzi', 'role' => 'Fullstack Developer', 'desc' => 'Expert in PHP, JS, AWS, & Cloud Architecture', 'badge' => 'Tech Lead'],
-        ['nama' => 'Antrat Olsi', 'role' => 'Backend Developer', 'desc' => 'Expert in Laravel, MySQL, & REST API Design', 'badge' => 'Backend'],
-        ['nama' => 'Alim Rishan', 'role' => 'Mobile Developer', 'desc' => 'Expert in Flutter, Dart, & Firebase Integration', 'badge' => 'Mobile Dev'],
-        ['nama' => 'Jaman Fauzi', 'role' => 'Frontend Developer', 'desc' => 'Expert in React, Next.js, & Tailwind CSS', 'badge' => 'Frontend'],
-        ['nama' => 'Ahneni Palan', 'role' => 'UI/UX Designer', 'desc' => 'Expert in Figma, Design System, & Prototyping', 'badge' => 'UI/UX'],
-        ['nama' => 'Siti Nurhaliza', 'role' => 'Cyber Security', 'desc' => 'Expert in Network Security, Python, & Pentesting', 'badge' => 'Security'],
-        ['nama' => 'Rizky Ramadhan', 'role' => 'Fullstack Developer', 'desc' => 'Expert in Node.js, Express, & GraphQL', 'badge' => 'Fullstack'],
-        ['nama' => 'Budi Santoso', 'role' => 'DevOps Engineer', 'desc' => 'Expert in Docker, CI/CD, & Cloud Infrastructure', 'badge' => 'DevOps'],
-        ['nama' => 'Dewi Lestari', 'role' => 'Data Scientist', 'desc' => 'Expert in Python, Machine Learning, & Analytics', 'badge' => 'Data Sci'],
-        ['nama' => 'Fajar Nugroho', 'role' => 'Backend Developer', 'desc' => 'Expert in Go, Microservices, & PostgreSQL', 'badge' => 'Backend'],
-        ['nama' => 'Nadia Putri', 'role' => 'Frontend Developer', 'desc' => 'Expert in Vue.js, Nuxt, & Web Animation', 'badge' => 'Frontend'],
-        ['nama' => 'Laras Ayu', 'role' => 'Mobile Developer', 'desc' => 'Expert in React Native, iOS, & Android', 'badge' => 'Mobile Dev'],
-        ['nama' => 'Dimas Prakoso', 'role' => 'Game Developer', 'desc' => 'Expert in Unity, C#, & 3D Game Design', 'badge' => 'Game Dev'],
-        ['nama' => 'Putri Maharani', 'role' => 'UI/UX Designer', 'desc' => 'Expert in User Research, Wireframing, & Usability', 'badge' => 'UI/UX'],
-        ['nama' => 'Bayu Setiawan', 'role' => 'Cyber Security', 'desc' => 'Expert in Ethical Hacking, Forensik, & OSINT', 'badge' => 'Security'],
-        ['nama' => 'Alya Rahma', 'role' => 'Fullstack Developer', 'desc' => 'Expert in Laravel, Livewire, & Alpine.js', 'badge' => 'Fullstack'],
-        ['nama' => 'Raka Aditya', 'role' => 'IoT Engineer', 'desc' => 'Expert in Arduino, Raspberry Pi, & Embedded Systems', 'badge' => 'IoT'],
-        ['nama' => 'Intan Permata', 'role' => 'Data Scientist', 'desc' => 'Expert in Data Visualization, SQL, & Big Data', 'badge' => 'Data Sci'],
+    $avatarPalettes = [
+        'bg-sky-50 text-sky-700 border-sky-200/80 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
+        'bg-emerald-50 text-emerald-700 border-emerald-200/80 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
+        'bg-indigo-50 text-indigo-700 border-indigo-200/80 dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30',
+        'bg-amber-50 text-amber-700 border-amber-200/80 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
+        'bg-teal-50 text-teal-700 border-teal-200/80 dark:bg-teal-500/15 dark:text-teal-300 dark:border-teal-500/30',
+        'bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-500/15 dark:text-rose-300 dark:border-rose-500/30',
     ];
 @endphp
 
-<div class="grid grid-flow-col auto-cols-[minmax(210px,1fr)] grid-rows-3 gap-4 overflow-x-auto no-scrollbar pb-2 snap-x">
-    @foreach($profilDummy as $dev)
-        <div class="snap-start bg-white dark:bg-gray-900 rounded-2xl p-3 border border-slate-100 dark:border-gray-800 shadow-xs flex flex-col hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-            <div class="flex-1">
-                {{-- Avatar Placeholder --}}
-                <div class="w-full aspect-[16/10] bg-[#d3d9e2] dark:bg-gray-800 rounded-xl flex items-center justify-center overflow-hidden">
-                    <svg class="w-9 h-9 text-[#9aa6b8] dark:text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                        <path fill-rule="evenodd" d="M12 2a5 5 0 100 10 5 5 0 000-10zm-7 18a7 7 0 0114 0H5z" clip-rule="evenodd" />
-                    </svg>
-                </div>
+<div class="space-y-6">
+    {{-- Filter Bar Profil Siswa --}}
+    <div class="flex flex-wrap items-center gap-2">
+        <button
+            type="button"
+            wire:click="$set('filterProfil', '')"
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+        >
+            {{ __('Semua Siswa') }} ({{ $totalSiswasCount }})
+        </button>
 
-                {{-- Student Info --}}
-                <h4 class="font-bold text-slate-900 dark:text-gray-50 text-[13px] mt-2.5 tracking-tight line-clamp-1">{{ $dev['nama'] }}</h4>
-                <p class="text-[11px] text-slate-400 dark:text-gray-400 mt-0.5">{{ $dev['role'] }}</p>
-                <p class="text-[10.5px] text-slate-500 dark:text-gray-400 mt-1 leading-snug line-clamp-2">{{ $dev['desc'] }}</p>
-            </div>
+        @if($siswaWithKaryaCount > 0)
+            <button
+                type="button"
+                wire:click="$set('filterProfil', 'with_karya')"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === 'with_karya' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+            >
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                <span>{{ __('Memiliki Karya') }} ({{ $siswaWithKaryaCount }})</span>
+            </button>
+        @endif
 
-            {{-- Tag Badge --}}
-            <div class="mt-2.5">
-                <span class="inline-block px-2.5 py-0.5 bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300 rounded-full text-[10px] font-medium">
-                    {{ $dev['badge'] }}
-                </span>
+        @foreach($availableSkills as $skill)
+            <button
+                type="button"
+                wire:click="$set('filterProfil', '{{ $skill }}')"
+                class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === $skill ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+            >
+                {{ $skill }}
+            </button>
+        @endforeach
+
+        @if($search !== '' || $filterProfil !== '')
+            <button
+                type="button"
+                wire:click="resetFilters"
+                class="ml-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
+            >
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+                <span>{{ __('Reset Filter') }}</span>
+            </button>
+        @endif
+    </div>
+
+    @if($siswas->isEmpty())
+        <div class="bg-white dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-gray-800 p-12 text-center">
+            <div class="w-11 h-11 rounded-lg bg-slate-100 dark:bg-gray-800 text-slate-500 dark:text-gray-400 flex items-center justify-center mx-auto mb-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
             </div>
+            <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-100">{{ __('Tidak ada profil siswa yang cocok') }}</h3>
+            <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">{{ __('Coba cari dengan nama siswa, username, atau kata kunci lain.') }}</p>
+            <button
+                type="button"
+                wire:click="resetFilters"
+                class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-sky-600 text-white hover:opacity-90 transition cursor-pointer"
+            >
+                {{ __('Tampilkan Semua Siswa') }}
+            </button>
         </div>
-    @endforeach
+    @else
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6 text-left">
+            @foreach($siswas as $index => $siswa)
+                @php
+                    $palette = $avatarPalettes[$siswa->id % count($avatarPalettes)];
+                    $verifiedSkills = $siswa->keahlian_list;
+                    $karyaTechs = $siswa->karyaSiswas
+                        ->flatMap(fn ($k) => is_array($k->teknologi) ? $k->teknologi : [])
+                        ->unique()
+                        ->values()
+                        ->all();
+                @endphp
+
+                <a
+                    href="{{ $siswa->profil_url }}"
+                    class="group h-full bg-white dark:bg-gray-900 rounded-xl p-4 sm:p-5 border border-slate-200/90 dark:border-gray-800 hover:border-sky-500/70 dark:hover:border-sky-500/60 shadow-xs transition-colors duration-150 flex flex-col justify-between"
+                >
+                    <div class="flex-1 flex flex-col">
+                        {{-- Header: Avatar & Identitas Siswa --}}
+                        <div class="flex items-start gap-3.5">
+                            <div class="w-12 h-12 rounded-xl overflow-hidden border {{ $siswa->photo_url ? 'border-slate-200 dark:border-gray-700 bg-slate-100 dark:bg-gray-800' : $palette }} flex items-center justify-center text-sm font-bold shrink-0">
+                                @if($siswa->photo_url)
+                                    <img
+                                        src="{{ $siswa->photo_url }}"
+                                        alt="{{ $siswa->name }}"
+                                        class="w-full h-full object-cover"
+                                        loading="lazy"
+                                    >
+                                @else
+                                    {{ $siswa->initials() }}
+                                @endif
+                            </div>
+
+                            <div class="min-w-0 flex-1">
+                                <div class="flex items-start justify-between gap-2">
+                                    <h3 class="text-sm font-bold text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $siswa->name }}">
+                                        {{ $siswa->name }}
+                                    </h3>
+                                </div>
+
+                                <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
+                                    <span class="text-xs text-slate-500 dark:text-gray-400 font-mono truncate max-w-[140px]">
+                                        {{ '@' . ($siswa->username ?: $siswa->id) }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Bio atau Ringkasan Portofolio --}}
+                        <div class="mt-3">
+                            @if($siswa->bio)
+                                <p class="text-xs text-slate-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    {{ $siswa->bio }}
+                                </p>
+                            @elseif($siswa->karyaSiswas->isNotEmpty())
+                                <p class="text-xs text-slate-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                    {{ __('Kreator proyek') }} <span class="font-semibold text-slate-800 dark:text-gray-100">{{ $siswa->karyaSiswas->pluck('judul')->join(', ') }}</span>.
+                                </p>
+                            @else
+                                <p class="text-xs text-slate-500 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                                    {{ __('Siswa Rekayasa Perangkat Lunak SMKN 1 Bantul.') }}
+                                </p>
+                            @endif
+                        </div>
+
+                        {{-- Keahlian Terverifikasi / Tech Stack --}}
+                        <div class="mt-3 flex flex-wrap items-center gap-1.5">
+                            @if(count($verifiedSkills) > 0)
+                                @foreach(array_slice($verifiedSkills, 0, 3) as $skill)
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-500/30 rounded-md text-[10px] font-medium">
+                                        <svg class="w-2.5 h-2.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span>{{ $skill }}</span>
+                                    </span>
+                                @endforeach
+                                @if(count($verifiedSkills) > 3)
+                                    <span class="text-[10px] font-medium text-slate-400 dark:text-gray-500">
+                                        +{{ count($verifiedSkills) - 3 }}
+                                    </span>
+                                @endif
+                            @elseif(count($karyaTechs) > 0)
+                                @foreach(array_slice($karyaTechs, 0, 3) as $tech)
+                                    <span class="px-2 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[10px] font-medium">
+                                        {{ $tech }}
+                                    </span>
+                                @endforeach
+                            @else
+                                <span class="px-2 py-0.5 bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 border border-slate-200/80 dark:border-gray-700 rounded-md text-[10px] font-medium">
+                                    {{ $siswa->kelas ? __('Kelas :kelas', ['kelas' => $siswa->kelas]) : __('Rekayasa Perangkat Lunak') }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    {{-- Footer: Status Karya & CTA Lihat Profil --}}
+                    <div class="mt-auto pt-3 border-t border-slate-100 dark:border-gray-800/80 flex items-center justify-between gap-2">
+                        @if($siswa->published_karya_count > 0)
+                            <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-700 dark:text-emerald-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                <span>{{ $siswa->published_karya_count }} {{ __('Karya Terpublikasi') }}</span>
+                            </span>
+                        @else
+                            <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-gray-400">
+                                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-gray-600"></span>
+                                <span>{{ $siswa->kelas ?: __('Siswa RPL') }}</span>
+                            </span>
+                        @endif
+
+                        <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-sky-400 group-hover:translate-x-0.5 transition-transform shrink-0">
+                            <span>{{ __('Lihat Profil') }}</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    @endif
 </div>

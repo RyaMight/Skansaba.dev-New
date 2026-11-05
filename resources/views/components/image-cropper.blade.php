@@ -503,12 +503,12 @@
     {{-- Header Label & Aspect Ratio Badge --}}
     <div class="flex items-center justify-between">
         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-200">
-            {{ $label }}
+            {{ __($label) }}
             @if($required) <span class="text-rose-500">*</span> @endif
         </label>
         <div class="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
             <span class="inline-block w-1.5 h-1.5 rounded-full bg-sky-500"></span>
-            <span>Rasio {{ $aspectRatioLabel }}</span>
+            <span>{{ __('Rasio') }} {{ $aspectRatioLabel }}</span>
         </div>
     </div>
 
@@ -530,13 +530,13 @@
                     <div class="relative shrink-0">
                         <img 
                             src="{{ $resolvedCurrentImageUrl }}" 
-                            alt="Foto Saat Ini" 
+                            alt="{{ __('Foto Saat Ini') }}" 
                             class="w-12 h-12 object-cover border border-slate-200 dark:border-gray-600 {{ $isAvatarMode ? 'rounded-full ring-2 ring-white dark:ring-gray-700 shadow-xs' : 'rounded-lg' }}"
                         >
                     </div>
                     <div class="min-w-0">
-                        <p class="text-xs font-semibold text-slate-900 dark:text-gray-100 truncate">Foto Aktif Digunakan</p>
-                        <p class="text-[11px] text-slate-500 dark:text-gray-400">Bisa diedit ulang posisinya atau diganti dengan foto baru</p>
+                        <p class="text-xs font-semibold text-slate-900 dark:text-gray-100 truncate">{{ __('Foto Aktif Digunakan') }}</p>
+                        <p class="text-[11px] text-slate-500 dark:text-gray-400">{{ __('Bisa diedit ulang posisinya atau diganti dengan foto baru') }}</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -545,12 +545,12 @@
                         type="button"
                         @click="editExistingPhoto('{{ $resolvedCurrentImageUrl }}')"
                         class="px-3 py-1.5 bg-sky-50 dark:bg-sky-500/15 hover:bg-sky-100 dark:hover:bg-sky-500/25 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 rounded-lg text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                        title="Atur ulang posisi, zoom, atau geser foto profil ini"
+                        title="{{ __('Atur ulang posisi, zoom, atau geser foto profil ini') }}"
                     >
                         <svg class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
-                        <span>Edit Ulang Posisi</span>
+                        <span>{{ __('Edit Ulang Posisi') }}</span>
                     </button>
 
                     {{-- Tombol Ganti Foto --}}
@@ -558,12 +558,12 @@
                         type="button"
                         @click="$refs.fileInput.click()"
                         class="px-3 py-1.5 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-lg text-xs font-semibold text-slate-700 dark:text-gray-200 transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                        title="Pilih berkas foto baru dari perangkat"
+                        title="{{ __('Pilih berkas foto baru dari perangkat') }}"
                     >
                         <svg class="w-3.5 h-3.5 text-slate-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
                         </svg>
-                        <span>Ganti Foto</span>
+                        <span>{{ __('Ganti Foto') }}</span>
                     </button>
                 </div>
             </div>
@@ -586,10 +586,10 @@
                 </div>
                 <div>
                     <p class="text-xs font-semibold text-slate-800 dark:text-gray-200">
-                        <span class="text-sky-600 dark:text-sky-400 underline underline-offset-2">Pilih file foto</span> atau tarik & lepas ke sini
+                        <span class="text-sky-600 dark:text-sky-400 underline underline-offset-2">{{ __('Pilih file foto') }}</span> {{ __('atau tarik & lepas ke sini') }}
                     </p>
                     <p class="text-[11px] text-slate-500 dark:text-gray-400 mt-1">
-                        Format JPG, PNG, atau WebP (Maks. 5MB)
+                        {{ __('Format JPG, PNG, atau WebP (Maks. 5MB)') }}
                     </p>
                 </div>
             </div>
@@ -614,9 +614,9 @@
                         type="button" 
                         @click="editExistingPhoto('{{ $resolvedCurrentImageUrl }}')" 
                         class="px-2.5 py-1 bg-white dark:bg-gray-900 hover:bg-slate-50 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-lg text-slate-700 dark:text-gray-200 text-[11px] font-medium transition cursor-pointer shadow-2xs"
-                        title="Muat ulang foto profil aktif"
+                        title="{{ __('Muat ulang foto profil aktif') }}"
                     >
-                        Foto Aktif
+                        {{ __('Foto Aktif') }}
                     </button>
                 @endif
                 <button 
@@ -624,14 +624,14 @@
                     @click="$refs.fileInput.click()" 
                     class="px-2.5 py-1 bg-white dark:bg-gray-900 hover:bg-slate-50 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-lg text-slate-700 dark:text-gray-200 text-[11px] font-medium transition cursor-pointer shadow-2xs"
                 >
-                    Ganti File
+                    {{ __('Ganti File') }}
                 </button>
                 <button 
                     type="button" 
                     @click="clearImage()" 
                     class="px-2.5 py-1 bg-rose-50 dark:bg-rose-500/15 hover:bg-rose-100 dark:hover:bg-rose-500/25 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 rounded-lg text-[11px] font-medium transition cursor-pointer shadow-2xs"
                 >
-                    Batal
+                    {{ __('Batal') }}
                 </button>
             </div>
         </div>
@@ -650,7 +650,7 @@
                             <svg class="w-3 h-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
                             </svg>
-                            <span>Geser foto untuk menyesuaikan posisi</span>
+                            <span>{{ __('Geser foto untuk menyesuaikan posisi') }}</span>
                         </span>
                     </div>
                 </div>
@@ -664,7 +664,7 @@
                                 <svg class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                                 </svg>
-                                <span>Geser Foto (Kanan - Kiri)</span>
+                                <span>{{ __('Geser Foto (Kanan - Kiri)') }}</span>
                             </label>
                             <span class="text-[10px] text-slate-500 dark:text-gray-400 font-mono" x-text="horizontalShift > 0 ? '+' + horizontalShift : horizontalShift"></span>
                         </div>
@@ -674,7 +674,7 @@
                             <button 
                                 type="button" 
                                 @click="pan(-20, 0)" 
-                                title="Geser ke kiri"
+                                title="{{ __('Geser ke kiri') }}"
                                 class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -689,12 +689,12 @@
                                 x-model="horizontalShift" 
                                 @input="onHorizontalSliderChange($event.target.value)"
                                 class="w-full h-1.5 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-sky-600 focus:outline-none"
-                                title="Geser posisi horizontal foto"
+                                title="{{ __('Geser posisi horizontal foto') }}"
                             >
                             <button 
                                 type="button" 
                                 @click="pan(20, 0)" 
-                                title="Geser ke kanan"
+                                title="{{ __('Geser ke kanan') }}"
                                 class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -706,19 +706,19 @@
                         {{-- Tombol Geser Presisi & Pusatkan --}}
                         <div class="flex items-center justify-between gap-1 mt-2 pt-2 border-t border-slate-200/60 dark:border-gray-700 text-[11px]">
                             <div class="flex items-center gap-1">
-                                <button type="button" @click="pan(0, -15)" class="px-2 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer shadow-2xs" title="Geser ke Atas">▲ Atas</button>
-                                <button type="button" @click="pan(0, 15)" class="px-2 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer shadow-2xs" title="Geser ke Bawah">▼ Bawah</button>
+                                <button type="button" @click="pan(0, -15)" class="px-2 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer shadow-2xs" title="{{ __('Geser ke Atas') }}">▲ {{ __('Atas') }}</button>
+                                <button type="button" @click="pan(0, 15)" class="px-2 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer shadow-2xs" title="{{ __('Geser ke Bawah') }}">▼ {{ __('Bawah') }}</button>
                             </div>
                             <button 
                                 type="button" 
                                 @click="centerImage()" 
                                 class="px-2.5 py-1 bg-white dark:bg-gray-900 hover:bg-slate-100 dark:hover:bg-gray-700 border border-slate-200 dark:border-gray-600 rounded-md text-slate-700 dark:text-gray-200 font-medium transition cursor-pointer flex items-center gap-1 shadow-2xs"
-                                title="Kembalikan posisi foto ke tengah"
+                                title="{{ __('Kembalikan posisi foto ke tengah') }}"
                             >
                                 <svg class="w-3 h-3 text-slate-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
                                 </svg>
-                                <span>Pusatkan</span>
+                                <span>{{ __('Pusatkan') }}</span>
                             </button>
                         </div>
                     </div>
@@ -730,7 +730,7 @@
                                 <svg class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/>
                                 </svg>
-                                <span>Perbesar (Zoom) & Putar</span>
+                                <span>{{ __('Perbesar (Zoom) & Putar') }}</span>
                             </label>
                             <span class="text-[10px] text-slate-500 dark:text-gray-400 font-mono" x-text="zoomPercent + '%'"></span>
                         </div>
@@ -739,7 +739,7 @@
                             <button 
                                 type="button" 
                                 @click="zoomOut()" 
-                                title="Perkecil foto"
+                                title="{{ __('Perkecil foto') }}"
                                 class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -754,12 +754,12 @@
                                 :value="currentZoom" 
                                 @input="setZoomLevel($event.target.value)"
                                 class="w-full h-1.5 bg-slate-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-sky-600 focus:outline-none"
-                                title="Zoom foto"
+                                title="{{ __('Zoom foto') }}"
                             >
                             <button 
                                 type="button" 
                                 @click="zoomIn()" 
-                                title="Perbesar foto"
+                                title="{{ __('Perbesar foto') }}"
                                 class="shrink-0 p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -772,7 +772,7 @@
                                 <button 
                                     type="button" 
                                     @click="rotate(-90)" 
-                                    title="Putar 90° ke kiri"
+                                    title="{{ __('Putar 90° ke kiri') }}"
                                     class="p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                                 >
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -782,7 +782,7 @@
                                 <button 
                                     type="button" 
                                     @click="rotate(90)" 
-                                    title="Putar 90° ke kanan"
+                                    title="{{ __('Putar 90° ke kanan') }}"
                                     class="p-1.5 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-600 hover:bg-slate-100 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs transition cursor-pointer shadow-2xs"
                                 >
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -797,7 +797,7 @@
                     @if($isAvatarMode)
                         <div class="pt-2.5 border-t border-slate-200/80 dark:border-gray-700">
                             <label class="block text-[11px] font-semibold text-slate-700 dark:text-gray-200 uppercase tracking-wider mb-1.5">
-                                Bentuk Bingkai Foto Profil
+                                {{ __('Bentuk Bingkai Foto Profil') }}
                             </label>
                             <div class="grid grid-cols-2 gap-2 text-xs">
                                 <button
@@ -807,7 +807,7 @@
                                     class="p-2 border rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 text-center shadow-2xs"
                                 >
                                     <span class="w-3.5 h-3.5 rounded-full border-2 border-current"></span>
-                                    <span>Lingkaran (Bulat)</span>
+                                    <span>{{ __('Lingkaran (Bulat)') }}</span>
                                 </button>
                                 <button
                                     type="button"
@@ -816,7 +816,7 @@
                                     class="p-2 border rounded-lg transition cursor-pointer flex items-center justify-center gap-1.5 text-center shadow-2xs"
                                 >
                                     <span class="w-3.5 h-3.5 rounded-sm border-2 border-current"></span>
-                                    <span>Kotak Melengkung</span>
+                                    <span>{{ __('Kotak Melengkung') }}</span>
                                 </button>
                             </div>
                         </div>
@@ -833,7 +833,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                             </svg>
-                            <span>Gambaran Foto Profil</span>
+                            <span>{{ __('Gambaran Foto Profil') }}</span>
                         </span>
                         <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-medium bg-emerald-50 dark:bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-500/30">
                             Live Update
@@ -844,7 +844,7 @@
                         {{-- Mockup 1: Gambaran di Halaman Profil Siswa (Besar) --}}
                         <div class="p-3 bg-slate-50 dark:bg-gray-900 border border-slate-200/80 dark:border-gray-700 rounded-xl space-y-2 text-center">
                             <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-gray-400">
-                                Tampilan di Halaman Profil
+                                {{ __('Tampilan di Halaman Profil') }}
                             </p>
                             
                             {{-- Avatar Frame Mockup --}}
@@ -869,8 +869,8 @@
                             </div>
 
                             <div class="space-y-1">
-                                <p class="text-xs font-bold text-slate-900 dark:text-gray-100 truncate" x-text="avatarName || 'Nama Siswa'"></p>
-                                <p class="text-[11px] text-slate-500 dark:text-gray-400 truncate" x-text="avatarSubtitle || 'Siswa RPL • Skansaba'"></p>
+                                <p class="text-xs font-bold text-slate-900 dark:text-gray-100 truncate" x-text="avatarName || @js(__('Nama Siswa'))"></p>
+                                <p class="text-[11px] text-slate-500 dark:text-gray-400 truncate" x-text="avatarSubtitle || @js(__('Siswa RPL • Skansaba'))"></p>
                                 <template x-if="avatarSkills && avatarSkills.length > 0">
                                     <div class="flex flex-wrap items-center justify-center gap-1 pt-1">
                                         <template x-for="(skill, sIdx) in avatarSkills.slice(0, 3)" :key="sIdx">
@@ -887,7 +887,7 @@
                         {{-- Mockup 2: Gambaran di Header / Navbar & Komentar (Kecil) --}}
                         <div class="p-2.5 bg-slate-50 dark:bg-gray-900 border border-slate-200/80 dark:border-gray-700 rounded-xl space-y-1.5">
                             <p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 dark:text-gray-400">
-                                Tampilan di Bilah Menu (Ukuran Mini)
+                                {{ __('Tampilan di Bilah Menu (Ukuran Mini)') }}
                             </p>
                             <div class="flex items-center gap-2 p-1.5 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-lg shadow-2xs">
                                 <div 
@@ -902,8 +902,8 @@
                                     </template>
                                 </div>
                                 <div class="min-w-0 flex-1">
-                                    <p class="text-[11px] font-semibold text-slate-800 dark:text-gray-100 truncate" x-text="avatarName ? avatarName.split(' ')[0] : 'Siswa'"></p>
-                                    <p class="text-[10px] text-slate-400">Aktif</p>
+                                    <p class="text-[11px] font-semibold text-slate-800 dark:text-gray-100 truncate" x-text="avatarName ? avatarName.split(' ')[0] : @js(__('Siswa'))"></p>
+                                    <p class="text-[10px] text-slate-400">{{ __('Aktif') }}</p>
                                 </div>
                             </div>
                         </div>
@@ -921,16 +921,16 @@
                     {{-- Info Spesifikasi Output --}}
                     <div class="p-2.5 bg-slate-50 dark:bg-gray-900 rounded-lg border border-slate-200 dark:border-gray-700 space-y-1 text-[11px] text-slate-600 dark:text-gray-300">
                         <div class="flex items-center justify-between">
-                            <span class="text-slate-500 dark:text-gray-400">Resolusi Output:</span>
+                            <span class="text-slate-500 dark:text-gray-400">{{ __('Resolusi Output:') }}</span>
                             <span class="font-mono font-medium text-slate-800 dark:text-gray-100">{{ $resolvedMaxWidth }} × {{ $resolvedMaxHeight }} px</span>
                         </div>
                         <div class="flex items-center justify-between">
-                            <span class="text-slate-500 dark:text-gray-400">Format Simpan:</span>
+                            <span class="text-slate-500 dark:text-gray-400">{{ __('Format Simpan:') }}</span>
                             <span class="font-medium text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span>WebP Optimal</span>
+                                <span>{{ __('WebP Optimal') }}</span>
                             </span>
                         </div>
                     </div>

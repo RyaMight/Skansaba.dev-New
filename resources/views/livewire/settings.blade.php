@@ -25,9 +25,9 @@
                 </svg>
             </div>
             <div>
-                <h3 class="text-sm font-bold" style="color: #000000 !important;">Password Anda Masih Default</h3>
+                <h3 class="text-sm font-bold" style="color: #000000 !important;">{{ __('Password Anda Masih Default') }}</h3>
                 <p class="text-xs mt-0.5 leading-relaxed" style="color: #000000 !important;">
-                    Demi keamanan akun dan portofolio karya Anda, segera ganti password bawaan sekolah (<code class="px-1.5 py-0.5 rounded font-mono font-bold border" style="background-color: #fde68a !important; color: #000000 !important; border-color: #f59e0b !important;">{{ \App\Models\User::DEFAULT_SISWA_PASSWORD }}</code>) menggunakan formulir di bawah ini.
+                    {!! __('Demi keamanan akun dan portofolio karya Anda, segera ganti password bawaan sekolah (:code) menggunakan formulir di bawah ini.', ['code' => '<code class="px-1.5 py-0.5 rounded font-mono font-bold border" style="background-color: #fde68a !important; color: #000000 !important; border-color: #f59e0b !important;">' . \App\Models\User::DEFAULT_SISWA_PASSWORD . '</code>']) !!}
                 </p>
             </div>
         </div>
@@ -35,13 +35,13 @@
 
     {{-- Page Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">Pengaturan</h1>
-        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Kelola akun dan keamanan Anda di sini.</p>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">{{ __('Pengaturan') }}</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Kelola akun dan keamanan Anda di sini.') }}</p>
     </div>
 
     {{-- Info Akun --}}
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
-        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">Informasi Akun</h2>
+        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">{{ __('Informasi Akun') }}</h2>
         <div class="flex items-center gap-4">
             @if($user->photo_url)
                 <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700">
@@ -67,13 +67,13 @@
 
     {{-- Ubah Password --}}
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
-        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-1">Ubah Password</h2>
-        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">Gunakan password minimal 8 karakter yang kuat dan mudah Anda ingat.</p>
+        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-1">{{ __('Ubah Password') }}</h2>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">{{ __('Gunakan password minimal 8 karakter yang kuat dan mudah Anda ingat.') }}</p>
 
         <form wire:submit.prevent="updateUserPassword" class="space-y-4">
             {{-- Password Saat Ini --}}
             <div>
-                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Password Saat Ini</label>
+                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">{{ __('Password Saat Ini') }}</label>
                 <div class="relative" x-data="{ show: false }">
                     <input 
                         type="password" 
@@ -81,7 +81,7 @@
                         :type="show ? 'text' : 'password'"
                         wire:model="current_password" 
                         class="w-full px-3 py-2 pr-10 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
-                        placeholder="Masukkan password saat ini"
+                        placeholder="{{ __('Masukkan password saat ini') }}"
                         autocomplete="current-password"
                     >
                     <button 
@@ -105,7 +105,7 @@
 
             {{-- Password Baru --}}
             <div>
-                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Password Baru</label>
+                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">{{ __('Password Baru') }}</label>
                 <div class="relative" x-data="{ show: false }">
                     <input 
                         type="password" 
@@ -113,7 +113,7 @@
                         :type="show ? 'text' : 'password'"
                         wire:model="password" 
                         class="w-full px-3 py-2 pr-10 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
-                        placeholder="Minimal 8 karakter (bukan password default)"
+                        placeholder="{{ __('Minimal 8 karakter (bukan password default)') }}"
                         autocomplete="new-password"
                     >
                     <button 
@@ -137,7 +137,7 @@
 
             {{-- Konfirmasi Password --}}
             <div>
-                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Konfirmasi Password Baru</label>
+                <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">{{ __('Konfirmasi Password Baru') }}</label>
                 <div class="relative" x-data="{ show: false }">
                     <input 
                         type="password" 
@@ -145,7 +145,7 @@
                         :type="show ? 'text' : 'password'"
                         wire:model="password_confirmation" 
                         class="w-full px-3 py-2 pr-10 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none" 
-                        placeholder="Ulangi password baru"
+                        placeholder="{{ __('Ulangi password baru') }}"
                         autocomplete="new-password"
                     >
                     <button 
@@ -174,14 +174,14 @@
                     class="px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-sm font-semibold transition cursor-pointer flex items-center gap-2 disabled:opacity-50"
                 >
                     <span wire:loading wire:target="updateUserPassword" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full"></span>
-                    Simpan Password
+                    {{ __('Simpan Password') }}
                 </button>
                 <button 
                     type="button" 
                     wire:click="$refresh" 
                     class="ml-2 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg text-sm hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
                 >
-                    Reset
+                    {{ __('Reset') }}
                 </button>
             </div>
         </form>

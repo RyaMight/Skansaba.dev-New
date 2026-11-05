@@ -3,8 +3,8 @@
         {{-- Header --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50 tracking-tight">Verifikasi Karya Siswa</h1>
-                <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">Kurasi karya siswa, validasi orisinalitas, dan berikan 1 tag keahlian terverifikasi untuk akun siswa.</p>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50 tracking-tight">{{ __('Verifikasi Karya Siswa') }}</h1>
+                <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">{{ __('Kurasi karya siswa, validasi orisinalitas, dan berikan 1 tag keahlian terverifikasi untuk akun siswa.') }}</p>
             </div>
             <div class="flex items-center gap-3">
                 <a 
@@ -15,7 +15,7 @@
                     <svg class="w-4 h-4 text-slate-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
-                    Kelola Akun Siswa RPL
+                    {{ __('Kelola Akun Siswa RPL') }}
                 </a>
             </div>
         </div>
@@ -27,14 +27,14 @@
                     <svg class="w-5 h-5 text-sky-600 dark:text-sky-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                     </svg>
-                    <span>Menampilkan pengajuan karya khusus untuk siswa yang dipilih.</span>
+                    <span>{{ __('Menampilkan pengajuan karya khusus untuk siswa yang dipilih.') }}</span>
                 </div>
                 <button 
                     type="button" 
                     wire:click="clearUserFilter" 
                     class="text-xs font-semibold text-sky-700 dark:text-sky-300 hover:text-sky-900 dark:hover:text-sky-100 underline"
                 >
-                    Tampilkan Semua Siswa
+                    {{ __('Tampilkan Semua Siswa') }}
                 </button>
             </div>
         @endif
@@ -69,15 +69,15 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                 </div>
-                <h3 class="text-base font-semibold text-slate-900 dark:text-gray-50">Tidak ada karya yang menunggu verifikasi</h3>
-                <p class="text-sm text-slate-500 dark:text-gray-400 mt-1 max-w-md mx-auto">Semua pengajuan karya siswa saat ini telah dikurasi. Bila siswa mengirim pengajuan baru, notifikasi tanda seru akan muncul di menu.</p>
+                <h3 class="text-base font-semibold text-slate-900 dark:text-gray-50">{{ __('Tidak ada karya yang menunggu verifikasi') }}</h3>
+                <p class="text-sm text-slate-500 dark:text-gray-400 mt-1 max-w-md mx-auto">{{ __('Semua pengajuan karya siswa saat ini telah dikurasi. Bila siswa mengirim pengajuan baru, notifikasi tanda seru akan muncul di menu.') }}</p>
                 @if($userId)
                     <button 
                         type="button" 
                         wire:click="clearUserFilter" 
                         class="mt-4 inline-flex items-center text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-800"
                     >
-                        ← Lihat pengajuan siswa lainnya
+                        ← {{ __('Lihat pengajuan siswa lainnya') }}
                     </button>
                 @endif
             </div>
@@ -97,7 +97,7 @@
                                                 <svg class="w-10 h-10 stroke-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                                 </svg>
-                                                <span class="text-xs mt-1">Tanpa cover</span>
+                                                <span class="text-xs mt-1">{{ __('Tanpa cover') }}</span>
                                             </div>
                                         @endif
 
@@ -110,7 +110,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             </svg>
-                                            Buka Preview Penuh
+                                            {{ __('Buka Preview Penuh') }}
                                         </button>
                                     </div>
 
@@ -130,7 +130,7 @@
                                     {{-- Bukti Berkas --}}
                                     @if(count($karya->bukti ?? []) > 0)
                                         <div class="mt-4 pt-3 border-t border-slate-200/60 dark:border-gray-700">
-                                            <p class="text-[10px] font-semibold text-slate-400 dark:text-gray-400 uppercase tracking-wider mb-1.5">Bukti Validasi ({{ count($karya->bukti) }})</p>
+                                            <p class="text-[10px] font-semibold text-slate-400 dark:text-gray-400 uppercase tracking-wider mb-1.5">{{ __('Bukti Validasi') }} ({{ count($karya->bukti) }})</p>
                                             <div class="flex flex-wrap gap-1.5">
                                                 @foreach($karya->bukti as $bukti)
                                                     <a href="{{ \Illuminate\Support\Facades\Storage::url($bukti) }}" target="_blank"
@@ -154,7 +154,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                         </svg>
-                                        Lihat Preview Lengkap
+                                        {{ __('Lihat Preview Lengkap') }}
                                     </button>
                                 </div>
                             </div>
@@ -166,7 +166,7 @@
                                         <div class="min-w-0">
                                             <div class="flex items-center gap-2 mb-1">
                                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30">
-                                                    Menunggu Verifikasi
+                                                    {{ __('Menunggu Verifikasi') }}
                                                 </span>
                                                 @if($karya->kategori)
                                                     <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300">
@@ -180,7 +180,7 @@
                                                 <span>•</span>
                                                 <span>{{ $karya->kelas }}</span>
                                                 <span>•</span>
-                                                <span>Diajukan {{ $karya->updated_at->diffForHumans() }}</span>
+                                                <span>{{ __('Diajukan') }} {{ $karya->updated_at->diffForHumans() }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -191,13 +191,13 @@
                                             @if($karya->url_demo)
                                                 <a href="{{ $karya->url_demo }}" target="_blank" class="inline-flex items-center gap-1 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-800">
                                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                                    Live Demo
+                                                    {{ __('Live Demo') }}
                                                 </a>
                                             @endif
                                             @if($karya->url_repo)
                                                 <a href="{{ $karya->url_repo }}" target="_blank" class="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 dark:text-gray-300 hover:text-slate-900 dark:hover:text-white">
                                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                                                    Source Code Repository
+                                                    {{ __('Source Code Repository') }}
                                                 </a>
                                             @endif
                                         </div>
@@ -217,9 +217,9 @@
                                     <div class="mt-5">
                                         <div class="flex items-center justify-between mb-2">
                                             <label class="text-xs font-semibold text-slate-800 dark:text-gray-100 uppercase tracking-wider">
-                                                Beri Tag Keahlian Siswa <span class="text-rose-500 font-bold">*</span>
+                                                {{ __('Beri Tag Keahlian Siswa') }} <span class="text-rose-500 font-bold">*</span>
                                             </label>
-                                            <span class="text-[11px] text-slate-500 dark:text-gray-400">Tag ini akan diberikan ke akun siswa</span>
+                                            <span class="text-[11px] text-slate-500 dark:text-gray-400">{{ __('Tag ini akan diberikan ke akun siswa') }}</span>
                                         </div>
                                         <div class="flex flex-wrap gap-1.5">
                                             @foreach(\App\Livewire\KaryaSiswaVerifikasi::TAG_PRESETS as $tag)
@@ -249,11 +249,14 @@
                                                 <svg class="w-3.5 h-3.5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
-                                                <span>Saat disetujui, tag <strong>{{ $selectedTag[$karya->id] }}</strong> akan diberikan ke profil <strong>{{ $karya->nama_siswa }}</strong>.</span>
+                                                <span>{!! __('Saat disetujui, tag :tag akan diberikan ke profil :nama.', [
+                                                    'tag' => '<strong>' . e($selectedTag[$karya->id]) . '</strong>',
+                                                    'nama' => '<strong>' . e($karya->nama_siswa) . '</strong>'
+                                                ]) !!}</span>
                                             </p>
                                         @else
                                             <p class="text-[11px] text-amber-600 dark:text-amber-400 mt-2">
-                                                Pilih tag di atas untuk diberikan ke akun siswa ini.
+                                                {{ __('Pilih tag di atas untuk diberikan ke akun siswa ini.') }}
                                             </p>
                                         @endif
                                     </div>
@@ -266,7 +269,7 @@
                                         wire:click="openRejectModal({{ $karya->id }})"
                                         class="px-4 py-2 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-semibold hover:bg-slate-50 dark:hover:bg-gray-800 hover:border-slate-400 transition"
                                     >
-                                        Tolak / Minta Revisi
+                                        {{ __('Tolak / Minta Revisi') }}
                                     </button>
                                     <button
                                         type="button"
@@ -276,7 +279,7 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                                         </svg>
-                                        Setujui & Publikasikan
+                                        {{ __('Setujui & Publikasikan') }}
                                     </button>
                                 </div>
                             </div>
@@ -304,32 +307,32 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">Konfirmasi Publikasi Karya</h3>
-                        <p class="text-xs text-slate-500 dark:text-gray-400">Verifikasi keaslian portofolio siswa</p>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Konfirmasi Publikasi Karya') }}</h3>
+                        <p class="text-xs text-slate-500 dark:text-gray-400">{{ __('Verifikasi keaslian portofolio siswa') }}</p>
                     </div>
                 </div>
 
                 <p class="text-sm text-slate-700 dark:text-gray-300 mb-4 leading-relaxed">
-                    Apakah Anda yakin karya ini asli dan memenuhi standar untuk dipublikasikan ke halaman publik?
+                    {{ __('Apakah Anda yakin karya ini asli dan memenuhi standar untuk dipublikasikan ke halaman publik?') }}
                 </p>
 
                 <div class="p-3.5 bg-slate-50 dark:bg-gray-800 border border-slate-200/80 dark:border-gray-700 rounded-xl text-xs space-y-2 mb-5">
                     <div class="flex justify-between">
-                        <span class="text-slate-500 dark:text-gray-400">Judul Karya:</span>
+                        <span class="text-slate-500 dark:text-gray-400">{{ __('Judul Karya:') }}</span>
                         <span class="font-semibold text-slate-800 dark:text-gray-100 text-right max-w-[200px] truncate">{{ $karyaApprove?->judul }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span class="text-slate-500 dark:text-gray-400">Siswa Pembuat:</span>
+                        <span class="text-slate-500 dark:text-gray-400">{{ __('Siswa Pembuat:') }}</span>
                         <span class="font-medium text-slate-800 dark:text-gray-100">{{ $karyaApprove?->nama_siswa }} ({{ $karyaApprove?->kelas }})</span>
                     </div>
                     <div class="flex justify-between items-center pt-1 border-t border-slate-200/60 dark:border-gray-700">
-                        <span class="text-slate-500 dark:text-gray-400">Tag yang Diberikan:</span>
+                        <span class="text-slate-500 dark:text-gray-400">{{ __('Tag yang Diberikan:') }}</span>
                         @if($chosenTag)
                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                                 + {{ $chosenTag }}
                             </span>
                         @else
-                            <span class="text-slate-400 dark:text-gray-500 italic">Tanpa tag tambahan</span>
+                            <span class="text-slate-400 dark:text-gray-500 italic">{{ __('Tanpa tag tambahan') }}</span>
                         @endif
                     </div>
                 </div>
@@ -340,7 +343,7 @@
                         wire:click="closeApproveModal" 
                         class="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition"
                     >
-                        Batal
+                        {{ __('Batal') }}
                     </button>
                     <button
                         type="button"
@@ -349,8 +352,8 @@
                         wire:target="confirmApprove"
                         class="px-5 py-2 text-xs font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
                     >
-                        <span wire:loading.remove wire:target="confirmApprove">Ya, Setujui & Publikasikan</span>
-                        <span wire:loading wire:target="confirmApprove">Memproses...</span>
+                        <span wire:loading.remove wire:target="confirmApprove">{{ __('Ya, Setujui & Publikasikan') }}</span>
+                        <span wire:loading wire:target="confirmApprove">{{ __('Memproses...') }}</span>
                     </button>
                 </div>
             </div>
@@ -369,7 +372,7 @@
                 {{-- Modal Header --}}
                 <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/50">
                     <div>
-                        <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">Preview Portofolio</span>
+                        <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">{{ __('Preview Portofolio') }}</span>
                         <h3 class="text-base font-bold text-slate-900 dark:text-gray-50 truncate max-w-lg">{{ $previewItem?->judul }}</h3>
                     </div>
                     <button 
@@ -395,19 +398,19 @@
                     {{-- Meta Info --}}
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 p-4 bg-slate-50 dark:bg-gray-800 rounded-xl border border-slate-200/80 dark:border-gray-700 text-xs">
                         <div>
-                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">Pembuat</span>
+                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">{{ __('Pembuat') }}</span>
                             <span class="font-semibold text-slate-800 dark:text-gray-100">{{ $previewItem?->nama_siswa }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">Kelas</span>
+                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">{{ __('Kelas') }}</span>
                             <span class="font-semibold text-slate-800 dark:text-gray-100">{{ $previewItem?->kelas ?? '-' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">Tahun Proyek</span>
+                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">{{ __('Tahun Proyek') }}</span>
                             <span class="font-semibold text-slate-800 dark:text-gray-100">{{ $previewItem?->tahun ?? '-' }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">Kategori</span>
+                            <span class="text-slate-400 dark:text-gray-400 block mb-0.5">{{ __('Kategori') }}</span>
                             <span class="font-semibold text-slate-800 dark:text-gray-100">{{ ucfirst($previewItem?->kategori ?? '-') }}</span>
                         </div>
                     </div>
@@ -417,12 +420,12 @@
                         <div class="flex flex-wrap gap-3">
                             @if($previewItem->url_demo)
                                 <a href="{{ $previewItem->url_demo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 rounded-lg text-xs font-semibold hover:bg-sky-100 dark:hover:bg-sky-500/30">
-                                    🔗 Buka Live Demo ↗
+                                    🔗 {{ __('Buka Live Demo ↗') }}
                                 </a>
                             @endif
                             @if($previewItem->url_repo)
                                 <a href="{{ $previewItem->url_repo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-200 border border-slate-200 dark:border-gray-700 rounded-lg text-xs font-semibold hover:bg-slate-200 dark:hover:bg-gray-700">
-                                    📦 Repositori Kode ↗
+                                    📦 {{ __('Repositori Kode ↗') }}
                                 </a>
                             @endif
                         </div>
@@ -430,7 +433,7 @@
 
                     {{-- Deskripsi Konten Lengkap --}}
                     <div>
-                        <h4 class="text-xs font-bold text-slate-900 dark:text-gray-50 uppercase tracking-wider mb-2">Deskripsi Proyek</h4>
+                        <h4 class="text-xs font-bold text-slate-900 dark:text-gray-50 uppercase tracking-wider mb-2">{{ __('Deskripsi Proyek') }}</h4>
                         <div class="prose prose-sm max-w-none p-4 rounded-xl border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800/60">
                             {!! $previewItem?->deskripsi_html !!}
                         </div>
@@ -439,7 +442,7 @@
                     {{-- Screenshots Lengkap --}}
                     @if(count($previewItem?->screenshots ?? []) > 0)
                         <div>
-                            <h4 class="text-xs font-bold text-slate-900 dark:text-gray-50 uppercase tracking-wider mb-2">Tangkapan Layar (Screenshots)</h4>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-gray-50 uppercase tracking-wider mb-2">{{ __('Tangkapan Layar (Screenshots)') }}</h4>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                                 @foreach($previewItem->screenshots as $s)
                                     <a href="{{ \Illuminate\Support\Facades\Storage::url($s) }}" target="_blank" class="aspect-video rounded-lg overflow-hidden border border-slate-200 dark:border-gray-700 bg-slate-50 dark:bg-gray-800 hover:opacity-90">
@@ -453,12 +456,12 @@
                     {{-- Berkas Bukti --}}
                     @if(count($previewItem?->bukti ?? []) > 0)
                         <div>
-                            <h4 class="text-xs font-bold text-slate-900 dark:text-gray-50 uppercase tracking-wider mb-2">Berkas Bukti Orisinalitas</h4>
+                            <h4 class="text-xs font-bold text-slate-900 dark:text-gray-50 uppercase tracking-wider mb-2">{{ __('Berkas Bukti Orisinalitas') }}</h4>
                             <div class="space-y-1.5">
                                 @foreach($previewItem->bukti as $b)
                                     <a href="{{ \Illuminate\Support\Facades\Storage::url($b) }}" target="_blank" class="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-lg text-xs text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-700">
                                         <span class="truncate">{{ basename($b) }}</span>
-                                        <span class="text-sky-600 dark:text-sky-400 font-medium shrink-0 ml-2">Unduh / Buka ↗</span>
+                                        <span class="text-sky-600 dark:text-sky-400 font-medium shrink-0 ml-2">{{ __('Unduh / Buka ↗') }}</span>
                                     </a>
                                 @endforeach
                             </div>
@@ -468,13 +471,13 @@
 
                 {{-- Modal Footer --}}
                 <div class="px-6 py-3.5 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50 flex items-center justify-between">
-                    <span class="text-xs text-slate-500 dark:text-gray-400">Status: <strong class="text-amber-600 dark:text-amber-400">Review</strong></span>
+                    <span class="text-xs text-slate-500 dark:text-gray-400">{{ __('Status') }}: <strong class="text-amber-600 dark:text-amber-400">Review</strong></span>
                     <button 
                         type="button" 
                         wire:click="closePreviewModal" 
                         class="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800 transition shadow-2xs"
                     >
-                        Tutup Preview
+                        {{ __('Tutup Preview') }}
                     </button>
                 </div>
             </div>
@@ -494,27 +497,30 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">Tolak Karya / Minta Perbaikan</h3>
-                        <p class="text-xs text-slate-500 dark:text-gray-400">Siswa akan menerima catatan ini di dashboard miliknya</p>
+                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Tolak Karya / Minta Perbaikan') }}</h3>
+                        <p class="text-xs text-slate-500 dark:text-gray-400">{{ __('Siswa akan menerima catatan ini di dashboard miliknya') }}</p>
                     </div>
                 </div>
 
                 <p class="text-xs text-slate-600 dark:text-gray-300 mb-2">
-                    Beritahukan kepada <strong>{{ $karyaDitolak?->nama_siswa }}</strong> apa yang kurang dari pengajuan <strong>"{{ $karyaDitolak?->judul }}"</strong>:
+                    {!! __('Beritahukan kepada :nama apa yang kurang dari pengajuan :judul:', [
+                        'nama' => '<strong>' . e($karyaDitolak?->nama_siswa) . '</strong>',
+                        'judul' => '<strong>"' . e($karyaDitolak?->judul) . '"</strong>'
+                    ]) !!}
                 </p>
 
                 <textarea
                     wire:model="rejectNotes.{{ $rejectingId }}"
                     rows="4"
                     maxlength="1000"
-                    placeholder="Contoh: Lampirkan link repository GitHub yang valid dan perjelas teknologi yang digunakan pada deskripsi..."
+                    placeholder="{{ __('Contoh: Lampirkan link repository GitHub yang valid dan perjelas teknologi yang digunakan pada deskripsi...') }}"
                     class="w-full px-3 py-2 text-xs bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100 border border-slate-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none"
                 ></textarea>
                 @error("rejectNotes.$rejectingId") <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
 
                 <div class="flex items-center justify-end gap-3 mt-4">
                     <button type="button" wire:click="closeRejectModal" class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800">
-                        Batal
+                        {{ __('Batal') }}
                     </button>
                     <button
                         type="button"
@@ -523,7 +529,7 @@
                         wire:target="confirmReject"
                         class="px-4 py-2 bg-rose-600 text-white rounded-lg text-xs font-semibold hover:bg-rose-700 transition disabled:opacity-60 shadow-xs"
                     >
-                        Kirim Penolakan & Kembalikan ke Draft
+                        {{ __('Kirim Penolakan & Kembalikan ke Draft') }}
                     </button>
                 </div>
             </div>

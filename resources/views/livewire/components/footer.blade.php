@@ -1,4 +1,4 @@
-<footer id="kontak" class="bg-gray-50 dark:bg-gray-950 pt-4 pb-0 px-4 sm:px-6">
+<footer id="kontak" class="bg-gray-50 dark:bg-gray-950 pt-4 pb-0 px-4 sm:px-6 notranslate">
     <div class="w-full bg-white dark:bg-gray-900 rounded-t-3xl rounded-b-none shadow-[0_2px_24px_rgba(15,23,42,0.06)] border border-gray-100 dark:border-gray-800 border-b-0">
         <div class="site-container pt-10 lg:pt-14 pb-10 lg:pb-12">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
@@ -89,41 +89,41 @@
             {{-- Menu Columns --}}
             <div class="lg:col-span-4 grid grid-cols-2 gap-8" data-reveal>
                 <div>
-                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 text-[15px]">Menu Utama</h4>
+                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 text-[15px]">{{ __('Menu Utama') }}</h4>
                     <ul class="space-y-2.5 text-sm">
-                        <li><a href="/" class="text-gray-500 dark:text-gray-400 hover-primary transition">Beranda</a></li>
-                        <li><a href="/struktur-organisasi" class="text-gray-500 dark:text-gray-400 hover-primary transition">Struktur Organisasi</a></li>
-                        <li><a href="/fasilitas" class="text-gray-500 dark:text-gray-400 hover-primary transition">Fasilitas</a></li>
-                        <li><a href="/unit-produksi" class="text-gray-500 dark:text-gray-400 hover-primary transition">Unit Produksi</a></li>
+                        <li><a href="/" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Beranda') }}</a></li>
+                        <li><a href="/struktur-organisasi" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Struktur Organisasi') }}</a></li>
+                        <li><a href="/fasilitas" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Fasilitas') }}</a></li>
+                        <li><a href="/unit-produksi" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Unit Produksi') }}</a></li>
                     </ul>
 
-                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 mt-8 text-[15px]">Siswa</h4>
+                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 mt-8 text-[15px]">{{ __('Siswa') }}</h4>
                     <ul class="space-y-2.5 text-sm">
-                        <li><a href="/prestasi" class="text-gray-500 dark:text-gray-400 hover-primary transition">Prestasi</a></li>
-                        <li><a href="/karya" class="text-gray-500 dark:text-gray-400 hover-primary transition">Karya Siswa</a></li>
-                        <li><a href="/alumni" class="text-gray-500 dark:text-gray-400 hover-primary transition">Alumni</a></li>
+                        <li><a href="/prestasi" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Prestasi') }}</a></li>
+                        <li><a href="/karya" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Karya Siswa') }}</a></li>
+                        <li><a href="/alumni" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Alumni') }}</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 text-[15px]">Informasi</h4>
+                    <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 text-[15px]">{{ __('Informasi') }}</h4>
                     <ul class="space-y-2.5 text-sm">
-                        <li><a href="/berita" class="text-gray-500 dark:text-gray-400 hover-primary transition">Berita</a></li>
-                        <li><a href="/dokumen" class="text-gray-500 dark:text-gray-400 hover-primary transition">Dokumen</a></li>
-                        <li><a href="/gallery" class="text-gray-500 dark:text-gray-400 hover-primary transition">Gallery</a></li>
+                        <li><a href="/berita" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Berita') }}</a></li>
+                        <li><a href="/dokumen" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Dokumen') }}</a></li>
+                        <li><a href="/gallery" class="text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Gallery') }}</a></li>
                     </ul>
                 </div>
             </div>
 
             {{-- Map --}}
             <div class="lg:col-span-3" data-reveal>
-                <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 text-[15px]">Lokasi Sekolah</h4>
+                <h4 class="font-bold text-gray-900 dark:text-gray-50 mb-4 text-[15px]">{{ __('Lokasi Sekolah') }}</h4>
                 @if($globalSettings->maps_url)
                     <div class="rounded-2xl overflow-hidden aspect-[4/3] border border-gray-100 dark:border-gray-800 shadow-sm maps-embed">
                         {!! $globalSettings->maps_url !!}
                     </div>
                 @else
                     <div class="rounded-2xl aspect-[4/3] border border-gray-100 dark:border-gray-800 bg-gray-50 dark:bg-gray-950 flex items-center justify-center text-sm text-gray-400 dark:text-gray-400">
-                        Peta belum tersedia
+                        {{ __('Peta belum tersedia') }}
                     </div>
                 @endif
             </div>

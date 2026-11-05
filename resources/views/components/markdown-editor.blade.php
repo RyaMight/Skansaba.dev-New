@@ -84,7 +84,7 @@
     }
 }">
     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-        {{ $label }}
+        {{ __($label) }}
         @if($required) <span class="text-red-500">*</span> @endif
     </label>
 
@@ -163,7 +163,7 @@
         wire:model.live="{{ $modelName }}"
         rows="{{ $rows }}"
         class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-b-lg focus:ring-2 focus:ring-[#12B4E0] focus:border-transparent font-mono text-sm"
-        placeholder="{{ $placeholder }}"
+        placeholder="{{ __($placeholder) }}"
         @keydown.ctrl.b.prevent="insertBold()"
         @keydown.meta.b.prevent="insertBold()"
         @keydown.ctrl.i.prevent="insertItalic()"
@@ -182,7 +182,7 @@
                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                 </svg>
-                Preview:
+                {{ __('Preview') }}:
             </p>
             <div class="prose prose-sm max-w-none" x-html="renderMarkdown(content)"></div>
         </div>

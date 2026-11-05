@@ -13,8 +13,6 @@ class StrukturOrganisasiRplSeeder extends Seeder
      */
     public function run(): void
     {
-        StrukturOrganisasiRpl::truncate();
-
-        $this->command->info('✓ Struktur Organisasi RPL seeded (0 records) - kosong sesuai skansaba.dev');
+        $this->call(StrukturOrganisasiGuruSeeder::class);
     }
 }
