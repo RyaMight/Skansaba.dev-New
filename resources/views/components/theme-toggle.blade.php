@@ -15,7 +15,6 @@
         };
         window.addEventListener('theme-changed', sync);
         document.addEventListener('livewire:navigated', sync);
-        new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     "
     @click="
         const html = document.documentElement;

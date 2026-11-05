@@ -52,7 +52,7 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-gray-50 dark:bg-gray-950 text-slate-800 dark:text-gray-100 transition-colors duration-200">
+<body class="antialiased bg-gray-50 dark:bg-gray-950 text-slate-800 dark:text-gray-100">
     <div class="flex h-screen overflow-hidden">
         @auth
             {{-- Sidebar Component --}}

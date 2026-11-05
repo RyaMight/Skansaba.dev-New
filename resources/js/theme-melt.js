@@ -25,8 +25,14 @@
             Math.max(origin.y, window.innerHeight - origin.y)
         ) * 1.1;
 
+        // Jika user mengaktifkan reduced motion, langsung ganti tanpa animasi berat
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            applyCallback();
+            return;
+        }
+
         // View Transitions API (Chrome 111+, Edge) — reveal lingkaran
-        // mulus dari titik tombol, native & sangat halus.
+        // mulus dari titik tombol, native & sangat responsif (320ms).
         if (document.startViewTransition) {
             const vt = document.startViewTransition(() => {
                 applyCallback();
@@ -41,8 +47,8 @@
                         ],
                     },
                     {
-                        duration: 650,
-                        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                        duration: 320,
+                        easing: "cubic-bezier(0.16, 1, 0.3, 1)",
                         pseudoElement: "::view-transition-new(root)",
                     }
                 );
@@ -57,6 +63,6 @@
         // Fallback: crossfade lembut (Firefox/Safari)
         html.classList.add("theme-transition");
         applyCallback();
-        setTimeout(() => html.classList.remove("theme-transition"), 450);
+        setTimeout(() => html.classList.remove("theme-transition"), 250);
     };
 })();

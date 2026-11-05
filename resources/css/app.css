@@ -8,10 +8,14 @@
    agar bisa dikendalikan tombol toggle + tersimpan di localStorage. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Transisi tema halus (fallback / theme-transition class) */
+/* Transisi tema halus (fallback jika View Transitions API tidak didukung) */
 html.theme-transition,
-html.theme-transition * {
-    transition: background-color 400ms ease, border-color 400ms ease, color 400ms ease !important;
+html.theme-transition body,
+html.theme-transition header,
+html.theme-transition nav,
+html.theme-transition main,
+html.theme-transition footer {
+    transition: background-color 250ms ease, border-color 250ms ease, color 250ms ease !important;
 }
 
 /* View Transitions API: reveal lingkaran dari tombol toggle */
