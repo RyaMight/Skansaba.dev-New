@@ -12,8 +12,11 @@
 
     {{-- Favicon --}}
     @if($globalSettings->favicon_url)
-        <link rel="icon" type="image/x-icon" href="{{ $globalSettings->favicon_url }}">
+        <link rel="icon" type="image/webp" href="{{ $globalSettings->favicon_url }}?v={{ file_exists(public_path('storage/' . $globalSettings->favicon)) ? filemtime(public_path('storage/' . $globalSettings->favicon)) : '2' }}">
     @endif
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}?v=2">
     
     {{-- SEO Meta Tags --}}
     <meta name="description" content="{{ $globalSettings->site_tagline ?? 'Sistem Manajemen Konten Jurusan RPL' }}">

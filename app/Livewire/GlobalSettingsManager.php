@@ -213,7 +213,10 @@ class GlobalSettingsManager extends Component
                 $this->new_favicon,
                 'logos',
                 [
-                    'resize' => [64, 64],
+                    'crop' => true,
+                    'width' => 128,
+                    'height' => 128,
+                    'crop_position' => 'center',
                     'compress' => true,
                     'webp' => true,
                 ]

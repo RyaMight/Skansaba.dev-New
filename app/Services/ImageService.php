@@ -329,6 +329,16 @@ class ImageService
             
             $image = $this->resize($image, $width ?? $image->width(), $height, $maintainAspectRatio);
         }
+        // Apply resize array [width, height] directly
+        elseif (isset($options['resize']) && is_array($options['resize'])) {
+            $width = $options['resize'][0] ?? null;
+            $height = $options['resize'][1] ?? null;
+            $maintainAspectRatio = $options['maintain_aspect_ratio'] ?? true;
+            
+            if ($width || $height) {
+                $image = $this->resize($image, $width ?? $image->width(), $height, $maintainAspectRatio);
+            }
+        }
 
         return $image;
     }

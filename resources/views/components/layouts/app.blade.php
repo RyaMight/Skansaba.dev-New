@@ -1,3 +1,6 @@
+@php
+    $globalSettings = $globalSettings ?? App\Models\GlobalSetting::instance();
+@endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -6,6 +9,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <title>{{ $title ?? 'CMS Jurusan RPL' }}</title>
+
+    {{-- Favicon --}}
+    @if($globalSettings->favicon_url)
+        <link rel="icon" type="image/webp" href="{{ $globalSettings->favicon_url }}?v={{ file_exists(public_path('storage/' . $globalSettings->favicon)) ? filemtime(public_path('storage/' . $globalSettings->favicon)) : '2' }}">
+    @endif
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}?v=2">
 
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
