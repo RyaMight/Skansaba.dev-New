@@ -8,10 +8,29 @@
    agar bisa dikendalikan tombol toggle + tersimpan di localStorage. */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Transisi halus saat ganti tema */
+/* Transisi tema halus (fallback jika View Transitions API tidak didukung) */
 html.theme-transition,
-html.theme-transition * {
-    transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease !important;
+html.theme-transition body,
+html.theme-transition header,
+html.theme-transition nav,
+html.theme-transition main,
+html.theme-transition footer {
+    transition: background-color 250ms ease, border-color 250ms ease, color 250ms ease !important;
+}
+
+/* View Transitions API: reveal lingkaran dari tombol toggle */
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+    z-index: 1;
+}
+
+::view-transition-new(root) {
+    z-index: 9999;
 }
 
 /* ============================================
@@ -448,6 +467,7 @@ html.theme-transition * {
 
 /* Sembunyikan elemen Alpine.js sebelum di-init (cegah flash) */
 [x-cloak] { display: none !important; }
+
 
 /* ============================================
    Theme Switch Button (Dark/Light Toggle)

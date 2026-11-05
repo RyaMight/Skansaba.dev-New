@@ -3,6 +3,7 @@
 
 // Import Croppie for image cropping component
 import Croppie from "croppie";
+import "./theme-melt";
 
 // Make Croppie globally available for Alpine components
 window.Croppie = Croppie;

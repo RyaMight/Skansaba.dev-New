@@ -1,9 +1,7 @@
 {{--
     Toggle Dark/Light Mode — replika uiverse "slippery-ape-47" (ZenonAiden):
     tombol lingkaran berisi ikon bulan/matahari yang berputar + scale saat berganti.
-    - Mode terang: lingkaran terang (#e8e8e8) berisi bulan gelap, sedikit translate.
-    - Mode gelap: lingkaran gelap (#212121) berisi matahari terang, translate berlawanan.
-    Terhubung ke script theme-init di layouts (localStorage 'theme').
+    Transisi tema pakai efek reveal lingkaran dari tombol (theme-melt.js).
     Pemakaian: <x-theme-toggle />
 --}}
 <button
@@ -17,22 +15,22 @@
         };
         window.addEventListener('theme-changed', sync);
         document.addEventListener('livewire:navigated', sync);
-        new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     "
     @click="
         const html = document.documentElement;
         const nextDark = !html.classList.contains('dark');
         localStorage.setItem('theme', nextDark ? 'dark' : 'light');
-        html.classList.add('theme-transition');
-        if (window.applyTheme) {
-            dark = window.applyTheme();
-        } else {
+        const apply = () => {
             dark = html.classList.toggle('dark', nextDark);
             html.style.colorScheme = dark ? 'dark' : 'light';
+            $el.setAttribute('aria-checked', dark ? 'true' : 'false');
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark } }));
+        };
+        if (window.playThemeWave) {
+            window.playThemeWave(nextDark, apply);
+        } else {
+            apply();
         }
-        $el.setAttribute('aria-checked', dark ? 'true' : 'false');
-        window.dispatchEvent(new CustomEvent('theme-changed', { detail: { dark } }));
-        setTimeout(() => html.classList.remove('theme-transition'), 350);
     "
     @keydown.space.prevent="$el.click()"
     type="button"
