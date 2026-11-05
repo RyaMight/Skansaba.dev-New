@@ -53,136 +53,6 @@ class KaryaSiswaPublic extends Component
         $this->resetPage();
     }
 
-    /**
-     * Data dummy karya siswa yang dipertahankan sebagai katalog pelengkap
-     * di samping karya siswa asli yang dipublikasikan dari database.
-     */
-    protected function getBaseDummyKaryas(): array
-    {
-        return [
-            [
-                'judul' => 'Sistem Informasi Perpustakaan',
-                'siswa' => 'Alief Saktiawan Prananda',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Web Development',
-                'teknologi' => ['Laravel', 'Tailwind CSS', 'MySQL'],
-                'deskripsi' => 'Sistem manajemen sirkulasi buku, katalog digital, dan peminjaman terintegrasi kartu anggota sekolah.',
-                'tahun' => 2026,
-                'icon' => 'book',
-            ],
-            [
-                'judul' => 'Aplikasi Kasir UMKM',
-                'siswa' => 'Azka Chirza Saifani Chasan',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Desktop & POS',
-                'teknologi' => ['C#', '.NET', 'SQL Server'],
-                'deskripsi' => 'Aplikasi Point of Sale (POS) dengan fitur cetak struk termal, manajemen inventaris, dan rekap laba rugi harian.',
-                'tahun' => 2026,
-                'icon' => 'receipt',
-            ],
-            [
-                'judul' => 'Game Edukasi Matematika',
-                'siswa' => 'Dafa Fadhila Dzikri',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Game & Simulasi',
-                'teknologi' => ['Unity', 'C#', '2D Physics'],
-                'deskripsi' => 'Permainan interaktif berbasis petualangan untuk melatih logika berhitung dan pemecahan soal aritmatika siswa.',
-                'tahun' => 2026,
-                'icon' => 'gamepad',
-            ],
-            [
-                'judul' => 'Portal Akademik & Profil Sekolah',
-                'siswa' => 'Dafa Muhammad Sulistyo',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Web Development',
-                'teknologi' => ['Laravel', 'Livewire', 'Alpine.js'],
-                'deskripsi' => 'Portal informasi akademik, pengumuman kegiatan, dan direktori prestasi siswa berbasis CMS modern.',
-                'tahun' => 2026,
-                'icon' => 'building',
-            ],
-            [
-                'judul' => 'Dashboard IoT Smart Home',
-                'siswa' => 'Dini Nur Meilia',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'IoT & Embedded',
-                'teknologi' => ['ESP32', 'MQTT', 'Vue.js'],
-                'deskripsi' => 'Panel pemantauan suhu ruangan, kelembapan, dan kendali sakelar lampu jarak jauh secara real-time.',
-                'tahun' => 2026,
-                'icon' => 'cpu',
-            ],
-            [
-                'judul' => 'Asisten Chatbot Panduan Siswa',
-                'siswa' => 'Fahrezy Ramadinansya',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'AI & Otomasi',
-                'teknologi' => ['Python', 'FastAPI', 'NLP'],
-                'deskripsi' => 'Layanan tanya-jawab otomatis seputar jadwal pelajaran, tata tertib, dan informasi administrasi sekolah.',
-                'tahun' => 2026,
-                'icon' => 'sparkles',
-            ],
-            [
-                'judul' => 'Aplikasi Presensi QR Geolocation',
-                'siswa' => 'Fairuz Adam Rizqulah',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Mobile Development',
-                'teknologi' => ['Flutter', 'Dart', 'REST API'],
-                'deskripsi' => 'Aplikasi presensi kehadiran siswa menggunakan pemindaian kode QR dinamis dan validasi titik koordinat.',
-                'tahun' => 2026,
-                'icon' => 'qrcode',
-            ],
-            [
-                'judul' => 'Sistem Monitoring Parkir Cerdas',
-                'siswa' => 'Faiz Ibnu Majid',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'IoT & Embedded',
-                'teknologi' => ['Arduino', 'Node.js', 'WebSocket'],
-                'deskripsi' => 'Deteksi ketersediaan slot parkir kendaraan di lingkungan sekolah menggunakan sensor ultrasonik.',
-                'tahun' => 2026,
-                'icon' => 'sensor',
-            ],
-            [
-                'judul' => 'Marketplace Koperasi & Produk Siswa',
-                'siswa' => 'Fandy Miftakhul Zanuar',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Web Development',
-                'teknologi' => ['Laravel', 'Tailwind CSS', 'Midtrans'],
-                'deskripsi' => 'Platform jual-beli karya kreatif dan produk kewirausahaan siswa antar jurusan di SMKN 1 Bantul.',
-                'tahun' => 2026,
-                'icon' => 'cart',
-            ],
-            [
-                'judul' => 'Deteksi Penyakit Daun Tanaman',
-                'siswa' => 'Kalis Lintang Pradipta',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'AI & Otomasi',
-                'teknologi' => ['Python', 'TensorFlow', 'React'],
-                'deskripsi' => 'Klasifikasi citra daun tanaman untuk mendeteksi gejala penyakit dini beserta rekomendasi penanganan.',
-                'tahun' => 2026,
-                'icon' => 'leaf',
-            ],
-            [
-                'judul' => 'Portal Berita & Majalah Dinding Digital',
-                'siswa' => 'Khansa Maysun Zuhayr',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Web Development',
-                'teknologi' => ['Next.js', 'TypeScript', 'PostgreSQL'],
-                'deskripsi' => 'Media publikasi artikel jurnalistik, liputan kegiatan, dan karya tulis siswa dengan editor markdown.',
-                'tahun' => 2026,
-                'icon' => 'newspaper',
-            ],
-            [
-                'judul' => 'Media Pembelajaran Algoritma Interaktif',
-                'siswa' => 'Kusumastuti Endah Retnadi',
-                'kelas' => 'XI RPL 1',
-                'kategori' => 'Desktop & POS',
-                'teknologi' => ['Electron', 'JavaScript', 'Canvas API'],
-                'deskripsi' => 'Visualisasi langkah demi langkah algoritma pengurutan (sorting) dan struktur data untuk siswa kelas X.',
-                'tahun' => 2026,
-                'icon' => 'code',
-            ],
-        ];
-    }
-
     public function render()
     {
         $searchTerm = trim($this->search);
@@ -208,45 +78,16 @@ class KaryaSiswaPublic extends Component
             ->orderByDesc('id')
             ->get();
 
-        // 2. Karya Dummy Pelengkap (dipertahankan, difilter juga dengan search & kategori, tanpa duplikasi judul)
-        $publishedTitles = $karyas->pluck('judul')->map(fn ($t) => mb_strtolower(trim($t)))->all();
-
-        $dummyKaryas = collect($this->getBaseDummyKaryas())
-            ->reject(fn (array $item) => in_array(mb_strtolower(trim($item['judul'])), $publishedTitles, true))
-            ->when($searchTerm !== '', function ($collection) use ($searchTerm) {
-                $needle = mb_strtolower($searchTerm);
-                return $collection->filter(function (array $item) use ($needle) {
-                    $haystack = mb_strtolower(implode(' ', [
-                        $item['judul'],
-                        $item['siswa'],
-                        $item['kategori'],
-                        $item['deskripsi'],
-                        implode(' ', $item['teknologi'] ?? []),
-                    ]));
-                    return str_contains($haystack, $needle);
-                });
-            })
-            ->when($this->filterKategori !== '', function ($collection) {
-                return $collection->where('kategori', $this->filterKategori);
-            })
-            ->values();
-
-        // Kategori unik gabungan (Data Asli + Dummy) untuk filter
-        $dbCategories = KaryaSiswa::where('status', 'published')
+        // Kategori karya siswa yang tersedia di database untuk filter
+        $categories = KaryaSiswa::where('status', 'published')
             ->whereNotNull('kategori')
             ->where('kategori', '!=', '')
             ->distinct()
-            ->pluck('kategori');
-
-        $dummyCategories = collect($this->getBaseDummyKaryas())->pluck('kategori');
-
-        $categories = $dbCategories
-            ->merge($dummyCategories)
-            ->unique()
+            ->pluck('kategori')
             ->sort()
             ->values();
 
-        // 3. Data Asli 35 Akun Siswa RPL (untuk Tab "Profil Siswa" & relasi nama_siswa)
+        // 2. Data Asli 35 Akun Siswa RPL (untuk Tab "Profil Siswa" & relasi nama_siswa)
         $allActiveSiswas = User::query()
             ->where('role', 'siswa')
             ->where('status', 'active')
@@ -301,8 +142,7 @@ class KaryaSiswaPublic extends Component
 
         return view('livewire.karya-siswa-public', [
             'karyas' => $karyas,
-            'dummyKaryas' => $dummyKaryas,
-            'totalKaryaCount' => $karyas->count() + $dummyKaryas->count(),
+            'totalKaryaCount' => $karyas->count(),
             'categories' => $categories,
             'siswas' => $siswas,
             'siswaLookup' => $siswaLookup,

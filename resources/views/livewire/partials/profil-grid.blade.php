@@ -1,12 +1,12 @@
-{{-- Grid Profil Siswa Asli (35 Akun Siswa RPL dari Database) --}}
+{{-- Grid Profil Siswa Asli (35 Akun Siswa RPL dari Database) - Format 3 Kolom Sesuai Screenshot --}}
 @php
     $avatarPalettes = [
-        'bg-sky-50 text-sky-700 border-sky-200/80 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
-        'bg-emerald-50 text-emerald-700 border-emerald-200/80 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
-        'bg-indigo-50 text-indigo-700 border-indigo-200/80 dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30',
-        'bg-amber-50 text-amber-700 border-amber-200/80 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
-        'bg-teal-50 text-teal-700 border-teal-200/80 dark:bg-teal-500/15 dark:text-teal-300 dark:border-teal-500/30',
-        'bg-rose-50 text-rose-700 border-rose-200/80 dark:bg-rose-500/15 dark:text-rose-300 dark:border-rose-500/30',
+        'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30',
+        'bg-sky-500/10 text-sky-400 border-sky-500/20 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30',
+        'bg-amber-500/10 text-amber-400 border-amber-500/20 dark:bg-amber-500/15 dark:text-amber-300 dark:border-amber-500/30',
+        'bg-indigo-500/10 text-indigo-400 border-indigo-500/20 dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30',
+        'bg-teal-500/10 text-teal-400 border-teal-500/20 dark:bg-teal-500/15 dark:text-teal-300 dark:border-teal-500/30',
+        'bg-rose-500/10 text-rose-400 border-rose-500/20 dark:bg-rose-500/15 dark:text-rose-300 dark:border-rose-500/30',
     ];
 @endphp
 
@@ -16,7 +16,7 @@
         <button
             type="button"
             wire:click="$set('filterProfil', '')"
-            class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
         >
             {{ __('Semua Siswa') }} ({{ $totalSiswasCount }})
         </button>
@@ -25,7 +25,7 @@
             <button
                 type="button"
                 wire:click="$set('filterProfil', 'with_karya')"
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === 'with_karya' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === 'with_karya' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
             >
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 <span>{{ __('Memiliki Karya') }} ({{ $siswaWithKaryaCount }})</span>
@@ -36,7 +36,7 @@
             <button
                 type="button"
                 wire:click="$set('filterProfil', '{{ $skill }}')"
-                class="px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === $skill ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === $skill ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
             >
                 {{ $skill }}
             </button>
@@ -64,7 +64,7 @@
                 </svg>
             </div>
             <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-100">{{ __('Tidak ada profil siswa yang cocok') }}</h3>
-            <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">{{ __('Coba cari dengan nama siswa, username, atau kata kunci lain.') }}</p>
+            <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">{{ __('Coba cari dengan nama siswa, keahlian, atau kata kunci lain.') }}</p>
             <button
                 type="button"
                 wire:click="resetFilters"
@@ -114,7 +114,7 @@
                                 </div>
 
                                 <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
-                                    <span class="text-xs text-slate-500 dark:text-gray-400 font-mono truncate max-w-[140px]">
+                                    <span class="text-xs text-slate-500 dark:text-gray-400 font-mono truncate max-w-[200px]">
                                         {{ '@' . ($siswa->username ?: $siswa->id) }}
                                     </span>
                                 </div>
@@ -138,7 +138,7 @@
                             @endif
                         </div>
 
-                        {{-- Keahlian Terverifikasi / Tech Stack --}}
+                        {{-- Keahlian Terverifikasi / Tech Stack / Kelas --}}
                         <div class="mt-3 flex flex-wrap items-center gap-1.5">
                             @if(count($verifiedSkills) > 0)
                                 @foreach(array_slice($verifiedSkills, 0, 3) as $skill)

@@ -117,7 +117,7 @@ test('non admin or guru cannot access siswa rpl manager', function () {
         ->assertForbidden();
 });
 
-test('public karya siswa page displays real 35 siswa profiles and both published and dummy karya', function () {
+test('public karya siswa page displays real 35 siswa profiles and strictly real published karya from database', function () {
     $this->seed(\Database\Seeders\GlobalSettingSeeder::class);
     $this->seed(\Database\Seeders\SiswaRplSeeder::class);
     $this->seed(\Database\Seeders\KaryaSiswaSeeder::class);
@@ -150,6 +150,6 @@ test('public karya siswa page displays real 35 siswa profiles and both published
         ->assertSee('Skansaba DevOps Monitor')
         ->assertSee('Kelas Angkasa')
         ->assertSee(route('karya.detail', $newKarya->id))
-        // Retained dummy karya also appears
-        ->assertSee('Sistem Informasi Perpustakaan');
+        // No hardcoded dummy data should appear
+        ->assertDontSee('Sistem Informasi Perpustakaan');
 });

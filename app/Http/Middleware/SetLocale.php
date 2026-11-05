@@ -15,9 +15,10 @@ class SetLocale
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // User-explicit selection takes priority; otherwise default strictly to 'id' (Bahasa Indonesia)
         $locale = Session::get('locale')
             ?? $request->cookie('locale')
-            ?? config('app.locale', 'id');
+            ?? 'id';
 
         if (!in_array($locale, ['id', 'en'], true)) {
             $locale = 'id';

@@ -78,6 +78,14 @@ class LocaleSwitcherTest extends TestCase
         $followResponse->assertSee('Lihat Paket');
     }
 
+    public function test_fresh_visitor_without_session_or_cookie_always_defaults_to_indonesian_id()
+    {
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $this->assertEquals('id', app()->getLocale());
+    }
+
     public function test_invalid_locale_defaults_to_id()
     {
         $response = $this->get('/locale/invalid_lang');

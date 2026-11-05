@@ -124,6 +124,14 @@
             }
         </script>
         <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+    @else
+        <script>
+            // Pastikan cookie Google Translate di-reset saat mode default ID aktif
+            if (document.cookie.indexOf('googtrans') !== -1 && document.cookie.indexOf('/id/en') !== -1) {
+                document.cookie = 'googtrans=/id/id; path=/;';
+                document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+            }
+        </script>
     @endif
 </body>
 </html>
