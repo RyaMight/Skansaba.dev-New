@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     {{-- Header dengan Breadcrumb --}}
     <section class="bg-white dark:bg-gray-900 py-8 border-b border-gray-100 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="site-container">
             {{-- Breadcrumb --}}
             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
@@ -21,7 +21,7 @@
 
     {{-- Pricing Grid --}}
     <section class="py-12">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="site-container">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
 
                 @php
@@ -168,7 +168,7 @@
 
     {{-- Mengapa Harus Membuat Website di Skansaba.Dev? --}}
     <section class="pt-16 sm:pt-24 lg:pt-32 pb-36 sm:pb-48 lg:pb-60">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="site-container">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
 
                 {{-- Kolom Kiri: Kartu Biru Skansaba.Dev + Ilustrasi & Keunggulan (Sejajar Tinggi Penuh) --}}

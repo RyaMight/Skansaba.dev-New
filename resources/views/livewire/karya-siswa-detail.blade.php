@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-800">
     {{-- Header dengan Breadcrumb --}}
     <section class="bg-white dark:bg-gray-900 py-8">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="site-container">
             {{-- Breadcrumb --}}
             <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-6">
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
@@ -28,7 +28,7 @@
 
     {{-- Content --}}
     <section class="py-12">
-        <div class="max-w-5xl mx-auto px-6">
+        <div class="site-container">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
                 @if($karya->gambar_url)

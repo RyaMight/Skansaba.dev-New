@@ -74,7 +74,7 @@
     {{-- Related Berita --}}
     @if($relatedBeritas->count() > 0)
         <section class="py-12 bg-white dark:bg-gray-900">
-            <div class="max-w-7xl mx-auto px-6">
+            <div class="site-container">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-8">Berita Terkait</h2>
                 <div class="grid md:grid-cols-3 gap-6">
                     @foreach($relatedBeritas as $related)

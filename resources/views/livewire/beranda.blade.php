@@ -53,79 +53,108 @@
                 </p>
             </div>
 
-            {{-- Arrows slider --}}
-            @if($sliders->count() > 1)
-                <div class="flex justify-end mb-3 lg:mb-4" data-reveal>
-                    <div class="hidden sm:flex items-center gap-3">
-                        <button
-                            @click="back(); start()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
-                            aria-label="Slide sebelumnya"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
-                            </svg>
-                        </button>
-                        <button
-                            @click="advance(); start()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
-                            aria-label="Slide berikutnya"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            @endif
+
         </div>
 
         @if($sliders->isNotEmpty())
             {{-- Frame foto tunggal: TANPA crop — tinggi mengikuti rasio foto asli.
                  Semua slide ditumpuk di grid cell yang sama; yang aktif terlihat. --}}
             <div class="site-container" data-reveal>
-                <div class="relative grid max-w-[820px] mx-auto">
-                    @foreach($sliders as $index => $slider)
-                        <div
-                            class="col-start-1 row-start-1 rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
-                            :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
-                        >
-                            {{-- Tinggi fleksibel: w-full + h-auto = foto tampil UTUH sesuai rasio aslinya --}}
-                            <img
-                                src="{{ asset('storage/' . $slider->image) }}"
-                                alt="{{ $slider->title }}"
-                                class="w-full h-auto block"
-                                @if($index !== 0) loading="lazy" @endif
+                {{-- Wrapper untuk gambar + tombol desktop - ukuran sangat kecil untuk testing --}}
+                <div class="relative max-w-[400px] mx-auto">
+                    {{-- Container gambar --}}
+                    <div class="relative grid">
+                        @foreach($sliders as $index => $slider)
+                            <div
+                                class="col-start-1 row-start-1 rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
+                                :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
                             >
+                                {{-- Gambar dikecilkan drastis untuk full terlihat --}}
+                                <img
+                                    src="{{ asset('storage/' . $slider->image) }}"
+                                    alt="{{ $slider->title }}"
+                                    class="w-full h-auto block max-h-[300px] object-cover"
+                                    @if($index !== 0) loading="lazy" @endif
+                                >
 
-                            {{-- Keterangan di atas gambar (seperti skansaba.dev) --}}
-                            <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7 pointer-events-none">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
+                                {{-- Keterangan di atas gambar (seperti skansaba.dev) --}}
+                                <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7 pointer-events-none">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
 
-                                <div class="relative">
-                                    <h3 class="text-white text-lg lg:text-2xl font-bold leading-snug drop-shadow-md">{{ $slider->title }}</h3>
-                                    @if($slider->subtitle)
-                                        <p class="text-white/75 text-[11px] lg:text-sm leading-relaxed mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
-                                            {{ $slider->subtitle }}
-                                        </p>
-                                    @endif
+                                    <div class="relative">
+                                        <h3 class="text-white text-lg lg:text-2xl font-bold leading-snug drop-shadow-md">{{ $slider->title }}</h3>
+                                        @if($slider->subtitle)
+                                            <p class="text-white/75 text-[11px] lg:text-sm leading-relaxed mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
+                                                {{ $slider->subtitle }}
+                                            </p>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
 
-                    {{-- Progress bar overlay di bawah frame (diluar stacking biar selalu terlihat) --}}
-                    <div class="col-start-1 row-start-1 self-end relative z-20 pointer-events-none">
-                        <div class="h-[3px] bg-white/25 rounded-full overflow-hidden mx-5 lg:mx-7 mb-4 lg:mb-5" x-show="N > 1">
-                            <template x-for="tick in [index]" :key="'bar-' + tick">
-                                <div
-                                    class="h-full bg-white rounded-full"
-                                    style="animation: slider-progress 5s linear forwards"
-                                ></div>
-                            </template>
+                        {{-- Progress bar overlay di bawah frame (diluar stacking biar selalu terlihat) --}}
+                        <div class="col-start-1 row-start-1 self-end relative z-20 pointer-events-none">
+                            <div class="h-[3px] bg-white/25 rounded-full overflow-hidden mx-5 lg:mx-7 mb-4 lg:mb-5" x-show="N > 1">
+                                <template x-for="tick in [index]" :key="'bar-' + tick">
+                                    <div
+                                        class="h-full bg-white rounded-full"
+                                        style="animation: slider-progress 5s linear forwards"
+                                    ></div>
+                                </template>
+                            </div>
                         </div>
                     </div>
+
+                    {{-- Desktop Navigation Arrows - Di samping kiri dan kanan gambar --}}
+                    @if($sliders->count() > 1)
+                        {{-- Tombol Kiri --}}
+                        <button
+                            @click="back(); start()"
+                            class="hidden lg:flex absolute -left-14 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            aria-label="Slide sebelumnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                            </svg>
+                        </button>
+
+                        {{-- Tombol Kanan --}}
+                        <button
+                            @click="advance(); start()"
+                            class="hidden lg:flex absolute -right-14 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            aria-label="Slide berikutnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                            </svg>
+                        </button>
+                    @endif
                 </div>
+
+                {{-- Mobile arrows: tampil di bawah gambar (tengah, berdekatan) --}}
+                @if($sliders->count() > 1)
+                    <div class="lg:hidden flex justify-center items-center gap-4 mt-5" data-reveal>
+                        <button
+                            @click="back(); start()"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-300 shadow-md"
+                            aria-label="Slide sebelumnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                            </svg>
+                        </button>
+                        <button
+                            @click="advance(); start()"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-300 shadow-md"
+                            aria-label="Slide berikutnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                            </svg>
+                        </button>
+                    </div>
+                @endif
             </div>
         @else
             <div class="site-container">

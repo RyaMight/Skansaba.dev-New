@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-800">
     {{-- Header dengan Breadcrumb --}}
     <section class="bg-white dark:bg-gray-900 py-8">
-        <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="site-container text-center">
             {{-- Breadcrumb --}}
             <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
@@ -21,7 +21,7 @@
 
     {{-- Fasilitas Grid --}}
     <section class="py-12">
-        <div class="max-w-7xl mx-auto px-6">
+        <div class="site-container">
             @if($fasilitas->count() > 0)
                 <div class="grid md:grid-cols-2 gap-8">
                     @foreach($fasilitas as $item)

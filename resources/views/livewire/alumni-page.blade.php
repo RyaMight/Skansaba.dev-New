@@ -1,5 +1,5 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-800 py-12">
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="site-container">
         {{-- Header --}}
         <div class="text-center mb-12">
             <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">Alumni Jurusan RPL</h1>
