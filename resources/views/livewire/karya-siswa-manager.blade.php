@@ -61,72 +61,469 @@
             </div>
         @endif
 
-        {{-- Quick Stats Pills (Clickable to Filter) --}}
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-            <button 
-                type="button" 
-                wire:click="setStatusFilter('')"
-                @class([
-                    'p-3.5 rounded-xl border text-left transition cursor-pointer',
-                    'bg-white dark:bg-gray-900 border-slate-300 dark:border-gray-600 ring-2 ring-slate-400 dark:ring-gray-500 shadow-xs' => $filterStatus === '',
-                    'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700' => $filterStatus !== '',
-                ])
-            >
-                <span class="text-[11px] font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider block">{{ __('Semua Karya') }}</span>
-                <span class="text-xl font-bold text-slate-900 dark:text-gray-50 mt-0.5 block">{{ $stats['total'] }}</span>
-            </button>
-
-            <button 
-                type="button" 
-                wire:click="setStatusFilter('published')"
-                @class([
-                    'p-3.5 rounded-xl border text-left transition cursor-pointer',
-                    'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/40 ring-2 ring-emerald-500 shadow-xs' => $filterStatus === 'published',
-                    'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-emerald-200 dark:hover:border-emerald-500/30' => $filterStatus !== 'published',
-                ])
-            >
-                <span class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">{{ __('Terpublikasi') }}</span>
-                <span class="text-xl font-bold text-emerald-900 dark:text-emerald-300 mt-0.5 block">{{ $stats['published'] }}</span>
-            </button>
-
-            <button 
-                type="button" 
-                wire:click="setStatusFilter('review')"
-                @class([
-                    'p-3.5 rounded-xl border text-left transition cursor-pointer',
-                    'bg-amber-50/70 dark:bg-amber-500/10 border-amber-300 dark:border-amber-500/40 ring-2 ring-amber-500 shadow-xs' => $filterStatus === 'review',
-                    'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-amber-200 dark:hover:border-amber-500/30' => $filterStatus !== 'review',
-                ])
-            >
-                <div class="flex items-center justify-between">
-                    <span class="text-[11px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">{{ __('Butuh Review') }}</span>
-                    @if($stats['review'] > 0)
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-                        </span>
+        {{-- Menu Navigasi Tab Status (Interaktif & Jelas Bisa Diklik) --}}
+        @if(auth()->user()->role === 'siswa')
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4 mb-6">
+                {{-- 1. DRAFT --}}
+                <button 
+                    type="button" 
+                    wire:click="setActiveMenu('draft')"
+                    @class([
+                        'relative flex flex-col justify-between p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer group select-none shadow-xs',
+                        'bg-sky-50/80 dark:bg-sky-950/40 border-sky-500 dark:border-sky-400 ring-2 ring-sky-500/40 shadow-sky-500/10' => $activeMenu === 'draft',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700 hover:bg-slate-50/80 dark:hover:bg-gray-800/80 hover:-translate-y-0.5 hover:shadow-sm active:scale-[0.98]' => $activeMenu !== 'draft',
+                    ])
+                    title="{{ __('Klik untuk melihat karya status Draft') }}"
+                >
+                    <div class="flex items-center justify-between w-full">
+                        <div @class([
+                            'p-2 rounded-xl transition',
+                            'bg-sky-100 text-sky-700 dark:bg-sky-900/60 dark:text-sky-300' => $activeMenu === 'draft',
+                            'bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 group-hover:scale-105' => $activeMenu !== 'draft',
+                        ])>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                        </div>
+                        @if($activeMenu === 'draft')
+                            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-600 text-white dark:bg-sky-500">{{ __('Aktif') }}</span>
+                        @else
+                            <span class="text-[10px] text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium inline-flex items-center gap-0.5 transition">
+                                <span>{{ __('Pilih') }}</span>
+                                <svg class="w-3 h-3 group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-[11px] font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">{{ __('Draft') }}</span>
+                        <div class="flex items-baseline gap-1.5 mt-0.5">
+                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['draft'] }}</span>
+                            <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Karya') }}</span>
+                        </div>
+                    </div>
+                    @if($activeMenu === 'draft')
+                        <div class="absolute bottom-0 inset-x-4 h-1 bg-sky-500 dark:bg-sky-400 rounded-t-full"></div>
                     @endif
+                </button>
+
+                {{-- 2. SEDANG DI REVIEW --}}
+                <button 
+                    type="button" 
+                    wire:click="setActiveMenu('review')"
+                    @class([
+                        'relative flex flex-col justify-between p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer group select-none shadow-xs',
+                        'bg-sky-50/80 dark:bg-sky-950/40 border-sky-500 dark:border-sky-400 ring-2 ring-sky-500/40 shadow-sky-500/10' => $activeMenu === 'review',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700 hover:bg-slate-50/80 dark:hover:bg-gray-800/80 hover:-translate-y-0.5 hover:shadow-sm active:scale-[0.98]' => $activeMenu !== 'review',
+                    ])
+                    title="{{ __('Klik untuk melihat karya yang Sedang di Review') }}"
+                >
+                    <div class="flex items-center justify-between w-full">
+                        <div @class([
+                            'p-2 rounded-xl transition',
+                            'bg-amber-100 text-amber-700 dark:bg-amber-900/60 dark:text-amber-300' => $activeMenu === 'review',
+                            'bg-amber-50 dark:bg-amber-900/40 text-amber-600 dark:text-amber-400 group-hover:scale-105' => $activeMenu !== 'review',
+                        ])>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            @if($stats['review'] > 0)
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                                </span>
+                            @endif
+                            @if($activeMenu === 'review')
+                                <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-600 text-white dark:bg-sky-500">{{ __('Aktif') }}</span>
+                            @else
+                                <span class="text-[10px] text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium inline-flex items-center gap-0.5 transition">
+                                    <span>{{ __('Pilih') }}</span>
+                                    <svg class="w-3 h-3 group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">{{ __('Sedang di Review') }}</span>
+                        <div class="flex items-baseline gap-1.5 mt-0.5">
+                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['review'] }}</span>
+                            <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Karya') }}</span>
+                        </div>
+                    </div>
+                    @if($activeMenu === 'review')
+                        <div class="absolute bottom-0 inset-x-4 h-1 bg-sky-500 dark:bg-sky-400 rounded-t-full"></div>
+                    @endif
+                </button>
+
+                {{-- 3. TERPUBLIKASI --}}
+                <button 
+                    type="button" 
+                    wire:click="setActiveMenu('published')"
+                    @class([
+                        'relative flex flex-col justify-between p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer group select-none shadow-xs',
+                        'bg-sky-50/80 dark:bg-sky-950/40 border-sky-500 dark:border-sky-400 ring-2 ring-sky-500/40 shadow-sky-500/10' => $activeMenu === 'published',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700 hover:bg-slate-50/80 dark:hover:bg-gray-800/80 hover:-translate-y-0.5 hover:shadow-sm active:scale-[0.98]' => $activeMenu !== 'published',
+                    ])
+                    title="{{ __('Klik untuk melihat karya yang Terpublikasi') }}"
+                >
+                    <div class="flex items-center justify-between w-full">
+                        <div @class([
+                            'p-2 rounded-xl transition',
+                            'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300' => $activeMenu === 'published',
+                            'bg-emerald-50 dark:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 group-hover:scale-105' => $activeMenu !== 'published',
+                        ])>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        @if($activeMenu === 'published')
+                            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-600 text-white dark:bg-sky-500">{{ __('Aktif') }}</span>
+                        @else
+                            <span class="text-[10px] text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium inline-flex items-center gap-0.5 transition">
+                                <span>{{ __('Pilih') }}</span>
+                                <svg class="w-3 h-3 group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">{{ __('Terpublikasi') }}</span>
+                        <div class="flex items-baseline gap-1.5 mt-0.5">
+                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['published'] }}</span>
+                            <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Karya') }}</span>
+                        </div>
+                    </div>
+                    @if($activeMenu === 'published')
+                        <div class="absolute bottom-0 inset-x-4 h-1 bg-sky-500 dark:bg-sky-400 rounded-t-full"></div>
+                    @endif
+                </button>
+
+                {{-- 4. KETERANGAN --}}
+                <button 
+                    type="button" 
+                    wire:click="setActiveMenu('keterangan')"
+                    @class([
+                        'relative flex flex-col justify-between p-4 rounded-2xl border text-left transition-all duration-200 cursor-pointer group select-none shadow-xs',
+                        'bg-sky-50/80 dark:bg-sky-950/40 border-sky-500 dark:border-sky-400 ring-2 ring-sky-500/40 shadow-sky-500/10' => $activeMenu === 'keterangan',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700 hover:bg-slate-50/80 dark:hover:bg-gray-800/80 hover:-translate-y-0.5 hover:shadow-sm active:scale-[0.98]' => $activeMenu !== 'keterangan',
+                    ])
+                    title="{{ __('Klik untuk melihat Keterangan & Riwayat Log Status') }}"
+                >
+                    <div class="flex items-center justify-between w-full">
+                        <div @class([
+                            'p-2 rounded-xl transition',
+                            'bg-sky-100 text-sky-700 dark:bg-sky-900/60 dark:text-sky-300' => $activeMenu === 'keterangan',
+                            'bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 group-hover:scale-105' => $activeMenu !== 'keterangan',
+                        ])>
+                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        @if($activeMenu === 'keterangan')
+                            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-600 text-white dark:bg-sky-500">{{ __('Aktif') }}</span>
+                        @else
+                            <span class="text-[10px] text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 font-medium inline-flex items-center gap-0.5 transition">
+                                <span>{{ __('Pilih') }}</span>
+                                <svg class="w-3 h-3 group-hover:translate-x-0.5 transition" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                            </span>
+                        @endif
+                    </div>
+                    <div class="mt-3">
+                        <span class="text-[11px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">{{ __('Keterangan') }}</span>
+                        <div class="flex items-baseline gap-1.5 mt-0.5">
+                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['keterangan'] }}</span>
+                            <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Riwayat') }}</span>
+                        </div>
+                    </div>
+                    @if($activeMenu === 'keterangan')
+                        <div class="absolute bottom-0 inset-x-4 h-1 bg-sky-500 dark:bg-sky-400 rounded-t-full"></div>
+                    @endif
+                </button>
+            </div>
+        @else
+            {{-- Navigasi Tab untuk Guru / Admin --}}
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-6">
+                <button 
+                    type="button" 
+                    wire:click="setStatusFilter('')"
+                    @class([
+                        'p-3.5 rounded-xl border text-left transition cursor-pointer select-none',
+                        'bg-white dark:bg-gray-900 border-slate-300 dark:border-gray-600 ring-2 ring-slate-400 dark:ring-gray-500 shadow-xs' => $filterStatus === '' && $activeMenu !== 'keterangan',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700' => $filterStatus !== '' || $activeMenu === 'keterangan',
+                    ])
+                >
+                    <span class="text-[11px] font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wider block">{{ __('Semua Karya') }}</span>
+                    <span class="text-xl font-bold text-slate-900 dark:text-gray-50 mt-0.5 block">{{ $stats['total'] }}</span>
+                </button>
+
+                <button 
+                    type="button" 
+                    wire:click="setStatusFilter('published')"
+                    @class([
+                        'p-3.5 rounded-xl border text-left transition cursor-pointer select-none',
+                        'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-300 dark:border-emerald-500/40 ring-2 ring-emerald-500 shadow-xs' => $filterStatus === 'published' && $activeMenu !== 'keterangan',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-emerald-200 dark:hover:border-emerald-500/30' => $filterStatus !== 'published' || $activeMenu === 'keterangan',
+                    ])
+                >
+                    <span class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">{{ __('Terpublikasi') }}</span>
+                    <span class="text-xl font-bold text-emerald-900 dark:text-emerald-300 mt-0.5 block">{{ $stats['published'] }}</span>
+                </button>
+
+                <button 
+                    type="button" 
+                    wire:click="setStatusFilter('review')"
+                    @class([
+                        'p-3.5 rounded-xl border text-left transition cursor-pointer select-none',
+                        'bg-amber-50/70 dark:bg-amber-500/10 border-amber-300 dark:border-amber-500/40 ring-2 ring-amber-500 shadow-xs' => $filterStatus === 'review' && $activeMenu !== 'keterangan',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-amber-200 dark:hover:border-amber-500/30' => $filterStatus !== 'review' || $activeMenu === 'keterangan',
+                    ])
+                >
+                    <div class="flex items-center justify-between">
+                        <span class="text-[11px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">{{ __('Butuh Review') }}</span>
+                        @if($stats['review'] > 0)
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                            </span>
+                        @endif
+                    </div>
+                    <span class="text-xl font-bold text-amber-900 dark:text-amber-300 mt-0.5 block">{{ $stats['review'] }}</span>
+                </button>
+
+                <button 
+                    type="button" 
+                    wire:click="setStatusFilter('draft')"
+                    @class([
+                        'p-3.5 rounded-xl border text-left transition cursor-pointer select-none',
+                        'bg-slate-100 dark:bg-gray-800 border-slate-300 dark:border-gray-600 ring-2 ring-slate-500 shadow-xs' => $filterStatus === 'draft' && $activeMenu !== 'keterangan',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700' => $filterStatus !== 'draft' || $activeMenu === 'keterangan',
+                    ])
+                >
+                    <span class="text-[11px] font-semibold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">{{ __('Draft') }}</span>
+                    <span class="text-xl font-bold text-slate-800 dark:text-gray-100 mt-0.5 block">{{ $stats['draft'] }}</span>
+                </button>
+
+                <button 
+                    type="button" 
+                    wire:click="setActiveMenu('keterangan')"
+                    @class([
+                        'p-3.5 rounded-xl border text-left transition cursor-pointer select-none',
+                        'bg-sky-50/70 dark:bg-sky-950/30 border-sky-400 dark:border-sky-500 ring-2 ring-sky-500 shadow-xs' => $activeMenu === 'keterangan',
+                        'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-sky-300 dark:hover:border-sky-500/30' => $activeMenu !== 'keterangan',
+                    ])
+                >
+                    <span class="text-[11px] font-semibold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">{{ __('Keterangan') }}</span>
+                    <span class="text-xl font-bold text-sky-900 dark:text-sky-300 mt-0.5 block">{{ $stats['keterangan'] }}</span>
+                </button>
+            </div>
+        @endif
+
+
+        @if($activeMenu === 'keterangan')
+            {{-- TAMPILAN MENU KETERANGAN / LOG RIWAYAT STATUS KARYA --}}
+            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 p-5 sm:p-7 mb-6 shadow-xs">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-5 border-b border-slate-100 dark:border-gray-800">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900 dark:text-gray-50 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-sky-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                            <span>{{ __('Keterangan & Riwayat Status Karya') }}</span>
+                        </h2>
+                        <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">
+                            {{ __('Informasi lanjutan status karya Anda, termasuk alasan penolakan, catatan perbaikan, serta konfirmasi persetujuan dari guru/admin.') }}
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-gray-700">
+                            <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span>{{ __('Maksimal 5 Riwayat Tersimpan') }}</span>
+                        </span>
+                    </div>
                 </div>
-                <span class="text-xl font-bold text-amber-900 dark:text-amber-300 mt-0.5 block">{{ $stats['review'] }}</span>
-            </button>
 
-            <button 
-                type="button" 
-                wire:click="setStatusFilter('draft')"
-                @class([
-                    'p-3.5 rounded-xl border text-left transition cursor-pointer',
-                    'bg-slate-100 dark:bg-gray-800 border-slate-300 dark:border-gray-600 ring-2 ring-slate-500 shadow-xs' => $filterStatus === 'draft',
-                    'bg-white dark:bg-gray-900 border-slate-200/90 dark:border-gray-800 hover:border-slate-300 dark:hover:border-gray-700' => $filterStatus !== 'draft',
-                ])
-            >
-                <span class="text-[11px] font-semibold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">{{ __('Draft') }}</span>
-                <span class="text-xl font-bold text-slate-800 dark:text-gray-100 mt-0.5 block">{{ $stats['draft'] }}</span>
-            </button>
-        </div>
+                @if($logs->isEmpty())
+                    <div class="py-16 text-center">
+                        <div class="w-14 h-14 mx-auto rounded-2xl bg-slate-100 dark:bg-gray-800 flex items-center justify-center text-slate-400 mb-3">
+                            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-sm font-semibold text-slate-800 dark:text-gray-200">{{ __('Belum Ada Riwayat Keterangan') }}</h3>
+                        <p class="text-xs text-slate-500 dark:text-gray-400 max-w-md mx-auto mt-1">
+                            {{ __('Saat Anda mengirimkan karya atau saat guru/admin memberikan persetujuan maupun catatan penolakan, keterangannya akan otomatis muncul di sini.') }}
+                        </p>
+                    </div>
+                @else
+                    <div class="space-y-4 mt-6">
+                        @foreach($logs as $log)
+                            <div @class([
+                                'p-4 sm:p-5 rounded-2xl border transition-all duration-200',
+                                'bg-rose-50/30 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/50 hover:border-rose-300' => $log->status === 'rejected',
+                                'bg-emerald-50/30 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/50 hover:border-emerald-300' => $log->status === 'published',
+                                'bg-amber-50/30 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/50 hover:border-amber-300' => $log->status === 'review',
+                                'bg-slate-50/60 dark:bg-gray-800/40 border-slate-200 dark:border-gray-800 hover:border-slate-300' => !in_array($log->status, ['rejected', 'published', 'review']),
+                            ])>
+                                {{-- Baris Status & Waktu --}}
+                                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                                    <div class="flex items-center gap-2">
+                                        @if($log->status === 'rejected')
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 dark:bg-rose-900/50 dark:text-rose-200 border border-rose-200 dark:border-rose-800/60">
+                                                <svg class="w-3.5 h-3.5 text-rose-600 dark:text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                                <span>{{ __('Ditolak / Butuh Revisi') }}</span>
+                                            </span>
+                                        @elseif($log->status === 'published')
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-800/60">
+                                                <svg class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                                <span>{{ __('Disetujui & Terpublikasi') }}</span>
+                                            </span>
+                                        @elseif($log->status === 'review')
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-200 border border-amber-200 dark:border-amber-800/60">
+                                                <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                                </svg>
+                                                <span>{{ __('Sedang di Review') }}</span>
+                                            </span>
+                                        @else
+                                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-800 dark:bg-gray-800 dark:text-gray-200 border border-slate-200 dark:border-gray-700">
+                                                <span>{{ __('Draft Disimpan') }}</span>
+                                            </span>
+                                        @endif
 
+                                        @if($log->admin)
+                                            <span class="text-xs text-slate-500 dark:text-gray-400">
+                                                {{ __('Ditinjau oleh:') }} <strong class="text-slate-700 dark:text-gray-300 font-semibold">{{ $log->admin->name }}</strong>
+                                            </span>
+                                        @endif
+                                    </div>
 
-        {{-- Toolbar: Pencarian & Filter --}}
-        <div class="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 p-4 mb-6 shadow-xs">
+                                    <div class="text-[11px] text-slate-400 dark:text-gray-500 flex items-center gap-1">
+                                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>{{ $log->created_at->diffForHumans() }} ({{ $log->created_at->translatedFormat('d M Y, H:i') }} WIB)</span>
+                                    </div>
+                                </div>
+
+                                {{-- Judul Karya --}}
+                                <div class="mt-3">
+                                    <div class="flex items-baseline gap-2">
+                                        <span class="text-[11px] font-semibold text-slate-400 dark:text-gray-500 uppercase tracking-wider">{{ __('Judul Karya:') }}</span>
+                                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ $log->judul_karya }}</h3>
+                                    </div>
+                                </div>
+
+                                {{-- Box Keterangan / Alasan Tolak / Info --}}
+                                @if($log->status === 'rejected')
+                                    <div class="mt-3.5 p-3.5 sm:p-4 rounded-xl bg-rose-50/90 dark:bg-rose-950/30 border border-rose-200/90 dark:border-rose-900/50">
+                                        <div class="flex items-center gap-2 text-xs font-bold text-rose-800 dark:text-rose-300 uppercase tracking-wider mb-1.5">
+                                            <svg class="w-4 h-4 text-rose-600 dark:text-rose-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                            </svg>
+                                            <span>{{ __('Alasan Penolakan & Catatan Perbaikan:') }}</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-rose-900 dark:text-rose-100 leading-relaxed font-normal whitespace-pre-line">{{ $log->catatan }}</p>
+                                        <p class="text-[11px] text-rose-700 dark:text-rose-300/80 mt-2 font-medium">
+                                            {{ __('Silakan perbaiki karya Anda sesuai alasan di atas, lalu simpan dan ajukan kembali untuk verifikasi.') }}
+                                        </p>
+                                    </div>
+                                @elseif($log->status === 'published')
+                                    <div class="mt-3.5 p-3.5 sm:p-4 rounded-xl bg-emerald-50/90 dark:bg-emerald-950/30 border border-emerald-200/90 dark:border-emerald-900/50">
+                                        <div class="flex items-center gap-2 text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider mb-1.5">
+                                            <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            <span>{{ __('Keterangan Verifikasi & Publikasi:') }}</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-emerald-900 dark:text-emerald-100 leading-relaxed font-normal">{{ $log->catatan ?: __('Karya telah disetujui dan kini tampil di portofolio publik!') }}</p>
+                                        @if(!empty($log->metadata['tag']))
+                                            <div class="mt-2.5 flex items-center gap-2">
+                                                <span class="text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">{{ __('Tag Keahlian:') }}</span>
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 border border-emerald-200 dark:border-emerald-700">
+                                                    {{ $log->metadata['tag'] }}
+                                                </span>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @elseif($log->status === 'review')
+                                    <div class="mt-3.5 p-3.5 sm:p-4 rounded-xl bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200/90 dark:border-amber-900/50">
+                                        <div class="flex items-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-300 uppercase tracking-wider mb-1.5">
+                                            <svg class="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            <span>{{ __('Status Pengajuan:') }}</span>
+                                        </div>
+                                        <p class="text-xs sm:text-sm text-amber-900 dark:text-amber-100 leading-relaxed font-normal">{{ $log->catatan ?: __('Karya Anda sedang dalam antrean verifikasi oleh guru/admin.') }}</p>
+                                    </div>
+                                @elseif($log->catatan)
+                                    <div class="mt-3.5 p-3.5 rounded-xl bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-xs text-slate-700 dark:text-gray-300">
+                                        {{ $log->catatan }}
+                                    </div>
+                                @endif
+
+                                {{-- Tombol Aksi Cepat --}}
+                                @if($log->karya_siswa_id && $log->karyaSiswa)
+                                    <div class="mt-4 pt-3.5 border-t border-slate-200/60 dark:border-gray-800 flex items-center justify-between flex-wrap gap-2">
+                                        <div class="flex items-center gap-2">
+                                            <button 
+                                                type="button" 
+                                                wire:click="openDetailModal({{ $log->karya_siswa_id }})"
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-gray-800 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-700/80 transition shadow-2xs cursor-pointer"
+                                            >
+                                                <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                                </svg>
+                                                <span>{{ __('Lihat Detail') }}</span>
+                                            </button>
+
+                                            @if($log->status === 'rejected' || $log->karyaSiswa->status === 'draft')
+                                                <button 
+                                                    type="button" 
+                                                    wire:click="openEditModal({{ $log->karya_siswa_id }})"
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-sky-600 hover:bg-sky-700 text-white transition shadow-xs cursor-pointer"
+                                                >
+                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                                    </svg>
+                                                    <span>{{ __('Perbaiki & Edit Karya') }}</span>
+                                                </button>
+                                            @endif
+
+                                            @if($log->status === 'published' && $log->karyaSiswa->status === 'published')
+                                                <a 
+                                                    href="{{ route('karya.detail', $log->karya_siswa_id) }}" 
+                                                    target="_blank"
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs cursor-pointer"
+                                                >
+                                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                                    </svg>
+                                                    <span>{{ __('Lihat di Web ↗') }}</span>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-100 dark:border-gray-800 flex items-center justify-between text-xs text-slate-400 dark:text-gray-500">
+                        <span>{{ __('Menampilkan :count riwayat keterangan terbaru', ['count' => count($logs)]) }}</span>
+                        <span>{{ __('Maksimal 5 riwayat (riwayat terlama dihapus otomatis)', ['count' => 5]) }}</span>
+                    </div>
+                @endif
+            </div>
+        @else
+            {{-- Toolbar: Pencarian & Filter --}}
+            <div class="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 p-4 mb-6 shadow-xs">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 {{-- Search Input --}}
                 <div class="relative sm:col-span-2 lg:col-span-2">
@@ -438,6 +835,7 @@
                     {{ $karyaSiswas->links() }}
                 </div>
             @endif
+        @endif
         @endif
     </div>
 

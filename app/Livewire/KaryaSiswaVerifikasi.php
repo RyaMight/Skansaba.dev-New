@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\KaryaLog;
 use App\Models\KaryaSiswa;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -133,6 +134,18 @@ class KaryaSiswaVerifikasi extends Component
             $karya->user->giveTag($tag);
         }
 
+        // Catat ke log keterangan karya (maks 5 log, tertua terhapus otomatis)
+        KaryaLog::record(
+            userId: $karya->user_id,
+            judulKarya: $karya->judul,
+            status: 'published',
+            action: 'approved',
+            catatan: 'Karya disetujui dan telah resmi dipublikasikan' . ($tag ? " dengan keahlian {$tag}." : '.'),
+            karyaId: $karya->id,
+            adminId: Auth::id(),
+            metadata: ['tag' => $tag]
+        );
+
         $siswaName = $karya->nama_siswa ?? $karya->user?->name ?? 'Siswa';
         session()->flash('message', "Karya \"{$karya->judul}\" telah resmi dipublikasikan!" . ($tag ? " Tag \"{$tag}\" berhasil diberikan ke akun {$siswaName}." : ''));
 
@@ -178,9 +191,22 @@ class KaryaSiswaVerifikasi extends Component
             return;
         }
 
+        $catatanTolak = $this->rejectNotes[$this->rejectingId];
+
         $karya->status = 'draft';
-        $karya->catatan_admin = $this->rejectNotes[$this->rejectingId];
+        $karya->catatan_admin = $catatanTolak;
         $karya->save();
+
+        // Catat ke log keterangan karya (maks 5 log, tertua terhapus otomatis)
+        KaryaLog::record(
+            userId: $karya->user_id,
+            judulKarya: $karya->judul,
+            status: 'rejected',
+            action: 'rejected',
+            catatan: $catatanTolak,
+            karyaId: $karya->id,
+            adminId: Auth::id()
+        );
 
         session()->flash('message', "Karya \"{$karya->judul}\" ditolak dan dikembalikan sebagai draft dengan catatan perbaikan.");
         $this->closeRejectModal();

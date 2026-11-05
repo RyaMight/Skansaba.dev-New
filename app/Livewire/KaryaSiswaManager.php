@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\KaryaLog;
 use App\Models\KaryaSiswa;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ class KaryaSiswaManager extends Component
     use WithFileUploads, WithPagination;
 
     public string $search = '';
+    public string $activeMenu = ''; // draft, review, published, keterangan
     public string $filterStatus = '';
     public string $filterKategori = '';
     public string $filterTahun = '';
@@ -63,6 +65,13 @@ class KaryaSiswaManager extends Component
 
     public function mount(): void
     {
+        $this->activeMenu = '';
+        $this->filterStatus = '';
+
+        if (request()->query('menu')) {
+            $this->setActiveMenu((string) request()->query('menu'));
+        }
+
         if (request()->query('create')) {
             $this->openCreateModal();
         }
@@ -99,10 +108,32 @@ class KaryaSiswaManager extends Component
         $this->resetPage();
     }
 
+    public function setActiveMenu(string $menu): void
+    {
+        if ($this->activeMenu === $menu) {
+            $this->activeMenu = '';
+            $this->filterStatus = '';
+        } else {
+            $this->activeMenu = $menu;
+
+            if ($menu === 'draft') {
+                $this->filterStatus = 'draft';
+            } elseif ($menu === 'review') {
+                $this->filterStatus = 'review';
+            } elseif ($menu === 'published') {
+                $this->filterStatus = 'published';
+            } else {
+                // keterangan atau menu lain
+                $this->filterStatus = '';
+            }
+        }
+
+        $this->resetPage();
+    }
+
     public function setStatusFilter(string $status): void
     {
-        $this->filterStatus = ($this->filterStatus === $status) ? '' : $status;
-        $this->resetPage();
+        $this->setActiveMenu($status);
     }
 
     // --- Create & Edit Modal Actions ---
@@ -372,6 +403,17 @@ class KaryaSiswaManager extends Component
             'updated_at' => now(),
         ]);
 
+        // Catat ke log keterangan karya (maks 5 log, tertua terhapus otomatis)
+        KaryaLog::record(
+            userId: $karya->user_id,
+            judulKarya: $karya->judul,
+            status: 'review',
+            action: 'submitted',
+            catatan: 'Karya diajukan untuk ditinjau dan diverifikasi oleh guru/admin.',
+            karyaId: $karya->id,
+            adminId: null
+        );
+
         if ($this->detailKarya && $this->detailKarya->id === $karya->id) {
             $this->detailKarya = $karya->fresh(['user']);
         }
@@ -529,6 +571,31 @@ class KaryaSiswaManager extends Component
                 $this->filesToDelete = [];
             }
 
+            // Catat riwayat log karya siswa
+            if ($status === 'review') {
+                KaryaLog::record(
+                    userId: $user->id,
+                    judulKarya: $karya->judul,
+                    status: 'review',
+                    action: 'submitted',
+                    catatan: $this->editingKaryaId 
+                        ? 'Karya telah diperbarui dan diajukan kembali untuk ditinjau guru/admin.'
+                        : 'Karya berhasil diajukan dan sedang menunggu verifikasi guru/admin.',
+                    karyaId: $karya->id,
+                    adminId: null
+                );
+            } elseif ($status === 'draft' && !$this->editingKaryaId) {
+                KaryaLog::record(
+                    userId: $user->id,
+                    judulKarya: $karya->judul,
+                    status: 'draft',
+                    action: 'draft_created',
+                    catatan: 'Karya baru disimpan sebagai draft.',
+                    karyaId: $karya->id,
+                    adminId: null
+                );
+            }
+
             $message = ($status === 'review')
                 ? ($this->editingKaryaId 
                     ? "Karya \"{$karya->judul}\" berhasil diperbarui dan diajukan untuk verifikasi."
@@ -645,6 +712,7 @@ class KaryaSiswaManager extends Component
             'published' => (clone $baseQuery)->where('status', 'published')->count(),
             'review' => (clone $baseQuery)->where('status', 'review')->count(),
             'draft' => (clone $baseQuery)->where('status', 'draft')->count(),
+            'keterangan' => KaryaLog::when($user->role === 'siswa', fn($q) => $q->where('user_id', $user->id))->count(),
         ];
 
         $karyaSiswas = (clone $baseQuery)
@@ -662,6 +730,12 @@ class KaryaSiswaManager extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(12);
 
+        $logs = KaryaLog::with(['admin', 'karyaSiswa'])
+            ->when($user->role === 'siswa', fn($q) => $q->where('user_id', $user->id))
+            ->latest('id')
+            ->take(5)
+            ->get();
+
         $years = KaryaSiswa::query()
             ->whereNotNull('tahun')
             ->distinct()
@@ -671,6 +745,7 @@ class KaryaSiswaManager extends Component
         return view('livewire.karya-siswa-manager', [
             'karyaSiswas' => $karyaSiswas,
             'stats' => $stats,
+            'logs' => $logs,
             'years' => $years,
         ]);
     }
