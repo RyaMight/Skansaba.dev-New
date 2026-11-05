@@ -7,15 +7,15 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <a href="/" class="hover:opacity-80">Beranda</a>
+                <a href="/" class="hover:opacity-80">{{ __('Beranda') }}</a>
                 <span>›</span>
-                <span style="color: {{ $globalSettings->primary_color_style }}">Unit Produksi</span>
+                <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Unit Produksi') }}</span>
             </div>
 
             <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-2">
-                Harga Jasa Pembuatan Website <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>
+                {{ __('Harga Jasa Pembuatan Website') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300">Pilih paket website yang sesuai dengan kebutuhan Anda.</p>
+            <p class="text-gray-600 dark:text-gray-300">{{ __('Pilih paket website yang sesuai dengan kebutuhan Anda.') }}</p>
         </div>
     </section>
 
@@ -27,26 +27,26 @@
                 @php
                     $paket = [
                         [
-                            'nama' => 'UMKM', 'harga' => '499.000', 'halaman' => '3 halaman',
-                            'waktu' => '7 hari kerja', 'disk' => '1 GB', 'email' => '2',
+                            'nama' => 'UMKM', 'harga' => '499.000', 'halaman' => '3 ' . __('halaman'),
+                            'waktu' => '7 ' . __('hari kerja'), 'disk' => '1 GB', 'email' => '2',
                             'subdomain' => 3, 'database' => 3, 'setup' => 'Rp99.000',
                             'highlight' => false,
                         ],
                         [
-                            'nama' => 'Basic', 'harga' => '750.000', 'halaman' => '5 halaman',
-                            'waktu' => '14 hari kerja', 'disk' => '1 GB', 'email' => '2',
+                            'nama' => 'Basic', 'harga' => '750.000', 'halaman' => '5 ' . __('halaman'),
+                            'waktu' => '14 ' . __('hari kerja'), 'disk' => '1 GB', 'email' => '2',
                             'subdomain' => 3, 'database' => 3, 'setup' => 'Rp99.000',
                             'highlight' => false,
                         ],
                         [
-                            'nama' => 'Pro', 'harga' => '1.500.000', 'halaman' => '10 halaman',
-                            'waktu' => '21 hari kerja', 'disk' => '5 GB', 'email' => '7',
+                            'nama' => 'Pro', 'harga' => '1.500.000', 'halaman' => '10 ' . __('halaman'),
+                            'waktu' => '21 ' . __('hari kerja'), 'disk' => '5 GB', 'email' => '7',
                             'subdomain' => 5, 'database' => 5, 'setup' => 'Rp198.000',
                             'highlight' => true,
                         ],
                         [
-                            'nama' => 'Business', 'harga' => '2.250.000', 'halaman' => '15 halaman',
-                            'waktu' => '30 hari kerja', 'disk' => '10 GB', 'email' => '20',
+                            'nama' => 'Business', 'harga' => '2.250.000', 'halaman' => '15 ' . __('halaman'),
+                            'waktu' => '30 ' . __('hari kerja'), 'disk' => '10 GB', 'email' => '20',
                             'subdomain' => 7, 'database' => 7, 'setup' => 'Rp297.000',
                             'highlight' => false,
                         ],
@@ -61,7 +61,7 @@
                         {{-- Header paket --}}
                         <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
                             <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50">{{ $p['nama'] }}</h3>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Mulai Dari</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Mulai Dari') }}</p>
                         </div>
 
                         {{-- Harga --}}
@@ -69,9 +69,9 @@
                             <p class="flex items-baseline gap-1">
                                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Rp</span>
                                 <span class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">{{ $p['harga'] }}</span>
-                                <span class="text-xs text-gray-500 dark:text-gray-400">/thn</span>
+                                <span class="text-xs text-gray-500 dark:text-gray-400">/{{ __('thn') }}</span>
                             </p>
-                            <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">*Minimal kontrak 1 Tahun</p>
+                            <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">*{{ __('Minimal kontrak 1 Tahun') }}</p>
                         </div>
 
                         {{-- Fitur --}}
@@ -80,19 +80,19 @@
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Pembuatan Halaman Website: <strong class="font-semibold">{{ $p['halaman'] }}</strong></span>
+                                <span class="text-gray-700 dark:text-gray-200">{{ __('Pembuatan Halaman Website:') }} <strong class="font-semibold">{{ $p['halaman'] }}</strong></span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Waktu Pengerjaan: <strong class="font-semibold">{{ $p['waktu'] }}</strong></span>
+                                <span class="text-gray-700 dark:text-gray-200">{{ __('Waktu Pengerjaan:') }} <strong class="font-semibold">{{ $p['waktu'] }}</strong></span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Hosting: <strong class="font-semibold">{{ $p['disk'] }}</strong> Disk Space</span>
+                                <span class="text-gray-700 dark:text-gray-200">{{ __('Hosting:') }} <strong class="font-semibold">{{ $p['disk'] }}</strong> Disk Space</span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -113,31 +113,31 @@
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Domain <strong class="font-semibold">1</strong> Tahun</span>
+                                <span class="text-gray-700 dark:text-gray-200">Domain <strong class="font-semibold">1</strong> {{ __('Tahun') }}</span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Sertifikat <strong class="font-semibold">SSL</strong></span>
+                                <span class="text-gray-700 dark:text-gray-200">{{ __('Sertifikat') }} <strong class="font-semibold">SSL</strong></span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Logo Image Editing: 5 gambar + 1 logo</span>
+                                <span class="text-gray-700 dark:text-gray-200">{{ __('Logo Image Editing: 5 gambar + 1 logo') }}</span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Header Slideshow</span>
+                                <span class="text-gray-700 dark:text-gray-200">{{ __('Header Slideshow') }}</span>
                             </li>
                             <li class="flex items-start gap-2.5">
                                 <svg class="w-4 h-4 mt-0.5 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
                                 </svg>
-                                <span class="text-gray-700 dark:text-gray-200">Pemeliharaan</span>
+                                <span class="text-gray-700 dark:text-gray-200">{{ __('Pemeliharaan') }}</span>
                             </li>
                         </ul>
 
@@ -148,10 +148,10 @@
                                 class="block w-full text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
                                 style="background-color: {{ $globalSettings->primary_color_style }}"
                             >
-                                Lihat Paket
+                                {{ __('Lihat Paket') }}
                             </a>
                             <p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-lg py-2">
-                                Biaya Setup: {{ $p['setup'] }}
+                                {{ __('Biaya Setup:') }} {{ $p['setup'] }}
                             </p>
                         </div>
                     </div>
@@ -160,8 +160,7 @@
 
             {{-- Catatan kaki --}}
             <p class="mt-8 text-xs text-gray-500 dark:text-gray-400 text-center max-w-2xl mx-auto">
-                Cocok untuk anda yang sudah memiliki konten (foto/teks). Jika tidak, anda bisa meminta
-                jasa pembuatan konten. Harga dapat berubah sewaktu-waktu tanpa pemberitahuan.
+                {{ __('Cocok untuk anda yang sudah memiliki konten (foto/teks). Jika tidak, anda bisa meminta jasa pembuatan konten. Harga dapat berubah sewaktu-waktu tanpa pemberitahuan.') }}
             </p>
         </div>
     </section>
@@ -276,25 +275,25 @@
                                         <svg class="w-4 h-4 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                                         </svg>
-                                        <span>Terjangkau</span>
+                                        <span>{{ __('Terjangkau') }}</span>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                                         </svg>
-                                        <span>Pengerjaan Cepat</span>
+                                        <span>{{ __('Pengerjaan Cepat') }}</span>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                                         </svg>
-                                        <span>Profesional</span>
+                                        <span>{{ __('Profesional') }}</span>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <svg class="w-4 h-4 text-cyan-300 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/>
                                         </svg>
-                                        <span>Gratis Maintenance</span>
+                                        <span>{{ __('Gratis Maintenance') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -306,15 +305,15 @@
                 <div class="lg:col-span-7 flex flex-col justify-between h-full">
                     <div class="space-y-6">
                         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 tracking-tight leading-tight">
-                            Mengapa Harus Membuat Website di <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>?
+                            {{ __('Mengapa Harus Membuat Website di') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>?
                         </h2>
 
                         <div class="space-y-4 text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
                             <p>
-                                Banyak pemilik usaha, sekolah, maupun instansi ragu saat ingin membuat website karena tarif agensi software house yang sering kali selangit. Di sisi lain, mencoba buat sendiri memakai template instan gratisan sering berakhir bikin pusing: tampilannya kaku, lambat dibuka dari ponsel, dan tidak ada yang membantu saat terjadi kendala teknis. Kami hadir untuk menepis kekhawatiran tersebut. Website profesional untuk bisnis Anda seharusnya menjadi sarana membangun kepercayaan pelanggan—bukan beban pengeluaran yang memberatkan.
+                                {{ __('Banyak pemilik usaha, sekolah, maupun instansi ragu saat ingin membuat website karena tarif agensi software house yang sering kali selangit. Di sisi lain, mencoba buat sendiri memakai template instan gratisan sering berakhir bikin pusing: tampilannya kaku, lambat dibuka dari ponsel, dan tidak ada yang membantu saat terjadi kendala teknis. Kami hadir untuk menepis kekhawatiran tersebut. Website profesional untuk bisnis Anda seharusnya menjadi sarana membangun kepercayaan pelanggan—bukan beban pengeluaran yang memberatkan.') }}
                             </p>
                             <p>
-                                Sebagai unit produksi resmi jurusan Rekayasa Perangkat Lunak (RPL) SMKN 1 Bantul, setiap website kami bangun dengan standar kode yang bersih, responsif di semua ukuran layar, dan dalam supervisi langsung guru pembimbing serta praktisi berpengalaman. Anda mendapatkan paket lengkap yang siap online: domain aktif, sertifikat keamanan SSL, server cepat, hingga garansi pemeliharaan dan pendampingan penggunaan. Anda bisa fokus mengembangkan bisnis, sementara urusan teknis website biar kami yang tangani.
+                                {{ __('Sebagai unit produksi resmi jurusan Rekayasa Perangkat Lunak (RPL) SMKN 1 Bantul, setiap website kami bangun dengan standar kode yang bersih, responsif di semua ukuran layar, dan dalam supervisi langsung guru pembimbing serta praktisi berpengalaman. Anda mendapatkan paket lengkap yang siap online: domain aktif, sertifikat keamanan SSL, server cepat, hingga garansi pemeliharaan dan pendampingan penggunaan. Anda bisa fokus mengembangkan bisnis, sementara urusan teknis website biar kami yang tangani.') }}
                             </p>
                         </div>
                     </div>
@@ -323,7 +322,7 @@
                     <div class="pt-6 lg:pt-8">
                         @php
                             $waUrl = $globalSettings->whatsapp_url ?? 'https://wa.me/6285111345644';
-                            $pesanWa = urlencode('Halo Skansaba.Dev, saya tertarik ingin konsultasi mengenai pembuatan website untuk kebutuhan saya.');
+                            $pesanWa = urlencode(__('Halo Skansaba.Dev, saya tertarik ingin konsultasi mengenai pembuatan website untuk kebutuhan saya.'));
                             $konsultasiHref = $waUrl . (str_contains($waUrl, '?') ? '&' : '?') . 'text=' . $pesanWa;
                         @endphp
                         <a
@@ -337,7 +336,7 @@
                                 <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"/>
                                 <path d="M7 9h10v2H7zm0-3h10v2H7z"/>
                             </svg>
-                            <span>Konsultasi Sekarang</span>
+                            <span>{{ __('Konsultasi Sekarang') }}</span>
                         </a>
                     </div>
                 </div>

@@ -50,8 +50,8 @@ class KaryaSiswaSeeder extends Seeder
                 'deskripsi' => "Aplikasi kasir modern untuk UMKM dengan laporan penjualan real-time.\n\nFitur unggulan:\n- Scan barcode produk\n- Struk digital via WhatsApp\n- Laporan harian & bulanan\n- Manajemen stok otomatis",
                 'kategori' => 'Web Development',
                 'teknologi' => ['Laravel', 'Livewire', 'MySQL'],
-                'nama_siswa' => 'Faiz Baraka Putra',
-                'kelas' => 'XII RPL 2',
+                'nama_siswa' => 'Faiz Ibnu Majid',
+                'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
                 'gambar' => null,
                 'url_demo' => null,
@@ -98,8 +98,8 @@ class KaryaSiswaSeeder extends Seeder
                 'deskripsi' => "Media pembelajaran finansial berbasis gamifikasi untuk remaja.\n\nJuara 3 Business Plan JHIC 2026. Fitur unggulan:\n- Simulasi investasi virtual\n- Misi harian & reward XP\n- Leaderboard nasional\n- Materi literasi keuangan",
                 'kategori' => 'Game & Simulasi',
                 'teknologi' => ['Laravel', 'Vue.js', 'MySQL'],
-                'nama_siswa' => 'Arrassyd Nanda Fairuz',
-                'kelas' => 'XII RPL 2',
+                'nama_siswa' => 'Fairuz Adam Rizqulah',
+                'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
                 'gambar' => null,
                 'url_demo' => null,
@@ -122,8 +122,8 @@ class KaryaSiswaSeeder extends Seeder
                 'deskripsi' => "Sistem perpustakaan digital sekolah dengan katalog online.\n\nFitur unggulan:\n- Peminjaman & reservasi online\n- Rekomendasi buku\n- Notifikasi jatuh tempo\n- Statistik baca siswa",
                 'kategori' => 'Web Development',
                 'teknologi' => ['CodeIgniter', 'Bootstrap', 'MySQL'],
-                'nama_siswa' => 'Reifan Putra Pratama',
-                'kelas' => 'XII RPL 2',
+                'nama_siswa' => 'Kalis Lintang Pradipta',
+                'kelas' => 'XI RPL 1',
                 'tahun' => 2026,
                 'gambar' => null,
                 'url_demo' => null,
@@ -138,7 +138,10 @@ class KaryaSiswaSeeder extends Seeder
             }
 
             $ownerUser = User::where('role', 'siswa')
-                ->whereRaw('LOWER(name) = ?', [strtolower($data['nama_siswa'])])
+                ->where(function ($q) use ($data) {
+                    $q->whereRaw('LOWER(name) = ?', [strtolower($data['nama_siswa'])])
+                      ->orWhere('name', 'like', '%' . $data['nama_siswa'] . '%');
+                })
                 ->first() ?? $admin;
 
             KaryaSiswa::create([
@@ -156,6 +159,10 @@ class KaryaSiswaSeeder extends Seeder
                 'status' => 'published',
                 'published_at' => now()->subDays(count($karya)),
             ]);
+
+            if ($ownerUser->isSiswa() && !empty($data['kategori'])) {
+                $ownerUser->giveTag($data['kategori']);
+            }
         }
 
         $this->command->info('✓ Karya Siswa seeded successfully (' . count($karya) . ' dummy records)');

@@ -22,7 +22,7 @@
                 {{-- Email / NISN Field --}}
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                        Email atau NIS / NISN
+                        {{ __('Email atau NIS / NISN') }}
                     </label>
                     <input 
                         type="text" 
@@ -31,7 +31,7 @@
                         @disabled($isLoading)
                         class="appearance-none block w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 dark:bg-gray-800 disabled:text-gray-500 dark:text-gray-400"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
-                        placeholder="Masukkan Email atau NIS / NISN"
+                        placeholder="{{ __('Masukkan Email atau NIS / NISN') }}"
                         autocomplete="username"
                         autofocus
                     >
@@ -43,7 +43,7 @@
                 {{-- Password Field --}}
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                        Password
+                        {{ __('Password') }}
                     </label>
                     <div class="relative">
                         <input 
@@ -53,7 +53,7 @@
                             @disabled($isLoading)
                             class="appearance-none block w-full px-3 py-2.5 pr-10 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 dark:bg-gray-800 disabled:text-gray-500 dark:text-gray-400"
                             style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
-                            placeholder="Masukkan password"
+                            placeholder="{{ __('Masukkan password') }}"
                             autocomplete="current-password"
                         >
                         <button 
@@ -85,7 +85,7 @@
                 {{-- Forgot Password Link (Optional) --}}
                 <div class="flex items-center justify-end">
                     <a href="#" class="text-sm font-medium hover:underline transition" style="color: {{ $globalSettings->primary_color_style }}">
-                        Lupa password?
+                        {{ __('Lupa password?') }}
                     </a>
                 </div>
 
@@ -101,9 +101,9 @@
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Memproses...
+                        {{ __('Memproses...') }}
                     @else
-                        Masuk
+                        {{ __('Masuk') }}
                     @endif
                 </button>
             </form>
@@ -111,7 +111,7 @@
             {{-- Footer --}}
             <div class="mt-6 text-center">
                 <p class="text-xs text-gray-500 dark:text-gray-400">
-                    © {{ date('Y') }} Jurusan RPL. Hanya untuk staff internal.
+                    © {{ date('Y') }} {{ __('Jurusan RPL. Hanya untuk staff internal.') }}
                 </p>
             </div>
         </div>

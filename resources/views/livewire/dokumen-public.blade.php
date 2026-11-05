@@ -7,15 +7,15 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <span class="hover:opacity-80 cursor-pointer">Beranda</span>
+                <span class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</span>
                 <span>›</span>
-                <span style="color: {{ $globalSettings->primary_color_style }}">Dokumen</span>
+                <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Dokumen') }}</span>
             </div>
             
             <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
-                Dokumen <span style="color: {{ $globalSettings->primary_color_style }}">Kurikulum</span>
+                {{ __('Dokumen') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Kurikulum') }}</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">Unduh dokumen kurikulum dan silabus Jurusan RPL</p>
+            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">{{ __('Unduh dokumen kurikulum dan silabus Jurusan RPL') }}</p>
         </div>
     </section>
 
@@ -30,7 +30,7 @@
                     <input 
                         type="text" 
                         wire:model.live.debounce.300ms="search" 
-                        placeholder="Cari dokumen..."
+                        placeholder="{{ __('Cari dokumen...') }}"
                         class="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:border-transparent text-gray-700 dark:text-gray-200"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
                     >
@@ -88,7 +88,7 @@
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                                         </svg>
-                                        Unduh Dokumen
+                                        {{ __('Unduh Dokumen') }}
                                     </a>
                                 @endif
                             </div>
@@ -102,12 +102,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">Belum Ada Dokumen</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Dokumen') }}</h3>
                     <p class="text-gray-600 dark:text-gray-300">
                         @if($search || $filterJenis)
-                            Tidak ada dokumen yang sesuai dengan pencarian Anda
+                            {{ __('Tidak ada dokumen yang sesuai dengan pencarian Anda') }}
                         @else
-                            Dokumen kurikulum belum tersedia saat ini
+                            {{ __('Dokumen kurikulum belum tersedia saat ini') }}
                         @endif
                     </p>
                 </div>

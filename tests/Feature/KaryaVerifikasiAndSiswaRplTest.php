@@ -116,3 +116,40 @@ test('non admin or guru cannot access siswa rpl manager', function () {
         ->test(SiswaRplManager::class)
         ->assertForbidden();
 });
+
+test('public karya siswa page displays real 35 siswa profiles and both published and dummy karya', function () {
+    $this->seed(\Database\Seeders\GlobalSettingSeeder::class);
+    $this->seed(\Database\Seeders\SiswaRplSeeder::class);
+    $this->seed(\Database\Seeders\KaryaSiswaSeeder::class);
+
+    $kalis = User::where('nisn', '18346')->firstOrFail();
+
+    // Publish a new karya by a student and ensure it appears on the public page
+    $newKarya = KaryaSiswa::create([
+        'user_id' => $kalis->id,
+        'nama_siswa' => $kalis->name,
+        'judul' => 'Skansaba DevOps Monitor',
+        'kategori' => 'Web Development',
+        'teknologi' => ['Laravel', 'Docker'],
+        'kelas' => 'XI RPL 1',
+        'tahun' => 2026,
+        'status' => 'published',
+        'published_at' => now()->addMinute(),
+        'deskripsi' => 'Aplikasi pemantauan container server sekolah.',
+    ]);
+
+    Livewire::test(\App\Livewire\KaryaSiswaPublic::class)
+        // Real 35 students appear in Profil Siswa
+        ->assertSee('Alief Saktiawan Prananda')
+        ->assertSee('Kalis Lintang Pradipta')
+        ->assertSee('Zakian Akbar Maulana')
+        ->assertSee($kalis->profil_url)
+        // NISN should not be displayed in karya / profil siswa public view
+        ->assertDontSee($kalis->nisn)
+        // Real published karya (seeded + newly published) appear in Karya Siswa
+        ->assertSee('Skansaba DevOps Monitor')
+        ->assertSee('Kelas Angkasa')
+        ->assertSee(route('karya.detail', $newKarya->id))
+        // Retained dummy karya also appears
+        ->assertSee('Sistem Informasi Perpustakaan');
+});

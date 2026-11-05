@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         // Hard delete semua user (termasuk yang soft-deleted) supaya tidak ada
         // user "hantu" yang membuat login gagal setelah re-seed.
         User::withTrashed()->forceDelete();
+        \App\Models\LoginAudit::truncate();
 
         $admin = User::create([
             'name' => 'Administrator',
@@ -62,7 +63,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GlobalSettingSeeder::class,
             LandingPageSliderSeeder::class,
-            StrukturOrganisasiRplSeeder::class,
             StrukturOrganisasiGuruSeeder::class,
             ProspekKarirSeeder::class,
             KaryaSiswaSeeder::class,
@@ -72,7 +72,7 @@ class DatabaseSeeder extends Seeder
             AlumniSeeder::class,
             MitraSeeder::class,
             DokumenKurikulumSeeder::class,
-            ]);
+        ]);
         
             
         // Re-enable foreign key checks (works on MySQL & SQLite)

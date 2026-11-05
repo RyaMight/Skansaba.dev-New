@@ -7,9 +7,9 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <a href="/" class="hover:opacity-80">Beranda</a>
+                <a href="/" class="hover:opacity-80">{{ __('Beranda') }}</a>
                 <span>›</span>
-                <a href="/fasilitas" class="hover:opacity-80">Fasilitas</a>
+                <a href="/fasilitas" class="hover:opacity-80">{{ __('Fasilitas') }}</a>
                 <span>›</span>
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ $fasilitas->tempat }}</span>
             </div>
@@ -20,7 +20,7 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
-                    Kembali ke Fasilitas
+                    {{ __('Kembali ke Fasilitas') }}
                 </a>
             </div>
         </div>
@@ -51,7 +51,7 @@
                     {{-- Fasilitas List --}}
                     @if($fasilitas->fasilitas && count($fasilitas->fasilitas) > 0)
                         <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border-2" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">Fasilitas yang Tersedia</h3>
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ __('Fasilitas yang Tersedia') }}</h3>
                             <div class="grid md:grid-cols-2 gap-3">
                                 @foreach($fasilitas->fasilitas as $facility)
                                     <div class="flex items-center gap-2">
@@ -70,7 +70,7 @@
             {{-- Related Fasilitas --}}
             @if($relatedFasilitas->count() > 0)
                 <div class="mt-12">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">Fasilitas Lainnya</h2>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{{ __('Fasilitas Lainnya') }}</h2>
                     <div class="grid md:grid-cols-3 gap-6">
                         @foreach($relatedFasilitas as $related)
                             <a href="/fasilitas/{{ $related->id }}" class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition group">

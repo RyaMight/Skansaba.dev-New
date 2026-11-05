@@ -7,13 +7,13 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                     </svg>
-                    Kembali ke Berita
+                    {{ __('Kembali ke Berita') }}
                 </a>
             </div>
 
             @if($berita->is_highlight)
                 <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full mb-4" style="background-color: {{ $globalSettings->primary_color_style }}22; color: {{ $globalSettings->primary_color_style }}">
-                    ⭐ Berita Unggulan
+                    ⭐ {{ __('Berita Unggulan') }}
                 </span>
             @endif
 
@@ -30,14 +30,14 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    <span>{{ $berita->published_at->format('d F Y') }}</span>
+                    <span>{{ $berita->published_at->translatedFormat('d F Y') }}</span>
                 </div>
                 <div class="flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
                     </svg>
-                    <span>{{ $berita->views }} views</span>
+                    <span>{{ $berita->views }} {{ __('views') }}</span>
                 </div>
             </div>
         </div>
@@ -63,6 +63,25 @@
 
                 {{-- Content --}}
                 <div class="p-8">
+                    <div class="mb-5 pb-3.5 border-b border-gray-100 dark:border-gray-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-gray-400 notranslate">
+                        <div class="flex items-center gap-1.5">
+                            <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                            </svg>
+                            @if(app()->getLocale() === 'en')
+                                <span>{{ __('Konten berita ini otomatis diterjemahkan ke Bahasa Inggris') }}</span>
+                            @else
+                                <span>{{ __('Tersedia terjemahan otomatis saat mode bahasa EN aktif') }}</span>
+                            @endif
+                        </div>
+                        <a 
+                            href="{{ route('locale.switch', app()->getLocale() === 'en' ? 'id' : 'en') }}"
+                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 font-semibold transition shadow-2xs"
+                        >
+                            <span>{{ app()->getLocale() === 'en' ? __('Baca Versi Asli (ID)') : __('Terjemahkan ke English (EN)') }}</span>
+                        </a>
+                    </div>
+
                     <div class="prose max-w-none">
                         {!! $berita->content_html !!}
                     </div>
@@ -75,7 +94,7 @@
     @if($relatedBeritas->count() > 0)
         <section class="py-12 bg-white dark:bg-gray-900">
             <div class="max-w-7xl mx-auto px-6">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-8">Berita Terkait</h2>
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-8">{{ __('Berita Terkait') }}</h2>
                 <div class="grid md:grid-cols-3 gap-6">
                     @foreach($relatedBeritas as $related)
                         <a href="/berita/{{ $related->slug }}" class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition group">

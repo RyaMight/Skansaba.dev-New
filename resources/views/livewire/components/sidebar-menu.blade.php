@@ -49,13 +49,13 @@
                         <a 
                             href="{{ $item['url'] }}"
                             target="_blank"
-                            @click.prevent="if(confirm('Anda akan membuka link eksternal. Lanjutkan?')) window.open('{{ $item['url'] }}', '_blank')"
+                            @click.prevent="if(confirm('{{ __('Anda akan membuka link eksternal. Lanjutkan?') }}')) window.open('{{ $item['url'] }}', '_blank')"
                             class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg group transition"
                             x-bind:class="collapsed ? 'justify-center' : ''"
-                            x-bind:title="collapsed ? '{{ $item['label'] }}' : ''"
+                            x-bind:title="collapsed ? '{{ __($item['label']) }}' : ''"
                         >
                             <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 flex-shrink-0" x-bind:class="collapsed ? '' : 'mr-3'" />
-                            <span x-show="!collapsed" x-transition class="truncate">{{ $item['label'] }}</span>
+                            <span x-show="!collapsed" x-transition class="truncate">{{ __($item['label']) }}</span>
                             <svg x-show="!collapsed" class="w-4 h-4 ml-auto flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                             </svg>
@@ -67,7 +67,7 @@
                             wire:navigate
                             class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition"
                             x-bind:class="collapsed ? 'justify-center' : ''"
-                            x-bind:title="collapsed ? '{{ $item['label'] }}{{ !empty($item['has_badge']) ? ' (' . ($item['badge_title'] ?? $item['badge_count'] . ' perlu verifikasi') . ')' : '' }}' : ''"
+                            x-bind:title="collapsed ? '{{ __($item['label']) }}{{ !empty($item['has_badge']) ? ' (' . ($item['badge_title'] ?? $item['badge_count'] . ' perlu verifikasi') . ')' : '' }}' : ''"
                             @class([
                                 'bg-blue-50 dark:bg-blue-500/15' => request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index'),
                                 'text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800' => !(request()->routeIs($item['route']) || request()->routeIs($item['route'] . '.index')),
@@ -88,13 +88,13 @@
                                     </span>
                                 @endif
                             </div>
-                            <span x-show="!collapsed" x-transition class="truncate">{{ $item['label'] }}</span>
+                            <span x-show="!collapsed" x-transition class="truncate">{{ __($item['label']) }}</span>
                             @if(!empty($item['has_badge']))
                                 <span 
                                     x-show="!collapsed" 
                                     x-transition 
                                     class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/20 border border-amber-200/80 dark:border-amber-500/30 rounded-full flex-shrink-0" 
-                                    title="{{ $item['badge_title'] ?? ($item['badge_count'] . ' karya menunggu verifikasi') }}"
+                                    title="{{ $item['badge_title'] ?? ($item['badge_count'] . ' karya perlu verifikasi') }}"
                                 >
                                     <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
@@ -109,23 +109,25 @@
                 @endforeach
             </nav>
 
-            {{-- Kembali ke Landing Page + Theme Toggle --}}
+            {{-- Kembali ke Landing Page + Language Switcher + Theme Toggle --}}
             <div class="flex-shrink-0 px-3 pt-3 pb-1 border-t border-gray-200 dark:border-gray-800">
-                <div class="flex items-center" :class="collapsed ? 'justify-center' : 'justify-between'">
+                <div class="flex items-center" :class="collapsed ? 'flex-col gap-2' : 'justify-between'">
                     <a
                         href="{{ route('beranda') }}"
                         wire:navigate
                         class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#0284c7] rounded-lg group transition"
-                        x-bind:class="collapsed ? 'justify-center px-2' : ''"
-                        x-bind:title="collapsed ? 'Kembali ke Beranda' : ''"
+                        x-bind:class="collapsed ? 'justify-center px-2 w-full' : ''"
+                        x-bind:title="collapsed ? '{{ __('Kembali ke Beranda') }}' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0 text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-bind:class="collapsed ? '' : 'mr-3'">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
                         </svg>
-                        <span x-show="!collapsed" x-transition class="truncate">Kembali ke Beranda</span>
+                        <span x-show="!collapsed" x-transition class="truncate">{{ __('Kembali ke Beranda') }}</span>
                     </a>
 
-                    <x-theme-toggle />
+                    <div class="flex items-center gap-1.5" :class="collapsed ? 'flex-col' : ''">
+                        <x-theme-toggle />
+                    </div>
                 </div>
             </div>
 
@@ -228,11 +230,11 @@
                     <a 
                         href="{{ $item['url'] }}"
                         target="_blank"
-                        @click.prevent="if(confirm('Anda akan membuka link eksternal. Lanjutkan?')) { window.open('{{ $item['url'] }}', '_blank'); mobileOpen = false; }"
+                        @click.prevent="if(confirm('{{ __('Anda akan membuka link eksternal. Lanjutkan?') }}')) { window.open('{{ $item['url'] }}', '_blank'); mobileOpen = false; }"
                         class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
                     >
                         <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 mr-3" />
-                        <span>{{ $item['label'] }}</span>
+                        <span>{{ __($item['label']) }}</span>
                         <svg class="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
@@ -252,11 +254,11 @@
                         @endif
                     >
                         <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 mr-3 flex-shrink-0" />
-                        <span class="truncate">{{ $item['label'] }}</span>
+                        <span class="truncate">{{ __($item['label']) }}</span>
                         @if(!empty($item['has_badge']))
                             <span 
                                 class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/20 border border-amber-200/80 dark:border-amber-500/30 rounded-full flex-shrink-0"
-                                title="{{ $item['badge_title'] ?? ($item['badge_count'] . ' karya menunggu verifikasi') }}"
+                                title="{{ $item['badge_title'] ?? ($item['badge_count'] . ' karya perlu verifikasi') }}"
                             >
                                 <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z" />
@@ -271,7 +273,7 @@
             @endforeach
         </nav>
 
-        {{-- Kembali ke Landing Page / Beranda --}}
+        {{-- Kembali ke Landing Page / Beranda + Language Switcher + Theme Toggle --}}
         <div class="flex-shrink-0 px-3 pt-3 pb-1 border-t border-gray-200 dark:border-gray-700">
             <div class="flex items-center justify-between gap-2">
                 <a
@@ -283,8 +285,11 @@
                     <svg class="w-5 h-5 mr-3 flex-shrink-0 text-gray-400 dark:text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />
                     </svg>
-                    <span>Kembali ke Beranda</span>
+                    <span>{{ __('Kembali ke Beranda') }}</span>
                 </a>
+                <div class="flex items-center gap-1.5 shrink-0">
+                    <x-theme-toggle />
+                </div>
             </div>
         </div>
 

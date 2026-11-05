@@ -13,6 +13,8 @@ class StrukturOrganisasiGuruSeeder extends Seeder
      */
     public function run(): void
     {
+        StrukturOrganisasiRpl::truncate();
+
         $guru = [
             [
                 'nama' => 'Haris Budiawan, S.Pd.',

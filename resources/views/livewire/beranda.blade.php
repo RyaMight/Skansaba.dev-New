@@ -160,7 +160,7 @@
                     {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
                 </h1>
                 <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg mt-1 max-w-xl mx-auto leading-snug">
-                    {{ $globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia' }}
+                    {{ __($globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia') }}
                 </p>
             </div>
 
@@ -171,7 +171,7 @@
                         <button
                             @click="back()"
                             class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
-                            aria-label="Slide sebelumnya"
+                            aria-label="{{ __('Slide sebelumnya') }}"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
@@ -180,7 +180,7 @@
                         <button
                             @click="advance()"
                             class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300"
-                            aria-label="Slide berikutnya"
+                            aria-label="{{ __('Slide berikutnya') }}"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
@@ -256,7 +256,7 @@
                         <button
                             @click="back()"
                             class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 transition"
-                            aria-label="Slide sebelumnya"
+                            aria-label="{{ __('Slide sebelumnya') }}"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
@@ -265,7 +265,7 @@
                         <button
                             @click="advance()"
                             class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 transition"
-                            aria-label="Slide berikutnya"
+                            aria-label="{{ __('Slide berikutnya') }}"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
@@ -277,7 +277,7 @@
         @else
             <div class="site-container">
                 <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
-                    Belum ada slide yang ditambahkan
+                    {{ __('Belum ada slide yang ditambahkan') }}
                 </div>
             </div>
         @endif
@@ -293,7 +293,7 @@
                 {{-- Kolom kiri: Prospek Karir (list polos seperti desain) --}}
                 <div class="lg:col-span-5" data-reveal>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
-                        Prospek Karir
+                        {{ __('Prospek Karir') }}
                     </h2>
 
                     @if($prospekKarir->isNotEmpty())
@@ -308,14 +308,14 @@
                             @endforeach
                         </ul>
                     @else
-                        <p class="text-sm text-gray-400">Belum ada prospek karir</p>
+                        <p class="text-sm text-gray-400">{{ __('Belum ada prospek karir') }}</p>
                     @endif
                 </div>
 
                 {{-- Kolom kanan: Mata Pelajaran Unggulan (list polos seperti desain) --}}
                 <div class="lg:col-span-7" data-reveal>
                     <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
-                        Mata Pelajaran Unggulan
+                        {{ __('Mata Pelajaran Unggulan') }}
                     </h2>
 
                     <div class="space-y-6 lg:space-y-7">
@@ -341,8 +341,8 @@
                                 </span>
 
                                 <div class="min-w-0">
-                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 text-base leading-snug">{{ $mapel['judul'] }}</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5">{{ $mapel['deskripsi'] }}</p>
+                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 text-base leading-snug">{{ __($mapel['judul']) }}</h3>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5">{{ __($mapel['deskripsi']) }}</p>
                                 </div>
                             </div>
                         @endforeach
@@ -407,7 +407,7 @@
                     </div>
                 </div>
             @else
-                <p class="text-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>Belum ada mitra yang ditampilkan</p>
+                <p class="text-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>{{ __('Belum ada mitra yang ditampilkan') }}</p>
             @endif
         </div>
     </section>
@@ -418,7 +418,7 @@
     <section class="py-12 lg:py-16">
         <div class="site-container">
             <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-8 lg:mb-10" data-reveal>
-                Karya Siswa
+                {{ __('Karya Siswa') }}
             </h2>
 
             @if($karyaSiswa->isNotEmpty())
@@ -539,7 +539,7 @@
                     <button
                         @click="scrollCards(-1)"
                         class="hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-300 z-30"
-                        aria-label="Geser kiri"
+                        aria-label="{{ __('Geser kiri') }}"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
@@ -548,7 +548,7 @@
                     <button
                         @click="scrollCards(1)"
                         class="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-300 z-30"
-                        aria-label="Geser kanan"
+                        aria-label="{{ __('Geser kanan') }}"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
@@ -565,7 +565,7 @@
                 </div>
             @else
                 <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
-                    Belum ada karya siswa yang dipublikasikan
+                    {{ __('Belum ada karya siswa yang dipublikasikan') }}
                 </div>
             @endif
         </div>
@@ -578,13 +578,13 @@
         <div class="site-container">
             <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
                 <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50">
-                    Berita Terbaru
+                    {{ __('Berita Terbaru') }}
                 </h2>
                 <a
                     href="/berita"
                     class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:gap-3 transition-all"
                 >
-                    Lihat Semua
+                    {{ __('Lihat Semua') }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                     </svg>
@@ -721,7 +721,7 @@
 
                                 @if($item->is_highlight)
                                     <span class="absolute top-3 left-3 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/95 dark:bg-gray-900/90 text-gray-900 dark:text-gray-50 shadow-sm backdrop-blur">
-                                        ⭐ Unggulan
+                                        ⭐ {{ __('Unggulan') }}
                                     </span>
                                 @endif
                             </div>
@@ -735,9 +735,9 @@
                                 <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                                     <div class="overflow-hidden">
                                         <div class="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 pt-3">
-                                            <span>{{ $item->published_at?->format('d M Y') }}</span>
+                                            <span>{{ $item->published_at?->translatedFormat('d M Y') }}</span>
                                             <span class="w-1 h-1 rounded-full bg-gray-300"></span>
-                                            <span>{{ $item->views }} views</span>
+                                            <span>{{ $item->views }} {{ __('views') }}</span>
                                         </div>
 
                                         <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-2">
@@ -745,7 +745,7 @@
                                         </p>
 
                                         <span class="inline-flex items-center gap-1.5 mt-3 text-sm font-semibold" style="color: {{ $globalSettings->primary_color_style }}">
-                                            Baca Selengkapnya
+                                            {{ __('Baca Selengkapnya') }}
                                             <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                                             </svg>
@@ -764,7 +764,7 @@
                         href="/berita"
                         class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 transition"
                     >
-                        Lihat Semua Berita
+                        {{ __('Lihat Semua Berita') }}
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                         </svg>
@@ -772,7 +772,7 @@
                 </div>
             @else
                 <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-56 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
-                    Belum ada berita yang dipublikasikan
+                    {{ __('Belum ada berita yang dipublikasikan') }}
                 </div>
             @endif
         </div>

@@ -89,6 +89,7 @@ class SiswaRplSeeder extends Seeder
                     'name' => $name,
                     'role' => 'siswa',
                     'status' => 'active',
+                    'kelas' => $existing->kelas ?: 'XI RPL 1',
                     'username' => $existing->username ?: $defaultUsername,
                     'email' => $existing->email ?: $defaultEmail,
                 ]);
@@ -103,6 +104,7 @@ class SiswaRplSeeder extends Seeder
                 User::create([
                     'name' => $name,
                     'nisn' => $nisn,
+                    'kelas' => 'XI RPL 1',
                     'username' => $username,
                     'email' => $defaultEmail,
                     'password' => $defaultPasswordHash,

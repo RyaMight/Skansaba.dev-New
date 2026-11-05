@@ -7,15 +7,15 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <span class="hover:opacity-80 cursor-pointer">Beranda</span>
+                <span class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</span>
                 <span>›</span>
-                <span style="color: {{ $globalSettings->primary_color_style }}">Galeri</span>
+                <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Galeri') }}</span>
             </div>
             
             <h1 class="text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
-                <span style="color: {{ $globalSettings->primary_color_style }}">Galeri</span> Kegiatan
+                <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Galeri') }}</span> {{ __('Kegiatan') }}
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">Dokumentasi kegiatan dan momen Jurusan RPL</p>
+            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-4xl mx-auto">{{ __('Dokumentasi kegiatan dan momen Jurusan RPL') }}</p>
         </div>
     </section>
 
@@ -43,7 +43,7 @@
                                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                             </svg>
-                                            {{ $gallery->images_count }} Foto
+                                            {{ __(':count Foto', ['count' => $gallery->images_count]) }}
                                         </div>
                                     </div>
                                 @else
@@ -64,9 +64,9 @@
                                                 </span>
                                             @endif
                                             <button 
-                                                onclick="event.preventDefault(); navigator.clipboard.writeText(window.location.origin + '/gallery/{{ $gallery->id }}'); alert('Link galeri berhasil disalin!')"
+                                                onclick="event.preventDefault(); navigator.clipboard.writeText(window.location.origin + '/gallery/{{ $gallery->id }}'); alert(@js(__('Link galeri berhasil disalin!')))"
                                                 class="p-1.5 text-gray-400 dark:text-gray-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-lg transition-all"
-                                                title="Salin Link">
+                                                title="{{ __('Salin Link') }}">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-2.684 3 3 0 000 2.684zm0 12.684a3 3 0 100-2.684 3 3 0 000 2.684z"/>
                                                 </svg>
@@ -91,12 +91,12 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">Belum Ada Galeri</h3>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Galeri') }}</h3>
                     <p class="text-gray-600 dark:text-gray-300">
                         @if($filterKategori)
-                            Tidak ada galeri dalam kategori yang dipilih
+                            {{ __('Tidak ada galeri dalam kategori yang dipilih') }}
                         @else
-                            Galeri belum tersedia saat ini
+                            {{ __('Galeri belum tersedia saat ini') }}
                         @endif
                     </p>
                 </div>

@@ -70,21 +70,44 @@ class Login extends Component
 
         $this->isLoading = true;
 
-        // Additional email-based rate limiting
-        $failedAttempts = LoginAudit::countRecentFailedAttempts($this->email, 15);
+        // Determine login field type: email or nisn
+        $loginType = filter_var($this->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'nisn';
+
+        // Check if account exists
+        $existingUser = User::where($loginType, $this->email)->first();
+
+        // Additional identifier-based rate limiting (15 minutes window)
+        $identifiers = array_unique(array_filter([
+            $this->email,
+            $existingUser?->email,
+            $existingUser?->nisn,
+        ]));
+
+        $failedAttempts = 0;
+        foreach ($identifiers as $identifier) {
+            $failedAttempts = max($failedAttempts, LoginAudit::countRecentFailedAttempts($identifier, 15));
+        }
         
         if ($failedAttempts >= 5) {
             $this->isLoading = false;
-            $this->addError('email', 'Akun Anda telah diblokir sementara karena terlalu banyak percobaan login yang gagal. Silakan coba lagi nanti.');
+            $oldestFailed = LoginAudit::failed()
+                ->whereIn('email', $identifiers)
+                ->where('attempted_at', '>=', now()->subMinutes(15))
+                ->orderBy('attempted_at', 'asc')
+                ->first();
+
+            $remainingMinutes = 15;
+            if ($oldestFailed && $oldestFailed->attempted_at) {
+                $secondsLeft = max(0, 15 * 60 - now()->diffInSeconds($oldestFailed->attempted_at));
+                $remainingMinutes = max(1, (int) ceil($secondsLeft / 60));
+            }
+
+            $this->addError('email', "Akun Anda telah diblokir sementara karena terlalu banyak percobaan login yang gagal. Silakan coba lagi dalam {$remainingMinutes} menit.");
             $this->auditFailedLogin('Account temporarily blocked');
             return;
         }
 
-        // Determine login field type: email or nisn
-        $loginType = filter_var($this->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'nisn';
-
-        // Check if account exists and is inactive
-        $existingUser = User::where($loginType, $this->email)->first();
+        // Check if account is inactive
         if ($existingUser && $existingUser->status !== 'active') {
             $this->isLoading = false;
             $this->addError('email', 'Akun Anda berstatus nonaktif. Silakan hubungi admin.');
@@ -95,6 +118,7 @@ class Login extends Component
         // Attempt authentication
         if (Auth::attempt([$loginType => $this->email, 'password' => $this->password])) {
             RateLimiter::clear($rateLimitKey);
+            LoginAudit::whereIn('email', $identifiers)->where('status', 'failed')->delete();
             
             // Regenerate session
             request()->session()->regenerate();

@@ -17,7 +17,7 @@
     $isGalleryActive = request()->routeIs('gallery.*') || request()->is('gallery*');
     $isInformasiActive = $isBeritaActive || $isDokumenActive || $isGalleryActive;
 @endphp
-<header class="sticky top-0 z-50 pt-4 px-4 sm:px-6">
+<header class="sticky top-0 z-50 pt-4 px-4 sm:px-6 notranslate">
     <nav class="max-w-6xl mx-auto bg-white dark:bg-gray-900 dark:border-gray-800 rounded-2xl shadow-[0_2px_16px_rgba(15,23,42,0.08)] border border-gray-100 dark:border-gray-800">
         <div class="flex items-center justify-between h-16 px-5 sm:px-7">
             {{-- Logo & Brand --}}
@@ -38,7 +38,7 @@
                     'text-sm transition hover-primary',
                     'font-bold text-gray-900 dark:text-gray-100' => $isBerandaActive,
                     'font-medium text-gray-500 dark:text-gray-400' => !$isBerandaActive,
-                ])>Beranda</a>
+                ])>{{ __('Beranda') }}</a>
 
                 {{-- Profil Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
@@ -47,7 +47,7 @@
                         'font-bold text-gray-900 dark:text-gray-100' => $isProfilActive,
                         'font-medium text-gray-500 dark:text-gray-400' => !$isProfilActive,
                     ])>
-                        Profil
+                        {{ __('Profil') }}
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -57,12 +57,12 @@
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isStrukturActive,
                             'text-gray-600 dark:text-gray-300' => !$isStrukturActive,
-                        ])>Struktur Organisasi</a>
+                        ])>{{ __('Struktur Organisasi') }}</a>
                         <a href="/fasilitas" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isFasilitasActive,
                             'text-gray-600 dark:text-gray-300' => !$isFasilitasActive,
-                        ])>Fasilitas</a>
+                        ])>{{ __('Fasilitas') }}</a>
                     </div>
                 </div>
 
@@ -73,7 +73,7 @@
                         'font-bold text-gray-900 dark:text-gray-100' => $isSiswaActive,
                         'font-medium text-gray-500 dark:text-gray-400' => !$isSiswaActive,
                     ])>
-                        Siswa
+                        {{ __('Siswa') }}
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -83,17 +83,17 @@
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isPrestasiActive,
                             'text-gray-600 dark:text-gray-300' => !$isPrestasiActive,
-                        ])>Prestasi</a>
+                        ])>{{ __('Prestasi') }}</a>
                         <a href="/karya" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isKaryaActive,
                             'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
-                        ])>Karya Siswa</a>
+                        ])>{{ __('Karya Siswa') }}</a>
                         <a href="/alumni" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isAlumniActive,
                             'text-gray-600 dark:text-gray-300' => !$isAlumniActive,
-                        ])>Alumni</a>
+                        ])>{{ __('Alumni') }}</a>
                     </div>
                 </div>
 
@@ -101,7 +101,7 @@
                     'text-sm transition hover-primary',
                     'font-bold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
                     'font-medium text-gray-500 dark:text-gray-400' => !$isUnitProduksiActive,
-                ])>Unit Produksi</a>
+                ])>{{ __('Unit Produksi') }}</a>
 
                 {{-- Informasi Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
@@ -110,7 +110,7 @@
                         'font-bold text-gray-900 dark:text-gray-100' => $isInformasiActive,
                         'font-medium text-gray-500 dark:text-gray-400' => !$isInformasiActive,
                     ])>
-                        Informasi
+                        {{ __('Informasi') }}
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
@@ -120,24 +120,25 @@
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isBeritaActive,
                             'text-gray-600 dark:text-gray-300' => !$isBeritaActive,
-                        ])>Berita</a>
+                        ])>{{ __('Berita') }}</a>
                         <a href="/dokumen" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isDokumenActive,
                             'text-gray-600 dark:text-gray-300' => !$isDokumenActive,
-                        ])>Dokumen</a>
+                        ])>{{ __('Dokumen') }}</a>
                         <a href="/gallery" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
                             'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isGalleryActive,
                             'text-gray-600 dark:text-gray-300' => !$isGalleryActive,
-                        ])>Gallery</a>
+                        ])>{{ __('Gallery') }}</a>
                     </div>
                 </div>
             </div>
 
-            {{-- Blok kanan: Theme Toggle (kiri) + Akun (paling kanan), jarak 35px --}}
-            <div class="hidden lg:flex items-center">
-                <div class="mr-[35px]">
+            {{-- Blok kanan: Language Switcher + Theme Toggle + Akun --}}
+            <div class="hidden lg:flex items-center gap-3">
+                <x-language-switcher />
+                <div class="mr-[20px]">
                     <x-theme-toggle />
                 </div>
 
@@ -146,12 +147,12 @@
                         <svg class="w-5 h-5 text-gray-400 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        <a href="/login" class="font-medium text-gray-700 dark:text-gray-200 hover-primary transition">Masuk</a>
+                        <a href="/login" class="font-medium text-gray-700 dark:text-gray-200 hover-primary transition">{{ __('Masuk') }}</a>
                     </div>
                 @else
                     <div x-data="{ open: false }" @click.away="open = false" class="relative">
                         {{-- Avatar (foto profil) --}}
-                        <button @click="open = !open" class="flex items-center gap-2 group cursor-pointer" title="Akun Saya">
+                        <button @click="open = !open" class="flex items-center gap-2 group cursor-pointer" title="{{ __('Akun Saya') }}">
                             @if(auth()->user()->photo_url)
                                 <img 
                                     src="{{ auth()->user()->photo_url }}" 
@@ -181,7 +182,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                 </svg>
-                                {{ auth()->user()->role === 'siswa' ? 'Profil Saya' : 'Dashboard' }}
+                                {{ auth()->user()->role === 'siswa' ? __('Profil Saya') : __('Dashboard') }}
                             </a>
                             @if(auth()->user()->role === 'siswa')
                                 <a 
@@ -192,7 +193,7 @@
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                                     </svg>
-                                    Profil Publik Saya
+                                    {{ __('Profil Publik Saya') }}
                                 </a>
                             @endif
                             <button 
@@ -202,7 +203,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                                 </svg>
-                                Logout
+                                {{ __('Logout') }}
                             </button>
                         </div>
                     </div>
@@ -254,8 +255,9 @@
                 <span class="font-bold text-lg" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
             </div>
             <div class="flex items-center gap-2">
+                <x-language-switcher />
                 <x-theme-toggle />
-                <button @click="open = false" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-600 dark:text-gray-300 transition" aria-label="Tutup menu">
+                <button @click="open = false" class="p-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-600 dark:text-gray-300 transition" aria-label="{{ __('Tutup menu') }}">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -267,7 +269,7 @@
                 'block py-2.5 border-b border-gray-100 dark:border-gray-800 hover-primary',
                 'font-bold text-gray-900 dark:text-gray-100' => $isBerandaActive,
                 'font-semibold text-gray-600 dark:text-gray-300' => !$isBerandaActive,
-            ])>Beranda</a>
+            ])>{{ __('Beranda') }}</a>
 
             {{-- Profil Mobile Accordion --}}
             <div x-data="{ expanded: {{ $isProfilActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
@@ -276,7 +278,7 @@
                     'font-bold text-gray-900 dark:text-gray-100' => $isProfilActive,
                     'font-semibold text-gray-600 dark:text-gray-300' => !$isProfilActive,
                 ])>
-                    <span>Profil</span>
+                    <span>{{ __('Profil') }}</span>
                     <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -286,12 +288,12 @@
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isStrukturActive,
                         'text-gray-600 dark:text-gray-300' => !$isStrukturActive,
-                    ])>Struktur Organisasi</a>
+                    ])>{{ __('Struktur Organisasi') }}</a>
                     <a href="/fasilitas" @class([
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isFasilitasActive,
                         'text-gray-600 dark:text-gray-300' => !$isFasilitasActive,
-                    ])>Fasilitas</a>
+                    ])>{{ __('Fasilitas') }}</a>
                 </div>
             </div>
 
@@ -302,7 +304,7 @@
                     'font-bold text-gray-900 dark:text-gray-100' => $isSiswaActive,
                     'font-semibold text-gray-600 dark:text-gray-300' => !$isSiswaActive,
                 ])>
-                    <span>Siswa</span>
+                    <span>{{ __('Siswa') }}</span>
                     <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -312,17 +314,17 @@
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isPrestasiActive,
                         'text-gray-600 dark:text-gray-300' => !$isPrestasiActive,
-                    ])>Prestasi</a>
+                    ])>{{ __('Prestasi') }}</a>
                     <a href="/karya" @class([
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isKaryaActive,
                         'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
-                    ])>Karya Siswa</a>
+                    ])>{{ __('Karya Siswa') }}</a>
                     <a href="/alumni" @class([
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isAlumniActive,
                         'text-gray-600 dark:text-gray-300' => !$isAlumniActive,
-                    ])>Alumni</a>
+                    ])>{{ __('Alumni') }}</a>
                 </div>
             </div>
 
@@ -330,7 +332,7 @@
                 'block py-2.5 border-b border-gray-100 dark:border-gray-800 hover-primary',
                 'font-bold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
                 'font-semibold text-gray-600 dark:text-gray-300' => !$isUnitProduksiActive,
-            ])>Unit Produksi</a>
+            ])>{{ __('Unit Produksi') }}</a>
 
             {{-- Informasi Mobile Accordion --}}
             <div x-data="{ expanded: {{ $isInformasiActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
@@ -339,7 +341,7 @@
                     'font-bold text-gray-900 dark:text-gray-100' => $isInformasiActive,
                     'font-semibold text-gray-600 dark:text-gray-300' => !$isInformasiActive,
                 ])>
-                    <span>Informasi</span>
+                    <span>{{ __('Informasi') }}</span>
                     <svg class="w-4 h-4 transition-transform" :class="{ 'rotate-180': expanded }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                     </svg>
@@ -349,22 +351,22 @@
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isBeritaActive,
                         'text-gray-600 dark:text-gray-300' => !$isBeritaActive,
-                    ])>Berita</a>
+                    ])>{{ __('Berita') }}</a>
                     <a href="/dokumen" @class([
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isDokumenActive,
                         'text-gray-600 dark:text-gray-300' => !$isDokumenActive,
-                    ])>Dokumen</a>
+                    ])>{{ __('Dokumen') }}</a>
                     <a href="/gallery" @class([
                         'block py-2 text-sm hover-primary',
                         'font-bold text-gray-900 dark:text-gray-100' => $isGalleryActive,
                         'text-gray-600 dark:text-gray-300' => !$isGalleryActive,
-                    ])>Gallery</a>
+                    ])>{{ __('Gallery') }}</a>
                 </div>
             </div>
 
             @guest
-                <a href="/login" class="block py-2 font-medium pt-2 border-t border-gray-100 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover-primary">Masuk</a>
+                <a href="/login" class="block py-2 font-medium pt-2 border-t border-gray-100 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover-primary">{{ __('Masuk') }}</a>
             @else
                 {{-- Akun Mobile --}}
                 <div x-data="{ open: false }" class="pt-2 border-t">
@@ -393,7 +395,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        {{ auth()->user()->role === 'siswa' ? 'Profil Saya' : 'Dashboard' }}
+                        {{ auth()->user()->role === 'siswa' ? __('Profil Saya') : __('Dashboard') }}
                     </a>
                     <button 
                         @click="open = false; $dispatch('confirm-logout')" 
@@ -402,7 +404,7 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                         </svg>
-                        Logout
+                        {{ __('Logout') }}
                     </button>
                 </div>
             @endguest
@@ -440,15 +442,15 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">Yakin mau logout?</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Sesi Anda akan diakhiri. Anda bisa masuk lagi kapan saja.</p>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ __('Yakin mau logout?') }}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ __('Sesi Anda akan diakhiri. Anda bisa masuk lagi kapan saja.') }}</p>
                 </div>
                 <div class="flex items-center justify-center gap-3 pt-2">
                     <button 
                         @click="show = false" 
                         class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition cursor-pointer"
                     >
-                        Batal
+                        {{ __('Batal') }}
                     </button>
                     <form action="{{ route('logout') }}" method="POST" class="contents">
                         @csrf
@@ -456,7 +458,7 @@
                             type="submit" 
                             class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-semibold transition cursor-pointer"
                         >
-                            Ya, Logout
+                            {{ __('Ya, Logout') }}
                         </button>
                     </form>
                 </div>
