@@ -1,4 +1,9 @@
-# Skansaba.dev — Website Jurusan RPL
+<table>
+  <tr>
+    <td width="140"><img src="storage/app/public/logos/favicon_skansaba.webp" alt="Logo Skansaba Dev" width="130"/></td>
+    <td><h1>Skansaba.dev — Website Jurusan RPL</h1></td>
+  </tr>
+</table>
 
 Website landing page + CMS admin & portofolio siswa untuk Jurusan Rekayasa Perangkat Lunak SMKN 1 Bantul. Dibangun dengan **Laravel 12**, **Livewire 4**, **Tailwind CSS 4**, dan **MySQL**.
 
