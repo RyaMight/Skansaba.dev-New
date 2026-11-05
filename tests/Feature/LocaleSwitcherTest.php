@@ -58,7 +58,7 @@ class LocaleSwitcherTest extends TestCase
         $response->assertSee('Website Development Pricing');
         $response->assertSee('Turnaround Time:');
         $response->assertSee('Starting From');
-        $response->assertSee('View Package');
+        $response->assertSee('Contact Us');
         $response->assertSee('Why Build Your Website with');
         $response->assertSee('Consult Now');
     }
@@ -75,7 +75,7 @@ class LocaleSwitcherTest extends TestCase
         $followResponse->assertStatus(200);
         $followResponse->assertSee('Harga Jasa Pembuatan Website');
         $followResponse->assertSee('Waktu Pengerjaan:');
-        $followResponse->assertSee('Lihat Paket');
+        $followResponse->assertSee('Hubungi Kami');
     }
 
     public function test_fresh_visitor_without_session_or_cookie_always_defaults_to_indonesian_id()
