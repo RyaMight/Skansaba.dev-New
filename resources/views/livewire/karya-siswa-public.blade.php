@@ -1,15 +1,15 @@
 <div class="min-h-screen bg-[#f8fafc] dark:bg-gray-950 py-8 lg:py-12" x-data="{ tab: @entangle('activeTab').live }">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {{-- Breadcrumb halus di bagian paling atas --}}
-        <div class="flex items-center justify-center gap-2 text-xs text-slate-500 dark:text-gray-400 mb-6">
+    <div class="site-container">
+        {{-- Breadcrumb di bagian atas --}}
+        <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-6">
             <a href="{{ route('beranda') }}" class="inline-flex items-center gap-1.5 hover:text-slate-900 dark:hover:text-white transition-colors">
-                <svg class="w-3.5 h-3.5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
+                <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
                 <span>{{ __('Beranda') }}</span>
             </a>
-            <span>/</span>
-            <span class="font-medium text-slate-700 dark:text-gray-300" x-text="tab === 'profil' ? @js(__('Profil Siswa')) : @js(__('Karya Siswa'))">
+            <span>›</span>
+            <span style="color: {{ $globalSettings->primary_color_style }}" class="font-medium" x-text="tab === 'profil' ? @js(__('Profil Siswa')) : @js(__('Karya Siswa'))">
                 {{ __('Karya Siswa') }}
             </span>
         </div>

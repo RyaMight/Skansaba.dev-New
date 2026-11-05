@@ -1,21 +1,21 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     {{-- Header dengan Breadcrumb --}}
-    <section class="bg-white dark:bg-gray-900 py-8 border-b border-gray-100 dark:border-gray-800">
-        <div class="site-container">
+    <section class="bg-white dark:bg-gray-900 py-8 lg:py-10 border-b border-gray-100 dark:border-gray-800">
+        <div class="site-container text-center">
             {{-- Breadcrumb --}}
-            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
+            <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4" data-reveal>
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <a href="/" class="hover:opacity-80">{{ __('Beranda') }}</a>
+                <a href="/" class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
                 <span>›</span>
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Unit Produksi') }}</span>
             </div>
 
-            <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-2">
+            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-2" data-reveal>
                 {{ __('Harga Jasa Pembuatan Website') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300">{{ __('Pilih paket website yang sesuai dengan kebutuhan Anda.') }}</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto" data-reveal>{{ __('Pilih paket website yang sesuai dengan kebutuhan Anda.') }}</p>
         </div>
     </section>
 

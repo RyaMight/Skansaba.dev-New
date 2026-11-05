@@ -58,8 +58,8 @@
             {{-- Frame foto tunggal: TANPA crop — tinggi mengikuti rasio foto asli.
                  Semua slide ditumpuk di grid cell yang sama; yang aktif terlihat. --}}
             <div class="site-container" data-reveal>
-                {{-- Wrapper untuk gambar + tombol desktop - ukuran sangat kecil untuk testing --}}
-                <div class="relative max-w-[400px] mx-auto">
+                {{-- Wrapper untuk gambar + tombol desktop: proporsional, lapang dan elegan --}}
+                <div class="relative max-w-[520px] sm:max-w-[620px] md:max-w-[740px] lg:max-w-[860px] xl:max-w-[900px] mx-auto">
                     {{-- Container gambar --}}
                     <div class="relative grid">
                         @foreach($sliders as $index => $slider)
@@ -67,11 +67,11 @@
                                 class="col-start-1 row-start-1 rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
                                 :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
                             >
-                                {{-- Gambar dikecilkan drastis untuk full terlihat --}}
+                                {{-- Gambar proporsional dan jelas di layar desktop --}}
                                 <img
                                     src="{{ asset('storage/' . $slider->image) }}"
                                     alt="{{ $slider->title }}"
-                                    class="w-full h-auto block max-h-[300px] object-cover"
+                                    class="w-full h-auto block max-h-[360px] sm:max-h-[420px] md:max-h-[480px] lg:max-h-[520px] xl:max-h-[540px] object-cover"
                                     @if($index !== 0) loading="lazy" @endif
                                 >
 
