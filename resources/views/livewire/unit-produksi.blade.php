@@ -143,12 +143,19 @@
 
                         {{-- CTA --}}
                         <div class="px-6 pb-6">
+                            @php
+                                $waUrl = $globalSettings->whatsapp_url ?? 'https://wa.me/6285111345644';
+                                $pesanPaket = urlencode(__('Halo Skansaba.Dev, saya tertarik dengan paket :paket. Mohon informasi lebih lanjut.', ['paket' => $p['nama']]));
+                                $paketHref = $waUrl . (str_contains($waUrl, '?') ? '&' : '?') . 'text=' . $pesanPaket;
+                            @endphp
                             <a
-                                href="{{ route('beranda') }}#kontak"
+                                href="{{ $paketHref }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 class="block w-full text-center px-4 py-2.5 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
                                 style="background-color: {{ $globalSettings->primary_color_style }}"
                             >
-                                {{ __('Lihat Paket') }}
+                                {{ __('Hubungi Kami') }}
                             </a>
                             <p class="mt-3 text-center text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 rounded-lg py-2">
                                 {{ __('Biaya Setup:') }} {{ $p['setup'] }}

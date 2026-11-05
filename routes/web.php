@@ -53,6 +53,7 @@ Route::get('/karya/{id}', \App\Livewire\KaryaSiswaDetail::class)->name('karya.de
 Route::get('/alumni', \App\Livewire\AlumniPublic::class)->name('alumni.public');
 Route::get('/alumni/{id}', \App\Livewire\AlumniDetail::class)->name('alumni.detail');
 Route::get('/unit-produksi', \App\Livewire\UnitProduksi::class)->name('unit-produksi');
+Route::get('/hubungi-kami', \App\Livewire\HubungiKami::class)->name('hubungi-kami');
 Route::get('/dokumen', \App\Livewire\DokumenPublic::class)->name('dokumen.public');
 Route::get('/gallery', \App\Livewire\GalleryPublic::class)->name('gallery.public');
 Route::get('/gallery/{id}', \App\Livewire\GaleriDetail::class)->name('gallery.detail');
@@ -79,6 +80,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/landing-page-slider', \App\Livewire\LandingPageSliderManager::class)->name('landing-page-slider.index');
         Route::get('/admin/fasilitas', \App\Livewire\FasilitasManager::class)->name('fasilitas.index');
         Route::get('/admin/dokumen-kurikulum', \App\Livewire\DokumenKurikulumManager::class)->name('dokumen-kurikulum.index');
+        Route::get('/admin/contact-messages', \App\Livewire\ContactMessageManager::class)->name('contact-messages.index');
 
         Route::get('/admin/prospek-karir', \App\Livewire\ProspekKarirManager::class)->name('prospek-karir.index');
         Route::get('/admin/berita', \App\Livewire\BeritaManager::class)->name('berita.index');
