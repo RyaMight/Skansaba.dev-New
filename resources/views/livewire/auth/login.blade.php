@@ -22,7 +22,7 @@
                 {{-- Email / NISN Field --}}
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-                        {{ __('Email atau NIS / NISN') }}
+                        {{ __('Email atau NIS') }}
                     </label>
                     <input 
                         type="text" 
@@ -31,7 +31,7 @@
                         @disabled($isLoading)
                         class="appearance-none block w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:border-transparent transition disabled:bg-gray-50 dark:bg-gray-800 disabled:text-gray-500 dark:text-gray-400"
                         style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"
-                        placeholder="{{ __('Masukkan Email atau NIS / NISN') }}"
+                        placeholder="{{ __('Masukkan Email atau NIS') }}"
                         autocomplete="username"
                         autofocus
                     >
@@ -111,7 +111,7 @@
             {{-- Footer --}}
             <div class="mt-6 text-center">
                 <p class="text-xs text-gray-500 dark:text-gray-400">
-                    © {{ date('Y') }} {{ __('Jurusan RPL. Hanya untuk staff internal.') }}
+                    © {{ date('Y') }} {{ __('SKANSABA.DEV') }}
                 </p>
             </div>
         </div>
