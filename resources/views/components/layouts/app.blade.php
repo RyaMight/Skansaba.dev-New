@@ -76,21 +76,37 @@
             {{-- Main Content --}}
             <div class="flex flex-col flex-1 overflow-hidden">
                 {{-- Mobile Header --}}
-                <header class="flex items-center justify-between px-4 py-3.5 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden shrink-0 z-20">
-                    <span class="text-sm font-bold text-gray-900 dark:text-gray-50">{{ __('Menu') }}</span>
-                    <div class="flex items-center gap-2">
-                        <x-theme-toggle />
-                        <button 
-                            type="button" 
-                            onclick="window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'))"
-                            class="p-2 -mr-1 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition cursor-pointer select-none" 
-                            aria-label="{{ __('Buka menu') }}"
-                        >
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                    </div>
+                <header class="sticky top-0 z-30 pt-3 px-4 pb-1 md:hidden shrink-0 notranslate">
+                    <nav class="bg-white dark:bg-gray-900 rounded-2xl shadow-[0_2px_16px_rgba(15,23,42,0.08)] border border-gray-100 dark:border-gray-800">
+                        <div class="flex items-center justify-between h-16 px-5 sm:px-7">
+                            {{-- Logo & Brand --}}
+                            <a href="/" class="flex items-center gap-2.5 flex-shrink-0">
+                                @if($globalSettings->logo_primary_url)
+                                    <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-9 w-auto">
+                                @else
+                                    <svg class="w-8 h-8" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
+                                    </svg>
+                                @endif
+                                <span class="font-bold text-lg tracking-tight uppercase" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
+                            </a>
+
+                            {{-- Mobile Actions: Theme Toggle + Menu Button --}}
+                            <div class="flex items-center gap-2">
+                                <x-theme-toggle />
+                                <button 
+                                    type="button" 
+                                    onclick="window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'))"
+                                    class="p-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white transition cursor-pointer select-none" 
+                                    aria-label="{{ __('Buka menu') }}"
+                                >
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
                 </header>
 
                 {{-- Banner & Popup Peringatan Password Default Siswa --}}
