@@ -1,7 +1,27 @@
 <div 
     x-data="{ 
-        collapsed: $persist(false).as('sidebar-collapsed'),
-        mobileOpen: @entangle('isMobileOpen').live
+        collapsed: false,
+        mobileOpen: false,
+        init() {
+            try {
+                this.collapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+            } catch (e) {}
+            window.addEventListener('toggle-mobile-sidebar', () => {
+                this.mobileOpen = !this.mobileOpen;
+            });
+            window.addEventListener('close-mobile-sidebar', () => {
+                this.mobileOpen = false;
+            });
+            document.addEventListener('livewire:navigated', () => {
+                this.mobileOpen = false;
+            });
+        },
+        toggleCollapse() {
+            this.collapsed = !this.collapsed;
+            try {
+                localStorage.setItem('sidebar-collapsed', this.collapsed ? 'true' : 'false');
+            } catch (e) {}
+        }
     }" 
     @toggle-mobile-sidebar.window="mobileOpen = !mobileOpen"
     class="relative h-full flex"
@@ -30,7 +50,7 @@
                     </div>
                 </div>
                 <button
-                    @click="collapsed = !collapsed"
+                    @click="toggleCollapse()"
                     class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition flex-shrink-0"
                     title="Toggle Sidebar"
                 >
@@ -175,6 +195,7 @@
 
     {{-- Mobile Sidebar Overlay --}}
     <div 
+        x-cloak
         x-show="mobileOpen" 
         x-transition:enter="transition-opacity ease-linear duration-300"
         x-transition:enter-start="opacity-0"
@@ -184,11 +205,11 @@
         x-transition:leave-end="opacity-0"
         @click="mobileOpen = false"
         class="fixed inset-0 bg-gray-600/75 z-40 md:hidden"
-        style="display: none;"
     ></div>
 
     {{-- Mobile Sidebar --}}
     <div 
+        x-cloak
         x-show="mobileOpen"
         x-transition:enter="transition ease-in-out duration-300 transform"
         x-transition:enter-start="-translate-x-full"
@@ -196,8 +217,7 @@
         x-transition:leave="transition ease-in-out duration-300 transform"
         x-transition:leave-start="translate-x-0"
         x-transition:leave-end="-translate-x-full"
-        class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white dark:bg-gray-900 z-50 md:hidden"
-        style="display: none;"
+        class="fixed inset-y-0 left-0 flex flex-col w-64 bg-white dark:bg-gray-900 z-50 md:hidden shadow-2xl"
     >
         {{-- Mobile Header --}}
         <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">

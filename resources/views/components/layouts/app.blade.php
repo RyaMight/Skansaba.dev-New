@@ -76,15 +76,14 @@
             {{-- Main Content --}}
             <div class="flex flex-col flex-1 overflow-hidden">
                 {{-- Mobile Header --}}
-                <header x-data class="flex items-center justify-between px-4 py-3.5 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden">
+                <header class="flex items-center justify-between px-4 py-3.5 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden shrink-0 z-20">
                     <span class="text-sm font-bold text-gray-900 dark:text-gray-50">{{ __('Menu') }}</span>
                     <div class="flex items-center gap-2">
                         <x-theme-toggle />
                         <button 
-                            x-data
                             type="button" 
-                            @click="$dispatch('toggle-mobile-sidebar'); window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'))" 
-                            class="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition cursor-pointer" 
+                            onclick="window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'))"
+                            class="p-2 -mr-1 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition cursor-pointer select-none" 
                             aria-label="{{ __('Buka menu') }}"
                         >
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
