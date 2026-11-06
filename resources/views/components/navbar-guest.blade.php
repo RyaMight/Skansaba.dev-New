@@ -210,17 +210,20 @@
                 @endguest
             </div>
 
-            {{-- Mobile Menu Button --}}
-            <button
-                x-data
-                @click="$dispatch('toggle-mobile-menu')"
-                class="lg:hidden p-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-100 transition"
-                aria-label="Buka menu"
-            >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
+            {{-- Mobile Actions: Theme Toggle + Menu Button --}}
+            <div class="lg:hidden flex items-center gap-2">
+                <x-theme-toggle />
+                <button
+                    x-data
+                    @click="$dispatch('toggle-mobile-menu')"
+                    class="p-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-100 transition cursor-pointer"
+                    aria-label="Buka menu"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
 
