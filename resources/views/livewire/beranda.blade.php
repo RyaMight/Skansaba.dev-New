@@ -295,11 +295,22 @@
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
-    <section class="py-12 lg:py-16">
+    <section class="py-10 lg:py-16">
         <div class="site-container">
-            <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-8 lg:mb-10" data-reveal>
-                {{ __('Karya Siswa') }}
-            </h2>
+            <div class="flex items-center justify-between gap-4 mb-6 lg:mb-10" data-reveal>
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50">
+                    {{ __('Karya Siswa') }}
+                </h2>
+                <a
+                    href="/karya"
+                    class="group/link inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                    <span>{{ __('Lihat Semua') }}</span>
+                    <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                    </svg>
+                </a>
+            </div>
 
             @if($karyaSiswa->isNotEmpty())
                 <div
@@ -308,6 +319,7 @@
                         hovering: false,
                         barWidth: 12,
                         barLeft: 0,
+                        canScroll: false,
 
                         init() {
                             this.update();
@@ -360,6 +372,7 @@
                             const el = this.$refs.track;
                             if (!el) return;
                             const scrollable = el.scrollWidth - el.clientWidth;
+                            this.canScroll = scrollable > 4;
                             if (scrollable <= 0) { this.barWidth = 100; this.barLeft = 0; return; }
                             const visible = (el.clientWidth / el.scrollWidth) * 100;
                             this.barWidth = Math.max(12, visible * 0.8);
@@ -376,15 +389,15 @@
                         x-ref="track"
                         @scroll.passive="update()"
                         @resize.window.debounce.150="update()"
-                        class="flex gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-1 py-10 -my-10"
+                        class="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-1 py-4 sm:py-10 -my-4 sm:-my-10 pr-4 sm:pr-0"
                     >
                         @foreach($karyaSiswa as $item)
                             <a
                                 href="/karya/{{ $item->id }}"
                                 class="group relative flex-none w-[200px] sm:w-[240px] lg:w-[260px] aspect-[2/3] rounded-2xl overflow-hidden snap-start bg-slate-800
-                                       transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                       hover:-translate-y-3 hover:scale-[1.06] hover:shadow-[0_24px_48px_-12px_rgba(15,23,42,0.45)] hover:z-20
-                                       hover:ring-1 hover:ring-white/20"
+                                       transition-all duration-300 ease-out
+                                       sm:hover:-translate-y-2 sm:hover:scale-[1.04] sm:hover:shadow-[0_20px_40px_-12px_rgba(15,23,42,0.4)] sm:hover:z-20
+                                       sm:hover:ring-1 sm:hover:ring-white/20 active:scale-[0.98]"
                             >
                                 @if($item->gambar)
                                     <img
@@ -406,7 +419,7 @@
                                 <div class="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
                                     <h3 class="text-white font-bold text-base lg:text-lg leading-snug drop-shadow">{{ $item->judul }}</h3>
                                     @if($item->nama_siswa)
-                                        <p class="text-white/70 text-xs mt-1 translate-y-1 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 delay-75">
+                                        <p class="text-white/80 text-xs mt-1 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-1 sm:group-hover:translate-y-0 transition-all duration-300">
                                             {{ $item->nama_siswa }}{{ $item->kategori ? ' · ' . $item->kategori : '' }}
                                         </p>
                                     @endif
@@ -415,10 +428,11 @@
                         @endforeach
                     </div>
 
-                    {{-- Arrows --}}
+                    {{-- Desktop Arrows (Hanya di layar desktop, di luar kartu agar tidak menempel) --}}
                     <button
+                        x-show="canScroll"
                         @click="scrollCards(-1)"
-                        class="hidden md:flex absolute -left-12 lg:-left-14 xl:-left-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-300 z-30"
+                        class="hidden lg:flex absolute -left-14 xl:-left-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-200 z-30"
                         aria-label="{{ __('Geser kiri') }}"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -426,8 +440,9 @@
                         </svg>
                     </button>
                     <button
+                        x-show="canScroll"
                         @click="scrollCards(1)"
-                        class="hidden md:flex absolute -right-12 lg:-right-14 xl:-right-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-300 z-30"
+                        class="hidden lg:flex absolute -right-14 xl:-right-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-200 z-30"
                         aria-label="{{ __('Geser kanan') }}"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -435,8 +450,30 @@
                         </svg>
                     </button>
 
-                    {{-- Progress Bar --}}
-                    <div class="mt-8 lg:mt-10 h-[3px] w-full sm:w-2/3 lg:w-1/2 mx-auto bg-gray-300/60 dark:bg-gray-800 rounded-full relative">
+                    {{-- Mobile Controls: Tombol panah di bawah slider untuk layar mobile & tablet --}}
+                    <div x-show="canScroll" class="lg:hidden flex items-center justify-center gap-3 mt-5" data-reveal>
+                        <button
+                            @click="scrollCards(-1)"
+                            class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-150 shadow-sm"
+                            aria-label="{{ __('Geser kiri') }}"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
+                            </svg>
+                        </button>
+                        <button
+                            @click="scrollCards(1)"
+                            class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-150 shadow-sm"
+                            aria-label="{{ __('Geser kanan') }}"
+                        >
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    {{-- Progress Bar (hanya tampil jika bisa digeser) --}}
+                    <div x-show="canScroll" class="mt-5 lg:mt-10 h-[3px] w-3/4 sm:w-2/3 lg:w-1/2 mx-auto bg-gray-200 dark:bg-gray-800 rounded-full relative overflow-hidden">
                         <div
                             class="absolute top-0 h-full bg-slate-800 dark:bg-sky-400 rounded-full transition-all duration-300 ease-out"
                             :style="`width: ${barWidth}%; left: ${barLeft}%`"
@@ -612,7 +649,7 @@
                                     {{ $item->title }}
                                 </h3>
 
-                                <div class="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                                <div class="grid grid-rows-[1fr] sm:grid-rows-[0fr] sm:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                                     <div class="overflow-hidden">
                                         <div class="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 pt-3">
                                             <span>{{ $item->published_at?->translatedFormat('d M Y') }}</span>
