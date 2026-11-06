@@ -6,15 +6,6 @@
             try {
                 this.collapsed = localStorage.getItem('sidebar-collapsed') === 'true';
             } catch (e) {}
-            window.addEventListener('toggle-mobile-sidebar', () => {
-                this.mobileOpen = !this.mobileOpen;
-            });
-            window.addEventListener('close-mobile-sidebar', () => {
-                this.mobileOpen = false;
-            });
-            document.addEventListener('livewire:navigated', () => {
-                this.mobileOpen = false;
-            });
         },
         toggleCollapse() {
             this.collapsed = !this.collapsed;
@@ -24,6 +15,10 @@
         }
     }" 
     @toggle-mobile-sidebar.window="mobileOpen = !mobileOpen"
+    @open-mobile-sidebar.window="mobileOpen = true"
+    @close-mobile-sidebar.window="mobileOpen = false"
+    x-on:livewire:navigated.window="mobileOpen = false"
+    @keydown.escape.window="mobileOpen = false"
     class="relative h-full flex"
 >
     {{-- Desktop Sidebar --}}
@@ -202,7 +197,7 @@
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         @click="mobileOpen = false"
-        class="fixed inset-0 bg-gray-600/75 z-40 md:hidden"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-2xs z-40 md:hidden"
     ></div>
 
     {{-- Mobile Sidebar --}}

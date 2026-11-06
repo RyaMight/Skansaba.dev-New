@@ -215,11 +215,12 @@
                 <x-theme-toggle />
                 <button
                     x-data
+                    type="button"
                     @click="$dispatch('toggle-mobile-menu')"
-                    class="p-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-100 transition cursor-pointer"
-                    aria-label="Buka menu"
+                    class="w-10 h-10 min-w-[40px] min-h-[40px] flex items-center justify-center text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 active:scale-95 active:bg-gray-200 dark:active:bg-gray-700 rounded-xl transition cursor-pointer select-none"
+                    aria-label="{{ __('Buka menu') }}"
                 >
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
