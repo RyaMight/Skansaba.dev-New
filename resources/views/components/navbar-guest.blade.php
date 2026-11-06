@@ -244,7 +244,7 @@
         x-transition:leave="transition ease-in duration-150"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0 -translate-y-4"
-        class="lg:hidden fixed top-0 left-0 w-full bg-white dark:bg-gray-900 rounded-b-2xl border-b border-gray-100 dark:border-gray-800 shadow-xl z-50"
+        class="lg:hidden fixed top-0 left-0 w-full max-h-[90vh] overflow-y-auto overscroll-contain bg-white dark:bg-gray-900 rounded-b-2xl border-b border-gray-100 dark:border-gray-800 shadow-xl z-50"
     >
         <div class="flex items-center justify-between px-6 pt-6 pb-2">
             <div class="flex items-center gap-2.5">

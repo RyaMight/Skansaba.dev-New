@@ -14,7 +14,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Struktur Organisasi') }}</span>
             </div>
 
-            <h1 class="text-3xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-tight" data-reveal>
+            <h1 class="text-2xl sm:text-3xl lg:text-[40px] font-extrabold tracking-tight text-gray-900 dark:text-gray-50 leading-tight" data-reveal>
                 {{ __('Guru') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('RPL') }}</span> {{ __('SMK Negeri 1 Bantul') }}
             </h1>
         </div>
@@ -24,7 +24,7 @@
     <section class="pb-16 lg:pb-24">
         <div class="site-container">
             @if($members->count() > 0)
-                <div class="space-y-14 lg:space-y-20">
+                <div class="space-y-10 lg:space-y-20">
                     @foreach($members as $index => $member)
                         @php
                             $flip = $index % 2 === 1;

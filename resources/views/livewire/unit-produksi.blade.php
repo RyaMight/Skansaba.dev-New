@@ -12,7 +12,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Unit Produksi') }}</span>
             </div>
 
-            <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-2" data-reveal>
+            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-2" data-reveal>
                 {{ __('Harga Jasa Pembuatan Website') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>
             </h1>
             <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto" data-reveal>{{ __('Pilih paket website yang sesuai dengan kebutuhan Anda.') }}</p>
@@ -20,7 +20,7 @@
     </section>
 
     {{-- Pricing Grid --}}
-    <section class="py-12">
+    <section class="py-8 lg:py-12">
         <div class="site-container">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
 

@@ -27,7 +27,7 @@
     </section>
 
     {{-- Content --}}
-    <section class="py-12">
+    <section class="py-6 sm:py-12">
         <div class="site-container">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
@@ -37,7 +37,7 @@
                     <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
                 @endif
 
-                <div class="p-8">
+                <div class="p-4 sm:p-8">
                     {{-- Metadata --}}
                     <div class="flex flex-wrap items-center gap-3 mb-6">
                         @if($karya->kategori)
@@ -52,7 +52,7 @@
                     </div>
 
                     {{-- Title --}}
-                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ $karya->judul }}</h1>
+                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ $karya->judul }}</h1>
 
                     {{-- Author Info --}}
                     @if($karya->user && $karya->user->isSiswa())
@@ -178,9 +178,9 @@
                     @endif
 
                     {{-- Action Buttons --}}
-                    <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-100 dark:border-gray-800">
+                    <div class="flex flex-col sm:flex-row flex-wrap gap-3 pt-6 border-t border-gray-100 dark:border-gray-800">
                         @if($karya->url_demo)
-                            <a href="{{ $karya->url_demo }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium text-white hover:opacity-90 transition" style="background-color: {{ $globalSettings->primary_color_style }}">
+                            <a href="{{ $karya->url_demo }}" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium text-white hover:opacity-90 transition" style="background-color: {{ $globalSettings->primary_color_style }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
@@ -190,7 +190,7 @@
                         @endif
 
                         @if($karya->url_repo)
-                            <a href="{{ $karya->url_repo }}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition" style="border-color: {{ $globalSettings->primary_color_style }}; color: {{ $globalSettings->primary_color_style }}">
+                            <a href="{{ $karya->url_repo }}" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition" style="border-color: {{ $globalSettings->primary_color_style }}; color: {{ $globalSettings->primary_color_style }}">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
                                 </svg>

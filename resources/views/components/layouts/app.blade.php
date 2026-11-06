@@ -76,11 +76,17 @@
             {{-- Main Content --}}
             <div class="flex flex-col flex-1 overflow-hidden">
                 {{-- Mobile Header --}}
-                <header class="flex items-center justify-between px-4 py-4 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden">
+                <header x-data class="flex items-center justify-between px-4 py-3.5 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 md:hidden">
                     <span class="text-sm font-bold text-gray-900 dark:text-gray-50">{{ __('Menu') }}</span>
                     <div class="flex items-center gap-2">
                         <x-theme-toggle />
-                        <button type="button" @click="$dispatch('toggle-mobile-sidebar')" class="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100" aria-label="{{ __('Buka menu') }}">
+                        <button 
+                            x-data
+                            type="button" 
+                            @click="$dispatch('toggle-mobile-sidebar'); window.dispatchEvent(new CustomEvent('toggle-mobile-sidebar'))" 
+                            class="p-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition cursor-pointer" 
+                            aria-label="{{ __('Buka menu') }}"
+                        >
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>

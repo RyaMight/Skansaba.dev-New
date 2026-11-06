@@ -1,7 +1,7 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-800">
     {{-- Hero Section --}}
-    <section class="bg-white dark:bg-gray-900 py-12">
-        <div class="max-w-4xl mx-auto px-6">
+    <section class="bg-white dark:bg-gray-900 py-8 sm:py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="flex justify-center mb-6">
                 <a href="/berita" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:opacity-80 transition" style="color: {{ $globalSettings->primary_color_style }}">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,9 +17,9 @@
                 </span>
             @endif
 
-            <h1 class="text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ $berita->title }}</h1>
+            <h1 class="text-2xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ $berita->title }}</h1>
 
-            <div class="flex items-center gap-6 text-sm text-gray-600 dark:text-gray-300">
+            <div class="flex flex-wrap items-center gap-3 sm:gap-6 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
                 <div class="flex items-center gap-2">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
@@ -44,8 +44,8 @@
     </section>
 
     {{-- Content --}}
-    <section class="py-12">
-        <div class="max-w-4xl mx-auto px-6">
+    <section class="py-6 sm:py-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
                 @if($berita->thumbnail)

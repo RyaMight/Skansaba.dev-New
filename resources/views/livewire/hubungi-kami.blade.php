@@ -8,7 +8,7 @@
             <div class="absolute -bottom-20 left-1/3 w-80 h-80 bg-pink-300/20 rounded-full blur-3xl animate-blob animation-delay-4000"></div>
         </div>
 
-        <div class="site-container relative z-10 py-16 lg:py-24">
+        <div class="site-container relative z-10 py-10 lg:py-24">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 {{-- Left: Text Content --}}
                 <div class="text-white">
@@ -22,29 +22,29 @@
                         <span class="text-white font-medium">{{ __('Hubungi Kami') }}</span>
                     </div>
 
-                    <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
                         {{ __('Mari Terhubung') }} 
                         <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 mt-2">
                             {{ __('Dengan Kami!') }}
                         </span>
                     </h1>
-                    <p class="text-xl text-white/90 mb-8 leading-relaxed">
+                    <p class="text-base sm:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed">
                         {{ __('Kami siap membantu Anda. Pilih cara terbaik untuk menghubungi kami.') }}
                     </p>
 
                     {{-- Stats Cards --}}
-                    <div class="grid grid-cols-3 gap-4">
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <div class="text-3xl font-bold text-white mb-1">24/7</div>
-                            <div class="text-xs text-white/80">{{ __('Responsif') }}</div>
+                    <div class="grid grid-cols-3 gap-2 sm:gap-4">
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-2.5 sm:p-4 border border-white/20">
+                            <div class="text-xl sm:text-3xl font-bold text-white mb-1">24/7</div>
+                            <div class="text-[11px] sm:text-xs text-white/80">{{ __('Responsif') }}</div>
                         </div>
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <div class="text-3xl font-bold text-white mb-1">6+</div>
-                            <div class="text-xs text-white/80">{{ __('Channel') }}</div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-2.5 sm:p-4 border border-white/20">
+                            <div class="text-xl sm:text-3xl font-bold text-white mb-1">6+</div>
+                            <div class="text-[11px] sm:text-xs text-white/80">{{ __('Channel') }}</div>
                         </div>
-                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <div class="text-3xl font-bold text-white mb-1">100%</div>
-                            <div class="text-xs text-white/80">{{ __('Profesional') }}</div>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-xl p-2.5 sm:p-4 border border-white/20">
+                            <div class="text-xl sm:text-3xl font-bold text-white mb-1">100%</div>
+                            <div class="text-[11px] sm:text-xs text-white/80">{{ __('Profesional') }}</div>
                         </div>
                     </div>
                 </div>

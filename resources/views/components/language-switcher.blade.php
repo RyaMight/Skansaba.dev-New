@@ -3,12 +3,7 @@
 @endphp
 
 <div class="inline-flex items-center p-0.5 rounded-xl bg-gray-100 dark:bg-gray-800/90 border border-gray-200/80 dark:border-gray-700/80 text-xs font-semibold select-none shadow-2xs transition-colors notranslate">
-    {{-- Translate Icon --}}
-    <span class="pl-1.5 pr-1 text-gray-400 dark:text-gray-400 flex items-center justify-center">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-        </svg>
-    </span>
+
 
     <div class="inline-flex items-center gap-0.5">
         {{-- ID Option --}}
