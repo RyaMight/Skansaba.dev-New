@@ -246,19 +246,19 @@
                     $groupTwo = $groupOne->reverse()->values();
                 @endphp
 
-                <div class="space-y-4 md:space-y-5 marquee-hover-pause"
+                <div class="space-y-6 md:space-y-8 marquee-hover-pause"
                      data-reveal>
                     {{-- Baris 1: geser kiri --}}
-                    <div class="overflow-hidden marquee-row">
+                    <div class="overflow-hidden py-2 marquee-row">
                         <div class="flex w-max animate-marquee-left" style="--marquee-duration: 80s">
                             @foreach([0, 1] as $copy)
-                                <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
+                                <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupOne as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-32 md:w-36 flex-none items-center justify-center rounded-xl border border-slate-100 bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden dark:h-20 dark:md:h-24 dark:w-auto dark:bg-transparent dark:px-0 dark:shadow-none dark:overflow-visible">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[85%] max-w-[85%] w-auto object-contain mitra-logo dark:h-16 dark:max-h-full dark:max-w-full md:dark:h-20" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
-                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
+                                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
                                         </div>
                                     @endforeach
@@ -268,16 +268,16 @@
                     </div>
 
                     {{-- Baris 2: geser kanan --}}
-                    <div class="overflow-hidden marquee-row">
+                    <div class="overflow-hidden py-2 marquee-row">
                         <div class="flex w-max animate-marquee-right" style="--marquee-duration: 80s">
                             @foreach([0, 1] as $copy)
-                                <div class="flex items-center gap-4 md:gap-5 pr-4 md:pr-5" @if($copy === 1) aria-hidden="true" @endif>
+                                <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupTwo as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-40 md:w-48 flex-none items-center justify-center rounded-xl bg-white dark:bg-gray-900 px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden">
+                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-32 md:w-36 flex-none items-center justify-center rounded-xl border border-slate-100 bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden dark:h-20 dark:md:h-24 dark:w-auto dark:bg-transparent dark:px-0 dark:shadow-none dark:overflow-visible">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[80%] max-w-[92%] w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[85%] max-w-[85%] w-auto object-contain mitra-logo dark:h-16 dark:max-h-full dark:max-w-full md:dark:h-20" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
-                                                <span class="text-xs font-semibold text-gray-400 dark:text-gray-400 text-center">{{ $mitra->nama_mitra }}</span>
+                                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
                                         </div>
                                     @endforeach

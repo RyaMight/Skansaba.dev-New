@@ -205,7 +205,7 @@ html.theme-transition footer {
 }
 
 .dark .mitra-chip {
-    border-color: rgb(30 41 59);
+    border-color: transparent;
 }
 
 .mitra-chip:hover {
@@ -216,8 +216,8 @@ html.theme-transition footer {
 }
 
 .dark .mitra-chip:hover {
-    box-shadow: 0 10px 22px -10px rgba(0, 0, 0, 0.55);
-    border-color: rgb(51 65 85);
+    box-shadow: none;
+    border-color: transparent;
 }
 
 .mitra-logo {
