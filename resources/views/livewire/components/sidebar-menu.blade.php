@@ -28,12 +28,27 @@
     >
         <div class="flex flex-col h-full w-full bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-colors duration-300">
             {{-- Logo & Branding --}}
-            <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-800">
-                <div class="flex items-center space-x-3 overflow-hidden">
+            <div
+                class="flex items-center h-16 border-b border-gray-200 dark:border-gray-800 transition-all duration-300"
+                :class="collapsed ? 'justify-center px-0' : 'justify-between px-4'"
+            >
+                <div
+                    class="flex items-center space-x-3 overflow-hidden cursor-pointer select-none"
+                    @click="toggleCollapse()"
+                    title="{{ $globalSettings->site_name ?? 'Skansaba.dev' }}"
+                    role="button"
+                    tabindex="0"
+                    @keydown.enter.prevent="toggleCollapse()"
+                    @keydown.space.prevent="toggleCollapse()"
+                >
                     @if($globalSettings->logo_primary_url)
-                        <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-10 w-auto flex-shrink-0">
+                        <img
+                            src="{{ $globalSettings->logo_primary_url }}"
+                            alt="{{ $globalSettings->site_name }}"
+                            class="h-10 w-auto flex-shrink-0 object-contain transition-all duration-300"
+                        >
                     @else
-                        <svg class="w-8 h-8 flex-shrink-0" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <svg class="w-8 h-8 flex-shrink-0 object-contain transition-all duration-300" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
                         </svg>
                     @endif
@@ -44,8 +59,10 @@
                 </div>
                 <button
                     @click="toggleCollapse()"
+                    x-show="!collapsed"
                     class="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition flex-shrink-0"
                     title="Toggle Sidebar"
+                    aria-label="Toggle Sidebar"
                 >
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" x-show="!collapsed" />
