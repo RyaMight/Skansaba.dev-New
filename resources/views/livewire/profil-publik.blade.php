@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-800">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     <div class="max-w-5xl mx-auto px-4 py-8 md:py-12">
         {{-- Tombol kembali ke editor (hanya untuk pemilik profil yang datang dari editor) --}}
         @if(auth()->check() && auth()->id() === $profileUser->id && request()->query('from') === 'editor')

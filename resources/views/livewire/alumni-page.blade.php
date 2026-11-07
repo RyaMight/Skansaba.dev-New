@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-800 py-12">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-950 py-12">
     <div class="site-container">
         {{-- Header --}}
         <div class="text-center mb-12">

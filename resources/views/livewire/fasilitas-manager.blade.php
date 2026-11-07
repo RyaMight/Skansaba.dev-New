@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-800 py-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-950 py-8">
     <div class="max-w-7xl mx-auto px-6">
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
