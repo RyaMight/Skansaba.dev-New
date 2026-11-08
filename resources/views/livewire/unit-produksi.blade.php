@@ -12,10 +12,10 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Unit Produksi') }}</span>
             </div>
 
-            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-2" data-reveal>
+            <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-2" data-reveal>
                 {{ __('Harga Jasa Pembuatan Website') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto" data-reveal>{{ __('Pilih paket website yang sesuai dengan kebutuhan Anda.') }}</p>
+            <p class="type-lead text-gray-600 dark:text-gray-300 max-w-2xl mx-auto" data-reveal>{{ __('Pilih paket website yang sesuai dengan kebutuhan Anda.') }}</p>
         </div>
     </section>
 
@@ -60,7 +60,7 @@
                              style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"></div>
                         {{-- Header paket --}}
                         <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
-                            <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ $p['nama'] }}</h3>
+                            <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ $p['nama'] }}</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Mulai Dari') }}</p>
                         </div>
 
@@ -68,7 +68,7 @@
                         <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
                             <p class="flex items-baseline gap-1">
                                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Rp</span>
-                                <span class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $p['harga'] }}</span>
+                                <span class="type-stat text-gray-900 dark:text-gray-50">{{ $p['harga'] }}</span>
                                 <span class="text-xs text-gray-500 dark:text-gray-400">/{{ __('thn') }}</span>
                             </p>
                             <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">*{{ __('Minimal kontrak 1 Tahun') }}</p>
@@ -311,7 +311,7 @@
                 {{-- Kolom Kanan: Judul, Narasi Persuasif & CTA --}}
                 <div class="lg:col-span-7 flex flex-col justify-between h-full">
                     <div class="space-y-6">
-                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 leading-tight">
+                        <h2 class="type-section-title text-gray-900 dark:text-gray-50">
                             {{ __('Mengapa Harus Membuat Website di') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>?
                         </h2>
 

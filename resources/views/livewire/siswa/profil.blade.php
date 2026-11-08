@@ -64,7 +64,7 @@
 
     {{-- Page Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Profil Saya') }}</h1>
+        <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Profil Saya') }}</h1>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Kelola profil, karya, dan prestasi Anda di CMS Jurusan RPL') }}</p>
     </div>
 
@@ -85,7 +85,7 @@
             {{-- Info --}}
             <div class="flex-1 min-w-0">
                 <div class="flex flex-wrap items-center gap-2">
-                    <h2 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-gray-50 leading-tight">
+                    <h2 class="type-subsection-title text-gray-900 dark:text-gray-50">
                         {{ $user->name ?: 'Ahmad Syahputra' }}
                     </h2>
                     @if($user->kelas)
@@ -189,7 +189,7 @@
             <div>
                 {{-- Header Karya --}}
                 <div class="flex items-center justify-between mb-5">
-                    <h3 class="text-base md:text-lg font-bold text-gray-900 dark:text-gray-50">{{ __('Karya Kreatif Saya') }}</h3>
+                    <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Karya Kreatif Saya') }}</h3>
                     <div class="flex items-center gap-2">
                         <a 
                             href="{{ route('karya-siswa.index', ['create' => 1]) }}" 
@@ -231,7 +231,7 @@
                             <span class="inline-block px-2 py-0.5 bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 text-[10px] font-bold rounded-full mb-1">
                                 Web • PHP
                             </span>
-                            <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm group-hover:text-sky-600 transition truncate">Portfolio Personal</h4>
+                            <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 group-hover:text-sky-600 transition truncate">Portfolio Personal</h4>
                             <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-0.5">Web • PHP</p>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
                             <span class="inline-block px-2 py-0.5 bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 text-[10px] font-bold rounded-full mb-1">
                                 Mobile • Kotlin
                             </span>
-                            <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm group-hover:text-amber-600 transition truncate">{{ __('Aplikasi Kasir Kantin') }}</h4>
+                            <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 group-hover:text-amber-600 transition truncate">{{ __('Aplikasi Kasir Kantin') }}</h4>
                             <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-0.5">Mobile • Kotlin</p>
                         </div>
                     </div>
@@ -280,7 +280,7 @@
                             <span class="inline-block px-2 py-0.5 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 text-[10px] font-bold rounded-full mb-1">
                                 UI/UX • Figma
                             </span>
-                            <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm group-hover:text-purple-600 dark:text-purple-400 transition truncate">{{ __('Redesain Website SMK') }}</h4>
+                            <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 group-hover:text-purple-600 dark:text-purple-400 transition truncate">{{ __('Redesain Website SMK') }}</h4>
                             <p class="text-[11px] text-gray-400 dark:text-gray-400 mt-0.5">UI/UX • Figma</p>
                         </div>
                     </div>
@@ -292,7 +292,7 @@
         <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800 space-y-6">
             {{-- Bio Card --}}
             <div>
-                <h3 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-3 pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-3 pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
                     <span>Bio</span>
                     <span class="text-[11px] font-normal text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 px-2 py-0.5 rounded-full">{{ __('Profil Siswa') }}</span>
                 </h3>
@@ -476,7 +476,7 @@
 
             {{-- Status Karya --}}
             <div>
-                <h4 class="text-xs font-bold text-gray-800 dark:text-gray-100 mb-2.5">{{ __('Status Karya') }}</h4>
+                <h4 class="type-card-title-xs text-gray-800 dark:text-gray-100 mb-2.5">{{ __('Status Karya') }}</h4>
                 <div class="grid grid-cols-2 gap-2">
                     {{-- Draft --}}
                     <div class="bg-gray-50/80 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-800 rounded-xl p-2.5">
@@ -506,7 +506,7 @@
 
             {{-- Lencana & Penghargaan --}}
             <div>
-                <h4 class="text-xs font-bold text-gray-800 dark:text-gray-100 mb-2.5">{{ __('Lencana & Penghargaan') }}</h4>
+                <h4 class="type-card-title-xs text-gray-800 dark:text-gray-100 mb-2.5">{{ __('Lencana & Penghargaan') }}</h4>
                 <div class="flex flex-wrap gap-2">
                     {{-- Badge 1 --}}
                     <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-bold">
@@ -533,7 +533,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
             <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-3xl w-full p-6 shadow-xl border border-gray-100 dark:border-gray-800 space-y-4 max-h-[92vh] overflow-y-auto">
                 <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{ __('Edit Profil Siswa') }}</h3>
+                    <h3 class="type-card-title text-gray-900 dark:text-gray-50">{{ __('Edit Profil Siswa') }}</h3>
                     <button type="button" wire:click="closeEditModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>

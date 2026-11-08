@@ -5,11 +5,11 @@
     --font-jakarta: "Plus Jakarta Sans", sans-serif;
     --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
-    /* Skala tipografi (menyamai web referensi) */
-    --text-display: 3.625rem;            /* 58px */
-    --text-display--line-height: 1.25;
-    --text-hero: 3.75rem;                /* 60px */
-    --text-hero--line-height: 1.2;
+    /* Skala tipografi (dikencangkan agar judul tidak terlalu besar) */
+    --text-display: 2.625rem;            /* 42px */
+    --text-display--line-height: 1.2;
+    --text-hero: 3rem;                   /* 48px */
+    --text-hero--line-height: 1.15;
 }
 
 :root {
@@ -19,6 +19,160 @@
 html,
 body {
     font-family: var(--font-jakarta);
+}
+
+/* ============================================
+   Skala tipografi terpusat
+   ------------------------------------------------------------
+   Satu sumber kebenaran untuk seluruh situs. Class ini sengaja
+   ditulis TANPA @layer agar menang atas utility Tailwind, jadi
+   elemen yang masih membawa text-* / font-* lama tetap konsisten.
+   Referensi: smktelkom-sda.sch.id (letter-spacing normal).
+   ============================================ */
+
+/* Judul halaman dalam — 30px mobile, 42px desktop */
+.type-page-title {
+    font-size: 1.875rem; /* 30px */
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-wrap: balance;
+}
+@media (min-width: 64rem) {
+    .type-page-title {
+        font-size: 2.625rem; /* 42px */
+        line-height: 1.2;
+    }
+}
+
+/* Judul utama beranda — 30px mobile, 48px desktop (tier display terbesar) */
+.type-hero-title {
+    font-size: 1.875rem; /* 30px */
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-wrap: balance;
+}
+@media (min-width: 64rem) {
+    .type-hero-title {
+        font-size: 3rem; /* 48px */
+        line-height: 1.15;
+    }
+}
+
+/* Judul section — 24px mobile, 30px desktop */
+.type-section-title {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-wrap: balance;
+}
+@media (min-width: 64rem) {
+    .type-section-title {
+        font-size: 1.875rem; /* 30px */
+        line-height: 1.15;
+    }
+}
+
+/* Sub-judul / judul panel — 20px */
+.type-subsection-title {
+    font-size: 1.25rem;
+    line-height: 1.35;
+    font-weight: 700;
+    letter-spacing: normal;
+}
+
+/* Judul kartu besar — 18px */
+.type-card-title {
+    font-size: 1.125rem;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: normal;
+}
+
+/* Judul kartu sedang — 16px */
+.type-card-title-sm {
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 700;
+    letter-spacing: normal;
+}
+
+/* Judul kartu kecil / label tebal — 14px */
+.type-card-title-xs {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-weight: 700;
+    letter-spacing: normal;
+}
+
+/* Paragraf utama — 16px / 26px */
+.type-body {
+    font-size: 1rem;
+    line-height: 1.625;
+    letter-spacing: normal;
+}
+
+/* Paragraf sekunder — 14px / 22.75px */
+.type-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.625;
+    letter-spacing: normal;
+}
+
+/* Paragraf kecil / keterangan — 12px / 18px */
+.type-body-xs {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    letter-spacing: normal;
+}
+
+/* Pengantar di bawah judul halaman — 17px / 1.65 */
+.type-lead {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    letter-spacing: normal;
+}
+
+/* Metadata: tanggal, jumlah, label — 12px */
+.type-meta {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    letter-spacing: normal;
+}
+
+/* Eyebrow / kicker — 12px tebal */
+.type-eyebrow {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+/* Navigasi — 14px tebal */
+.type-nav {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-weight: 600;
+    letter-spacing: normal;
+}
+
+/* Tombol — 14px tebal */
+.type-button {
+    font-size: 0.875rem;
+    line-height: 1.45;
+    font-weight: 600;
+    letter-spacing: normal;
+}
+
+/* Angka besar (harga / statistik) */
+.type-stat {
+    font-size: clamp(1.375rem, 1.1rem + 0.9vw, 2rem);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: normal;
+    font-variant-numeric: tabular-nums;
 }
 
 @source '../views';

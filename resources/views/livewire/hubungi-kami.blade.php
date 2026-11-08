@@ -22,28 +22,28 @@
                         <span class="text-white font-medium">{{ __('Hubungi Kami') }}</span>
                     </div>
 
-                    <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
+                    <h1 class="type-page-title mb-6">
                         {{ __('Mari Terhubung') }} 
                         <span class="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-pink-200 to-purple-200 mt-2">
                             {{ __('Dengan Kami!') }}
                         </span>
                     </h1>
-                    <p class="text-base sm:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed">
+                    <p class="type-lead text-white/90 mb-6 sm:mb-8">
                         {{ __('Kami siap membantu Anda. Pilih cara terbaik untuk menghubungi kami.') }}
                     </p>
 
                     {{-- Stats Cards --}}
                     <div class="grid grid-cols-3 gap-2 sm:gap-4">
                         <div class="bg-white/10 backdrop-blur-sm rounded-xl p-2.5 sm:p-4 border border-white/20">
-                            <div class="text-xl sm:text-3xl font-bold text-white mb-1">24/7</div>
+                            <div class="type-stat text-white mb-1">24/7</div>
                             <div class="text-[11px] sm:text-xs text-white/80">{{ __('Responsif') }}</div>
                         </div>
                         <div class="bg-white/10 backdrop-blur-sm rounded-xl p-2.5 sm:p-4 border border-white/20">
-                            <div class="text-xl sm:text-3xl font-bold text-white mb-1">6+</div>
+                            <div class="type-stat text-white mb-1">6+</div>
                             <div class="text-[11px] sm:text-xs text-white/80">{{ __('Channel') }}</div>
                         </div>
                         <div class="bg-white/10 backdrop-blur-sm rounded-xl p-2.5 sm:p-4 border border-white/20">
-                            <div class="text-xl sm:text-3xl font-bold text-white mb-1">100%</div>
+                            <div class="type-stat text-white mb-1">100%</div>
                             <div class="text-[11px] sm:text-xs text-white/80">{{ __('Profesional') }}</div>
                         </div>
                     </div>
@@ -151,13 +151,13 @@
                         </svg>
                         <span class="text-sm font-semibold text-blue-900 dark:text-blue-100">{{ __('Saluran Kontak Kami') }}</span>
                     </div>
-                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">
+                    <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-4">
                         {{ __('Pilih platform yang') }} <br class="hidden sm:inline">
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
                             {{ __('paling nyaman untuk Anda') }}
                         </span>
                     </h2>
-                    <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                    <p class="type-lead text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
                         {{ __('Hubungi kami melalui platform favorit Anda atau isi formulir di bawah') }}
                     </p>
                 </div>
@@ -185,8 +185,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">WhatsApp</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Chat langsung dengan kami') }}</p>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">WhatsApp</h3>
+                            <p class="type-body-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Chat langsung dengan kami') }}</p>
                             <div class="inline-flex items-center gap-2 text-sm font-semibold text-green-600 dark:text-green-400 group-hover:gap-4 transition-all">
                                 {{ __('Buka WhatsApp') }}
                                 <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,8 +219,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">Instagram</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Follow & DM kami') }}</p>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">Instagram</h3>
+                            <p class="type-body-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Follow & DM kami') }}</p>
                             <div class="inline-flex items-center gap-2 text-sm font-semibold text-pink-600 dark:text-pink-400 group-hover:gap-4 transition-all">
                                 {{ __('Buka Instagram') }}
                                 <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -249,7 +249,7 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">Email</h3>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">Email</h3>
                             <p class="text-sm text-gray-600 dark:text-gray-400 mb-2 font-mono">{{ $globalSettings->contact_email }}</p>
                             <div class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:gap-4 transition-all">
                                 {{ __('Kirim Email') }}
@@ -281,8 +281,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">Facebook</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Kunjungi halaman kami') }}</p>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">Facebook</h3>
+                            <p class="type-body-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Kunjungi halaman kami') }}</p>
                             <div class="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 dark:text-blue-400 group-hover:gap-4 transition-all">
                                 {{ __('Buka Facebook') }}
                                 <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -313,8 +313,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">YouTube</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Subscribe channel kami') }}</p>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">YouTube</h3>
+                            <p class="type-body-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Subscribe channel kami') }}</p>
                             <div class="inline-flex items-center gap-2 text-sm font-semibold text-red-600 dark:text-red-400 group-hover:gap-4 transition-all">
                                 {{ __('Buka YouTube') }}
                                 <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,8 +345,8 @@
                                     </svg>
                                 </div>
                             </div>
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">TikTok</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Follow TikTok kami') }}</p>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">TikTok</h3>
+                            <p class="type-body-sm text-gray-600 dark:text-gray-400 mb-4">{{ __('Follow TikTok kami') }}</p>
                             <div class="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-gray-50 group-hover:gap-4 transition-all">
                                 {{ __('Buka TikTok') }}
                                 <svg class="w-5 h-5 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -374,10 +374,10 @@
                                 </svg>
                             </div>
                             
-                            <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-50 mb-3">
+                            <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-3">
                                 {{ __('Kirim Pesan Langsung') }}
                             </h2>
-                            <p class="text-gray-600 dark:text-gray-400 text-lg">
+                            <p class="type-lead text-gray-600 dark:text-gray-400">
                                 {{ __('Atau isi formulir di bawah ini dan kami akan merespons secepatnya') }}
                             </p>
                         </div>
@@ -393,7 +393,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="font-bold text-green-900 dark:text-green-100 mb-1">{{ __('Berhasil Terkirim!') }}</h4>
+                                    <h4 class="type-card-title-xs text-green-900 dark:text-green-100 mb-1">{{ __('Berhasil Terkirim!') }}</h4>
                                     <p class="text-sm text-green-800 dark:text-green-200">{{ $successMessage }}</p>
                                 </div>
                             </div>
@@ -411,7 +411,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="font-bold text-red-900 dark:text-red-100 mb-1">{{ __('Terjadi Kesalahan') }}</h4>
+                                    <h4 class="type-card-title-xs text-red-900 dark:text-red-100 mb-1">{{ __('Terjadi Kesalahan') }}</h4>
                                     <p class="text-sm text-red-800 dark:text-red-200">{{ $message }}</p>
                                 </div>
                             </div>
@@ -545,7 +545,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                 </div>
-                                <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50">
+                                <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">
                                     {{ __('Informasi Kontak') }}
                                 </h3>
                             </div>

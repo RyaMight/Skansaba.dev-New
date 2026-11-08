@@ -25,7 +25,7 @@
                 </svg>
             </div>
             <div>
-                <h3 class="text-sm font-bold" style="color: #000000 !important;">{{ __('Password Anda Masih Default') }}</h3>
+                <h3 class="type-card-title-xs" style="color: #000000 !important;">{{ __('Password Anda Masih Default') }}</h3>
                 <p class="text-xs mt-0.5 leading-relaxed" style="color: #000000 !important;">
                     {!! __('Demi keamanan akun dan portofolio karya Anda, segera ganti password bawaan sekolah (:code) menggunakan formulir di bawah ini.', ['code' => '<code class="px-1.5 py-0.5 rounded font-mono font-bold border" style="background-color: #fde68a !important; color: #000000 !important; border-color: #f59e0b !important;">' . \App\Models\User::DEFAULT_SISWA_PASSWORD . '</code>']) !!}
                 </p>
@@ -35,13 +35,13 @@
 
     {{-- Page Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Pengaturan') }}</h1>
+        <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Pengaturan') }}</h1>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Kelola akun dan keamanan Anda di sini.') }}</p>
     </div>
 
     {{-- Info Akun --}}
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
-        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">{{ __('Informasi Akun') }}</h2>
+        <h2 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">{{ __('Informasi Akun') }}</h2>
         <div class="flex items-center gap-4">
             @if($user->photo_url)
                 <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700">
@@ -67,7 +67,7 @@
 
     {{-- Ubah Password --}}
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
-        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50 mb-1">{{ __('Ubah Password') }}</h2>
+        <h2 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-1">{{ __('Ubah Password') }}</h2>
         <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">{{ __('Gunakan password minimal 8 karakter yang kuat dan mudah Anda ingat.') }}</p>
 
         <form wire:submit.prevent="updateUserPassword" class="space-y-4">

@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Struktur Organisasi RPL</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">Struktur Organisasi RPL</h1>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Kelola data struktur organisasi dan tim pengajar jurusan RPL</p>
             </div>
             <button 
@@ -89,7 +89,7 @@
 
                                 {{-- Info --}}
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate">{{ $item['nama'] }}</h3>
+                                    <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50 truncate">{{ $item['nama'] }}</h3>
                                     <p class="text-sm text-gray-600 dark:text-gray-300">{{ $item['jabatan'] }}</p>
                                     @if($item['deskripsi_md'])
                                         <p class="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">{{ \Illuminate\Support\Str::limit(strip_tags($item['deskripsi_md']), 60) }}</p>
@@ -149,7 +149,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
                 {{-- Modal Header --}}
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between sticky top-0 bg-white dark:bg-gray-900 z-10">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
+                    <h3 class="type-card-title text-gray-900 dark:text-gray-50">
                         {{ $struktur_id ? 'Edit Anggota' : 'Tambah Anggota' }}
                     </h3>
                     <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">

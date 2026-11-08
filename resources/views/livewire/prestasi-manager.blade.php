@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Prestasi Siswa</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">Kelola Prestasi Siswa</h1>
                 <p class="text-gray-600 dark:text-gray-300 mt-1">Manajemen data prestasi siswa RPL</p>
             </div>
             <button 
@@ -229,7 +229,7 @@
                     <div class="relative inline-block w-full max-w-5xl my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl z-50">
                         {{-- Modal Header --}}
                         <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">
                                 {{ $isEditMode ? 'Edit Prestasi' : 'Tambah Prestasi Baru' }}
                             </h3>
                             <button @click="$wire.closeModal()" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">

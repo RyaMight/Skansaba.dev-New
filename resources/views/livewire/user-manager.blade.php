@@ -4,7 +4,7 @@
         <div class="mb-8">
             <div class="flex items-center justify-between">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Manajemen Pengguna</h1>
+                    <h1 class="type-section-title text-gray-900 dark:text-gray-50">Manajemen Pengguna</h1>
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">Kelola akun admin dan guru</p>
                 </div>
                 <button wire:click="openCreateModal" 
@@ -171,7 +171,7 @@
                 <form x-on:submit.prevent="if (window.imageCropper) window.imageCropper.sendToLivewire(); $wire.save();">
                     <!-- Modal Header -->
                     <div class="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between z-10">
-                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">
+                        <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">
                             {{ $isEditing ? 'Edit Pengguna' : 'Tambah Pengguna' }}
                         </h3>
                         <button type="button" wire:click="closeFormModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
@@ -315,7 +315,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                 <!-- Modal Header -->
                 <div class="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between z-10">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">Detail Pengguna</h3>
+                    <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">Detail Pengguna</h3>
                     <button type="button" wire:click="closeDetailModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -334,7 +334,7 @@
                                 {{ $selectedUser->initials() }}
                             </div>
                         @endif
-                        <h4 class="mt-4 text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $selectedUser->name }}</h4>
+                        <h4 class="type-subsection-title mt-4 text-gray-900 dark:text-gray-50">{{ $selectedUser->name }}</h4>
                         <p class="text-gray-600 dark:text-gray-300">{{ $selectedUser->email }}</p>
                         <div class="flex gap-2 mt-3">
                             <span class="inline-flex px-3 py-1 text-sm font-medium rounded-full {{ $selectedUser->role_badge_color }}">
@@ -386,7 +386,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                         </svg>
                     </div>
-                    <h3 class="text-lg font-bold text-center text-gray-900 dark:text-gray-50 mb-2">Konfirmasi Hapus</h3>
+                    <h3 class="type-card-title text-center text-gray-900 dark:text-gray-50 mb-2">Konfirmasi Hapus</h3>
                     <p class="text-center text-gray-600 dark:text-gray-300 mb-6">
                         Apakah Anda yakin ingin menghapus pengguna <strong>{{ $userToDelete->name }}</strong>? 
                         Tindakan ini tidak dapat dibatalkan.

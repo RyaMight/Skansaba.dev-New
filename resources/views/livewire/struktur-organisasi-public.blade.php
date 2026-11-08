@@ -12,7 +12,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Struktur Organisasi') }}</span>
             </div>
 
-            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight" data-reveal>
+            <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight" data-reveal>
                 {{ __('Guru') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('RPL') }}</span> {{ __('SMK Negeri 1 Bantul') }}
             </h1>
         </div>
@@ -78,20 +78,20 @@
                                 @endif
 
                                 <a href="/struktur-organisasi/{{ $member->id }}" class="group/name block">
-                                    <h2 class="text-2xl lg:text-3xl font-bold text-gray-900 dark:text-gray-50 mb-4 transition-all duration-300 group-hover/name:translate-x-1.5 group-hover/name:text-gray-600 dark:group-hover/name:text-gray-300">
+                                    <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-4 transition-all duration-300 group-hover/name:translate-x-1.5 group-hover/name:text-gray-600 dark:group-hover/name:text-gray-300">
                                         {{ $member->nama }}
                                     </h2>
                                 </a>
 
                                 @if($member->deskripsi_md)
-                                    <div class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed max-w-xl strutur-desc">
+                                    <div class="type-body-sm text-gray-600 dark:text-gray-300 max-w-xl strutur-desc">
                                         {!! $member->deskripsi_html !!}
                                     </div>
                                 @endif
 
                                 <a
                                     href="/struktur-organisasi/{{ $member->id }}"
-                                    class="strutur-btn inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-lg text-white text-sm font-semibold transition-all duration-300 hover:gap-3 hover:shadow-lg hover:-translate-y-0.5"
+                                    class="strutur-btn type-button inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-lg text-white transition-all duration-300 hover:gap-3 hover:shadow-lg hover:-translate-y-0.5"
                                     style="background-color: {{ $globalSettings->primary_color_style }}"
                                 >
                                     {{ __('Selengkapnya') }}
@@ -111,8 +111,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data') }}</h3>
-                    <p class="text-gray-600 dark:text-gray-400">{{ __('Struktur organisasi belum tersedia saat ini') }}</p>
+                    <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data') }}</h3>
+                    <p class="type-body text-gray-600 dark:text-gray-400">{{ __('Struktur organisasi belum tersedia saat ini') }}</p>
                 </div>
             @endif
         </div>

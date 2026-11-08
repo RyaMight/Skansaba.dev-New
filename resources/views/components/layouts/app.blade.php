@@ -157,7 +157,7 @@
                                         </svg>
                                     </div>
                                     <div>
-                                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Segera Ganti Password Anda') }}</h3>
+                                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">{{ __('Segera Ganti Password Anda') }}</h3>
                                         <p class="text-xs text-slate-500 dark:text-gray-400 mt-0.5">{{ __('Peringatan keamanan akun Siswa RPL') }}</p>
                                     </div>
                                 </div>

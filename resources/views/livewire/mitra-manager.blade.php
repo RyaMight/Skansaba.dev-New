@@ -37,7 +37,7 @@
     {{-- Header --}}
     <div class="flex justify-between items-center mb-6">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Manajemen Mitra</h1>
+            <h1 class="type-section-title text-gray-900 dark:text-gray-50">Manajemen Mitra</h1>
             <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Kelola logo mitra industri & kampus</p>
         </div>
         <button
@@ -192,7 +192,7 @@
                     >
                         {{-- Modal Header --}}
                         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
+                            <h3 class="type-card-title text-gray-900 dark:text-gray-50">
                                 {{ $isEditMode ? 'Edit Mitra' : 'Tambah Mitra' }}
                             </h3>
                         </div>

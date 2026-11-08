@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Landing Page Slider</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">Landing Page Slider</h1>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Kelola gambar slider di hero section landing page</p>
             </div>
             <button 
@@ -86,7 +86,7 @@
 
                                 {{-- Content --}}
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate">{{ $slider->title }}</h3>
+                                    <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50 truncate">{{ $slider->title }}</h3>
                                     @if($slider->subtitle)
                                         <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ $slider->subtitle }}</p>
                                     @endif
@@ -147,7 +147,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
                 {{-- Modal Header --}}
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
+                    <h3 class="type-card-title text-gray-900 dark:text-gray-50">
                         {{ $isEditing ? 'Edit Slider' : 'Tambah Slider' }}
                     </h3>
                     <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">

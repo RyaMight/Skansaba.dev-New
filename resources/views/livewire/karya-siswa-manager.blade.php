@@ -3,7 +3,7 @@
         {{-- Header Section --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50">
+                <h1 class="type-section-title text-slate-900 dark:text-gray-50">
                     {{ auth()->user()->role === 'siswa' ? __('Karya Saya') : __('Koleksi Karya Siswa') }}
                 </h1>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">
@@ -324,7 +324,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-2xl border border-slate-200 dark:border-gray-800 p-5 sm:p-7 mb-6 shadow-xs">
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-5 border-b border-slate-100 dark:border-gray-800">
                     <div>
-                        <h2 class="text-lg font-bold text-slate-900 dark:text-gray-50 flex items-center gap-2">
+                        <h2 class="type-subsection-title text-slate-900 dark:text-gray-50 flex items-center gap-2">
                             <svg class="w-5 h-5 text-sky-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                             </svg>
@@ -351,7 +351,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                         </div>
-                        <h3 class="text-sm font-bold text-slate-800 dark:text-gray-200">{{ __('Belum Ada Riwayat Keterangan') }}</h3>
+                        <h3 class="type-card-title-xs text-slate-800 dark:text-gray-200">{{ __('Belum Ada Riwayat Keterangan') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400 max-w-md mx-auto mt-1">
                             {{ __('Saat Anda mengirimkan karya atau saat guru/admin memberikan persetujuan maupun catatan penolakan, keterangannya akan otomatis muncul di sini.') }}
                         </p>
@@ -415,7 +415,7 @@
                                 <div class="mt-3">
                                     <div class="flex items-baseline gap-2">
                                         <span class="text-[11px] font-semibold text-slate-400 dark:text-gray-500 uppercase tracking-wider">{{ __('Judul Karya:') }}</span>
-                                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ $log->judul_karya }}</h3>
+                                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">{{ $log->judul_karya }}</h3>
                                     </div>
                                 </div>
 
@@ -576,7 +576,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                     </svg>
                 </div>
-                <h3 class="text-base font-bold text-slate-800 dark:text-gray-100">{{ __('Tidak ada karya yang ditemukan') }}</h3>
+                <h3 class="type-card-title-sm text-slate-800 dark:text-gray-100">{{ __('Tidak ada karya yang ditemukan') }}</h3>
                 <p class="text-xs text-slate-500 dark:text-gray-400 mt-1 max-w-sm mx-auto">
                     {{ auth()->user()->role === 'siswa' ? __('Kamu belum memiliki karya atau tidak sesuai filter. Buat karya pertamamu sekarang!') : __('Coba sesuaikan kata kunci pencarian atau ubah filter kategori dan status.') }}
                 </p>
@@ -635,7 +635,7 @@
 
                             {{-- Card Body --}}
                             <div class="p-4 sm:p-5">
-                                <h3 class="text-sm font-bold text-slate-900 dark:text-gray-50 leading-snug line-clamp-1 group-hover:text-sky-600 transition" title="{{ $karya->judul }}">
+                                <h3 class="type-card-title-xs text-slate-900 dark:text-gray-50 line-clamp-1 group-hover:text-sky-600 transition" title="{{ $karya->judul }}">
                                     {{ $karya->judul }}
                                 </h3>
 
@@ -870,7 +870,7 @@
                                 </span>
                             @endif
                         </div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50 truncate max-w-lg">{{ $detailKarya->judul }}</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50 truncate max-w-lg">{{ $detailKarya->judul }}</h3>
                     </div>
                     <button 
                         type="button" 
@@ -895,7 +895,7 @@
                             </div>
                             <div class="flex-1">
                                 <div class="flex items-center gap-2">
-                                    <h4 class="font-bold text-emerald-950 dark:text-emerald-200 text-sm">{{ __('Status: Karya Sudah Terpublikasi (Live)') }}</h4>
+                                    <h4 class="type-card-title-xs text-emerald-950 dark:text-emerald-200">{{ __('Status: Karya Sudah Terpublikasi (Live)') }}</h4>
                                     <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-200 dark:bg-emerald-500/30 text-emerald-900 dark:text-emerald-200 uppercase">{{ __('Aktif') }}</span>
                                 </div>
                                 <p class="text-xs text-emerald-800 dark:text-emerald-300 mt-1 leading-relaxed">
@@ -916,7 +916,7 @@
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2">
-                                        <h4 class="font-bold text-amber-950 dark:text-amber-200 text-sm">{{ __('Status: Butuh Verifikasi (Dalam Review)') }}</h4>
+                                        <h4 class="type-card-title-xs text-amber-950 dark:text-amber-200">{{ __('Status: Butuh Verifikasi (Dalam Review)') }}</h4>
                                         <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-200 dark:bg-amber-500/30 text-amber-950 dark:text-amber-200 uppercase">{{ __('Menunggu Persetujuan') }}</span>
                                     </div>
                                     <p class="text-xs text-amber-800 dark:text-amber-300 mt-1 leading-relaxed">
@@ -951,7 +951,7 @@
                                 </div>
                                 <div>
                                     <div class="flex items-center gap-2">
-                                        <h4 class="font-bold text-slate-900 dark:text-gray-100 text-sm">{{ __('Status: Draft Siswa') }}</h4>
+                                        <h4 class="type-card-title-xs text-slate-900 dark:text-gray-100">{{ __('Status: Draft Siswa') }}</h4>
                                         <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-200 dark:bg-gray-700 text-slate-700 dark:text-gray-300 uppercase">{{ __('Belum Diajukan') }}</span>
                                     </div>
                                     <p class="text-xs text-slate-600 dark:text-gray-400 mt-1 leading-relaxed">
@@ -1138,7 +1138,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Konfirmasi Hapus Karya') }}</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">{{ __('Konfirmasi Hapus Karya') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">{{ __('Tindakan ini akan menghapus data karya siswa') }}</p>
                     </div>
                 </div>
@@ -1185,7 +1185,7 @@
                 {{-- Modal Header --}}
                 <div wire:key="modal-buat-karya-header" class="shrink-0 flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/80">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">
                             {{ $editingKaryaId ? __('Edit Karya Siswa') : __('Buat Karya Baru') }}
                         </h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">

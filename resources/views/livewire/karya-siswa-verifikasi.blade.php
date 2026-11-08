@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50">{{ __('Verifikasi Karya Siswa') }}</h1>
+                <h1 class="type-section-title text-slate-900 dark:text-gray-50">{{ __('Verifikasi Karya Siswa') }}</h1>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">{{ __('Kurasi karya siswa, validasi orisinalitas, dan berikan 1 tag keahlian terverifikasi untuk akun siswa.') }}</p>
             </div>
             <div class="flex items-center gap-3">
@@ -69,7 +69,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                 </div>
-                <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Tidak ada karya yang menunggu verifikasi') }}</h3>
+                <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">{{ __('Tidak ada karya yang menunggu verifikasi') }}</h3>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1 max-w-md mx-auto">{{ __('Semua pengajuan karya siswa saat ini telah dikurasi. Bila siswa mengirim pengajuan baru, notifikasi tanda seru akan muncul di menu.') }}</p>
                 @if($userId)
                     <button 
@@ -174,7 +174,7 @@
                                                     </span>
                                                 @endif
                                             </div>
-                                            <h2 class="text-xl font-bold text-slate-900 dark:text-gray-50 leading-snug">{{ $karya->judul }}</h2>
+                                            <h2 class="type-subsection-title text-slate-900 dark:text-gray-50">{{ $karya->judul }}</h2>
                                             <div class="flex flex-wrap items-center gap-y-1 gap-x-2 text-xs text-slate-500 dark:text-gray-400 mt-1">
                                                 <span class="font-medium text-slate-700 dark:text-gray-200">{{ $karya->nama_siswa }}</span>
                                                 <span>•</span>
@@ -307,7 +307,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Konfirmasi Publikasi Karya') }}</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">{{ __('Konfirmasi Publikasi Karya') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">{{ __('Verifikasi keaslian portofolio siswa') }}</p>
                     </div>
                 </div>
@@ -373,7 +373,7 @@
                 <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-gray-800 bg-slate-50/50 dark:bg-gray-800/50">
                     <div>
                         <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider">{{ __('Preview Portofolio') }}</span>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50 truncate max-w-lg">{{ $previewItem?->judul }}</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50 truncate max-w-lg">{{ $previewItem?->judul }}</h3>
                     </div>
                     <button 
                         type="button" 
@@ -497,7 +497,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Tolak Karya / Minta Perbaikan') }}</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">{{ __('Tolak Karya / Minta Perbaikan') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">{{ __('Siswa akan menerima catatan ini di dashboard miliknya') }}</p>
                     </div>
                 </div>

@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50">Akun Siswa RPL</h1>
+                <h1 class="type-section-title text-slate-900 dark:text-gray-50">Akun Siswa RPL</h1>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">Daftar akun siswa Jurusan RPL, status verifikasi keahlian, dan kurasi portofolio karya.</p>
             </div>
             <div class="flex items-center gap-2.5">
@@ -243,7 +243,7 @@
             <div class="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-xl w-full p-6 border border-slate-200 dark:border-gray-700 z-10 max-h-[90vh] overflow-y-auto">
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 dark:border-gray-800">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">Tambah Akun Siswa RPL</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">Tambah Akun Siswa RPL</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">Mendaftarkan akun siswa baru ke jurusan RPL.</p>
                     </div>
                     <button type="button" wire:click="closeCreateModal" class="text-slate-400 hover:text-slate-600 dark:hover:text-gray-200">
@@ -334,7 +334,7 @@
             <div class="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-lg w-full p-6 border border-slate-200 dark:border-gray-700 z-10">
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 dark:border-gray-800">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">Kelola Tag Keahlian Siswa</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">Kelola Tag Keahlian Siswa</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">Siswa: <strong class="text-slate-800 dark:text-gray-100">{{ $targetStudent?->name }}</strong> ({{ $targetStudent?->kelas ?? '-' }})</p>
                     </div>
                     <button type="button" wire:click="closeTagModal" class="text-slate-400 hover:text-slate-600 dark:hover:text-gray-200">
@@ -427,7 +427,7 @@
             <div class="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-2xl w-full max-h-[85vh] flex flex-col border border-slate-200 dark:border-gray-700 z-10 overflow-hidden">
                 <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50">
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">Profil & Portofolio Siswa</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">Profil & Portofolio Siswa</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">Informasi akademik & kurasi karya</p>
                     </div>
                     <button type="button" wire:click="closeViewModal" class="text-slate-400 hover:text-slate-600 dark:hover:text-gray-200">
@@ -446,7 +446,7 @@
                             </div>
                         @endif
                         <div class="flex-1 min-w-0">
-                            <h4 class="text-lg font-bold text-slate-900 dark:text-gray-50">{{ $viewingStudent->name }}</h4>
+                            <h4 class="type-card-title text-slate-900 dark:text-gray-50">{{ $viewingStudent->name }}</h4>
                             <p class="text-xs text-slate-500 dark:text-gray-400 mt-0.5">
                                 {{ $viewingStudent->kelas ?: 'Belum diisi kelas' }} • NISN: {{ $viewingStudent->nisn ?: '-' }}
                             </p>

@@ -34,7 +34,7 @@
     {{-- Page Header --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Selamat datang, :name', ['name' => strtok($user->name ?? '', ' ')]) }}</h1>
+            <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Selamat datang, :name', ['name' => strtok($user->name ?? '', ' ')]) }}</h1>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Ringkasan aktivitas karya dan prestasi kamu.') }}</p>
         </div>
         <div class="flex items-center gap-2">
@@ -75,7 +75,7 @@
             </div>
             <div class="min-w-0">
                 <div class="flex flex-wrap items-center gap-2">
-                    <h2 class="text-base md:text-lg font-bold text-gray-900 dark:text-gray-50 truncate">{{ $user->name }}</h2>
+                    <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 truncate">{{ $user->name }}</h2>
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30">
                         {{ $user->kelas ? __('Kelas :kelas', ['kelas' => $user->kelas]) : __('Siswa RPL') }}
                     </span>
@@ -176,7 +176,7 @@
         {{-- Karya Terbaru --}}
         <div class="lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
             <div class="flex items-center justify-between mb-5">
-                <h3 class="text-base md:text-lg font-bold text-gray-900 dark:text-gray-50">{{ __('Karya Terbaru') }}</h3>
+                <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Karya Terbaru') }}</h3>
                 <div class="flex items-center gap-2">
                     <a
                         href="{{ route('karya-siswa.index', ['create' => 1]) }}"
@@ -247,7 +247,7 @@
         <div class="space-y-6">
             {{-- Kelengkapan Profil --}}
             <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
-                <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 mb-4">{{ __('Kelengkapan Profil') }}</h3>
+                <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4">{{ __('Kelengkapan Profil') }}</h3>
                 @php
                     $checks = [
                         'Foto profil' => (bool) $user->photo_url,
@@ -291,7 +291,7 @@
 
             {{-- Prestasi --}}
             <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
-                <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 mb-4">{{ __('Prestasi Terbaru') }}</h3>
+                <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4">{{ __('Prestasi Terbaru') }}</h3>
                 @if($prestasiTerbaru->isEmpty())
                     <p class="text-xs text-gray-400 dark:text-gray-400 text-center py-4">{{ __('Belum ada prestasi yang dipublikasikan.') }}</p>
                 @else

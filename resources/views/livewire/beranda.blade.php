@@ -57,13 +57,13 @@
             {{-- Judul utama: eyebrow + hero title (sesuai design banner) --}}
             <div class="text-center pt-4 lg:pt-6 mb-4 lg:mb-5" data-reveal>
                 {{-- Eyebrow (2 warna) --}}
-                <p class="text-sm sm:text-base lg:text-lg font-semibold leading-snug text-[#485B60] dark:text-gray-300">
+                <p class="type-lead font-semibold text-[#485B60] dark:text-gray-300">
                     {{ __('Selamat Datang di Jurusan') }}
                     <span class="text-[#003F4F] dark:text-gray-100">{{ __('Rekayasa Perangkat Lunak!') }}</span>
                 </p>
 
                 {{-- Hero title (2 baris) --}}
-                <h1 class="mt-3 lg:mt-6 max-w-xl lg:max-w-[440px] mx-auto text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight lg:leading-[44px] text-[#28374D] dark:text-gray-50">
+                <h1 class="type-hero-title mt-3 lg:mt-6 max-w-2xl lg:max-w-3xl mx-auto text-[#28374D] dark:text-gray-50">
                     <span class="block" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.Dev' }}</span>
                     <span class="block">{{ __('Membangun Masa Depan Digital Indonesia') }}</span>
                 </h1>
@@ -96,9 +96,9 @@
                                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
 
                                     <div class="relative">
-                                        <h3 class="text-white text-lg lg:text-2xl font-bold leading-snug drop-shadow-md">{{ $slider->title }}</h3>
+                                        <h3 class="type-card-title text-white drop-shadow-md">{{ $slider->title }}</h3>
                                         @if($slider->subtitle)
-                                            <p class="text-white/75 text-[11px] lg:text-sm leading-relaxed mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
+                                            <p class="type-body-sm text-white/75 mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
                                                 {{ $slider->subtitle }}
                                             </p>
                                         @endif
@@ -191,7 +191,7 @@
                     <button
                         type="button"
                         @click="aktif = 'karir'"
-                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-bold transition-colors duration-200"
+                        class="type-subsection-title flex w-full items-center border-l-2 pl-4 py-2 text-left transition-colors duration-200"
                         :class="aktif === 'karir'
                             ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
                             : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
@@ -202,7 +202,7 @@
                     <button
                         type="button"
                         @click="aktif = 'mapel'"
-                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-bold transition-colors duration-200"
+                        class="type-subsection-title flex w-full items-center border-l-2 pl-4 py-2 text-left transition-colors duration-200"
                         :class="aktif === 'mapel'
                             ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
                             : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
@@ -216,7 +216,7 @@
 
                     {{-- Panel: Prospek Karir --}}
                     <div x-show="aktif === 'karir'" x-cloak x-transition.opacity.duration.200ms>
-                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
                             {{ __('Prospek Karir') }}
                         </h2>
 
@@ -225,7 +225,7 @@
                                 @foreach($prospekKarir as $karir)
                                     <div class="group/karir flex flex-col gap-2" title="{{ $karir->description_excerpt }}">
                                         <span class="w-1.5 h-1.5 rounded-full flex-none" style="background-color: {{ $globalSettings->primary_color_style }}"></span>
-                                        <span class="text-sm sm:text-[15px] text-gray-600 dark:text-gray-300 group-hover/karir:text-gray-900 dark:group-hover/karir:text-white font-medium transition-colors duration-200">
+                                        <span class="type-body-sm font-medium text-gray-600 dark:text-gray-300 group-hover/karir:text-gray-900 dark:group-hover/karir:text-white transition-colors duration-200">
                                             {{ $karir->title }}
                                         </span>
                                     </div>
@@ -238,7 +238,7 @@
 
                     {{-- Panel: Mata Pelajaran Unggulan --}}
                     <div x-show="aktif === 'mapel'" x-cloak x-transition.opacity.duration.200ms>
-                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
                             {{ __('Mata Pelajaran Unggulan') }}
                         </h2>
 
@@ -265,8 +265,8 @@
                                 </span>
 
                                 <div class="min-w-0">
-                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 text-base leading-snug">{{ __($mapel['judul']) }}</h3>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mt-1.5">{{ __($mapel['deskripsi']) }}</p>
+                                    <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __($mapel['judul']) }}</h3>
+                                    <p class="type-body-sm text-gray-500 dark:text-gray-400 mt-1.5">{{ __($mapel['deskripsi']) }}</p>
                                 </div>
                             </div>
                         @endforeach
@@ -343,12 +343,12 @@
     <section class="py-10 lg:py-16">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 lg:mb-10" data-reveal>
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50">
+                <h2 class="type-section-title text-gray-900 dark:text-gray-50">
                     {{ __('Karya Siswa') }}
                 </h2>
                 <a
                     href="/karya"
-                    class="group/link inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    class="type-button group/link inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                     <span>{{ __('Lihat Semua') }}</span>
                     <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -462,9 +462,9 @@
 
                                 {{-- Info --}}
                                 <div class="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
-                                    <h3 class="text-white font-semibold text-base lg:text-lg leading-snug drop-shadow">{{ $item->judul }}</h3>
+                                    <h3 class="type-card-title-sm text-white drop-shadow">{{ $item->judul }}</h3>
                                     @if($item->nama_siswa)
-                                        <p class="text-white/80 text-xs mt-1 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-1 sm:group-hover:translate-y-0 transition-all duration-300">
+                                        <p class="type-meta text-white/80 mt-1 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-1 sm:group-hover:translate-y-0 transition-all duration-300">
                                             {{ $item->nama_siswa }}{{ $item->kategori ? ' · ' . $item->kategori : '' }}
                                         </p>
                                     @endif
@@ -539,12 +539,12 @@
     <section class="py-12 lg:py-16">
         <div class="site-container">
             <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
-                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50">
+                <h2 class="type-section-title text-gray-900 dark:text-gray-50">
                     {{ __('Berita Terbaru') }}
                 </h2>
                 <a
                     href="/berita"
-                    class="hidden sm:flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200 hover:gap-3 transition-all"
+                    class="type-button hidden sm:flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:gap-3 transition-all"
                 >
                     {{ __('Lihat Semua') }}
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -690,23 +690,23 @@
 
                             {{-- Body: hanya judul saat normal, sisanya muncul saat hover --}}
                             <div class="p-5 lg:p-6">
-                                <h3 class="font-semibold text-gray-900 dark:text-gray-50 leading-snug line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
+                                <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                                     {{ $item->title }}
                                 </h3>
 
                                 <div class="grid grid-rows-[1fr] sm:grid-rows-[0fr] sm:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                                     <div class="overflow-hidden">
-                                        <div class="flex items-center gap-2 text-xs text-gray-400 dark:text-gray-500 pt-3">
+                                        <div class="type-meta flex items-center gap-2 text-gray-400 dark:text-gray-500 pt-3">
                                             <span>{{ $item->published_at?->translatedFormat('d M Y') }}</span>
                                             <span class="w-1 h-1 rounded-full bg-gray-300"></span>
                                             <span>{{ $item->views }} {{ __('views') }}</span>
                                         </div>
 
-                                        <p class="text-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-2">
+                                        <p class="type-body-sm text-gray-500 dark:text-gray-400 line-clamp-2 mt-2">
                                             {{ $item->excerpt ?? Str::limit(strip_tags($item->content_md), 100) }}
                                         </p>
 
-                                        <span class="inline-flex items-center gap-1.5 mt-3 text-sm font-semibold" style="color: {{ $globalSettings->primary_color_style }}">
+                                        <span class="type-button inline-flex items-center gap-1.5 mt-3" style="color: {{ $globalSettings->primary_color_style }}">
                                             {{ __('Baca Selengkapnya') }}
                                             <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
@@ -724,7 +724,7 @@
                 <div class="flex sm:hidden justify-center mt-8" data-reveal>
                     <a
                         href="/berita"
-                        class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 transition"
+                        class="type-button inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-700 transition"
                     >
                         {{ __('Lihat Semua Berita') }}
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

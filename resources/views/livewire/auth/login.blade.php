@@ -13,7 +13,7 @@
                         </svg>
                     </div>
                 @endif
-                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $globalSettings->site_name ?? 'CMS Jurusan RPL' }}</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ $globalSettings->site_name ?? 'CMS Jurusan RPL' }}</h1>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ $globalSettings->site_tagline ?? 'Sekolah Menengah Kejuruan' }}</p>
             </div>
 

@@ -1,7 +1,7 @@
 <div class="p-6">
     <!-- Header -->
     <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Global Settings') }}</h1>
+        <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Global Settings') }}</h1>
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-300">{{ __('Kelola pengaturan umum website jurusan RPL') }}</p>
     </div>
 
@@ -20,7 +20,7 @@
             
             <!-- Site Information Section -->
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi Situs') }}</h2>
+                <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi Situs') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
@@ -49,7 +49,7 @@
 
             <!-- Logos and Branding Section -->
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Logo & Branding') }}</h2>
+                <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-4">{{ __('Logo & Branding') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     
                     <!-- Logo Primary -->
@@ -173,7 +173,7 @@
 
             <!-- Theme Colors Section -->
             <div class="p-6 border-b border-gray-200 dark:border-gray-700">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Warna Tema') }}</h2>
+                <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-4">{{ __('Warna Tema') }}</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
@@ -213,7 +213,7 @@
 
             <!-- Contact Information Section -->
             <div class="p-6">
-                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi Kontak') }}</h2>
+                <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi Kontak') }}</h2>
                 <div class="space-y-6">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
@@ -284,7 +284,7 @@
 
             <!-- Social Media Section -->
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm p-6">
-                <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-6">{{ __('Media Sosial') }}</h2>
+                <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-6">{{ __('Media Sosial') }}</h2>
                 <div class="space-y-6">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>

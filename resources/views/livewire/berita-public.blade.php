@@ -12,10 +12,10 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Berita & Artikel') }}</span>
             </div>
             
-            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
+            <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 {{ __('Berita &') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Artikel') }}</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Informasi terkini seputar kegiatan dan berita RPL') }}</p>
+            <p class="type-lead text-gray-600 dark:text-gray-300 max-w-4xl mx-auto">{{ __('Informasi terkini seputar kegiatan dan berita RPL') }}</p>
         </div>
     </section>
 
@@ -60,13 +60,13 @@
                                     @endif
                                     <span class="text-xs text-gray-500 dark:text-gray-400">{{ $berita->published_at->translatedFormat('d M Y') }}</span>
                                 </div>
-                                <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80">
+                                <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80">
                                     {{ $berita->title }}
                                 </h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
+                                <p class="type-body-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
                                     {{ $berita->excerpt ?? Str::limit(strip_tags($berita->content_md), 120) }}
                                 </p>
-                                <div class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                                <div class="type-meta flex items-center justify-between text-gray-500 dark:text-gray-400">
                                     <span>{{ $berita->author->name }}</span>
                                     <span>{{ $berita->views }} {{ __('views') }}</span>
                                 </div>
@@ -84,7 +84,7 @@
                     <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                     </svg>
-                    <p class="text-gray-500 dark:text-gray-400 text-lg">{{ __('Tidak ada berita ditemukan') }}</p>
+                    <p class="type-subsection-title text-gray-500 dark:text-gray-400">{{ __('Tidak ada berita ditemukan') }}</p>
                 </div>
             @endif
         </div>

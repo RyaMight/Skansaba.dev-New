@@ -33,7 +33,7 @@
 
     {{-- Page Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Saluran & Kontak') }}</h1>
+        <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Saluran & Kontak') }}</h1>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Kelola email aktif dan akun media sosial untuk halaman profil Anda.') }}</p>
     </div>
 

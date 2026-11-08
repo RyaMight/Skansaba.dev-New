@@ -12,10 +12,10 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Prestasi Siswa') }}</span>
             </div>
             
-            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
+            <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 {{ __('Prestasi') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Siswa RPL') }}</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Pencapaian dan prestasi terbaik siswa Rekayasa Perangkat Lunak') }}</p>
+            <p class="type-lead text-gray-600 dark:text-gray-300 max-w-4xl mx-auto">{{ __('Pencapaian dan prestasi terbaik siswa Rekayasa Perangkat Lunak') }}</p>
         </div>
     </section>
 
@@ -61,11 +61,11 @@
                                         {{ __(ucfirst($prestasi->tingkat)) }}
                                     </span>
                                 </div>
-                                <h3 class="font-semibold text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80" style="color: {{ $globalSettings->primary_color_style }}">
+                                <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80" style="color: {{ $globalSettings->primary_color_style }}">
                                     {{ $prestasi->judul }}
                                 </h3>
-                                <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">{{ $prestasi->nama_siswa }}</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $prestasi->tanggal_prestasi->translatedFormat('d M Y') }}</p>
+                                <p class="type-body-sm text-gray-600 dark:text-gray-300 mb-1">{{ $prestasi->nama_siswa }}</p>
+                                <p class="type-meta text-gray-500 dark:text-gray-400">{{ $prestasi->tanggal_prestasi->translatedFormat('d M Y') }}</p>
                             </div>
                         </a>
                     @endforeach
@@ -80,8 +80,8 @@
                     <svg class="w-16 h-16 mx-auto text-gray-400 dark:text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
-                    <p class="text-gray-500 dark:text-gray-400 text-lg">{{ __('Tidak ada prestasi ditemukan') }}</p>
-                    <p class="text-gray-400 dark:text-gray-400 text-sm mt-1">{{ __('Coba ubah filter pencarian Anda') }}</p>
+                    <p class="type-subsection-title text-gray-500 dark:text-gray-400">{{ __('Tidak ada prestasi ditemukan') }}</p>
+                    <p class="type-body-sm text-gray-400 dark:text-gray-400 mt-1">{{ __('Coba ubah filter pencarian Anda') }}</p>
                 </div>
             @endif
         </div>

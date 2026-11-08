@@ -52,7 +52,7 @@
                     </div>
 
                     {{-- Title --}}
-                    <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ $karya->judul }}</h1>
+                    <h1 class="type-page-title text-gray-900 dark:text-gray-50 mb-4">{{ $karya->judul }}</h1>
 
                     {{-- Author Info --}}
                     @if($karya->user && $karya->user->isSiswa())
@@ -138,7 +138,7 @@
                     {{-- Teknologi --}}
                     @if($karya->teknologi && is_array($karya->teknologi) && count($karya->teknologi) > 0)
                         <div class="mb-8">
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">{{ __('Teknologi yang Digunakan') }}</h3>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-3">{{ __('Teknologi yang Digunakan') }}</h3>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($karya->teknologi as $tech)
                                     <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-bold bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
@@ -156,7 +156,7 @@
                     @if(count($karya->screenshots ?? []) > 0)
                         <div class="mb-8">
                             <div class="flex items-center gap-2 mb-3">
-                                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{ __('Tangkapan Layar Aplikasi') }}</h3>
+                                <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">{{ __('Tangkapan Layar Aplikasi') }}</h3>
                                 <span class="text-xs px-2 py-0.5 rounded-full font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-sky-500/30">
                                     {{ count($karya->screenshots) }} {{ __('Foto') }}
                                 </span>
@@ -215,7 +215,7 @@
                                     </div>
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
-                                            <h4 class="text-base font-bold text-gray-900 dark:text-gray-50 truncate">{{ $karya->user->name }}</h4>
+                                            <h4 class="type-card-title-sm text-gray-900 dark:text-gray-50 truncate">{{ $karya->user->name }}</h4>
                                             <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30">
                                                 {{ $karya->user->kelas ? __('Kelas :kelas', ['kelas' => $karya->user->kelas]) : __('Siswa RPL') }}
                                             </span>
@@ -267,7 +267,7 @@
             {{-- Related Karya --}}
             @if($relatedKaryas->count() > 0)
                 <div class="mt-12">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{{ __('Karya Lainnya') }}</h2>
+                    <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6">{{ __('Karya Lainnya') }}</h2>
                     <div class="grid md:grid-cols-3 gap-6">
                         @foreach($relatedKaryas as $related)
                             <a href="/karya/{{ $related->id }}" class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition group">
@@ -277,8 +277,8 @@
                                     <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
                                 @endif
                                 <div class="p-4">
-                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 mb-1 line-clamp-2">{{ $related->judul }}</h3>
-                                    <p class="text-sm text-gray-600 dark:text-gray-300">{{ $related->nama_siswa }}</p>
+                                    <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-1 line-clamp-2">{{ $related->judul }}</h3>
+                                    <p class="type-body-sm text-gray-600 dark:text-gray-300">{{ $related->nama_siswa }}</p>
                                 </div>
                             </a>
                         @endforeach

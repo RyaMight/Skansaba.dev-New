@@ -2,7 +2,7 @@
     <div class="site-container">
         {{-- Header --}}
         <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Pesan Kontak') }}</h1>
+            <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Pesan Kontak') }}</h1>
             <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{{ __('Kelola pesan dari formulir kontak website') }}</p>
         </div>
 
@@ -62,7 +62,7 @@
                             @if(!$message->is_read)
                             <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
                             @endif
-                            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50">{{ $message->name }}</h3>
+                            <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50">{{ $message->name }}</h3>
                         </div>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ $message->email }}</p>
                         <p class="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{{ $message->message }}</p>
@@ -97,7 +97,7 @@
         <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             {{-- Header --}}
             <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
-                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-50">{{ __('Detail Pesan') }}</h2>
+                <h2 class="type-subsection-title text-gray-900 dark:text-gray-50">{{ __('Detail Pesan') }}</h2>
                 <button wire:click="closeDetail" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>

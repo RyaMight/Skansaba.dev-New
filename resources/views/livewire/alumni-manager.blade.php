@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Alumni</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">Kelola Alumni</h1>
                 <p class="text-gray-600 dark:text-gray-300 mt-1">Data alumni jurusan RPL dan kelanjutan studi/karier mereka</p>
             </div>
             <button 
@@ -109,7 +109,7 @@
 
                     {{-- Content --}}
                     <div class="p-5">
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
+                        <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
                         
                         <div class="space-y-2 mb-4">
                             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
@@ -188,7 +188,7 @@
 
                 <div class="relative inline-block w-full max-w-4xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50">
+                        <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">
                             {{ $isEditMode ? 'Edit Alumni' : 'Tambah Alumni Baru' }}
                         </h3>
                         <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 transition">
@@ -356,7 +356,7 @@
 
                 <div class="relative inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50">Detail Alumni</h3>
+                        <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">Detail Alumni</h3>
                         <button wire:click="closeDetailModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 transition">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>

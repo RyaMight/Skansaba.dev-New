@@ -42,7 +42,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                 </svg>
             </div>
-            <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-100">{{ __('Tidak ada karya siswa yang cocok') }}</h3>
+            <h3 class="type-card-title-xs text-slate-900 dark:text-gray-100">{{ __('Tidak ada karya siswa yang cocok') }}</h3>
             <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">{{ __('Coba gunakan kata kunci pencarian atau pilih kategori lain.') }}</p>
             <button
                 type="button"
@@ -161,11 +161,11 @@
                                     </span>
                                 </div>
 
-                                <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $item->judul }}">
+                                <h3 class="type-card-title-xs text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $item->judul }}">
                                     {{ $item->judul }}
                                 </h3>
 
-                                <p class="text-xs text-slate-500 dark:text-gray-400 mt-1.5 line-clamp-2 leading-relaxed">
+                                <p class="type-body-xs text-slate-500 dark:text-gray-400 mt-1.5 line-clamp-2">
                                     {{ $item->deskripsi_singkat ?: $item->deskripsi_excerpt }}
                                 </p>
                             </div>
@@ -199,7 +199,7 @@
                                 @endif
                             </div>
                             <div class="min-w-0">
-                                <p class="text-xs font-semibold text-slate-700 dark:text-gray-200 truncate">{{ $creatorName }}</p>
+                                <p class="type-body-xs font-semibold text-slate-700 dark:text-gray-200 truncate">{{ $creatorName }}</p>
                             </div>
                         </div>
 

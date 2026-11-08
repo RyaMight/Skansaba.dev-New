@@ -45,8 +45,8 @@
 
                         {{-- Info --}}
                         <div class="md:w-2/3">
-                            <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-2">{{ $member->nama }}</h1>
-                            <p class="text-xl font-medium mb-6" style="color: {{ $globalSettings->primary_color_style }}">{{ $member->jabatan }}</p>
+                            <h1 class="type-page-title text-gray-900 dark:text-gray-50 mb-2">{{ $member->nama }}</h1>
+                            <p class="type-lead font-medium mb-6" style="color: {{ $globalSettings->primary_color_style }}">{{ $member->jabatan }}</p>
 
                             {{-- Description --}}
                             @if($member->deskripsi_md)
@@ -62,7 +62,7 @@
             {{-- Related Members --}}
             @if($relatedMembers->count() > 0)
                 <div class="mt-12">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{{ __('Anggota Lainnya') }}</h2>
+                    <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6">{{ __('Anggota Lainnya') }}</h2>
                     <div class="grid md:grid-cols-3 gap-6">
                         @foreach($relatedMembers as $related)
                             <a href="/struktur-organisasi/{{ $related->id }}" class="bg-white dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group">
@@ -74,8 +74,8 @@
                                     </div>
                                 @endif
                                 <div class="p-4">
-                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 mb-1">{{ $related->nama }}</h3>
-                                    <p class="text-sm" style="color: {{ $globalSettings->primary_color_style }}">{{ $related->jabatan }}</p>
+                                    <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-1">{{ $related->nama }}</h3>
+                                    <p class="type-body-sm" style="color: {{ $globalSettings->primary_color_style }}">{{ $related->jabatan }}</p>
                                 </div>
                             </a>
                         @endforeach

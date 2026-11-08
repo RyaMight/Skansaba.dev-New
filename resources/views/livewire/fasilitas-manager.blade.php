@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Fasilitas</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">Kelola Fasilitas</h1>
                 <p class="text-gray-600 dark:text-gray-300 mt-1">Manajemen data fasilitas jurusan RPL</p>
             </div>
             <button 
@@ -174,7 +174,7 @@
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             <div class="bg-white dark:bg-gray-900 rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto">
                 <div class="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50">
+                    <h2 class="type-subsection-title text-gray-900 dark:text-gray-50">
                         {{ $isEditMode ? 'Edit Fasilitas' : 'Tambah Fasilitas' }}
                     </h2>
                     <button wire:click="closeModal" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-200">
@@ -366,7 +366,7 @@
                         <img src="{{ Storage::url($detailFasilitas->gambar) }}" alt="{{ $detailFasilitas->tempat }}" class="w-full h-full object-cover rounded-t-lg opacity-20">
                     @endif
                     <div class="absolute inset-0 flex items-center justify-center">
-                        <h2 class="text-3xl font-bold text-white text-center px-4">{{ $detailFasilitas->tempat }}</h2>
+                        <h2 class="type-subsection-title text-white text-center px-4">{{ $detailFasilitas->tempat }}</h2>
                     </div>
                     <button wire:click="closeDetailModal" class="absolute top-4 right-4 text-white hover:text-gray-200 transition">
                         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -379,14 +379,14 @@
                     {{-- Gambar Ruangan --}}
                     @if($detailFasilitas->gambar)
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Foto Ruangan</h3>
+                            <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-3">Foto Ruangan</h3>
                             <img src="{{ Storage::url($detailFasilitas->gambar) }}" alt="{{ $detailFasilitas->tempat }}" class="w-full rounded-lg shadow-lg">
                         </div>
                     @endif
 
                     {{-- Status --}}
                     <div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Status</h3>
+                        <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-3">Status</h3>
                         <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium
                             @if($detailFasilitas->status === 'published') bg-green-100 dark:bg-green-500/20 text-green-800
                             @elseif($detailFasilitas->status === 'draft') bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100
@@ -399,7 +399,7 @@
                     {{-- Deskripsi --}}
                     @if($detailFasilitas->deskripsi)
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Deskripsi</h3>
+                            <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-3">Deskripsi</h3>
                             <div class="prose prose-sm max-w-none">
                                 {!! $detailFasilitas->deskripsi_html !!}
                             </div>
@@ -409,7 +409,7 @@
                     {{-- Daftar Fasilitas --}}
                     @if($detailFasilitas->fasilitas && count($detailFasilitas->fasilitas) > 0)
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">
+                            <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-3">
                                 Daftar Fasilitas 
                                 <span class="text-sm text-gray-500 dark:text-gray-400 font-normal">({{ $detailFasilitas->fasilitas_count }} item)</span>
                             </h3>

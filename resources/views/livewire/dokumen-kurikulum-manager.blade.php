@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Dokumen Kurikulum</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">Kelola Dokumen Kurikulum</h1>
                 <p class="text-gray-600 dark:text-gray-300 mt-1">Manajemen dokumen kurikulum, silabus, dan modul pengajaran</p>
             </div>
             <button 
@@ -202,7 +202,7 @@
 
                 <div class="relative inline-block w-full max-w-2xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
                     <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-gray-50">
+                        <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">
                             {{ $isEditMode ? 'Edit Dokumen' : 'Tambah Dokumen Baru' }}
                         </h3>
                         <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 transition">
@@ -348,7 +348,7 @@
                     <div class="bg-gradient-to-r from-[#12B4E0] to-[#0e91b8] px-8 py-6 text-white">
                         <div class="flex items-start justify-between">
                             <div class="flex-1">
-                                <h3 class="text-2xl font-bold mb-2">{{ $detailDokumen->judul }}</h3>
+                                <h3 class="type-subsection-title mb-2">{{ $detailDokumen->judul }}</h3>
                                 <div class="flex items-center gap-4 text-sm text-white/90">
                                     <span class="inline-flex items-center">
                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -63,7 +63,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
             </div>
-            <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-100">{{ __('Tidak ada profil siswa yang cocok') }}</h3>
+            <h3 class="type-card-title-xs text-slate-900 dark:text-gray-100">{{ __('Tidak ada profil siswa yang cocok') }}</h3>
             <p class="text-xs text-slate-500 dark:text-gray-400 mt-1">{{ __('Coba cari dengan nama siswa, keahlian, atau kata kunci lain.') }}</p>
             <button
                 type="button"
@@ -108,7 +108,7 @@
 
                             <div class="min-w-0 flex-1">
                                 <div class="flex items-start justify-between gap-2">
-                                    <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $siswa->name }}">
+                                    <h3 class="type-card-title-xs text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $siswa->name }}">
                                         {{ $siswa->name }}
                                     </h3>
                                 </div>
@@ -124,15 +124,15 @@
                         {{-- Bio atau Ringkasan Portofolio --}}
                         <div class="mt-3">
                             @if($siswa->bio)
-                                <p class="text-xs text-slate-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                <p class="type-body-xs text-slate-600 dark:text-gray-300 line-clamp-2">
                                     {{ $siswa->bio }}
                                 </p>
                             @elseif($siswa->karyaSiswas->isNotEmpty())
-                                <p class="text-xs text-slate-600 dark:text-gray-300 line-clamp-2 leading-relaxed">
+                                <p class="type-body-xs text-slate-600 dark:text-gray-300 line-clamp-2">
                                     {{ __('Kreator proyek') }} <span class="font-semibold text-slate-800 dark:text-gray-100">{{ $siswa->karyaSiswas->pluck('judul')->join(', ') }}</span>.
                                 </p>
                             @else
-                                <p class="text-xs text-slate-500 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                                <p class="type-body-xs text-slate-500 dark:text-gray-400 line-clamp-2">
                                     {{ __('Siswa Rekayasa Perangkat Lunak SMKN 1 Bantul.') }}
                                 </p>
                             @endif

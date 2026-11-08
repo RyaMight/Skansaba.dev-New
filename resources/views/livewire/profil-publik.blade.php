@@ -30,7 +30,7 @@
                         @endif
                     </div>
 
-                    <h1 class="text-xl font-bold text-gray-900 dark:text-gray-50 mt-4">{{ $profileUser->name }}</h1>
+                    <h1 class="type-subsection-title text-gray-900 dark:text-gray-50 mt-4">{{ $profileUser->name }}</h1>
                     <p class="text-sm text-gray-500 dark:text-gray-400">{{ '@' . ($profileUser->username ?: $profileUser->id) }}</p>
 
                     @if(auth()->check() && auth()->id() === $profileUser->id)
@@ -46,7 +46,7 @@
                     @endif
 
                     @if($profileUser->bio)
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2 leading-relaxed">{{ $profileUser->bio }}</p>
+                        <p class="type-body-xs text-gray-500 dark:text-gray-400 mt-2">{{ $profileUser->bio }}</p>
                     @endif
 
                     {{-- Info sekolah --}}
@@ -159,7 +159,7 @@
                         @if($readmeHtml)
                             <div class="prose prose-sm prose-slate max-w-none">{!! $readmeHtml !!}</div>
                         @else
-                            <p class="text-sm text-gray-400 dark:text-gray-400 italic">{{ __('Siswa ini belum menambahkan README.') }}</p>
+                            <p class="type-body-sm text-gray-400 dark:text-gray-400 italic">{{ __('Siswa ini belum menambahkan README.') }}</p>
                         @endif
                     </div>
                 </div>
@@ -167,13 +167,13 @@
                 {{-- Karya Published --}}
                 <div>
                     <div class="flex items-center justify-between mb-3">
-                        <h2 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('Karya & Proyek') }}</h2>
+                        <h2 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Karya & Proyek') }}</h2>
                         <span class="text-xs text-gray-400 dark:text-gray-400">{{ $karya->count() }} {{ __('karya') }}</span>
                     </div>
 
                     @if($karya->isEmpty())
                         <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 p-8 text-center">
-                            <p class="text-sm text-gray-400 dark:text-gray-400">{{ __('Belum ada karya yang dipublikasikan.') }}</p>
+                            <p class="type-body-sm text-gray-400 dark:text-gray-400">{{ __('Belum ada karya yang dipublikasikan.') }}</p>
                         </div>
                     @else
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -189,7 +189,7 @@
                                         @endif
                                     </div>
                                     <div class="p-4">
-                                        <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate group-hover:text-sky-600 transition">{{ $item->judul }}</h3>
+                                        <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50 truncate group-hover:text-sky-600 transition">{{ $item->judul }}</h3>
                                         @if(count($item->tags ?? []))
                                             <div class="flex flex-wrap gap-1 mt-1.5">
                                                 @foreach(array_slice($item->tags, 0, 3) as $tag)
@@ -197,7 +197,7 @@
                                                 @endforeach
                                             </div>
                                         @endif
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{{ $item->deskripsi_singkat ?: $item->deskripsi_excerpt }}</p>
+                                        <p class="type-body-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{{ $item->deskripsi_singkat ?: $item->deskripsi_excerpt }}</p>
                                         @if($item->teknologi && is_array($item->teknologi) && count($item->teknologi))
                                             <div class="flex flex-wrap gap-1 mt-2.5">
                                                 @foreach(array_slice($item->teknologi, 0, 4) as $tech)
@@ -216,7 +216,7 @@
                 @if($prestasi->isNotEmpty())
                     <div>
                         <div class="flex items-center justify-between mb-3">
-                            <h2 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('Prestasi') }}</h2>
+                            <h2 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Prestasi') }}</h2>
                             <span class="text-xs text-gray-400 dark:text-gray-400">{{ $prestasi->count() }} {{ __('prestasi') }}</span>
                         </div>
                         <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 divide-y divide-gray-50">
@@ -228,8 +228,8 @@
                                         </svg>
                                     </div>
                                     <div class="min-w-0">
-                                        <p class="text-sm font-semibold text-gray-900 dark:text-gray-50">{{ $item->judul }}</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                        <p class="type-card-title-xs text-gray-900 dark:text-gray-50">{{ $item->judul }}</p>
+                                        <p class="type-body-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                             {{ $item->tingkat ?? '-' }}
                                             @if($item->penyelenggara) • {{ $item->penyelenggara }} @endif
                                             @if($item->tanggal_prestasi) • {{ $item->tanggal_prestasi->translatedFormat('M Y') }} @endif

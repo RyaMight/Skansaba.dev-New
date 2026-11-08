@@ -89,7 +89,7 @@
             </div>
             <div>
                 <div class="flex items-center gap-2">
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Hias Profil Publik') }}</h1>
+                    <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Hias Profil Publik') }}</h1>
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
                         {{ __('Siswa RPL') }}
                     </span>
@@ -144,7 +144,7 @@
                     {{ $pct }}%
                 </span>
                 <div>
-                    <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50">{{ __('Tingkat Kelengkapan Profil') }}</h3>
+                    <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50">{{ __('Tingkat Kelengkapan Profil') }}</h3>
                     <p class="text-[11px] text-gray-400 dark:text-gray-400">{{ $completion['completed'] }} {{ __('dari') }} {{ $completion['total'] }} {{ __('bagian profil sudah kamu lengkapi.') }}</p>
                 </div>
             </div>
@@ -236,7 +236,7 @@
         <form wire:submit="saveBiodata" class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800 flex flex-col justify-between space-y-4">
             <div class="space-y-4">
                 <div class="pb-3 border-b border-gray-100 dark:border-gray-800">
-                    <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('Biodata Singkat') }}</h3>
+                    <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Biodata Singkat') }}</h3>
                     <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Informasi utama yang langsung terlihat di bagian atas kartu profil kamu.') }}</p>
                 </div>
 
@@ -418,7 +418,7 @@
             <div class="flex-1 flex flex-col min-h-0">
                 <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800 mb-4">
                     <div class="flex items-center gap-1.5">
-                        <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('README Profil') }}</h3>
+                        <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('README Profil') }}</h3>
                         <x-info-popover
                             title="Panduan README Profil Portofolio"
                             tips="Gunakan tombol template di dalam editor README untuk memuat struktur perkenalan, daftar keahlian, proyek sekolah, dan kontak secara instan!"
@@ -476,7 +476,7 @@
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800 mb-5 gap-2">
             <div class="flex items-center gap-1.5">
-                <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('Aset Gambar SVG README') }}</h3>
+                <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Aset Gambar SVG README') }}</h3>
                 <x-info-popover
                     title="Panduan Aset SVG & Cara Memakainya"
                     example='<img src="URL-SVG-KAMU" alt="Badge Tech" />'
@@ -636,7 +636,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-3xl w-full shadow-xl border border-gray-100 dark:border-gray-800 flex flex-col max-h-[92vh]">
                 <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-800">
                     <div>
-                        <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{ __('Editor README Profil') }}</h3>
+                        <h3 class="type-card-title text-gray-900 dark:text-gray-50">{{ __('Editor README Profil') }}</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('Tulis perkenalan dan portofoliomu menggunakan format Markdown') }}</p>
                     </div>
                     <button type="button" wire:click="closeEditorModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 cursor-pointer">
@@ -754,7 +754,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-2xl max-w-3xl w-full p-6 shadow-xl border border-gray-100 dark:border-gray-800 space-y-4 max-h-[92vh] overflow-y-auto">
                 <div class="flex items-center justify-between pb-3 border-b border-gray-100 dark:border-gray-800">
                     <div>
-                        <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('Perbarui Foto Profil') }}</h3>
+                        <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Perbarui Foto Profil') }}</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('Sesuaikan posisi, perbesar, dan atur bingkai foto profil') }}</p>
                     </div>
                     <button type="button" wire:click="closeEditModal" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1 cursor-pointer">
@@ -857,7 +857,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('Konfirmasi Ganti Username') }}</h3>
+                        <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50">{{ __('Konfirmasi Ganti Username') }}</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400">{{ __('Perhatikan batasan pergantian username') }}</p>
                     </div>
                 </div>

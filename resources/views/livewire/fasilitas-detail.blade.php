@@ -39,7 +39,7 @@
 
                 <div class="p-8">
                     {{-- Title --}}
-                    <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-6">{{ $fasilitas->tempat }}</h1>
+                    <h1 class="type-page-title text-gray-900 dark:text-gray-50 mb-6">{{ $fasilitas->tempat }}</h1>
 
                     {{-- Description --}}
                     @if($fasilitas->deskripsi)
@@ -51,7 +51,7 @@
                     {{-- Fasilitas List --}}
                     @if($fasilitas->fasilitas && count($fasilitas->fasilitas) > 0)
                         <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border-2" style="border-color: {{ $globalSettings->primary_color_style }}22">
-                            <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-4">{{ __('Fasilitas yang Tersedia') }}</h3>
+                            <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-4">{{ __('Fasilitas yang Tersedia') }}</h3>
                             <div class="grid md:grid-cols-2 gap-3">
                                 @foreach($fasilitas->fasilitas as $facility)
                                     <div class="flex items-center gap-2">
@@ -70,7 +70,7 @@
             {{-- Related Fasilitas --}}
             @if($relatedFasilitas->count() > 0)
                 <div class="mt-12">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6">{{ __('Fasilitas Lainnya') }}</h2>
+                    <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6">{{ __('Fasilitas Lainnya') }}</h2>
                     <div class="grid md:grid-cols-3 gap-6">
                         @foreach($relatedFasilitas as $related)
                             <a href="/fasilitas/{{ $related->id }}" class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition group">
@@ -80,7 +80,7 @@
                                     <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
                                 @endif
                                 <div class="p-4">
-                                    <h3 class="font-bold text-gray-900 dark:text-gray-50 line-clamp-2">{{ $related->tempat }}</h3>
+                                    <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 line-clamp-2">{{ $related->tempat }}</h3>
                                 </div>
                             </a>
                         @endforeach

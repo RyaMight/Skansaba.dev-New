@@ -12,10 +12,10 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Alumni') }}</span>
             </div>
             
-            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
+            <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 {{ __('Jejak') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Alumni RPL') }}</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Alumni Jurusan Rekayasa Perangkat Lunak yang telah berkarir di berbagai bidang') }}</p>
+            <p class="type-lead text-gray-600 dark:text-gray-300 max-w-4xl mx-auto">{{ __('Alumni Jurusan Rekayasa Perangkat Lunak yang telah berkarir di berbagai bidang') }}</p>
         </div>
     </section>
 
@@ -45,7 +45,7 @@
             @if($alumniData->count() > 0)
                 @foreach($alumniData as $tahun => $alumnis)
                     <div class="mb-12">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-50 mb-6 flex items-center gap-3">
+                        <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6 flex items-center gap-3">
                             <span class="inline-flex items-center justify-center w-12 h-12 rounded-full text-white font-bold" style="background-color: {{ $globalSettings->primary_color_style }}">
                                 {{ substr($tahun, -2) }}
                             </span>
@@ -64,7 +64,7 @@
                                     @endif
                                     
                                     <div class="p-5">
-                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
+                                        <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
                                         
                                         <div class="space-y-2 mb-3">
                                             @if($alumni->status_alumni)
@@ -76,7 +76,7 @@
                                             @endif
                                             
                                             @if($alumni->institusi)
-                                                <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                <p class="type-body-sm text-gray-600 dark:text-gray-300">
                                                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                                                     </svg>
@@ -85,7 +85,7 @@
                                             @endif
                                             
                                             @if($alumni->bidang)
-                                                <p class="text-sm text-gray-600 dark:text-gray-300">
+                                                <p class="type-body-sm text-gray-600 dark:text-gray-300">
                                                     <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                                     </svg>
@@ -112,7 +112,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data Alumni') }}</h3>
+                    <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data Alumni') }}</h3>
                     <p class="text-gray-600 dark:text-gray-300">
                         @if($search || $filterStatus)
                             {{ __('Tidak ada alumni yang sesuai dengan pencarian Anda') }}

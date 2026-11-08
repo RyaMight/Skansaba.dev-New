@@ -3,7 +3,7 @@
         {{-- Header --}}
         <div class="flex items-center justify-between mb-8">
             <div>
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-50">Kelola Galeri</h1>
+                <h1 class="type-section-title text-gray-900 dark:text-gray-50">Kelola Galeri</h1>
                 <p class="text-gray-600 dark:text-gray-300 mt-1">Dokumentasi visual kegiatan siswa dan jurusan RPL</p>
             </div>
             <button wire:click="openCreateModal"
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <h3 class="font-bold text-gray-900 dark:text-gray-50 truncate mb-1">{{ $item->judul }}</h3>
+                        <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50 truncate mb-1">{{ $item->judul }}</h3>
                         <p class="text-xs text-gray-500 dark:text-gray-400 mb-4">{{ $item->created_at->format('d M Y') }}</p>
                         
                         <div class="flex items-center gap-2">
@@ -112,7 +112,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
             <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">{{ $isEditMode ? 'Edit Galeri' : 'Tambah Galeri Baru' }}</h3>
+                    <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">{{ $isEditMode ? 'Edit Galeri' : 'Tambah Galeri Baru' }}</h3>
                     <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -210,7 +210,7 @@
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
             <div class="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-y-auto">
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">{{ $detailGaleri->judul }}</h3>
+                    <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">{{ $detailGaleri->judul }}</h3>
                     <button wire:click="closeDetailModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />

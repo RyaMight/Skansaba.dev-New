@@ -46,7 +46,7 @@
     @if($confirmingTransition)
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-2">
+                <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-2">
                     Confirm Status Change
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">

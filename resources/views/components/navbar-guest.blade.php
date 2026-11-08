@@ -29,7 +29,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
                     </svg>
                 @endif
-                <span class="font-bold text-lg uppercase" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
+                <span class="type-card-title uppercase" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
             </a>
 
             {{-- Desktop Menu --}}
@@ -256,7 +256,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
                     </svg>
                 @endif
-                <span class="font-bold text-lg" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
+                <span class="type-card-title" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
             </div>
             <div class="flex items-center gap-2">
                 <x-language-switcher />
@@ -446,7 +446,7 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100">{{ __('Yakin mau logout?') }}</h3>
+                    <h3 class="type-card-title text-gray-900 dark:text-gray-100">{{ __('Yakin mau logout?') }}</h3>
                     <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{{ __('Sesi Anda akan diakhiri. Anda bisa masuk lagi kapan saja.') }}</p>
                 </div>
                 <div class="flex items-center justify-center gap-3 pt-2">

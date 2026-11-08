@@ -12,10 +12,10 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Dokumen') }}</span>
             </div>
             
-            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
+            <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 {{ __('Dokumen') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Kurikulum') }}</span>
             </h1>
-            <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Unduh dokumen kurikulum dan silabus Jurusan RPL') }}</p>
+            <p class="type-lead text-gray-600 dark:text-gray-300 max-w-4xl mx-auto">{{ __('Unduh dokumen kurikulum dan silabus Jurusan RPL') }}</p>
         </div>
     </section>
 
@@ -62,7 +62,7 @@
                             
                             {{-- Document Info --}}
                             <div class="p-5">
-                                <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50 mb-3 line-clamp-2 min-h-[3rem]">
+                                <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-3 line-clamp-2 min-h-[3rem]">
                                     {{ $dokumen->judul }}
                                 </h3>
                                 
@@ -102,8 +102,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Dokumen') }}</h3>
-                    <p class="text-gray-600 dark:text-gray-300">
+                    <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Dokumen') }}</h3>
+                    <p class="type-body text-gray-600 dark:text-gray-300">
                         @if($search || $filterJenis)
                             {{ __('Tidak ada dokumen yang sesuai dengan pencarian Anda') }}
                         @else
