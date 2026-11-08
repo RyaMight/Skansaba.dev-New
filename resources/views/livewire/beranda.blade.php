@@ -167,40 +167,68 @@
     {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
     <section class="py-12 lg:py-16">
-        <div class="site-container">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
+        <div class="site-container" x-data="{ aktif: 'karir' }">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16" data-reveal>
 
-                {{-- Kolom kiri: Prospek Karir (list polos seperti desain) --}}
-                <div class="lg:col-span-5" data-reveal>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                {{-- SISI KIRI: Sidebar navigasi (kedua judul sebagai tab) --}}
+                <nav class="lg:col-span-4 space-y-2" aria-label="{{ __('Prospek Karir') }} {{ __('Mata Pelajaran Unggulan') }}">
+                    <button
+                        type="button"
+                        @click="aktif = 'karir'"
+                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200"
+                        :class="aktif === 'karir'
+                            ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
+                            : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
+                    >
                         {{ __('Prospek Karir') }}
-                    </h2>
+                    </button>
 
-                    @if($prospekKarir->isNotEmpty())
-                        <ul class="space-y-3.5">
-                            @foreach($prospekKarir as $karir)
-                                <li class="group/karir flex items-center gap-3" title="{{ $karir->description_excerpt }}">
-                                    <span class="w-1.5 h-1.5 rounded-full flex-none" style="background-color: {{ $globalSettings->primary_color_style }}"></span>
-                                    <span class="text-sm sm:text-[15px] text-gray-600 dark:text-gray-300 group-hover/karir:text-gray-900 dark:group-hover/karir:text-white font-medium transition-colors duration-200">
-                                        {{ $karir->title }}
-                                    </span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <p class="text-sm text-gray-400">{{ __('Belum ada prospek karir') }}</p>
-                    @endif
-                </div>
-
-                {{-- Kolom kanan: Mata Pelajaran Unggulan (list polos seperti desain) --}}
-                <div class="lg:col-span-7" data-reveal>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                    <button
+                        type="button"
+                        @click="aktif = 'mapel'"
+                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200"
+                        :class="aktif === 'mapel'
+                            ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
+                            : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
+                    >
                         {{ __('Mata Pelajaran Unggulan') }}
-                    </h2>
+                    </button>
+                </nav>
 
-                    <div class="space-y-6 lg:space-y-7">
+                {{-- SISI KANAN: Konten sesuai judul yang aktif --}}
+                <div class="lg:col-span-8">
+
+                    {{-- Panel: Prospek Karir --}}
+                    <div x-show="aktif === 'karir'" x-cloak x-transition.opacity.duration.200ms>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                            {{ __('Prospek Karir') }}
+                        </h2>
+
+                        @if($prospekKarir->isNotEmpty())
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                @foreach($prospekKarir as $karir)
+                                    <div class="group/karir flex flex-col gap-2" title="{{ $karir->description_excerpt }}">
+                                        <span class="w-1.5 h-1.5 rounded-full flex-none" style="background-color: {{ $globalSettings->primary_color_style }}"></span>
+                                        <span class="text-sm sm:text-[15px] text-gray-600 dark:text-gray-300 group-hover/karir:text-gray-900 dark:group-hover/karir:text-white font-medium transition-colors duration-200">
+                                            {{ $karir->title }}
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <p class="text-sm text-gray-400">{{ __('Belum ada prospek karir') }}</p>
+                        @endif
+                    </div>
+
+                    {{-- Panel: Mata Pelajaran Unggulan --}}
+                    <div x-show="aktif === 'mapel'" x-cloak x-transition.opacity.duration.200ms>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                            {{ __('Mata Pelajaran Unggulan') }}
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         @foreach($mataPelajaran as $mapel)
-                            <div class="group/mapel flex items-start gap-4">
+                            <div class="group/mapel flex flex-col gap-4">
                                 <span
                                     class="w-10 h-10 rounded-lg flex items-center justify-center flex-none transition-transform duration-300 group-hover/mapel:scale-110"
                                     style="background-color: {{ $globalSettings->primary_color }}1a; color: {{ $globalSettings->primary_color_style }}"
@@ -226,6 +254,7 @@
                                 </div>
                             </div>
                         @endforeach
+                        </div>
                     </div>
                 </div>
 
