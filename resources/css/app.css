@@ -397,11 +397,28 @@ html.theme-transition footer {
     animation-play-state: paused;
 }
 
-/* Fade tepi kiri-kanan marquee mitra: logo menghilang perlahan
-   mendekati tepi, bukan terpotong tegas oleh overflow. */
+/* Fade tepi kiri-kanan marquee mitra: logo melarut perlahan makin ke tepi
+   (zona fade diperlebar ke dalam ~25% tiap sisi, dengan kurva bertahap agar
+   transisi halus, bukan hilang tiba-tiba). */
 .marquee-fade {
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right,
+        transparent 0%,
+        rgba(0, 0, 0, 0.25) 8%,
+        rgba(0, 0, 0, 0.7) 16%,
+        #000 25%,
+        #000 75%,
+        rgba(0, 0, 0, 0.7) 84%,
+        rgba(0, 0, 0, 0.25) 92%,
+        transparent 100%);
+    mask-image: linear-gradient(to right,
+        transparent 0%,
+        rgba(0, 0, 0, 0.25) 8%,
+        rgba(0, 0, 0, 0.7) 16%,
+        #000 25%,
+        #000 75%,
+        rgba(0, 0, 0, 0.7) 84%,
+        rgba(0, 0, 0, 0.25) 92%,
+        transparent 100%);
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
 }
