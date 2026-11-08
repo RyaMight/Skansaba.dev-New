@@ -183,7 +183,7 @@
     {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
     <section class="py-16 lg:py-24">
-        <div class="site-container" x-data="{ aktif: 'karir' }">
+        <div class="site-container" x-data="{ aktif: 'mapel' }">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16" data-reveal>
 
                 {{-- SISI KIRI: Sidebar navigasi (kedua judul sebagai tab) --}}
@@ -191,10 +191,10 @@
                     <button
                         type="button"
                         @click="aktif = 'karir'"
-                        class="type-subsection-title flex w-full items-center border-l-2 pl-4 py-2 text-left transition-colors duration-200"
+                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
                         :class="aktif === 'karir'
-                            ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
-                            : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
+                            ? 'type-tab-title-active border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
+                            : 'type-tab-title border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
                     >
                         {{ __('Prospek Karir') }}
                     </button>
@@ -202,10 +202,10 @@
                     <button
                         type="button"
                         @click="aktif = 'mapel'"
-                        class="type-subsection-title flex w-full items-center border-l-2 pl-4 py-2 text-left transition-colors duration-200"
+                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
                         :class="aktif === 'mapel'
-                            ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
-                            : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
+                            ? 'type-tab-title-active border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
+                            : 'type-tab-title border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
                     >
                         {{ __('Mata Pelajaran Unggulan') }}
                     </button>

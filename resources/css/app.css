@@ -30,33 +30,28 @@ body {
    Referensi: smktelkom-sda.sch.id (letter-spacing normal).
    ============================================ */
 
-/* Judul halaman dalam — 30px mobile, 42px desktop */
-.type-page-title {
-    font-size: 1.875rem; /* 30px */
-    line-height: 1.2;
+/* Judul utama beranda & judul halaman dalam.
+   Skala baru mengikuti referensi (smktelkom-sda) yang lebih kalem —
+   maksimum 36px di desktop, tidak lagi 42–48px. */
+.type-page-title,
+.type-hero-title {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.25;
     font-weight: 700;
     letter-spacing: normal;
     text-wrap: balance;
 }
-@media (min-width: 64rem) {
-    .type-page-title {
-        font-size: 2.625rem; /* 42px */
-        line-height: 1.2;
+@media (min-width: 40rem) {
+    .type-page-title,
+    .type-hero-title {
+        font-size: 1.875rem; /* 30px */
     }
 }
-
-/* Judul utama beranda — 30px mobile, 48px desktop (tier display terbesar) */
-.type-hero-title {
-    font-size: 1.875rem; /* 30px */
-    line-height: 1.2;
-    font-weight: 700;
-    letter-spacing: normal;
-    text-wrap: balance;
-}
 @media (min-width: 64rem) {
+    .type-page-title,
     .type-hero-title {
-        font-size: 3rem; /* 48px */
-        line-height: 1.15;
+        font-size: 2.25rem; /* 36px */
+        line-height: 1.2;
     }
 }
 
@@ -81,6 +76,27 @@ body {
     line-height: 1.35;
     font-weight: 700;
     letter-spacing: normal;
+}
+
+/* Judul tab pilihan (Prospek Karir / Mata Pelajaran Unggulan).
+   Non-aktif lebih kecil & redup, tab aktif jauh lebih besar agar jelas
+   terbaca sebagai pilihan yang sedang dipilih. */
+.type-tab-title {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5;
+    font-weight: 600;
+    letter-spacing: normal;
+}
+.type-tab-title-active {
+    font-size: 1.5rem; /* 24px */
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: normal;
+}
+@media (min-width: 64rem) {
+    .type-tab-title {
+        font-size: 1.125rem; /* 18px */
+    }
 }
 
 /* Judul kartu besar — 18px */
