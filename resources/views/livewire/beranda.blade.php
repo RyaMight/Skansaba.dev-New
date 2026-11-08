@@ -466,34 +466,40 @@
                         @foreach($karyaSiswa as $item)
                             <a
                                 href="/karya/{{ $item->id }}"
-                                class="group relative flex-none w-[200px] sm:w-[calc((100%_-_2.5rem)/3)] lg:w-[calc((100%_-_3.75rem)/4)] aspect-[2/3] rounded-2xl overflow-hidden snap-start bg-slate-200 dark:bg-slate-800
+                                class="group relative flex-none w-[200px] sm:w-[calc((100%_-_2.5rem)/3)] lg:w-[calc((100%_-_3.75rem)/4)] aspect-[2/3] rounded-2xl overflow-hidden snap-start
                                        transition-all duration-300 ease-out
                                        sm:hover:-translate-y-2 sm:hover:rotate-[10deg] sm:hover:scale-[1.20] sm:hover:shadow-[0_20px_40px_-12px_rgba(15,23,42,0.4)] sm:hover:z-20
                                        sm:hover:ring-1 sm:hover:ring-white/20 active:scale-[0.98]"
                             >
-                                @if($item->gambar)
-                                    <img
-                                        src="{{ asset('storage/' . $item->gambar) }}"
-                                        alt="{{ $item->judul }}"
-                                        class="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
-                                        loading="lazy"
-                                    >
-                                @else
-                                    <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-200 to-slate-400 dark:from-slate-700 dark:to-slate-900 p-6">
-                                        <span class="text-slate-600 dark:text-white/80 font-semibold text-lg text-center">{{ $item->judul }}</span>
-                                    </div>
-                                @endif
+                                <div class="absolute inset-0 karya-fade bg-slate-200 dark:bg-slate-800">
+                                    @if($item->gambar)
+                                        <img
+                                            src="{{ asset('storage/' . $item->gambar) }}"
+                                            alt="{{ $item->judul }}"
+                                            class="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.08]"
+                                            loading="lazy"
+                                        >
+                                    @else
+                                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-200 to-slate-400 dark:from-slate-700 dark:to-slate-900 p-6">
+                                            <span class="text-slate-600 dark:text-white/80 font-semibold text-lg text-center">{{ $item->judul }}</span>
+                                        </div>
+                                    @endif
 
-                                {{-- Overlay --}}
-                                <div class="absolute inset-0 bg-gradient-to-t from-white/90 via-white/25 to-transparent dark:from-black/80 dark:via-black/10 dark:to-transparent pointer-events-none transition-opacity duration-500 group-hover:from-white/75 dark:group-hover:from-black/70"></div>
+                                    {{-- Overlay --}}
+                                    <div class="absolute inset-0 bg-gradient-to-t from-white/90 via-white/25 to-transparent dark:from-black/80 dark:via-black/10 dark:to-transparent pointer-events-none transition-opacity duration-500 group-hover:from-white/75 dark:group-hover:from-black/70"></div>
+                                </div>
 
                                 {{-- Info --}}
                                 <div class="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
-                                    <h3 class="type-card-title-sm text-slate-900 dark:text-white drop-shadow">{{ $item->judul }}</h3>
+                                    <h3 class="type-card-title-sm text-gray-950 dark:text-white">{{ $item->judul }}</h3>
                                     @if($item->nama_siswa)
-                                        <p class="type-meta text-slate-600 dark:text-white/80 mt-1 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-1 sm:group-hover:translate-y-0 transition-all duration-300">
+                                        <p class="type-meta text-slate-600 dark:text-white/80 mt-1 min-h-8 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-1 sm:group-hover:translate-y-0 transition-all duration-300">
                                             {{ $item->nama_siswa }}{{ $item->kategori ? ' · ' . $item->kategori : '' }}
                                         </p>
+                                    @else
+                                        {{-- Penyeimbang: kartu tanpa nama tetap punya dua baris
+                                             ruang meta, supaya judul sejajar dengan kartu lain. --}}
+                                        <p aria-hidden="true" class="type-meta mt-1 min-h-8 select-none invisible">&nbsp;</p>
                                     @endif
                                 </div>
                             </a>

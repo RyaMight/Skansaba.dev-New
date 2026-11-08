@@ -406,6 +406,23 @@ html.theme-transition footer {
     mask-repeat: no-repeat;
 }
 
+/* Fade bawah kartu karya: lapisan foto/background kartu benar-benar memudar
+   ke transparan makin ke bawah sampai menyentuh progress bar. Judul berada
+   di lapisan terpisah (di luar mask) supaya tetap tegas dan terbaca.
+   Saat kartu di-hover / fokus, fade dilepas supaya kartu tampil utuh. */
+.karya-fade {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0, 0, 0, 0.55) 78%, transparent 98%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 58%, rgba(0, 0, 0, 0.55) 78%, transparent 98%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
+.group:hover > .karya-fade,
+.group:focus-visible > .karya-fade {
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
 /* ============================================
    Container global, sejajar dengan ISI navbar:
    navbar max-w-6xl (1152px) + padding dalam px-5/sm:px-7.
