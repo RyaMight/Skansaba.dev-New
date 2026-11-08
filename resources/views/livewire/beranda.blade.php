@@ -9,9 +9,20 @@
             N: {{ $sliders->count() }},
             index: 0,
             timer: null,
+            heroMax: null,
 
             init() {
                 this.start();
+                this.fitHero();
+                window.addEventListener('load', () => this.fitHero());
+                window.addEventListener('resize', () => this.fitHero());
+            },
+
+            fitHero() {
+                const el = this.$refs.heroFrame;
+                if (!el) return;
+                const top = el.getBoundingClientRect().top + window.scrollY;
+                this.heroMax = Math.max(220, window.innerHeight - top - 50) + 'px';
             },
 
             start() {
@@ -55,23 +66,23 @@
         </div>
 
         @if($sliders->isNotEmpty())
-            {{-- Frame foto tunggal: TANPA crop — tinggi mengikuti rasio foto asli.
-                 Semua slide ditumpuk di grid cell yang sama; yang aktif terlihat. --}}
-            <div class="site-container" data-reveal>
-                {{-- Wrapper untuk gambar + tombol desktop: proporsional, lapang dan elegan --}}
-                <div class="relative max-w-[520px] sm:max-w-[620px] md:max-w-[740px] lg:max-w-[860px] xl:max-w-[900px] mx-auto">
-                    {{-- Container gambar --}}
-                    <div class="relative grid">
+            {{-- Frame foto tunggal: rasio 16/9 (object-cover), tinggi dibatasi dinamis.
+                 Lebar sejajar dengan navbar: px-4 sm:px-6 + max-w-6xl (sama seperti header nav). --}}
+            <div class="px-4 sm:px-6" data-reveal>
+                {{-- Wrapper gambar: lebar penuh mengikuti navbar, proporsional --}}
+                <div class="relative w-full max-w-6xl mx-auto">
+                    {{-- Container gambar: 16/9, max-height dinamis (viewport - offset atas - 50px) --}}
+                    <div class="relative grid w-full aspect-video rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)]" x-ref="heroFrame" :style="heroMax ? 'max-height: ' + heroMax : ''">
                         @foreach($sliders as $index => $slider)
                             <div
-                                class="col-start-1 row-start-1 rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
+                                class="col-start-1 row-start-1 h-full transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
                                 :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
                             >
-                                {{-- Gambar proporsional dan jelas di layar desktop --}}
+                                {{-- Gambar mengisi frame 16/9 (object-cover, tidak gepeng) --}}
                                 <img
                                     src="{{ asset('storage/' . $slider->image) }}"
                                     alt="{{ $slider->title }}"
-                                    class="w-full h-auto block max-h-[360px] sm:max-h-[420px] md:max-h-[480px] lg:max-h-[520px] xl:max-h-[540px] object-cover"
+                                    class="w-full h-full block object-cover"
                                     @if($index !== 0) loading="lazy" @endif
                                 >
 
@@ -109,7 +120,7 @@
                         {{-- Tombol Kiri --}}
                         <button
                             @click="back(); start()"
-                            class="hidden lg:flex absolute -left-14 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            class="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
                             aria-label="Slide sebelumnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -120,7 +131,7 @@
                         {{-- Tombol Kanan --}}
                         <button
                             @click="advance(); start()"
-                            class="hidden lg:flex absolute -right-14 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            class="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
                             aria-label="Slide berikutnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -155,8 +166,8 @@
                 @endif
             </div>
         @else
-            <div class="site-container">
-                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
+            <div class="px-4 sm:px-6">
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 max-w-6xl mx-auto flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     {{ __('Belum ada slide yang ditambahkan') }}
                 </div>
             </div>
