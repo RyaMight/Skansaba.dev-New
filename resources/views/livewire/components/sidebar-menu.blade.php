@@ -72,8 +72,19 @@
             </div>
 
             {{-- Navigation Menu --}}
-            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-                @foreach($menuItems as $item)
+            <nav class="flex-1 px-3 py-4 overflow-y-auto">
+                @foreach($menuGroups as $groupName => $groupItems)
+                    <div class="mb-5 last:mb-0">
+                        {{-- Label grup (disembunyikan saat sidebar collapsed) --}}
+                        <div x-show="!collapsed" class="px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                            {{ __($groupName) }}
+                        </div>
+                        {{-- Garis pemisah saat collapsed --}}
+                        @if(!$loop->first)
+                            <div x-show="collapsed" class="mx-2 mb-2 border-t border-gray-200 dark:border-gray-800"></div>
+                        @endif
+                        <div class="space-y-0.5">
+                @foreach($groupItems as $item)
                     @if($item['external'] ?? false)
                         {{-- External Link with Confirmation --}}
                         <a 
@@ -136,6 +147,9 @@
                             @endif
                         </a>
                     @endif
+                @endforeach
+                        </div>
+                    </div>
                 @endforeach
             </nav>
 
@@ -252,8 +266,14 @@
         </div>
 
         {{-- Mobile Navigation --}}
-        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-            @foreach($menuItems as $item)
+        <nav class="flex-1 px-3 py-4 overflow-y-auto">
+            @foreach($menuGroups as $groupName => $groupItems)
+                <div class="mb-5 last:mb-0">
+                    <div class="px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-gray-400 dark:text-gray-500">
+                        {{ __($groupName) }}
+                    </div>
+                    <div class="space-y-0.5">
+            @foreach($groupItems as $item)
                 @if($item['external'] ?? false)
                     <a 
                         href="{{ $item['url'] }}"
@@ -298,6 +318,9 @@
                         @endif
                     </a>
                 @endif
+            @endforeach
+                    </div>
+                </div>
             @endforeach
         </nav>
 

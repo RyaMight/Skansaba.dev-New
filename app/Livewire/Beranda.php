@@ -26,7 +26,7 @@ class Beranda extends Component
 
         $karyaSiswa = KaryaSiswa::where('status', 'published')
             ->latest('published_at')
-            ->take(10)
+            ->take(8)
             ->get();
 
         $berita = Berita::where('status', 'published')

@@ -216,9 +216,6 @@
 
                     {{-- Panel: Prospek Karir --}}
                     <div x-show="aktif === 'karir'" x-cloak x-transition.opacity.duration.200ms>
-                        <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
-                            {{ __('Prospek Karir') }}
-                        </h2>
 
                         @if($prospekKarir->isNotEmpty())
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -238,9 +235,6 @@
 
                     {{-- Panel: Mata Pelajaran Unggulan --}}
                     <div x-show="aktif === 'mapel'" x-cloak x-transition.opacity.duration.200ms>
-                        <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
-                            {{ __('Mata Pelajaran Unggulan') }}
-                        </h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         @foreach($mataPelajaran as $mapel)
@@ -342,7 +336,7 @@
     {{-- ============================================ --}}
     <section class="py-10 lg:py-16">
         <div class="site-container">
-            <div class="flex items-center justify-between gap-4 mb-6 lg:mb-10" data-reveal>
+            <div class="flex items-center justify-between gap-4 mb-6 sm:mb-16" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
                     {{ __('Karya Siswa') }}
                 </h2>
@@ -365,6 +359,7 @@
                         barWidth: 12,
                         barLeft: 0,
                         canScroll: false,
+                        page: 0,
 
                         init() {
                             this.update();
@@ -376,48 +371,79 @@
                             this.stop();
                             this.autoplay = setInterval(() => {
                                 if (this.hovering) return;
-                                this.step();
-                            }, 3200);
+                                this.move(1);
+                            }, 3600);
                         },
 
                         stop() {
                             clearInterval(this.autoplay);
                         },
 
-                        step() {
-                            const el = this.$refs.track;
-                            if (!el) return;
-                            const max = el.scrollWidth - el.clientWidth;
-                            if (max <= 4) return;
-
-                            // sudah di ujung kanan -> kembali halus ke awal
-                            if (el.scrollLeft >= max - 4) {
-                                el.scrollTo({ left: 0, behavior: 'smooth' });
-                                return;
-                            }
-                            el.scrollBy({ left: this.cardStep(), behavior: 'smooth' });
-                        },
-
                         cardStep() {
                             const el = this.$refs.track;
                             if (!el || !el.children.length) return 280;
-                            const card = el.children[0];
                             const gap = parseFloat(getComputedStyle(el).columnGap || '20') || 20;
-                            return card.getBoundingClientRect().width + gap;
+                            return el.children[0].getBoundingClientRect().width + gap;
+                        },
+
+                        perPage() {
+                            const el = this.$refs.track;
+                            if (!el) return 1;
+                            const cs = getComputedStyle(el);
+                            const inner = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+                            return Math.max(1, Math.round(inner / this.cardStep()));
+                        },
+
+                        pageCount() {
+                            const el = this.$refs.track;
+                            if (!el || !el.children.length) return 1;
+                            return Math.max(1, Math.ceil(el.children.length / this.perPage()));
+                        },
+
+                        pageTarget(p) {
+                            const el = this.$refs.track;
+                            if (!el || !el.children.length) return 0;
+                            const per = this.perPage();
+                            const start = Math.min(p * per, Math.max(0, el.children.length - per));
+                            return Math.min(start * this.cardStep(), el.scrollWidth - el.clientWidth);
+                        },
+
+                        move(dir) {
+                            const total = this.pageCount();
+                            let p = this.page + dir;
+                            if (p >= total) p = 0;
+                            if (p < 0) p = total - 1;
+                            this.goto(p);
+                        },
+
+                        // Lompat per halaman (4 kartu) tanpa animasi geser,
+                        // supaya tidak ada kartu tetangga yang ikut tampil.
+                        goto(p) {
+                            const el = this.$refs.track;
+                            if (!el) return;
+                            this.page = p;
+                            el.scrollTo({ left: this.pageTarget(p), behavior: 'instant' });
+                            this.update();
                         },
 
                         scrollCards(dir) {
-                            const el = this.$refs.track;
-                            if (!el) return;
-                            el.scrollBy({ left: dir * this.cardStep(), behavior: 'smooth' });
+                            this.move(dir);
                             this.start();
                         },
 
                         update() {
                             const el = this.$refs.track;
                             if (!el) return;
+                            const total = this.pageCount();
+                            let best = 0;
+                            let bestDist = Infinity;
+                            for (let i = 0; i < total; i++) {
+                                const d = Math.abs(this.pageTarget(i) - el.scrollLeft);
+                                if (d < bestDist) { bestDist = d; best = i; }
+                            }
+                            this.page = best;
+                            this.canScroll = total > 1;
                             const scrollable = el.scrollWidth - el.clientWidth;
-                            this.canScroll = scrollable > 4;
                             if (scrollable <= 0) { this.barWidth = 100; this.barLeft = 0; return; }
                             const visible = (el.clientWidth / el.scrollWidth) * 100;
                             this.barWidth = Math.max(12, visible * 0.8);
@@ -429,19 +455,20 @@
                     class="relative"
                     data-reveal
                 >
-                    {{-- Track --}}
-                    <div
-                        x-ref="track"
-                        @scroll.passive="update()"
-                        @resize.window.debounce.150="update()"
-                        class="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-1.5 sm:scroll-pl-3 py-4 sm:py-10 -my-4 sm:-my-10 pl-1.5 sm:pl-3 -ml-1.5 sm:-ml-3 pr-4 sm:pr-3 sm:-mr-3"
-                    >
+                    {{-- Track (frame menutup kartu yang mengintip di zona padding) --}}
+                    <div class="relative -mx-1.5 sm:-mx-[4.5rem] -my-4 sm:-my-20">
+                        <div
+                            x-ref="track"
+                            @scroll.passive="update()"
+                            @resize.window.debounce.150="update()"
+                            class="flex gap-4 sm:gap-5 overflow-x-hidden touch-pan-y py-4 sm:py-20 pl-1.5 sm:pl-[4.5rem] pr-4 sm:pr-[4.5rem]"
+                        >
                         @foreach($karyaSiswa as $item)
                             <a
                                 href="/karya/{{ $item->id }}"
-                                class="group relative flex-none w-[200px] sm:w-[240px] lg:w-[260px] aspect-[2/3] rounded-2xl overflow-hidden snap-start bg-slate-800
+                                class="group relative flex-none w-[200px] sm:w-[calc((100%_-_2.5rem)/3)] lg:w-[calc((100%_-_3.75rem)/4)] aspect-[2/3] rounded-2xl overflow-hidden snap-start bg-slate-800
                                        transition-all duration-300 ease-out
-                                       sm:hover:-translate-y-2 sm:hover:scale-[1.04] sm:hover:shadow-[0_20px_40px_-12px_rgba(15,23,42,0.4)] sm:hover:z-20
+                                       sm:hover:-translate-y-2 sm:hover:rotate-[10deg] sm:hover:scale-[1.20] sm:hover:shadow-[0_20px_40px_-12px_rgba(15,23,42,0.4)] sm:hover:z-20
                                        sm:hover:ring-1 sm:hover:ring-white/20 active:scale-[0.98]"
                             >
                                 @if($item->gambar)
@@ -471,13 +498,19 @@
                                 </div>
                             </a>
                         @endforeach
+                        </div>
+
+                        {{-- Penutup kartu yang mengintip di zona padding (52px).
+                             pointer-events aktif agar kartu tersembunyi tidak bisa di-hover. --}}
+                        <div aria-hidden="true" class="absolute inset-y-0 left-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-gray-950"></div>
+                        <div aria-hidden="true" class="absolute inset-y-0 right-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-gray-950"></div>
                     </div>
 
                     {{-- Desktop Arrows (Hanya di layar desktop, di luar kartu agar tidak menempel) --}}
                     <button
                         x-show="canScroll"
                         @click="scrollCards(-1)"
-                        class="hidden lg:flex absolute -left-14 xl:-left-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-200 z-30"
+                        class="hidden xl:flex absolute -left-14 xl:-left-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-200 z-30"
                         aria-label="{{ __('Geser kiri') }}"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -487,7 +520,7 @@
                     <button
                         x-show="canScroll"
                         @click="scrollCards(1)"
-                        class="hidden lg:flex absolute -right-14 xl:-right-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-200 z-30"
+                        class="hidden xl:flex absolute -right-14 xl:-right-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 dark:hover:bg-gray-800 hover:text-white dark:hover:text-white hover:border-gray-900 dark:hover:border-gray-600 transition-all duration-200 z-30"
                         aria-label="{{ __('Geser kanan') }}"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -496,7 +529,7 @@
                     </button>
 
                     {{-- Mobile Controls: Tombol panah di bawah slider untuk layar mobile & tablet --}}
-                    <div x-show="canScroll" class="lg:hidden flex items-center justify-center gap-3 mt-5" data-reveal>
+                    <div x-show="canScroll" class="xl:hidden flex items-center justify-center gap-3 mt-5" data-reveal>
                         <button
                             @click="scrollCards(-1)"
                             class="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-150 shadow-sm"

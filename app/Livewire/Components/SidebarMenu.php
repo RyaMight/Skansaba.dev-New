@@ -63,7 +63,7 @@ class SidebarMenu extends Component
 
     private function allMenuItems(): array
     {
-        $allMenuItems = [
+        $items = [
             [
                 'key' => 'dashboard_siswa',
                 'label' => 'Dashboard',
@@ -215,7 +215,38 @@ class SidebarMenu extends Component
             ],
         ];
 
-        return $allMenuItems;
+        $groups = [
+            'dashboard_siswa' => 'Utama',
+            'dashboard' => 'Utama',
+            // Alur kerja karya dipisah agar badge verifikasi mudah terlihat
+            'karya_verifikasi' => 'Karya',
+            'karya_siswa' => 'Karya',
+            // Pengelolaan konten situs publik
+            'landing_page_slider' => 'Konten',
+            'struktur_organisasi_rpl' => 'Konten',
+            'prestasi_siswa' => 'Konten',
+            'fasilitas' => 'Konten',
+            'dokumen' => 'Konten',
+            'galeri' => 'Konten',
+            'alumni' => 'Konten',
+            'prospek_karir' => 'Konten',
+            'berita' => 'Konten',
+            'mitra' => 'Konten',
+            'unit_produksi' => 'Konten',
+            // Akun & sistem
+            'profil_publik_siswa' => 'Akun & Sistem',
+            'saluran_siswa' => 'Akun & Sistem',
+            'siswa_rpl' => 'Akun & Sistem',
+            'users' => 'Akun & Sistem',
+            'settings' => 'Akun & Sistem',
+            'global_settings' => 'Akun & Sistem',
+        ];
+
+        return array_map(function (array $item) use ($groups) {
+            $item['group'] = $groups[$item['key']] ?? 'Konten';
+
+            return $item;
+        }, $items);
     }
 
     /**
@@ -253,9 +284,29 @@ class SidebarMenu extends Component
             auth()->setUser($currentUser);
         }
 
+        $menuItems = $this->getMenuItems();
+
         return view('livewire.components.sidebar-menu', [
-            'menuItems' => $this->getMenuItems(),
+            'menuItems' => $menuItems,
+            'menuGroups' => $this->groupMenuItems($menuItems),
             'currentUser' => $currentUser,
         ]);
+    }
+
+    /**
+     * Kelompokkan menu agar sidebar tidak terlihat padat.
+     * Urutan grup dipaksa lewat $groupOrder, bukan urutan alfabet.
+     */
+    private function groupMenuItems(array $menuItems): \Illuminate\Support\Collection
+    {
+        $groupOrder = ['Utama', 'Karya', 'Konten', 'Akun & Sistem'];
+
+        return collect($menuItems)
+            ->groupBy('group')
+            ->sortBy(function ($items, $name) use ($groupOrder) {
+                $position = array_search($name, $groupOrder, true);
+
+                return $position === false ? 99 : $position;
+            });
     }
 }
