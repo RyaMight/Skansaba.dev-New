@@ -12,7 +12,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Unit Produksi') }}</span>
             </div>
 
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-2" data-reveal>
+            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-2" data-reveal>
                 {{ __('Harga Jasa Pembuatan Website') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>
             </h1>
             <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto" data-reveal>{{ __('Pilih paket website yang sesuai dengan kebutuhan Anda.') }}</p>
@@ -60,7 +60,7 @@
                              style="--tw-ring-color: {{ $globalSettings->primary_color_style }}"></div>
                         {{-- Header paket --}}
                         <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
-                            <h3 class="text-base font-semibold text-gray-900 dark:text-gray-50">{{ $p['nama'] }}</h3>
+                            <h3 class="text-base font-bold text-gray-900 dark:text-gray-50">{{ $p['nama'] }}</h3>
                             <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Mulai Dari') }}</p>
                         </div>
 
@@ -68,7 +68,7 @@
                         <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800">
                             <p class="flex items-baseline gap-1">
                                 <span class="text-sm font-medium text-gray-600 dark:text-gray-300">Rp</span>
-                                <span class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">{{ $p['harga'] }}</span>
+                                <span class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ $p['harga'] }}</span>
                                 <span class="text-xs text-gray-500 dark:text-gray-400">/{{ __('thn') }}</span>
                             </p>
                             <p class="text-[11px] text-gray-400 dark:text-gray-500 mt-1">*{{ __('Minimal kontrak 1 Tahun') }}</p>
@@ -188,7 +188,7 @@
                         <div class="relative z-10 w-full flex flex-col items-center justify-center my-auto">
                             {{-- Nama Brand --}}
                             <div class="text-center mb-5">
-                                <span class="text-xl sm:text-2xl font-bold tracking-tight text-white drop-shadow-xs">Skansaba.Dev</span>
+                                <span class="text-xl sm:text-2xl font-bold text-white drop-shadow-xs">Skansaba.Dev</span>
                             </div>
 
                             {{-- Ilustrasi Isometric: Platform, Rocket, Target, Chart, Gear --}}
@@ -311,7 +311,7 @@
                 {{-- Kolom Kanan: Judul, Narasi Persuasif & CTA --}}
                 <div class="lg:col-span-7 flex flex-col justify-between h-full">
                     <div class="space-y-6">
-                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 tracking-tight leading-tight">
+                        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50 leading-tight">
                             {{ __('Mengapa Harus Membuat Website di') }} <span style="color: {{ $globalSettings->primary_color_style }}">Skansaba.Dev</span>?
                         </h2>
 
@@ -336,7 +336,7 @@
                             href="{{ $konsultasiHref }}"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm sm:text-base font-semibold text-white bg-amber-500 hover:bg-amber-600 active:bg-amber-700 shadow-md shadow-amber-500/20 transition-all duration-150 transform hover:-translate-y-0.5"
+                            class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl text-sm sm:text-base font-bold text-white bg-amber-500 hover:bg-amber-600 active:bg-amber-700 shadow-md shadow-amber-500/20 transition-all duration-150 transform hover:-translate-y-0.5"
                         >
                             {{-- Chat Bubble Icon --}}
                             <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">

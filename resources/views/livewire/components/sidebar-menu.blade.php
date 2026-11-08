@@ -80,7 +80,7 @@
                             href="{{ $item['url'] }}"
                             target="_blank"
                             @click.prevent="if(confirm('{{ __('Anda akan membuka link eksternal. Lanjutkan?') }}')) window.open('{{ $item['url'] }}', '_blank')"
-                            class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg group transition"
+                            class="flex items-center px-3 py-2 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg group transition"
                             x-bind:class="collapsed ? 'justify-center' : ''"
                             x-bind:title="collapsed ? '{{ __($item['label']) }}' : ''"
                         >
@@ -123,7 +123,7 @@
                                 <span 
                                     x-show="!collapsed" 
                                     x-transition 
-                                    class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/20 border border-amber-200/80 dark:border-amber-500/30 rounded-full flex-shrink-0" 
+                                    class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/20 border border-amber-200/80 dark:border-amber-500/30 rounded-full flex-shrink-0" 
                                     title="{{ $item['badge_title'] ?? ($item['badge_count'] . ' karya perlu verifikasi') }}"
                                 >
                                     <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -145,7 +145,7 @@
                     <a
                         href="{{ route('beranda') }}"
                         wire:navigate
-                        class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#0284c7] rounded-lg group transition"
+                        class="flex items-center px-3 py-2 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#0284c7] rounded-lg group transition"
                         x-bind:class="collapsed ? 'justify-center px-2 w-full' : ''"
                         x-bind:title="collapsed ? '{{ __('Kembali ke Beranda') }}' : ''"
                     >
@@ -259,7 +259,7 @@
                         href="{{ $item['url'] }}"
                         target="_blank"
                         @click.prevent="if(confirm('{{ __('Anda akan membuka link eksternal. Lanjutkan?') }}')) { window.open('{{ $item['url'] }}', '_blank'); mobileOpen = false; }"
-                        class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
+                        class="flex items-center px-3 py-2 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg"
                     >
                         <x-dynamic-component :component="'icon-' . $item['icon']" class="w-5 h-5 mr-3" />
                         <span>{{ __($item['label']) }}</span>
@@ -285,7 +285,7 @@
                         <span class="truncate">{{ __($item['label']) }}</span>
                         @if(!empty($item['has_badge']))
                             <span 
-                                class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-semibold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/20 border border-amber-200/80 dark:border-amber-500/30 rounded-full flex-shrink-0"
+                                class="ml-auto inline-flex items-center gap-1 px-1.5 py-0.5 text-xs font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/20 border border-amber-200/80 dark:border-amber-500/30 rounded-full flex-shrink-0"
                                 title="{{ $item['badge_title'] ?? ($item['badge_count'] . ' karya perlu verifikasi') }}"
                             >
                                 <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -308,7 +308,7 @@
                     href="{{ route('beranda') }}"
                     wire:navigate
                     @click="mobileOpen = false"
-                    class="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#0284c7] rounded-lg group transition flex-1 min-w-0"
+                    class="flex items-center px-3 py-2 text-sm font-bold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-[#0284c7] rounded-lg group transition flex-1 min-w-0"
                 >
                     <svg class="w-5 h-5 mr-3 flex-shrink-0 text-gray-400 dark:text-gray-400 group-hover:text-[#0284c7] transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M5 10v10a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h4a1 1 0 001-1V10" />

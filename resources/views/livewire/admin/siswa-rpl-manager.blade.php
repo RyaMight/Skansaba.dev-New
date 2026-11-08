@@ -3,14 +3,14 @@
         {{-- Header --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50 tracking-tight">Akun Siswa RPL</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50">Akun Siswa RPL</h1>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">Daftar akun siswa Jurusan RPL, status verifikasi keahlian, dan kurasi portofolio karya.</p>
             </div>
             <div class="flex items-center gap-2.5">
                 <button 
                     type="button" 
                     wire:click="openCreateModal"
-                    class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-slate-900 dark:bg-sky-600 rounded-lg hover:bg-slate-800 dark:hover:bg-sky-500 transition shadow-xs cursor-pointer"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-white bg-slate-900 dark:bg-sky-600 rounded-lg hover:bg-slate-800 dark:hover:bg-sky-500 transition shadow-xs cursor-pointer"
                 >
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -20,7 +20,7 @@
                 <a 
                     href="{{ route('karya-siswa.verifikasi') }}" 
                     wire:navigate
-                    class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/20 border border-sky-200 dark:border-sky-500/30 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-500/30 transition shadow-xs"
+                    class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/20 border border-sky-200 dark:border-sky-500/30 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-500/30 transition shadow-xs"
                 >
                     <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -131,7 +131,7 @@
                                 <td class="py-3.5 px-4">
                                     <div class="flex flex-wrap items-center gap-1 max-w-[280px]">
                                         @forelse($student->keahlian_list as $tag)
-                                            <span class="inline-flex items-center gap-1 pl-2 pr-1 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
+                                            <span class="inline-flex items-center gap-1 pl-2 pr-1 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                                                 <span>{{ $tag }}</span>
                                                 <button 
                                                     type="button" 
@@ -152,7 +152,7 @@
                                         <button 
                                             type="button" 
                                             wire:click="openTagModal({{ $student->id }})" 
-                                            class="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/20 border border-sky-200 dark:border-sky-500/30 rounded hover:bg-sky-100 dark:hover:bg-sky-500/30 transition cursor-pointer"
+                                            class="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-bold text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-500/20 border border-sky-200 dark:border-sky-500/30 rounded hover:bg-sky-100 dark:hover:bg-sky-500/30 transition cursor-pointer"
                                             title="Beri / Cabut Tag"
                                         >
                                             + Tag
@@ -161,7 +161,7 @@
                                 </td>
                                 <td class="py-3.5 px-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300">
                                             {{ $student->published_karya }} Publik
                                         </span>
                                         @if($student->pending_karya > 0)
@@ -182,7 +182,7 @@
                                         type="button" 
                                         wire:click="toggleStatus({{ $student->id }})"
                                         @class([
-                                            'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border transition cursor-pointer',
+                                            'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold border transition cursor-pointer',
                                             'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30 hover:bg-emerald-100' => $student->status === 'active',
                                             'bg-slate-100 dark:bg-gray-800 text-slate-500 dark:text-gray-400 border-slate-200 dark:border-gray-700 hover:bg-slate-200' => $student->status !== 'active',
                                         ])
@@ -305,13 +305,13 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100 dark:border-gray-800">
-                        <button type="button" wire:click="closeCreateModal" class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800">
+                        <button type="button" wire:click="closeCreateModal" class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg font-bold text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800">
                             Batal
                         </button>
                         <button
                             type="submit"
                             wire:loading.attr="disabled"
-                            class="px-5 py-2 bg-slate-900 dark:bg-sky-600 text-white rounded-lg font-semibold hover:bg-slate-800 dark:hover:bg-sky-500 transition shadow-xs disabled:opacity-60 cursor-pointer"
+                            class="px-5 py-2 bg-slate-900 dark:bg-sky-600 text-white rounded-lg font-bold hover:bg-slate-800 dark:hover:bg-sky-500 transition shadow-xs disabled:opacity-60 cursor-pointer"
                         >
                             <span wire:loading.remove>Simpan Akun Siswa</span>
                             <span wire:loading>Menyimpan...</span>
@@ -354,7 +354,7 @@
                     @if(count($currentTags) > 0)
                         <div class="flex flex-wrap gap-2 p-3 bg-slate-50 dark:bg-gray-800 border border-slate-200/80 dark:border-gray-700 rounded-xl">
                             @foreach($currentTags as $tag)
-                                <span class="inline-flex items-center gap-1.5 pl-3 pr-2 py-1 rounded-lg text-xs font-semibold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
+                                <span class="inline-flex items-center gap-1.5 pl-3 pr-2 py-1 rounded-lg text-xs font-bold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                                     <span>✓ {{ $tag }}</span>
                                     <button 
                                         type="button" 
@@ -392,13 +392,13 @@
                                 <button
                                     type="button"
                                     wire:click="giveTag({{ $targetStudent->id }}, '{{ $tag }}')"
-                                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200 hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/20 hover:text-sky-700 dark:hover:text-sky-300 transition cursor-pointer"
+                                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200 hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/20 hover:text-sky-700 dark:hover:text-sky-300 transition cursor-pointer"
                                 >
                                     <span class="text-sky-600 dark:text-sky-400 font-bold">+</span>
                                     <span>{{ $tag }}</span>
                                 </button>
                             @else
-                                <span class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-400 dark:text-gray-500 opacity-60 cursor-not-allowed">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-400 dark:text-gray-500 opacity-60 cursor-not-allowed">
                                     <span>✓ {{ $tag }}</span>
                                 </span>
                             @endif
@@ -410,7 +410,7 @@
                     <button 
                         type="button" 
                         wire:click="closeTagModal" 
-                        class="px-5 py-2 bg-slate-900 dark:bg-sky-600 text-white rounded-lg text-xs font-semibold hover:bg-slate-800 dark:hover:bg-sky-500 transition shadow-xs cursor-pointer"
+                        class="px-5 py-2 bg-slate-900 dark:bg-sky-600 text-white rounded-lg text-xs font-bold hover:bg-slate-800 dark:hover:bg-sky-500 transition shadow-xs cursor-pointer"
                     >
                         Selesai
                     </button>
@@ -452,7 +452,7 @@
                             </p>
                             <div class="flex flex-wrap items-center gap-1.5 mt-2">
                                 @forelse($viewingStudent->keahlian_list as $tag)
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                                         ✓ {{ $tag }}
                                     </span>
                                 @empty
@@ -505,15 +505,15 @@
                                     </div>
                                     <div class="flex items-center gap-2 flex-shrink-0">
                                         @if($karya->status === 'published')
-                                            <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                                                 Published
                                             </span>
                                         @elseif($karya->status === 'review')
-                                            <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30">
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30">
                                                 Review
                                             </span>
                                         @else
-                                            <span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300">
+                                            <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300">
                                                 Draft
                                             </span>
                                         @endif
@@ -527,7 +527,7 @@
                 </div>
 
                 <div class="px-6 py-3 border-t border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-gray-800/50 flex items-center justify-end">
-                    <button type="button" wire:click="closeViewModal" class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800">
+                    <button type="button" wire:click="closeViewModal" class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg text-xs font-bold text-slate-700 dark:text-gray-200 hover:bg-slate-100 dark:hover:bg-gray-800">
                         Tutup
                     </button>
                 </div>

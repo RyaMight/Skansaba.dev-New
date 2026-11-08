@@ -93,7 +93,7 @@
                 <button 
                     type="submit" 
                     @disabled($isLoading)
-                    class="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-semibold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition disabled:opacity-50 disabled:cursor-not-allowed"
                     style="background-color: {{ $globalSettings->primary_color_style }}; --tw-ring-color: {{ $globalSettings->primary_color_style }}"
                 >
                     @if($isLoading)

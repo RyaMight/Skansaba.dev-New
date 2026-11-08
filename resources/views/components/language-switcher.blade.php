@@ -2,7 +2,7 @@
     $currentLocale = app()->getLocale();
 @endphp
 
-<div class="inline-flex items-center p-0.5 rounded-xl bg-gray-100 dark:bg-gray-800/90 border border-gray-200/80 dark:border-gray-700/80 text-xs font-semibold select-none shadow-2xs transition-colors notranslate">
+<div class="inline-flex items-center p-0.5 rounded-xl bg-gray-100 dark:bg-gray-800/90 border border-gray-200/80 dark:border-gray-700/80 text-xs font-bold select-none shadow-2xs transition-colors notranslate">
 
 
     <div class="inline-flex items-center gap-0.5">

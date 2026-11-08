@@ -34,7 +34,7 @@
         <button 
             type="button"
             @click="insertHeading()"
-            class="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-sm font-semibold"
+            class="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-sm font-bold"
             title="Heading"
         >
             H

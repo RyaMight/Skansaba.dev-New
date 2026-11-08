@@ -8,7 +8,7 @@
             </div>
             <button 
                 wire:click="openCreateModal"
-                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold flex items-center gap-2 transition"
+                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold flex items-center gap-2 transition"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -101,7 +101,7 @@
                                     'archived' => 'bg-red-500'
                                 ];
                             @endphp
-                            <span class="px-3 py-1 {{ $statusColors[$alumni->status] ?? 'bg-gray-50 dark:bg-gray-900' }} text-white text-xs font-semibold rounded-full">
+                            <span class="px-3 py-1 {{ $statusColors[$alumni->status] ?? 'bg-gray-50 dark:bg-gray-900' }} text-white text-xs font-bold rounded-full">
                                 {{ ucfirst($alumni->status) }}
                             </span>
                         </div>
@@ -127,7 +127,7 @@
                                     'belum_diketahui' => 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'
                                 ];
                             @endphp
-                            <span class="inline-block px-3 py-1 {{ $badgeColors[$alumni->status_alumni] ?? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' }} text-xs font-semibold rounded-full">
+                            <span class="inline-block px-3 py-1 {{ $badgeColors[$alumni->status_alumni] ?? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' }} text-xs font-bold rounded-full">
                                 {{ $alumni->status_alumni_label }}
                             </span>
 
@@ -149,20 +149,20 @@
                         <div class="flex gap-2 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                             <button 
                                 wire:click="openDetailModal({{ $alumni->id }})"
-                                class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-semibold transition"
+                                class="flex-1 px-4 py-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-bold transition"
                             >
                                 Detail
                             </button>
                             <button 
                                 wire:click="openEditModal({{ $alumni->id }})"
-                                class="flex-1 px-4 py-2 bg-[#12B4E0] hover:bg-[#0e91b8] text-white rounded-lg text-sm font-semibold transition"
+                                class="flex-1 px-4 py-2 bg-[#12B4E0] hover:bg-[#0e91b8] text-white rounded-lg text-sm font-bold transition"
                             >
                                 Edit
                             </button>
                             <button 
                                 wire:click="delete({{ $alumni->id }})"
                                 onclick="return confirm('Apakah Anda yakin ingin menghapus data alumni ini?')"
-                                class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-semibold transition"
+                                class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-bold transition"
                             >
                                 Hapus
                             </button>
@@ -327,13 +327,13 @@
                             <button 
                                 type="button"
                                 wire:click="closeModal"
-                                class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                                class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                             >
                                 Batal
                             </button>
                             <button 
                                 type="submit"
-                                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg font-semibold hover:bg-[#0e91b8] transition"
+                                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg font-bold hover:bg-[#0e91b8] transition"
                                 wire:loading.attr="disabled"
                             >
                                 <span wire:loading.remove wire:target="save">

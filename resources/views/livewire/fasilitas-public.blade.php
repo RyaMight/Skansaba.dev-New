@@ -12,7 +12,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Fasilitas') }}</span>
             </div>
             
-            <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
+            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Fasilitas') }}</span> & {{ __('Sarana') }}
             </h1>
             <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Fasilitas dan sarana pembelajaran Jurusan RPL') }}</p>
@@ -67,7 +67,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data') }}</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data') }}</h3>
                     <p class="text-gray-600 dark:text-gray-300">{{ __('Informasi fasilitas belum tersedia saat ini') }}</p>
                 </div>
             @endif

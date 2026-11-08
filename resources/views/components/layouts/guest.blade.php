@@ -22,9 +22,10 @@
     <meta name="description" content="{{ $globalSettings->site_tagline ?? 'Sistem Manajemen Konten Jurusan RPL' }}">
     <meta name="author" content="{{ $globalSettings->site_name ?? 'SMK RPL' }}">
 
-    {{-- Fonts --}}
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:300,400,500,600,700,800&display=swap" rel="stylesheet" />
+    {{-- Fonts (Google Fonts: Plus Jakarta Sans, weights 400-700) --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     {{-- Styles --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])

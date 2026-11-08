@@ -89,8 +89,8 @@
             </div>
             <div>
                 <div class="flex items-center gap-2">
-                    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">{{ __('Hias Profil Publik') }}</h1>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
+                    <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Hias Profil Publik') }}</h1>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
                         {{ __('Siswa RPL') }}
                     </span>
                 </div>
@@ -106,7 +106,7 @@
                             <span>Tech Stack:</span>
                         </span>
                         @foreach($user->keahlian_list as $skill)
-                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20 rounded-md text-[11px] font-medium">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20 rounded-md text-[11px] font-bold">
                                 <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
@@ -121,7 +121,7 @@
             <a
                 href="{{ $user->profil_url }}?from=editor"
                 target="_blank"
-                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-xs font-semibold transition shrink-0 shadow-xs"
+                class="inline-flex items-center gap-1.5 px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-xs font-bold transition shrink-0 shadow-xs"
             >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -171,7 +171,7 @@
         {{-- Checklist Badges --}}
         <div class="flex flex-wrap items-center gap-2">
             @foreach($completion['items'] as $label => $isDone)
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium border {{ $isDone ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-200/80 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300' : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' }}">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border {{ $isDone ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-200/80 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300' : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' }}">
                     @if($isDone)
                         <svg class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                         <span>{{ __($label) }}</span>
@@ -216,12 +216,12 @@
                         $el.textContent = '{{ __('Tersalin!') }}';
                         setTimeout(() => $el.textContent = '{{ __('Salin Link') }}', 2000);
                     "
-                    class="flex-1 sm:flex-none px-4 py-2.5 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-xs font-semibold transition cursor-pointer"
+                    class="flex-1 sm:flex-none px-4 py-2.5 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-xs font-bold transition cursor-pointer"
                 >{{ __('Salin Link') }}</button>
                 <a
                     href="{{ $user->profil_url }}"
                     target="_blank"
-                    class="px-3 py-2.5 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-lg text-xs font-semibold transition"
+                    class="px-3 py-2.5 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 rounded-lg text-xs font-bold transition"
                     title="{{ __('Buka di tab baru') }}"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -324,7 +324,7 @@
                         <template x-if="tags.length > 0">
                             <div class="flex flex-wrap gap-1.5">
                                 <template x-for="(tag, idx) in tags" :key="idx">
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20">
                                         <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
@@ -355,7 +355,7 @@
                             </x-info-popover>
                         </div>
                         @if(! $user->canChangeUsername())
-                            <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-500/20">
+                            <span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-500/20">
                                 <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                                 {{ __('Terkunci (Cooldown 7 hari)') }}
                             </span>
@@ -405,7 +405,7 @@
                 <button
                     type="submit"
                     wire:loading.attr="disabled"
-                    class="px-5 py-2.5 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                    class="px-5 py-2.5 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-xs font-bold transition cursor-pointer flex items-center gap-1.5 shadow-xs disabled:opacity-50"
                 >
                     <span wire:loading wire:target="saveBiodata" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full"></span>
                     <span>{{ __('Simpan Biodata') }}</span>
@@ -428,7 +428,7 @@
                             Kamu juga bisa memasukkan gambar SVG, tabel tech stack, tautan media sosial, hingga kartu statistik profil.
                         </x-info-popover>
                     </div>
-                    <span class="text-[10px] font-semibold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-200 dark:border-sky-500/20 shrink-0">
+                    <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-200 dark:border-sky-500/20 shrink-0">
                         Markdown GitHub
                     </span>
                 </div>
@@ -461,7 +461,7 @@
                 <button
                     type="button"
                     wire:click="openEditorModal"
-                    class="w-full px-4 py-2.5 {{ $user->profil_readme ? 'bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200' : 'bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-xs' }} rounded-lg text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-1.5"
+                    class="w-full px-4 py-2.5 {{ $user->profil_readme ? 'bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200' : 'bg-[#0284c7] hover:bg-[#0369a1] text-white shadow-xs' }} rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center gap-1.5"
                 >
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -492,7 +492,7 @@
                     </ol>
                 </x-info-popover>
             </div>
-            <span class="text-[10px] font-semibold text-violet-700 dark:text-violet-400 bg-violet-50 dark:bg-violet-500/10 px-2.5 py-1 rounded-full border border-violet-200/70 dark:border-violet-500/20 shrink-0">
+            <span class="text-[10px] font-bold text-violet-700 dark:text-violet-400 bg-violet-50 dark:bg-violet-500/10 px-2.5 py-1 rounded-full border border-violet-200/70 dark:border-violet-500/20 shrink-0">
                 {{ __('Maksimal :max File · 1 MB per file', ['max' => \App\Services\SvgService::MAX_FILES_PER_USER]) }}
             </span>
         </div>
@@ -562,7 +562,7 @@
                             type="button"
                             wire:click="uploadSvg"
                             wire:loading.attr="disabled"
-                            class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-semibold transition cursor-pointer shrink-0"
+                            class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition cursor-pointer shrink-0"
                         >
                             <span wire:loading wire:target="uploadSvg">{{ __('Mengunggah...') }}</span>
                             <span wire:loading.remove wire:target="uploadSvg">{{ __('Simpan SVG') }}</span>
@@ -610,7 +610,7 @@
                                             setTimeout(() => $el.textContent = @js(__('Salin')), 2000);
                                         "
                                         data-snippet="{{ $aset->snippet }}"
-                                        class="px-3 py-1.5 text-xs font-semibold bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 text-sky-700 dark:text-sky-400 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-500/20 transition cursor-pointer"
+                                        class="px-3 py-1.5 text-xs font-bold bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 text-sky-700 dark:text-sky-400 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-500/20 transition cursor-pointer"
                                         title="{{ __('Salin snippet HTML untuk README') }}"
                                     >{{ __('Salin') }}</button>
                                     <button
@@ -618,7 +618,7 @@
                                         wire:click="deleteSvg({{ $aset->id }})"
                                         wire:confirm="{{ __('Hapus aset ini? Snippet di README yang memakainya akan rusak.') }}"
                                         wire:loading.attr="disabled"
-                                        class="px-2.5 py-1.5 text-xs font-semibold border border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-500/10 transition cursor-pointer"
+                                        class="px-2.5 py-1.5 text-xs font-bold border border-rose-200 dark:border-rose-500/30 text-rose-600 dark:text-rose-400 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-500/10 transition cursor-pointer"
                                         title="{{ __('Hapus aset') }}"
                                     >{{ __('Hapus') }}</button>
                                 </div>
@@ -669,7 +669,7 @@
                                 type="button"
                                 wire:click="loadReadmeTemplate('magang')"
                                 wire:confirm="{{ __('Muat Template Magang? Teks editor yang ada saat ini akan diganti dengan format template baru.') }}"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-600 hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/10 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-medium transition cursor-pointer"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-600 hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/10 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-bold transition cursor-pointer"
                             >
                                 <svg class="w-3.5 h-3.5 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                 <span>{{ __('Template Siswa Magang / PKL') }}</span>
@@ -678,7 +678,7 @@
                                 type="button"
                                 wire:click="loadReadmeTemplate('developer')"
                                 wire:confirm="{{ __('Muat Template Developer? Teks editor yang ada saat ini akan diganti dengan format template baru.') }}"
-                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-600 hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/10 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-medium transition cursor-pointer"
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-600 hover:border-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/10 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-bold transition cursor-pointer"
                             >
                                 <svg class="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                                 <span>{{ __('Template Developer GitHub') }}</span>
@@ -738,7 +738,7 @@
                         type="button"
                         wire:click="saveReadme"
                         wire:loading.attr="disabled"
-                        class="px-5 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg font-semibold transition text-sm cursor-pointer disabled:opacity-50"
+                        class="px-5 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg font-bold transition text-sm cursor-pointer disabled:opacity-50"
                     >
                         <span wire:loading wire:target="saveReadme" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full mr-1"></span>
                         {{ __('Simpan README') }}
@@ -828,14 +828,14 @@
                     </div>
 
                     <div class="flex items-center justify-end gap-2 pt-3 border-t border-gray-100 dark:border-gray-800">
-                        <button type="button" wire:click="closeEditModal" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium cursor-pointer">
+                        <button type="button" wire:click="closeEditModal" class="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition font-bold cursor-pointer">
                             {{ __('Batal') }}
                         </button>
                         <button
                             type="submit"
                             :disabled="isSaving"
                             wire:loading.attr="disabled"
-                            class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-semibold transition cursor-pointer flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                            class="px-5 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5 shadow-xs disabled:opacity-50"
                         >
                             <span x-show="isSaving" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full mr-1"></span>
                             <span x-text="isSaving ? @js(__('Menyimpan Foto...')) : @js(__('Simpan Foto Profil'))"></span>
@@ -894,7 +894,7 @@
                         type="button"
                         wire:click="confirmSaveBiodata"
                         wire:loading.attr="disabled"
-                        class="px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-sm font-semibold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                        class="px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg text-sm font-bold transition cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
                     >
                         <span wire:loading wire:target="confirmSaveBiodata" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full mr-1"></span>
                         <span>{{ __('Ya, Simpan Username') }}</span>

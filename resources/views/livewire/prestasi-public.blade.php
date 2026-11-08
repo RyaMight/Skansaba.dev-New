@@ -12,7 +12,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Prestasi Siswa') }}</span>
             </div>
             
-            <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
+            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 {{ __('Prestasi') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Siswa RPL') }}</span>
             </h1>
             <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Pencapaian dan prestasi terbaik siswa Rekayasa Perangkat Lunak') }}</p>
@@ -53,15 +53,15 @@
                             @endif
                             <div class="p-4">
                                 <div class="flex items-center gap-2 mb-3">
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs font-semibold rounded-full">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs font-bold rounded-full">
                                         <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                                         <span>{{ __(ucfirst($prestasi->jenis)) }}</span>
                                     </span>
-                                    <span class="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 text-xs font-semibold rounded-full">
+                                    <span class="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 text-xs font-bold rounded-full">
                                         {{ __(ucfirst($prestasi->tingkat)) }}
                                     </span>
                                 </div>
-                                <h3 class="font-bold text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80" style="color: {{ $globalSettings->primary_color_style }}">
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80" style="color: {{ $globalSettings->primary_color_style }}">
                                     {{ $prestasi->judul }}
                                 </h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-300 mb-1">{{ $prestasi->nama_siswa }}</p>

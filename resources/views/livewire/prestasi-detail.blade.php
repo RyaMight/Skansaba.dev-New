@@ -12,11 +12,11 @@
             </div>
 
             <div class="flex items-center gap-3 mb-4">
-                <span class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 text-sm font-semibold rounded-full">
+                <span class="inline-flex items-center gap-1 px-3 py-1 bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 text-sm font-bold rounded-full">
                     <svg class="w-4 h-4 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                     <span>{{ __(ucfirst($prestasi->jenis)) }}</span>
                 </span>
-                <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 text-sm font-semibold rounded-full">
+                <span class="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-500/20 text-blue-800 dark:text-blue-300 text-sm font-bold rounded-full">
                     {{ __(ucfirst($prestasi->tingkat)) }}
                 </span>
                 <span class="text-sm text-gray-500 dark:text-gray-400">{{ $prestasi->tanggal_prestasi->translatedFormat('d F Y') }}</span>
@@ -95,7 +95,7 @@
                                 <div class="w-full aspect-video bg-gradient-to-br" style="background-image: linear-gradient(to bottom right, {{ $globalSettings->primary_color_style }}, {{ $globalSettings->primary_color_style }}dd)"></div>
                             @endif
                             <div class="p-4">
-                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs font-semibold rounded-full mb-3">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 dark:bg-amber-500/15 border border-amber-200/80 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 text-xs font-bold rounded-full mb-3">
                                     <svg class="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                                     <span>{{ __(ucfirst($related->jenis)) }}</span>
                                 </span>

@@ -18,9 +18,10 @@
     <link rel="alternate icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}?v=2">
 
-    {{-- Fonts --}}
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:300,400,500,600,700,800&display=swap" rel="stylesheet" />
+    {{-- Fonts (Google Fonts: Plus Jakarta Sans, weights 400-700) --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     {{-- Styles --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -88,7 +89,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
                                     </svg>
                                 @endif
-                                <span class="font-bold text-lg tracking-tight uppercase" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
+                                <span class="font-bold text-lg uppercase" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
                             </a>
 
                             {{-- Mobile Actions: Theme Toggle + Menu Button --}}
@@ -177,7 +178,7 @@
                                     <button 
                                         type="button"
                                         @click="sessionStorage.setItem('dismissed_default_pw_{{ auth()->id() }}', '1'); showModal = false"
-                                        class="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition cursor-pointer"
+                                        class="px-4 py-2 text-xs font-bold text-slate-700 dark:text-gray-300 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition cursor-pointer"
                                     >
                                         {{ __('Nanti Saja') }}
                                     </button>
@@ -185,7 +186,7 @@
                                         href="{{ route('settings') }}"
                                         wire:navigate
                                         @click="sessionStorage.setItem('dismissed_default_pw_{{ auth()->id() }}', '1'); showModal = false"
-                                        class="px-4 py-2 text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition shadow-xs cursor-pointer inline-flex items-center gap-1.5"
+                                        class="px-4 py-2 text-xs font-bold text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition shadow-xs cursor-pointer inline-flex items-center gap-1.5"
                                     >
                                         <span>{{ __('Ganti Password Sekarang') }}</span>
                                         <span>&rarr;</span>

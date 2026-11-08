@@ -393,7 +393,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="font-semibold text-green-900 dark:text-green-100 mb-1">{{ __('Berhasil Terkirim!') }}</h4>
+                                    <h4 class="font-bold text-green-900 dark:text-green-100 mb-1">{{ __('Berhasil Terkirim!') }}</h4>
                                     <p class="text-sm text-green-800 dark:text-green-200">{{ $successMessage }}</p>
                                 </div>
                             </div>
@@ -411,7 +411,7 @@
                                     </div>
                                 </div>
                                 <div class="flex-1">
-                                    <h4 class="font-semibold text-red-900 dark:text-red-100 mb-1">{{ __('Terjadi Kesalahan') }}</h4>
+                                    <h4 class="font-bold text-red-900 dark:text-red-100 mb-1">{{ __('Terjadi Kesalahan') }}</h4>
                                     <p class="text-sm text-red-800 dark:text-red-200">{{ $message }}</p>
                                 </div>
                             </div>
@@ -505,7 +505,7 @@
                             <button
                                 type="submit"
                                 wire:loading.attr="disabled"
-                                class="w-full group relative px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none overflow-hidden"
+                                class="w-full group relative px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/40 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none overflow-hidden"
                             >
                                 {{-- Button Background Animation --}}
                                 <div class="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

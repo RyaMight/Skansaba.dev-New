@@ -45,7 +45,7 @@
                     {{-- Kategori Badge --}}
                     @if($galeri->kategori)
                         <div class="mb-4">
-                            <span class="inline-flex items-center px-3 py-1 text-sm font-semibold rounded-full bg-cyan-500/10 text-cyan-600">
+                            <span class="inline-flex items-center px-3 py-1 text-sm font-bold rounded-full bg-cyan-500/10 text-cyan-600">
                                 {{ $galeri->kategori }}
                             </span>
                         </div>

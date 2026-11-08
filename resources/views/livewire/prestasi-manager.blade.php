@@ -8,7 +8,7 @@
             </div>
             <button 
                 wire:click="openCreateModal"
-                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold flex items-center gap-2 transition"
+                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold flex items-center gap-2 transition"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -416,7 +416,7 @@
                                                 type="file" 
                                                 wire:model="sertifikat"
                                                 accept=".pdf,.jpg,.jpeg,.png,.webp"
-                                                class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-gray-100 dark:bg-gray-800 file:text-gray-700 dark:text-gray-200 hover:file:bg-gray-200 cursor-pointer"
+                                                class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-gray-100 dark:bg-gray-800 file:text-gray-700 dark:text-gray-200 hover:file:bg-gray-200 cursor-pointer"
                                             >
                                             @error('sertifikat') <p class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</p> @enderror
                                         </div>
@@ -439,14 +439,14 @@
                                     <button 
                                         type="button"
                                         @click="$wire.closeModal()"
-                                        class="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 font-semibold transition"
+                                        class="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 font-bold transition"
                                     >
                                         Batal
                                     </button>
                                     <button 
                                         type="submit"
                                         wire:loading.attr="disabled"
-                                        class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold transition disabled:opacity-50"
+                                        class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold transition disabled:opacity-50"
                                     >
                                         <span wire:loading.remove wire:target="save">
                                             {{ $isEditMode ? 'Update' : 'Simpan' }}

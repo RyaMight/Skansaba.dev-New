@@ -8,7 +8,7 @@
             </div>
             <button 
                 wire:click="openCreateModal"
-                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors shadow-sm"
+                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-colors shadow-sm"
             >
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -190,7 +190,7 @@
                 >
                     {{-- Modal Header --}}
                     <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50">
                             {{ $isEditMode ? __('Edit Berita') : __('Tambah Berita') }}
                         </h3>
                         <button type="button" wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
@@ -291,14 +291,14 @@
 
                     {{-- Modal Footer --}}
                     <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-between">
-                        <button type="button" wire:click="closeModal" class="px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-50 font-medium transition-colors">
+                        <button type="button" wire:click="closeModal" class="px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:text-gray-50 font-bold transition-colors">
                             {{ __('Batal') }}
                         </button>
                         <div class="flex items-center gap-3">
                             <button 
                                 type="submit" 
                                 wire:loading.attr="disabled"
-                                class="px-8 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-all shadow-sm flex items-center gap-2"
+                                class="px-8 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition-all shadow-sm flex items-center gap-2"
                             >
                                 <span wire:loading.remove wire:target="save">
                                     {{ $isEditMode ? __('Simpan Perubahan') : __('Terbitkan Berita') }}

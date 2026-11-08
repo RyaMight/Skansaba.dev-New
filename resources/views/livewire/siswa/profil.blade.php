@@ -64,7 +64,7 @@
 
     {{-- Page Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">{{ __('Profil Saya') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Profil Saya') }}</h1>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Kelola profil, karya, dan prestasi Anda di CMS Jurusan RPL') }}</p>
     </div>
 
@@ -89,7 +89,7 @@
                         {{ $user->name ?: 'Ahmad Syahputra' }}
                     </h2>
                     @if($user->kelas)
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
                             {{ __('Kelas :kelas', ['kelas' => $user->kelas]) }}
                         </span>
                     @endif
@@ -110,7 +110,7 @@
                         <span>Tech Stack:</span>
                     </span>
                     @forelse($user->keahlian_list as $skill)
-                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20 rounded-md text-xs font-medium">
+                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20 rounded-md text-xs font-bold">
                             <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
@@ -130,7 +130,7 @@
             <button 
                 type="button" 
                 wire:click="openEditModal"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white text-sm font-semibold rounded-lg shadow-xs transition cursor-pointer"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white text-sm font-bold rounded-lg shadow-xs transition cursor-pointer"
             >
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
@@ -194,7 +194,7 @@
                         <a 
                             href="{{ route('karya-siswa.index', ['create' => 1]) }}" 
                             wire:navigate 
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-semibold transition shadow-xs"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-bold transition shadow-xs"
                         >
                             <span class="text-sm leading-none">+</span>
                             <span>{{ __('Buat Karya') }}</span>
@@ -228,7 +228,7 @@
                             </div>
                         </div>
                         <div class="p-3">
-                            <span class="inline-block px-2 py-0.5 bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 text-[10px] font-semibold rounded-full mb-1">
+                            <span class="inline-block px-2 py-0.5 bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-400 text-[10px] font-bold rounded-full mb-1">
                                 Web • PHP
                             </span>
                             <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm group-hover:text-sky-600 transition truncate">Portfolio Personal</h4>
@@ -245,12 +245,12 @@
                                 <div class="w-3 h-3 bg-amber-400 rounded-full mx-auto"></div>
                                 <div class="w-4 h-0.5 bg-white/60 rounded-full mx-auto"></div>
                             </div>
-                            <div class="absolute right-3 w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-amber-500 flex items-center justify-center text-white font-black text-xs shadow-md">
+                            <div class="absolute right-3 w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-amber-500 flex items-center justify-center text-white font-bold text-xs shadow-md">
                                 K
                             </div>
                         </div>
                         <div class="p-3">
-                            <span class="inline-block px-2 py-0.5 bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 text-[10px] font-semibold rounded-full mb-1">
+                            <span class="inline-block px-2 py-0.5 bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 text-[10px] font-bold rounded-full mb-1">
                                 Mobile • Kotlin
                             </span>
                             <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm group-hover:text-amber-600 transition truncate">{{ __('Aplikasi Kasir Kantin') }}</h4>
@@ -277,7 +277,7 @@
                             </div>
                         </div>
                         <div class="p-3">
-                            <span class="inline-block px-2 py-0.5 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 text-[10px] font-semibold rounded-full mb-1">
+                            <span class="inline-block px-2 py-0.5 bg-purple-100 dark:bg-purple-500/20 text-purple-700 dark:text-purple-400 text-[10px] font-bold rounded-full mb-1">
                                 UI/UX • Figma
                             </span>
                             <h4 class="font-bold text-gray-900 dark:text-gray-50 text-sm group-hover:text-purple-600 dark:text-purple-400 transition truncate">{{ __('Redesain Website SMK') }}</h4>
@@ -323,7 +323,7 @@
                         </div>
                         <div class="flex flex-wrap gap-1.5">
                             @forelse($user->keahlian_list as $skill)
-                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20 rounded-md text-[11px] font-medium">
+                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20 rounded-md text-[11px] font-bold">
                                     <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
@@ -509,7 +509,7 @@
                 <h4 class="text-xs font-bold text-gray-800 dark:text-gray-100 mb-2.5">{{ __('Lencana & Penghargaan') }}</h4>
                 <div class="flex flex-wrap gap-2">
                     {{-- Badge 1 --}}
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-medium">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-bold">
                         <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
                         </svg>
@@ -517,7 +517,7 @@
                     </span>
 
                     {{-- Badge 2 --}}
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-medium">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-bold">
                         <svg class="w-3.5 h-3.5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
                         </svg>
@@ -654,7 +654,7 @@
                             <span class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">{{ __('Preview Lencana:') }}</span>
                             <div class="flex flex-wrap gap-1.5" x-show="tags.length > 0">
                                 <template x-for="(tag, idx) in tags" :key="idx">
-                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20 rounded text-xs font-medium">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20 rounded text-xs font-bold">
                                         <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
@@ -673,7 +673,7 @@
                         <button 
                             type="submit" 
                             wire:loading.attr="disabled"
-                            class="px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg font-semibold transition cursor-pointer flex items-center gap-1.5"
+                            class="px-4 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-lg font-bold transition cursor-pointer flex items-center gap-1.5"
                         >
                             <span wire:loading wire:target="saveProfile" class="inline-block animate-spin w-3 h-3 border-2 border-white border-t-transparent rounded-full mr-1"></span>
                             <span>{{ __('Simpan Perubahan') }}</span>

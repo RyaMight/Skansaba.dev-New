@@ -6,7 +6,7 @@
             <button
                 type="button"
                 wire:click="$set('filterKategori', '')"
-                class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterKategori === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
             >
                 {{ __('Semua Kategori') }}
             </button>
@@ -14,7 +14,7 @@
                 <button
                     type="button"
                     wire:click="$set('filterKategori', '{{ $cat }}')"
-                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterKategori === $cat ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === $cat ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
                 >
                     {{ __($cat) }}
                 </button>
@@ -47,7 +47,7 @@
             <button
                 type="button"
                 wire:click="resetFilters"
-                class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-sky-600 text-white hover:opacity-90 transition cursor-pointer"
+                class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold bg-slate-900 dark:bg-sky-600 text-white hover:opacity-90 transition cursor-pointer"
             >
                 {{ __('Tampilkan Semua Karya') }}
             </button>
@@ -85,7 +85,7 @@
                                     loading="lazy"
                                 >
                                 @if($item->kategori)
-                                    <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-semibold bg-slate-900/85 text-white border border-white/15">
+                                    <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-900/85 text-white border border-white/15">
                                         {{ __($item->kategori) }}
                                     </span>
                                 @endif
@@ -161,7 +161,7 @@
                                     </span>
                                 </div>
 
-                                <h3 class="text-sm font-bold text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $item->judul }}">
+                                <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $item->judul }}">
                                     {{ $item->judul }}
                                 </h3>
 
@@ -174,7 +174,7 @@
                             @if(count($techList) > 0)
                                 <div class="flex flex-wrap gap-1.5 mt-3">
                                     @foreach(array_slice($techList, 0, 3) as $tech)
-                                        <span class="px-2 py-0.5 bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 border border-slate-200/80 dark:border-gray-700 rounded text-[10px] font-medium">
+                                        <span class="px-2 py-0.5 bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 border border-slate-200/80 dark:border-gray-700 rounded text-[10px] font-bold">
                                             {{ $tech }}
                                         </span>
                                     @endforeach

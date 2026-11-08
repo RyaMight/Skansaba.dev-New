@@ -8,7 +8,7 @@
             </div>
             <button 
                 wire:click="openCreateModal"
-                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold flex items-center gap-2 transition"
+                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold flex items-center gap-2 transition"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -116,7 +116,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-2">
-                                        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
+                                        <span class="inline-flex items-center px-2 py-1 rounded text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200">
                                             {{ $item->file_extension }}
                                         </span>
                                         <span class="text-xs text-gray-500 dark:text-gray-400">{{ $item->formatted_file_size }}</span>
@@ -316,13 +316,13 @@
                             <button 
                                 type="button"
                                 wire:click="closeModal"
-                                class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 font-semibold hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                                class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                             >
                                 Batal
                             </button>
                             <button 
                                 type="submit"
-                                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg font-semibold hover:bg-[#0e91b8] transition"
+                                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg font-bold hover:bg-[#0e91b8] transition"
                                 wire:loading.attr="disabled"
                             >
                                 <span wire:loading.remove wire:target="save">
@@ -414,7 +414,7 @@
                                 <a 
                                     href="{{ $detailDokumen->file_url }}"
                                     download
-                                    class="inline-flex items-center px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold transition"
+                                    class="inline-flex items-center px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold transition"
                                 >
                                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>

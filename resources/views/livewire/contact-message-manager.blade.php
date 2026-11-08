@@ -29,19 +29,19 @@
                 <div class="flex gap-2">
                     <button
                         wire:click="$set('filter', 'all')"
-                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ $filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300' }}"
+                        class="px-4 py-2 text-sm font-bold rounded-lg transition-colors {{ $filter === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300' }}"
                     >
                         {{ __('Semua') }} ({{ $messages->total() }})
                     </button>
                     <button
                         wire:click="$set('filter', 'unread')"
-                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ $filter === 'unread' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300' }}"
+                        class="px-4 py-2 text-sm font-bold rounded-lg transition-colors {{ $filter === 'unread' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300' }}"
                     >
                         {{ __('Belum Dibaca') }} ({{ $unreadCount }})
                     </button>
                     <button
                         wire:click="$set('filter', 'read')"
-                        class="px-4 py-2 text-sm font-medium rounded-lg transition-colors {{ $filter === 'read' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300' }}"
+                        class="px-4 py-2 text-sm font-bold rounded-lg transition-colors {{ $filter === 'read' ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300' }}"
                     >
                         {{ __('Sudah Dibaca') }}
                     </button>
@@ -62,7 +62,7 @@
                             @if(!$message->is_read)
                             <span class="w-2 h-2 bg-blue-600 rounded-full"></span>
                             @endif
-                            <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-50">{{ $message->name }}</h3>
+                            <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50">{{ $message->name }}</h3>
                         </div>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">{{ $message->email }}</p>
                         <p class="text-sm text-gray-700 dark:text-gray-300 line-clamp-2">{{ $message->message }}</p>
@@ -147,20 +147,20 @@
                 <button
                     wire:click="deleteMessage({{ $selectedMessage->id }})"
                     wire:confirm="{{ __('Yakin ingin menghapus pesan ini?') }}"
-                    class="px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                    class="px-4 py-2 text-sm font-bold text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                 >
                     {{ __('Hapus Pesan') }}
                 </button>
                 <div class="flex gap-2">
                     <a
                         href="mailto:{{ $selectedMessage->email }}"
-                        class="px-4 py-2 text-sm font-medium bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                        class="px-4 py-2 text-sm font-bold bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                         {{ __('Balas via Email') }}
                     </a>
                     <button
                         wire:click="closeDetail"
-                        class="px-4 py-2 text-sm font-medium bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-50 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                        class="px-4 py-2 text-sm font-bold bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-50 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                         {{ __('Tutup') }}
                     </button>

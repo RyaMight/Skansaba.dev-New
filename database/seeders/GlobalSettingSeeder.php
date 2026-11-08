@@ -19,9 +19,9 @@ class GlobalSettingSeeder extends Seeder
         GlobalSetting::create([
             'site_name' => 'SKANSABA.DEV',
             'site_tagline' => 'Software Engineer SMKN 1 BANTUL',
-            'logo_primary' => 'logos/6ade2bd5c84b3_1792945109.webp',
+            'logo_primary' => 'logos/favicon_skansaba.webp',
             'logo_secondary' => null,
-            'favicon' => 'logos/69e5c1844dd62_1776664964.webp',
+            'favicon' => 'logos/favicon_skansaba.webp',
             'primary_color' => 'rgb(18,180,224)',
             'secondary_color' => 'rgb(255,255,255)',
             'footer_text' => null,

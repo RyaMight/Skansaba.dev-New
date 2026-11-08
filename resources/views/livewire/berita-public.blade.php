@@ -12,7 +12,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Berita & Artikel') }}</span>
             </div>
             
-            <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
+            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 {{ __('Berita &') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Artikel') }}</span>
             </h1>
             <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Informasi terkini seputar kegiatan dan berita RPL') }}</p>
@@ -60,7 +60,7 @@
                                     @endif
                                     <span class="text-xs text-gray-500 dark:text-gray-400">{{ $berita->published_at->translatedFormat('d M Y') }}</span>
                                 </div>
-                                <h3 class="font-bold text-lg text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80">
+                                <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80">
                                     {{ $berita->title }}
                                 </h3>
                                 <p class="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">

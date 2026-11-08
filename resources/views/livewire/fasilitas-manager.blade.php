@@ -8,7 +8,7 @@
             </div>
             <button 
                 wire:click="openCreateModal"
-                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold flex items-center gap-2 transition"
+                class="px-6 py-3 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold flex items-center gap-2 transition"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -95,12 +95,12 @@
                                     <div class="flex flex-wrap gap-1">
                                         @if($item->fasilitas && count($item->fasilitas) > 0)
                                             @foreach(array_slice($item->fasilitas, 0, 3) as $fas)
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#12B4E0] text-white">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#12B4E0] text-white">
                                                     {{ $fas }}
                                                 </span>
                                             @endforeach
                                             @if(count($item->fasilitas) > 3)
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300">
                                                     +{{ count($item->fasilitas) - 3 }} lagi
                                                 </span>
                                             @endif
@@ -279,7 +279,7 @@
                                         <button 
                                             type="button"
                                             wire:click="addFasilitasItem"
-                                            class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold flex items-center gap-1 transition"
+                                            class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold flex items-center gap-1 transition"
                                         >
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -295,7 +295,7 @@
                                     {{-- Badge List --}}
                                     <div class="flex flex-wrap gap-2 min-h-[100px]">
                                         @forelse($fasilitas as $index => $item)
-                                            <div class="inline-flex items-center px-3 py-1.5 bg-[#12B4E0] text-white rounded-full text-sm font-medium gap-2 group hover:bg-[#0e91b8] transition">
+                                            <div class="inline-flex items-center px-3 py-1.5 bg-[#12B4E0] text-white rounded-full text-sm font-bold gap-2 group hover:bg-[#0e91b8] transition">
                                                 <span>{{ $item }}</span>
                                                 <button 
                                                     type="button"
@@ -340,13 +340,13 @@
                         <button 
                             type="button"
                             wire:click="closeModal"
-                            class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold transition"
+                            class="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 font-bold transition"
                         >
                             Batal
                         </button>
                         <button 
                             type="submit"
-                            class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-semibold transition"
+                            class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] font-bold transition"
                         >
                             {{ $isEditMode ? 'Update' : 'Simpan' }}
                         </button>
@@ -379,14 +379,14 @@
                     {{-- Gambar Ruangan --}}
                     @if($detailFasilitas->gambar)
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">Foto Ruangan</h3>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Foto Ruangan</h3>
                             <img src="{{ Storage::url($detailFasilitas->gambar) }}" alt="{{ $detailFasilitas->tempat }}" class="w-full rounded-lg shadow-lg">
                         </div>
                     @endif
 
                     {{-- Status --}}
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">Status</h3>
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Status</h3>
                         <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium
                             @if($detailFasilitas->status === 'published') bg-green-100 dark:bg-green-500/20 text-green-800
                             @elseif($detailFasilitas->status === 'draft') bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100
@@ -399,7 +399,7 @@
                     {{-- Deskripsi --}}
                     @if($detailFasilitas->deskripsi)
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">Deskripsi</h3>
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">Deskripsi</h3>
                             <div class="prose prose-sm max-w-none">
                                 {!! $detailFasilitas->deskripsi_html !!}
                             </div>
@@ -409,13 +409,13 @@
                     {{-- Daftar Fasilitas --}}
                     @if($detailFasilitas->fasilitas && count($detailFasilitas->fasilitas) > 0)
                         <div>
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-3">
+                            <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-3">
                                 Daftar Fasilitas 
                                 <span class="text-sm text-gray-500 dark:text-gray-400 font-normal">({{ $detailFasilitas->fasilitas_count }} item)</span>
                             </h3>
                             <div class="flex flex-wrap gap-2">
                                 @foreach($detailFasilitas->fasilitas as $fas)
-                                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-[#12B4E0] text-white">
+                                    <span class="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold bg-[#12B4E0] text-white">
                                         {{ $fas }}
                                     </span>
                                 @endforeach
@@ -447,7 +447,7 @@
                 <div class="bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-end gap-3 rounded-b-lg">
                     <button 
                         wire:click="closeDetailModal"
-                        class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-semibold transition"
+                        class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-bold transition"
                     >
                         Tutup
                     </button>

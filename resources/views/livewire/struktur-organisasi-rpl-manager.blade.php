@@ -8,7 +8,7 @@
             </div>
             <button 
                 wire:click="openCreateModal"
-                class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-medium flex items-center"
+                class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-bold flex items-center"
             >
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -89,7 +89,7 @@
 
                                 {{-- Info --}}
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-50 truncate">{{ $item['nama'] }}</h3>
+                                    <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate">{{ $item['nama'] }}</h3>
                                     <p class="text-sm text-gray-600 dark:text-gray-300">{{ $item['jabatan'] }}</p>
                                     @if($item['deskripsi_md'])
                                         <p class="text-xs text-gray-500 dark:text-gray-400 truncate mt-1">{{ \Illuminate\Support\Str::limit(strip_tags($item['deskripsi_md']), 60) }}</p>
@@ -98,7 +98,7 @@
 
                                 {{-- Status Badge --}}
                                 <div class="flex-shrink-0">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $item['status'] === 'published' ? 'bg-green-100 dark:bg-green-500/20 text-green-800' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' }}">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold {{ $item['status'] === 'published' ? 'bg-green-100 dark:bg-green-500/20 text-green-800' : 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' }}">
                                         {{ $item['status'] === 'published' ? 'Published' : 'Draft' }}
                                     </span>
                                 </div>
@@ -149,7 +149,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
                 {{-- Modal Header --}}
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between sticky top-0 bg-white dark:bg-gray-900 z-10">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
                         {{ $struktur_id ? 'Edit Anggota' : 'Tambah Anggota' }}
                     </h3>
                     <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
@@ -246,13 +246,13 @@
                         <button 
                             type="button"
                             wire:click="closeModal"
-                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition font-medium"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition font-bold"
                         >
                             Batal
                         </button>
                         <button 
                             type="submit"
-                            class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-medium flex items-center"
+                            class="px-6 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-bold flex items-center"
                         >
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>

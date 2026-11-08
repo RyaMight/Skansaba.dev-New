@@ -141,7 +141,7 @@
         <div class="lg:col-span-2">
             <div class="bg-white dark:bg-gray-900 shadow-sm rounded-lg">
                 <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">{{ __('Aktivitas Terbaru') }}</h3>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{ __('Aktivitas Terbaru') }}</h3>
                 </div>
                 <div class="p-5">
                     @if($recentActivity->isEmpty())
@@ -196,13 +196,13 @@
         <div class="lg:col-span-1">
             <div class="bg-white dark:bg-gray-900 shadow-sm rounded-lg">
                 <div class="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">{{ __('Status Konten') }}</h3>
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">{{ __('Status Konten') }}</h3>
                 </div>
                 <div class="p-5">
                     <div class="space-y-4">
                         @foreach($statusSummary as $model => $counts)
                             <div>
-                                <h4 class="text-sm font-medium text-gray-900 dark:text-gray-50 mb-2">{{ $model }}</h4>
+                                <h4 class="text-sm font-bold text-gray-900 dark:text-gray-50 mb-2">{{ $model }}</h4>
                                 <div class="grid grid-cols-2 gap-2">
                                     <div class="px-3 py-2 bg-gray-50 dark:bg-gray-800 rounded-lg">
                                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ __('Draft') }}</div>

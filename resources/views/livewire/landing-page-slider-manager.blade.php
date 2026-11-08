@@ -8,7 +8,7 @@
             </div>
             <button 
                 wire:click="openCreateModal"
-                class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-medium"
+                class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-bold"
             >
                 <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -86,7 +86,7 @@
 
                                 {{-- Content --}}
                                 <div class="flex-1 min-w-0">
-                                    <h3 class="text-sm font-semibold text-gray-900 dark:text-gray-50 truncate">{{ $slider->title }}</h3>
+                                    <h3 class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate">{{ $slider->title }}</h3>
                                     @if($slider->subtitle)
                                         <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ $slider->subtitle }}</p>
                                     @endif
@@ -147,7 +147,7 @@
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl max-w-5xl w-full max-h-[90vh] overflow-y-auto">
                 {{-- Modal Header --}}
                 <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50">
+                    <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
                         {{ $isEditing ? 'Edit Slider' : 'Tambah Slider' }}
                     </h3>
                     <button wire:click="closeModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300">
@@ -252,7 +252,7 @@
                         </button>
                         <button 
                             type="submit"
-                            class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-medium"
+                            class="px-4 py-2 bg-[#12B4E0] text-white rounded-lg hover:bg-[#0e91b8] transition font-bold"
                         >
                             {{ $isEditing ? 'Perbarui' : 'Simpan' }}
                         </button>

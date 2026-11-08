@@ -65,7 +65,7 @@
         if (!markdown) return '';
         
         let html = markdown
-            .replace(/^### (.*$)/gim, '<h3 class=\'text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2 mt-3\'>$1</h3>')
+            .replace(/^### (.*$)/gim, '<h3 class=\'text-lg font-bold text-gray-800 dark:text-gray-100 mb-2 mt-3\'>$1</h3>')
             .replace(/^## (.*$)/gim, '<h2 class=\'text-xl font-bold text-gray-800 dark:text-gray-100 mb-3 mt-4\'>$1</h2>')
             .replace(/^# (.*$)/gim, '<h1 class=\'text-2xl font-bold text-gray-900 dark:text-gray-50 mb-4 mt-5\'>$1</h1>')
             .replace(/\*\*(.*?)\*\*/gim, '<strong class=\'font-semibold\'>$1</strong>')
@@ -117,7 +117,7 @@
         <button 
             type="button"
             @click="insertHeading()"
-            class="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-sm font-semibold"
+            class="px-2 py-1 hover:bg-gray-200 rounded transition-colors text-sm font-bold"
             title="Heading"
         >
             H

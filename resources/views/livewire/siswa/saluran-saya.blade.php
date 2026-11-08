@@ -33,7 +33,7 @@
 
     {{-- Page Header --}}
     <div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50 tracking-tight">{{ __('Saluran & Kontak') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-50">{{ __('Saluran & Kontak') }}</h1>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Kelola email aktif dan akun media sosial untuk halaman profil Anda.') }}</p>
     </div>
 
@@ -343,7 +343,7 @@
             @endif
             <button
                 type="submit"
-                class="px-5 py-2.5 {{ $hasUnsavedChanges ? 'bg-amber-500 hover:bg-amber-600 ring-2 ring-amber-300' : 'bg-[#0284c7] hover:bg-[#0369a1]' }} text-white rounded-lg text-sm font-semibold shadow-xs transition cursor-pointer"
+                class="px-5 py-2.5 {{ $hasUnsavedChanges ? 'bg-amber-500 hover:bg-amber-600 ring-2 ring-amber-300' : 'bg-[#0284c7] hover:bg-[#0369a1]' }} text-white rounded-lg text-sm font-bold shadow-xs transition cursor-pointer"
             >
                 {{ __('Simpan Perubahan') }}
             </button>

@@ -46,7 +46,7 @@
     @if($confirmingTransition)
         <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-2">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-2">
                     Confirm Status Change
                 </h3>
                 <p class="text-gray-600 dark:text-gray-300 mb-4">
@@ -58,14 +58,14 @@
                     <button
                         wire:click="cancelTransition"
                         type="button"
-                        class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200"
+                        class="px-4 py-2 text-sm font-bold text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200"
                     >
                         Cancel
                     </button>
                     <button
                         wire:click="confirmTransition"
                         type="button"
-                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700"
+                        class="px-4 py-2 text-sm font-bold text-white bg-blue-600 rounded-lg hover:bg-blue-700"
                     >
                         Confirm
                     </button>

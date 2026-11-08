@@ -16,7 +16,7 @@
         <button
             type="button"
             wire:click="$set('filterProfil', '')"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
         >
             {{ __('Semua Siswa') }} ({{ $totalSiswasCount }})
         </button>
@@ -25,7 +25,7 @@
             <button
                 type="button"
                 wire:click="$set('filterProfil', 'with_karya')"
-                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === 'with_karya' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === 'with_karya' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
             >
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 <span>{{ __('Memiliki Karya') }} ({{ $siswaWithKaryaCount }})</span>
@@ -36,7 +36,7 @@
             <button
                 type="button"
                 wire:click="$set('filterProfil', '{{ $skill }}')"
-                class="px-3.5 py-1.5 rounded-lg text-xs font-semibold border transition-colors cursor-pointer {{ $filterProfil === $skill ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === $skill ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
             >
                 {{ $skill }}
             </button>
@@ -68,7 +68,7 @@
             <button
                 type="button"
                 wire:click="resetFilters"
-                class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-semibold bg-slate-900 dark:bg-sky-600 text-white hover:opacity-90 transition cursor-pointer"
+                class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-bold bg-slate-900 dark:bg-sky-600 text-white hover:opacity-90 transition cursor-pointer"
             >
                 {{ __('Tampilkan Semua Siswa') }}
             </button>
@@ -108,7 +108,7 @@
 
                             <div class="min-w-0 flex-1">
                                 <div class="flex items-start justify-between gap-2">
-                                    <h3 class="text-sm font-bold text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $siswa->name }}">
+                                    <h3 class="text-sm font-semibold text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $siswa->name }}">
                                         {{ $siswa->name }}
                                     </h3>
                                 </div>
@@ -142,7 +142,7 @@
                         <div class="mt-3 flex flex-wrap items-center gap-1.5">
                             @if(count($verifiedSkills) > 0)
                                 @foreach(array_slice($verifiedSkills, 0, 3) as $skill)
-                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-500/30 rounded-md text-[10px] font-medium">
+                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-500/30 rounded-md text-[10px] font-bold">
                                         <svg class="w-2.5 h-2.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
                                         </svg>
@@ -156,12 +156,12 @@
                                 @endif
                             @elseif(count($karyaTechs) > 0)
                                 @foreach(array_slice($karyaTechs, 0, 3) as $tech)
-                                    <span class="px-2 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[10px] font-medium">
+                                    <span class="px-2 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[10px] font-bold">
                                         {{ $tech }}
                                     </span>
                                 @endforeach
                             @else
-                                <span class="px-2 py-0.5 bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 border border-slate-200/80 dark:border-gray-700 rounded-md text-[10px] font-medium">
+                                <span class="px-2 py-0.5 bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 border border-slate-200/80 dark:border-gray-700 rounded-md text-[10px] font-bold">
                                     {{ $siswa->kelas ? __('Kelas :kelas', ['kelas' => $siswa->kelas]) : __('Rekayasa Perangkat Lunak') }}
                                 </span>
                             @endif

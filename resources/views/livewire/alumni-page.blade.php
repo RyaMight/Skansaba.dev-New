@@ -61,7 +61,7 @@
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                             <button 
                                 wire:click="openDetailModal({{ $alumni->id }})"
-                                class="px-6 py-3 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50 rounded-lg font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+                                class="px-6 py-3 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-50 rounded-lg font-bold hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                             >
                                 Lihat Detail
                             </button>
@@ -88,7 +88,7 @@
                                     'belum_diketahui' => 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100'
                                 ];
                             @endphp
-                            <span class="inline-block px-3 py-1 {{ $badgeColors[$alumni->status_alumni] ?? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' }} text-xs font-semibold rounded-full">
+                            <span class="inline-block px-3 py-1 {{ $badgeColors[$alumni->status_alumni] ?? 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100' }} text-xs font-bold rounded-full">
                                 {{ $alumni->status_alumni_label }}
                             </span>
 

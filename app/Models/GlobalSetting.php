@@ -49,11 +49,18 @@ class GlobalSetting extends Model
     }
 
     /**
-     * Get URL for logo_primary
+     * Get URL for logo_primary (falls back to the current favicon when the
+     * stored logo file is missing, e.g. legacy/broken upload paths).
      */
     public function getLogoPrimaryUrlAttribute()
     {
-        return $this->logo_primary ? Storage::url($this->logo_primary) : null;
+        $fallback = 'logos/favicon_skansaba.webp';
+
+        if ($this->logo_primary && Storage::disk('public')->exists($this->logo_primary)) {
+            return Storage::url($this->logo_primary);
+        }
+
+        return Storage::disk('public')->exists($fallback) ? Storage::url($fallback) : null;
     }
 
     /**
@@ -65,11 +72,18 @@ class GlobalSetting extends Model
     }
 
     /**
-     * Get URL for favicon
+     * Get URL for favicon (falls back to the current bundled favicon when the
+     * stored file is missing, e.g. legacy/broken upload paths).
      */
     public function getFaviconUrlAttribute()
     {
-        return $this->favicon ? Storage::url($this->favicon) : null;
+        $fallback = 'logos/favicon_skansaba.webp';
+
+        if ($this->favicon && Storage::disk('public')->exists($this->favicon)) {
+            return Storage::url($this->favicon);
+        }
+
+        return Storage::disk('public')->exists($fallback) ? Storage::url($fallback) : null;
     }
 
     /**

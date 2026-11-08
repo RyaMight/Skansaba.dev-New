@@ -76,7 +76,7 @@
                         </div>
                         <a 
                             href="{{ route('locale.switch', app()->getLocale() === 'en' ? 'id' : 'en') }}"
-                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 font-semibold transition shadow-2xs"
+                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-700 dark:text-gray-200 font-bold transition shadow-2xs"
                         >
                             <span>{{ app()->getLocale() === 'en' ? __('Baca Versi Asli (ID)') : __('Terjemahkan ke English (EN)') }}</span>
                         </a>

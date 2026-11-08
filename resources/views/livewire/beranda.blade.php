@@ -56,7 +56,7 @@
         <div class="site-container">
             {{-- Judul utama + tagline: rapat, jarak seimbang antara navbar dan slider --}}
             <div class="text-center pt-4 lg:pt-6 mb-4 lg:mb-5" data-reveal>
-                <h1 class="text-4xl sm:text-5xl lg:text-[52px] font-extrabold tracking-tight leading-none" style="color: {{ $globalSettings->primary_color_style }}">
+                <h1 class="text-4xl sm:text-5xl lg:text-[58px] font-bold leading-tight" style="color: {{ $globalSettings->primary_color_style }}">
                     {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
                 </h1>
                 <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg mt-1 max-w-xl mx-auto leading-snug">
@@ -186,7 +186,7 @@
                     <button
                         type="button"
                         @click="aktif = 'karir'"
-                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200"
+                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-bold transition-colors duration-200"
                         :class="aktif === 'karir'
                             ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
                             : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
@@ -197,7 +197,7 @@
                     <button
                         type="button"
                         @click="aktif = 'mapel'"
-                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-extrabold tracking-tight transition-colors duration-200"
+                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left text-2xl sm:text-3xl font-bold transition-colors duration-200"
                         :class="aktif === 'mapel'
                             ? 'border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
                             : 'border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
@@ -211,7 +211,7 @@
 
                     {{-- Panel: Prospek Karir --}}
                     <div x-show="aktif === 'karir'" x-cloak x-transition.opacity.duration.200ms>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
                             {{ __('Prospek Karir') }}
                         </h2>
 
@@ -233,7 +233,7 @@
 
                     {{-- Panel: Mata Pelajaran Unggulan --}}
                     <div x-show="aktif === 'mapel'" x-cloak x-transition.opacity.duration.200ms>
-                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
+                        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50 mb-6 lg:mb-8">
                             {{ __('Mata Pelajaran Unggulan') }}
                         </h2>
 
@@ -338,7 +338,7 @@
     <section class="py-10 lg:py-16">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 lg:mb-10" data-reveal>
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50">
+                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-50">
                     {{ __('Karya Siswa') }}
                 </h2>
                 <a
@@ -429,7 +429,7 @@
                         x-ref="track"
                         @scroll.passive="update()"
                         @resize.window.debounce.150="update()"
-                        class="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-1 py-4 sm:py-10 -my-4 sm:-my-10 pr-4 sm:pr-0"
+                        class="flex gap-4 sm:gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-pl-1.5 sm:scroll-pl-3 py-4 sm:py-10 -my-4 sm:-my-10 pl-1.5 sm:pl-3 -ml-1.5 sm:-ml-3 pr-4 sm:pr-3 sm:-mr-3"
                     >
                         @foreach($karyaSiswa as $item)
                             <a
@@ -448,7 +448,7 @@
                                     >
                                 @else
                                     <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-700 to-slate-900 p-6">
-                                        <span class="text-white/80 font-bold text-lg text-center">{{ $item->judul }}</span>
+                                        <span class="text-white/80 font-semibold text-lg text-center">{{ $item->judul }}</span>
                                     </div>
                                 @endif
 
@@ -457,7 +457,7 @@
 
                                 {{-- Info --}}
                                 <div class="absolute bottom-0 left-0 right-0 p-4 pointer-events-none">
-                                    <h3 class="text-white font-bold text-base lg:text-lg leading-snug drop-shadow">{{ $item->judul }}</h3>
+                                    <h3 class="text-white font-semibold text-base lg:text-lg leading-snug drop-shadow">{{ $item->judul }}</h3>
                                     @if($item->nama_siswa)
                                         <p class="text-white/80 text-xs mt-1 opacity-90 sm:opacity-0 sm:group-hover:opacity-100 sm:translate-y-1 sm:group-hover:translate-y-0 transition-all duration-300">
                                             {{ $item->nama_siswa }}{{ $item->kategori ? ' · ' . $item->kategori : '' }}
@@ -534,7 +534,7 @@
     <section class="py-12 lg:py-16">
         <div class="site-container">
             <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
-                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-50">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-50">
                     {{ __('Berita Terbaru') }}
                 </h2>
                 <a
@@ -685,7 +685,7 @@
 
                             {{-- Body: hanya judul saat normal, sisanya muncul saat hover --}}
                             <div class="p-5 lg:p-6">
-                                <h3 class="font-bold text-gray-900 dark:text-gray-50 leading-snug line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
+                                <h3 class="font-semibold text-gray-900 dark:text-gray-50 leading-snug line-clamp-2 group-hover:text-gray-600 dark:group-hover:text-gray-300 transition-colors">
                                     {{ $item->title }}
                                 </h3>
 

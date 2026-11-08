@@ -3,14 +3,14 @@
         {{-- Header --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50 tracking-tight">{{ __('Verifikasi Karya Siswa') }}</h1>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50">{{ __('Verifikasi Karya Siswa') }}</h1>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">{{ __('Kurasi karya siswa, validasi orisinalitas, dan berikan 1 tag keahlian terverifikasi untuk akun siswa.') }}</p>
             </div>
             <div class="flex items-center gap-3">
                 <a 
                     href="{{ route('siswa-rpl.index') }}" 
                     wire:navigate
-                    class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-xs"
+                    class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-xs"
                 >
                     <svg class="w-4 h-4 text-slate-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -69,7 +69,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                     </svg>
                 </div>
-                <h3 class="text-base font-semibold text-slate-900 dark:text-gray-50">{{ __('Tidak ada karya yang menunggu verifikasi') }}</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-gray-50">{{ __('Tidak ada karya yang menunggu verifikasi') }}</h3>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1 max-w-md mx-auto">{{ __('Semua pengajuan karya siswa saat ini telah dikurasi. Bila siswa mengirim pengajuan baru, notifikasi tanda seru akan muncul di menu.') }}</p>
                 @if($userId)
                     <button 
@@ -148,7 +148,7 @@
                                     <button 
                                         type="button" 
                                         wire:click="openPreviewModal({{ $karya->id }})" 
-                                        class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800 transition shadow-2xs"
+                                        class="w-full inline-flex items-center justify-center gap-2 px-3 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800 transition shadow-2xs"
                                     >
                                         <svg class="w-3.5 h-3.5 text-slate-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -165,11 +165,11 @@
                                     <div class="flex items-start justify-between gap-4">
                                         <div class="min-w-0">
                                             <div class="flex items-center gap-2 mb-1">
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30">
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 dark:bg-amber-500/20 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30">
                                                     {{ __('Menunggu Verifikasi') }}
                                                 </span>
                                                 @if($karya->kategori)
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300">
+                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300">
                                                         {{ ucfirst($karya->kategori) }}
                                                     </span>
                                                 @endif
@@ -230,7 +230,7 @@
                                                     type="button"
                                                     wire:click="selectTag({{ $karya->id }}, '{{ $tag }}')"
                                                     @class([
-                                                        'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition cursor-pointer',
+                                                        'inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold border transition cursor-pointer',
                                                         'bg-sky-600 border-sky-600 text-white shadow-2xs font-semibold' => $isSelected,
                                                         'bg-white dark:bg-gray-900 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300 hover:border-slate-300 dark:hover:border-gray-600 hover:bg-slate-50 dark:hover:bg-gray-800' => !$isSelected,
                                                     ])
@@ -267,14 +267,14 @@
                                     <button
                                         type="button"
                                         wire:click="openRejectModal({{ $karya->id }})"
-                                        class="px-4 py-2 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-semibold hover:bg-slate-50 dark:hover:bg-gray-800 hover:border-slate-400 transition"
+                                        class="px-4 py-2 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-lg text-xs font-bold hover:bg-slate-50 dark:hover:bg-gray-800 hover:border-slate-400 transition"
                                     >
                                         {{ __('Tolak / Minta Revisi') }}
                                     </button>
                                     <button
                                         type="button"
                                         wire:click="openApproveModal({{ $karya->id }})"
-                                        class="px-5 py-2 bg-emerald-600 text-white rounded-lg text-xs font-semibold hover:bg-emerald-700 transition flex items-center gap-2 shadow-2xs"
+                                        class="px-5 py-2 bg-emerald-600 text-white rounded-lg text-xs font-bold hover:bg-emerald-700 transition flex items-center gap-2 shadow-2xs"
                                     >
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
@@ -328,7 +328,7 @@
                     <div class="flex justify-between items-center pt-1 border-t border-slate-200/60 dark:border-gray-700">
                         <span class="text-slate-500 dark:text-gray-400">{{ __('Tag yang Diberikan:') }}</span>
                         @if($chosenTag)
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
                                 + {{ $chosenTag }}
                             </span>
                         @else
@@ -341,7 +341,7 @@
                     <button 
                         type="button" 
                         wire:click="closeApproveModal" 
-                        class="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition"
+                        class="px-4 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition"
                     >
                         {{ __('Batal') }}
                     </button>
@@ -350,7 +350,7 @@
                         wire:click="confirmApprove"
                         wire:loading.attr="disabled"
                         wire:target="confirmApprove"
-                        class="px-5 py-2 text-xs font-semibold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
+                        class="px-5 py-2 text-xs font-bold text-white bg-emerald-600 rounded-lg hover:bg-emerald-700 transition flex items-center gap-1.5 shadow-xs disabled:opacity-50"
                     >
                         <span wire:loading.remove wire:target="confirmApprove">{{ __('Ya, Setujui & Publikasikan') }}</span>
                         <span wire:loading wire:target="confirmApprove">{{ __('Memproses...') }}</span>
@@ -419,12 +419,12 @@
                     @if($previewItem?->url_demo || $previewItem?->url_repo)
                         <div class="flex flex-wrap gap-3">
                             @if($previewItem->url_demo)
-                                <a href="{{ $previewItem->url_demo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 rounded-lg text-xs font-semibold hover:bg-sky-100 dark:hover:bg-sky-500/30">
+                                <a href="{{ $previewItem->url_demo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30 rounded-lg text-xs font-bold hover:bg-sky-100 dark:hover:bg-sky-500/30">
                                     🔗 {{ __('Buka Live Demo ↗') }}
                                 </a>
                             @endif
                             @if($previewItem->url_repo)
-                                <a href="{{ $previewItem->url_repo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-200 border border-slate-200 dark:border-gray-700 rounded-lg text-xs font-semibold hover:bg-slate-200 dark:hover:bg-gray-700">
+                                <a href="{{ $previewItem->url_repo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-200 border border-slate-200 dark:border-gray-700 rounded-lg text-xs font-bold hover:bg-slate-200 dark:hover:bg-gray-700">
                                     📦 {{ __('Repositori Kode ↗') }}
                                 </a>
                             @endif
@@ -475,7 +475,7 @@
                     <button 
                         type="button" 
                         wire:click="closePreviewModal" 
-                        class="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800 transition shadow-2xs"
+                        class="px-4 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-800 transition shadow-2xs"
                     >
                         {{ __('Tutup Preview') }}
                     </button>
@@ -519,7 +519,7 @@
                 @error("rejectNotes.$rejectingId") <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
 
                 <div class="flex items-center justify-end gap-3 mt-4">
-                    <button type="button" wire:click="closeRejectModal" class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800">
+                    <button type="button" wire:click="closeRejectModal" class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg text-xs font-bold text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800">
                         {{ __('Batal') }}
                     </button>
                     <button
@@ -527,7 +527,7 @@
                         wire:click="confirmReject"
                         wire:loading.attr="disabled"
                         wire:target="confirmReject"
-                        class="px-4 py-2 bg-rose-600 text-white rounded-lg text-xs font-semibold hover:bg-rose-700 transition disabled:opacity-60 shadow-xs"
+                        class="px-4 py-2 bg-rose-600 text-white rounded-lg text-xs font-bold hover:bg-rose-700 transition disabled:opacity-60 shadow-xs"
                     >
                         {{ __('Kirim Penolakan & Kembalikan ke Draft') }}
                     </button>

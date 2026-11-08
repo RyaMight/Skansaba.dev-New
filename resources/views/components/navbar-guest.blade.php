@@ -29,23 +29,23 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
                     </svg>
                 @endif
-                <span class="font-bold text-lg tracking-tight uppercase" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
+                <span class="font-bold text-lg uppercase" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.dev' }}</span>
             </a>
 
             {{-- Desktop Menu --}}
             <div class="hidden lg:flex items-center gap-7">
                 <a href="/" @class([
                     'text-sm transition hover-primary',
-                    'font-bold text-gray-900 dark:text-gray-100' => $isBerandaActive,
-                    'font-medium text-gray-500 dark:text-gray-400' => !$isBerandaActive,
+                    'font-semibold text-gray-900 dark:text-gray-100' => $isBerandaActive,
+                    'font-semibold text-gray-500 dark:text-gray-400' => !$isBerandaActive,
                 ])>{{ __('Beranda') }}</a>
 
                 {{-- Profil Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
                         'flex items-center gap-1 text-sm transition hover-primary cursor-pointer',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isProfilActive,
-                        'font-medium text-gray-500 dark:text-gray-400' => !$isProfilActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isProfilActive,
+                        'font-semibold text-gray-500 dark:text-gray-400' => !$isProfilActive,
                     ])>
                         {{ __('Profil') }}
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,12 +55,12 @@
                     <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-full mt-3 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/struktur-organisasi" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isStrukturActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isStrukturActive,
                             'text-gray-600 dark:text-gray-300' => !$isStrukturActive,
                         ])>{{ __('Struktur Organisasi') }}</a>
                         <a href="/fasilitas" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isFasilitasActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isFasilitasActive,
                             'text-gray-600 dark:text-gray-300' => !$isFasilitasActive,
                         ])>{{ __('Fasilitas') }}</a>
                     </div>
@@ -70,8 +70,8 @@
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
                         'flex items-center gap-1 text-sm transition hover-primary cursor-pointer',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isSiswaActive,
-                        'font-medium text-gray-500 dark:text-gray-400' => !$isSiswaActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isSiswaActive,
+                        'font-semibold text-gray-500 dark:text-gray-400' => !$isSiswaActive,
                     ])>
                         {{ __('Siswa') }}
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,17 +81,17 @@
                     <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-full mt-3 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/prestasi" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isPrestasiActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isPrestasiActive,
                             'text-gray-600 dark:text-gray-300' => !$isPrestasiActive,
                         ])>{{ __('Prestasi') }}</a>
                         <a href="/karya" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isKaryaActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isKaryaActive,
                             'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
                         ])>{{ __('Karya Siswa') }}</a>
                         <a href="/alumni" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isAlumniActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isAlumniActive,
                             'text-gray-600 dark:text-gray-300' => !$isAlumniActive,
                         ])>{{ __('Alumni') }}</a>
                     </div>
@@ -99,16 +99,16 @@
 
                 <a href="/unit-produksi" @class([
                     'text-sm transition hover-primary',
-                    'font-bold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
-                    'font-medium text-gray-500 dark:text-gray-400' => !$isUnitProduksiActive,
+                    'font-semibold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
+                    'font-semibold text-gray-500 dark:text-gray-400' => !$isUnitProduksiActive,
                 ])>{{ __('Unit Produksi') }}</a>
 
                 {{-- Informasi Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
                         'flex items-center gap-1 text-sm transition hover-primary cursor-pointer',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isInformasiActive,
-                        'font-medium text-gray-500 dark:text-gray-400' => !$isInformasiActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isInformasiActive,
+                        'font-semibold text-gray-500 dark:text-gray-400' => !$isInformasiActive,
                     ])>
                         {{ __('Informasi') }}
                         <svg class="w-3.5 h-3.5 transition-transform duration-200" :class="{ 'rotate-180': open }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,17 +118,17 @@
                     <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="absolute top-full mt-3 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/berita" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isBeritaActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isBeritaActive,
                             'text-gray-600 dark:text-gray-300' => !$isBeritaActive,
                         ])>{{ __('Berita') }}</a>
                         <a href="/dokumen" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isDokumenActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isDokumenActive,
                             'text-gray-600 dark:text-gray-300' => !$isDokumenActive,
                         ])>{{ __('Dokumen') }}</a>
                         <a href="/gallery" @class([
                             'block px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-gray-800 hover-primary',
-                            'font-bold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isGalleryActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isGalleryActive,
                             'text-gray-600 dark:text-gray-300' => !$isGalleryActive,
                         ])>{{ __('Gallery') }}</a>
                     </div>
@@ -147,7 +147,7 @@
                         <svg class="w-5 h-5 text-gray-400 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                         </svg>
-                        <a href="/login" class="font-medium text-gray-700 dark:text-gray-200 hover-primary transition">{{ __('Masuk') }}</a>
+                        <a href="/login" class="font-semibold text-gray-700 dark:text-gray-200 hover-primary transition">{{ __('Masuk') }}</a>
                     </div>
                 @else
                     <div x-data="{ open: false }" @click.away="open = false" class="relative">
@@ -271,7 +271,7 @@
         <div class="px-6 py-2 pb-8 space-y-1">
             <a href="/" @class([
                 'block py-2.5 border-b border-gray-100 dark:border-gray-800 hover-primary',
-                'font-bold text-gray-900 dark:text-gray-100' => $isBerandaActive,
+                'font-semibold text-gray-900 dark:text-gray-100' => $isBerandaActive,
                 'font-semibold text-gray-600 dark:text-gray-300' => !$isBerandaActive,
             ])>{{ __('Beranda') }}</a>
 
@@ -279,7 +279,7 @@
             <div x-data="{ expanded: {{ $isProfilActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
                 <button @click="expanded = !expanded" @class([
                     'w-full flex items-center justify-between py-2.5 cursor-pointer hover-primary',
-                    'font-bold text-gray-900 dark:text-gray-100' => $isProfilActive,
+                    'font-semibold text-gray-900 dark:text-gray-100' => $isProfilActive,
                     'font-semibold text-gray-600 dark:text-gray-300' => !$isProfilActive,
                 ])>
                     <span>{{ __('Profil') }}</span>
@@ -290,12 +290,12 @@
                 <div x-show="expanded" x-transition class="pl-4 pb-2 space-y-1">
                     <a href="/struktur-organisasi" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isStrukturActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isStrukturActive,
                         'text-gray-600 dark:text-gray-300' => !$isStrukturActive,
                     ])>{{ __('Struktur Organisasi') }}</a>
                     <a href="/fasilitas" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isFasilitasActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isFasilitasActive,
                         'text-gray-600 dark:text-gray-300' => !$isFasilitasActive,
                     ])>{{ __('Fasilitas') }}</a>
                 </div>
@@ -305,7 +305,7 @@
             <div x-data="{ expanded: {{ $isSiswaActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
                 <button @click="expanded = !expanded" @class([
                     'w-full flex items-center justify-between py-2.5 cursor-pointer hover-primary',
-                    'font-bold text-gray-900 dark:text-gray-100' => $isSiswaActive,
+                    'font-semibold text-gray-900 dark:text-gray-100' => $isSiswaActive,
                     'font-semibold text-gray-600 dark:text-gray-300' => !$isSiswaActive,
                 ])>
                     <span>{{ __('Siswa') }}</span>
@@ -316,17 +316,17 @@
                 <div x-show="expanded" x-transition class="pl-4 pb-2 space-y-1">
                     <a href="/prestasi" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isPrestasiActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isPrestasiActive,
                         'text-gray-600 dark:text-gray-300' => !$isPrestasiActive,
                     ])>{{ __('Prestasi') }}</a>
                     <a href="/karya" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isKaryaActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isKaryaActive,
                         'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
                     ])>{{ __('Karya Siswa') }}</a>
                     <a href="/alumni" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isAlumniActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isAlumniActive,
                         'text-gray-600 dark:text-gray-300' => !$isAlumniActive,
                     ])>{{ __('Alumni') }}</a>
                 </div>
@@ -334,7 +334,7 @@
 
             <a href="/unit-produksi" @class([
                 'block py-2.5 border-b border-gray-100 dark:border-gray-800 hover-primary',
-                'font-bold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
+                'font-semibold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
                 'font-semibold text-gray-600 dark:text-gray-300' => !$isUnitProduksiActive,
             ])>{{ __('Unit Produksi') }}</a>
 
@@ -342,7 +342,7 @@
             <div x-data="{ expanded: {{ $isInformasiActive ? 'true' : 'false' }} }" class="border-b border-gray-100 dark:border-gray-800">
                 <button @click="expanded = !expanded" @class([
                     'w-full flex items-center justify-between py-2.5 cursor-pointer hover-primary',
-                    'font-bold text-gray-900 dark:text-gray-100' => $isInformasiActive,
+                    'font-semibold text-gray-900 dark:text-gray-100' => $isInformasiActive,
                     'font-semibold text-gray-600 dark:text-gray-300' => !$isInformasiActive,
                 ])>
                     <span>{{ __('Informasi') }}</span>
@@ -353,24 +353,24 @@
                 <div x-show="expanded" x-transition class="pl-4 pb-2 space-y-1">
                     <a href="/berita" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isBeritaActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isBeritaActive,
                         'text-gray-600 dark:text-gray-300' => !$isBeritaActive,
                     ])>{{ __('Berita') }}</a>
                     <a href="/dokumen" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isDokumenActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isDokumenActive,
                         'text-gray-600 dark:text-gray-300' => !$isDokumenActive,
                     ])>{{ __('Dokumen') }}</a>
                     <a href="/gallery" @class([
                         'block py-2 text-sm hover-primary',
-                        'font-bold text-gray-900 dark:text-gray-100' => $isGalleryActive,
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isGalleryActive,
                         'text-gray-600 dark:text-gray-300' => !$isGalleryActive,
                     ])>{{ __('Gallery') }}</a>
                 </div>
             </div>
 
             @guest
-                <a href="/login" class="block py-2 font-medium pt-2 border-t border-gray-100 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover-primary">{{ __('Masuk') }}</a>
+                <a href="/login" class="block py-2 font-semibold pt-2 border-t border-gray-100 dark:border-gray-800 text-gray-700 dark:text-gray-200 hover-primary">{{ __('Masuk') }}</a>
             @else
                 {{-- Akun Mobile --}}
                 <div x-data="{ open: false }" class="pt-2 border-t">
@@ -460,7 +460,7 @@
                         @csrf
                         <button 
                             type="submit" 
-                            class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-semibold transition cursor-pointer"
+                            class="px-4 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-lg font-bold transition cursor-pointer"
                         >
                             {{ __('Ya, Logout') }}
                         </button>

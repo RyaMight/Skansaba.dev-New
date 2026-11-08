@@ -130,9 +130,9 @@
                         </td>
                         <td class="px-6 py-4">
                             @if($mitra->status === 'published')
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 dark:bg-green-500/20 text-green-800">Published</span>
+                                <span class="px-2 py-1 text-xs font-bold rounded-full bg-green-100 dark:bg-green-500/20 text-green-800">Published</span>
                             @else
-                                <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">Draft</span>
+                                <span class="px-2 py-1 text-xs font-bold rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">Draft</span>
                             @endif
                         </td>
                         <td class="px-6 py-4 text-right space-x-2">
@@ -287,7 +287,7 @@
                             <button
                                 type="button"
                                 wire:click="closeModal"
-                                class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                                class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition"
                             >
                                 Batal
                             </button>

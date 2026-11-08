@@ -12,7 +12,7 @@
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Alumni') }}</span>
             </div>
             
-            <h1 class="text-2xl sm:text-3xl lg:text-5xl font-bold text-gray-900 dark:text-gray-50 mb-3">
+            <h1 class="text-3xl sm:text-4xl lg:text-[58px] font-bold text-gray-900 dark:text-gray-50 leading-tight mb-3">
                 {{ __('Jejak') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Alumni RPL') }}</span>
             </h1>
             <p class="text-gray-600 dark:text-gray-300 text-sm sm:text-lg max-w-4xl mx-auto">{{ __('Alumni Jurusan Rekayasa Perangkat Lunak yang telah berkarir di berbagai bidang') }}</p>
@@ -64,7 +64,7 @@
                                     @endif
                                     
                                     <div class="p-5">
-                                        <h3 class="text-lg font-bold text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
+                                        <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
                                         
                                         <div class="space-y-2 mb-3">
                                             @if($alumni->status_alumni)
@@ -112,7 +112,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-semibold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data Alumni') }}</h3>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-50 mb-2">{{ __('Belum Ada Data Alumni') }}</h3>
                     <p class="text-gray-600 dark:text-gray-300">
                         @if($search || $filterStatus)
                             {{ __('Tidak ada alumni yang sesuai dengan pencarian Anda') }}

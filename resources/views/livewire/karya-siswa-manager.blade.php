@@ -3,7 +3,7 @@
         {{-- Header Section --}}
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <div>
-                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50 tracking-tight">
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-50">
                     {{ auth()->user()->role === 'siswa' ? __('Karya Saya') : __('Koleksi Karya Siswa') }}
                 </h1>
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">
@@ -15,7 +15,7 @@
                     <button 
                         type="button" 
                         wire:click="openCreateModal"
-                        class="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-xl transition shadow-xs cursor-pointer"
+                        class="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-xl transition shadow-xs cursor-pointer"
                     >
                         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -27,7 +27,7 @@
                     <a 
                         href="{{ route('karya-siswa.verifikasi') }}" 
                         wire:navigate
-                        class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-xs"
+                        class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-xs"
                     >
                         <svg class="w-4 h-4 text-amber-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -97,7 +97,7 @@
                     <div class="mt-3">
                         <span class="text-[11px] font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider block">{{ __('Draft') }}</span>
                         <div class="flex items-baseline gap-1.5 mt-0.5">
-                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['draft'] }}</span>
+                            <span class="text-2xl font-bold text-slate-900 dark:text-gray-50">{{ $stats['draft'] }}</span>
                             <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Karya') }}</span>
                         </div>
                     </div>
@@ -147,7 +147,7 @@
                     <div class="mt-3">
                         <span class="text-[11px] font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider block">{{ __('Sedang di Review') }}</span>
                         <div class="flex items-baseline gap-1.5 mt-0.5">
-                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['review'] }}</span>
+                            <span class="text-2xl font-bold text-slate-900 dark:text-gray-50">{{ $stats['review'] }}</span>
                             <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Karya') }}</span>
                         </div>
                     </div>
@@ -189,7 +189,7 @@
                     <div class="mt-3">
                         <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block">{{ __('Terpublikasi') }}</span>
                         <div class="flex items-baseline gap-1.5 mt-0.5">
-                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['published'] }}</span>
+                            <span class="text-2xl font-bold text-slate-900 dark:text-gray-50">{{ $stats['published'] }}</span>
                             <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Karya') }}</span>
                         </div>
                     </div>
@@ -231,7 +231,7 @@
                     <div class="mt-3">
                         <span class="text-[11px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">{{ __('Keterangan') }}</span>
                         <div class="flex items-baseline gap-1.5 mt-0.5">
-                            <span class="text-2xl font-extrabold text-slate-900 dark:text-gray-50">{{ $stats['keterangan'] }}</span>
+                            <span class="text-2xl font-bold text-slate-900 dark:text-gray-50">{{ $stats['keterangan'] }}</span>
                             <span class="text-xs text-slate-400 dark:text-gray-500 font-medium">{{ __('Riwayat') }}</span>
                         </div>
                     </div>
@@ -335,7 +335,7 @@
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-gray-700">
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-300 border border-slate-200 dark:border-gray-700">
                             <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
@@ -351,7 +351,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
                         </div>
-                        <h3 class="text-sm font-semibold text-slate-800 dark:text-gray-200">{{ __('Belum Ada Riwayat Keterangan') }}</h3>
+                        <h3 class="text-sm font-bold text-slate-800 dark:text-gray-200">{{ __('Belum Ada Riwayat Keterangan') }}</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400 max-w-md mx-auto mt-1">
                             {{ __('Saat Anda mengirimkan karya atau saat guru/admin memberikan persetujuan maupun catatan penolakan, keterangannya akan otomatis muncul di sini.') }}
                         </p>
@@ -474,7 +474,7 @@
                                             <button 
                                                 type="button" 
                                                 wire:click="openDetailModal({{ $log->karya_siswa_id }})"
-                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-white dark:bg-gray-800 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-700/80 transition shadow-2xs cursor-pointer"
+                                                class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-white dark:bg-gray-800 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-700/80 transition shadow-2xs cursor-pointer"
                                             >
                                                 <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -487,7 +487,7 @@
                                                 <button 
                                                     type="button" 
                                                     wire:click="openEditModal({{ $log->karya_siswa_id }})"
-                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-sky-600 hover:bg-sky-700 text-white transition shadow-xs cursor-pointer"
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-sky-600 hover:bg-sky-700 text-white transition shadow-xs cursor-pointer"
                                                 >
                                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
@@ -500,7 +500,7 @@
                                                 <a 
                                                     href="{{ route('karya.detail', $log->karya_siswa_id) }}" 
                                                     target="_blank"
-                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs cursor-pointer"
+                                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-xs cursor-pointer"
                                                 >
                                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
@@ -576,7 +576,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                     </svg>
                 </div>
-                <h3 class="text-base font-semibold text-slate-800 dark:text-gray-100">{{ __('Tidak ada karya yang ditemukan') }}</h3>
+                <h3 class="text-base font-bold text-slate-800 dark:text-gray-100">{{ __('Tidak ada karya yang ditemukan') }}</h3>
                 <p class="text-xs text-slate-500 dark:text-gray-400 mt-1 max-w-sm mx-auto">
                     {{ auth()->user()->role === 'siswa' ? __('Kamu belum memiliki karya atau tidak sesuai filter. Buat karya pertamamu sekarang!') : __('Coba sesuaikan kata kunci pencarian atau ubah filter kategori dan status.') }}
                 </p>
@@ -585,7 +585,7 @@
                         <button 
                             type="button" 
                             wire:click="openCreateModal"
-                            class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition shadow-xs cursor-pointer"
+                            class="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 rounded-xl transition shadow-xs cursor-pointer"
                         >
                             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
@@ -626,7 +626,7 @@
                                     </span>
 
                                     @if($karya->kategori)
-                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/95 dark:bg-gray-900/90 text-slate-700 dark:text-gray-200 shadow-2xs border border-slate-200/60 dark:border-gray-700">
+                                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/95 dark:bg-gray-900/90 text-slate-700 dark:text-gray-200 shadow-2xs border border-slate-200/60 dark:border-gray-700">
                                             {{ ucfirst($karya->kategori) }}
                                         </span>
                                     @endif
@@ -659,7 +659,7 @@
                                 @if(!empty($karya->tags) && is_array($karya->tags))
                                     <div class="flex flex-wrap gap-1 mt-3">
                                         @foreach(array_slice($karya->tags, 0, 2) as $tag)
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 border border-slate-200/60 dark:border-gray-700">
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 border border-slate-200/60 dark:border-gray-700">
                                                 {{ $tag }}
                                             </span>
                                         @endforeach
@@ -736,7 +736,7 @@
                                         <button 
                                             type="button" 
                                             wire:click="submitDraft({{ $karya->id }})" 
-                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-lg transition shadow-2xs cursor-pointer shrink-0"
+                                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-white bg-sky-600 hover:bg-sky-700 active:bg-sky-800 rounded-lg transition shadow-2xs cursor-pointer shrink-0"
                                             title="{{ __('Ajukan karya ini untuk diverifikasi guru/admin') }}"
                                         >
                                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -747,7 +747,7 @@
                                         <button 
                                             type="button" 
                                             wire:click="openEditModal({{ $karya->id }})" 
-                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition shadow-2xs cursor-pointer shrink-0"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition shadow-2xs cursor-pointer shrink-0"
                                             title="{{ __('Edit draf karya') }}"
                                         >
                                             <svg class="w-3 h-3 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
@@ -755,7 +755,7 @@
                                         </button>
                                     </div>
                                 @elseif($karya->status === 'review')
-                                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-medium text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 border border-amber-200/80 dark:border-amber-500/20 rounded-lg shrink-0" title="{{ __('Karya sedang dalam proses verifikasi guru/admin dan terkunci dari perubahan atau penghapusan.') }}">
+                                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 border border-amber-200/80 dark:border-amber-500/20 rounded-lg shrink-0" title="{{ __('Karya sedang dalam proses verifikasi guru/admin dan terkunci dari perubahan atau penghapusan.') }}">
                                         <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                         </svg>
@@ -765,7 +765,7 @@
                                     <a 
                                         href="{{ route('karya.detail', $karya->id) }}" 
                                         target="_blank"
-                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border border-sky-200/80 dark:border-sky-500/20 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-500/20 transition cursor-pointer shrink-0"
+                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-sky-600 dark:text-sky-400 bg-sky-50 dark:bg-sky-500/10 border border-sky-200/80 dark:border-sky-500/20 rounded-lg hover:bg-sky-100 dark:hover:bg-sky-500/20 transition cursor-pointer shrink-0"
                                     >
                                         <span>{{ __('Lihat Publik') }}</span>
                                         <span class="text-[10px]">&nearr;</span>
@@ -776,7 +776,7 @@
                                     <button 
                                         type="button" 
                                         wire:click="openDetailModal({{ $karya->id }})" 
-                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 hover:text-slate-900 dark:hover:text-white transition shadow-2xs cursor-pointer shrink-0"
+                                        class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 hover:text-slate-900 dark:hover:text-white transition shadow-2xs cursor-pointer shrink-0"
                                     >
                                         <svg class="w-3.5 h-3.5 text-slate-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -789,7 +789,7 @@
                                         <button 
                                             type="button" 
                                             wire:click="confirmDelete({{ $karya->id }})" 
-                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-rose-700 dark:text-rose-400 bg-rose-50/70 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:text-rose-800 transition cursor-pointer shrink-0"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-400 bg-rose-50/70 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:text-rose-800 transition cursor-pointer shrink-0"
                                             title="{{ __('Hapus karya ini') }}"
                                         >
                                             <svg class="w-3.5 h-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -803,7 +803,7 @@
                                 <button 
                                     type="button" 
                                     wire:click="openDetailModal({{ $karya->id }})" 
-                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 hover:text-slate-900 dark:hover:text-white transition shadow-2xs cursor-pointer"
+                                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-200 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 hover:text-slate-900 dark:hover:text-white transition shadow-2xs cursor-pointer"
                                 >
                                     <svg class="w-3.5 h-3.5 text-slate-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -815,7 +815,7 @@
                                 <button 
                                     type="button" 
                                     wire:click="confirmDelete({{ $karya->id }})" 
-                                    class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-rose-700 dark:text-rose-400 bg-rose-50/70 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:text-rose-800 transition cursor-pointer"
+                                    class="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-400 bg-rose-50/70 dark:bg-rose-500/10 border border-rose-200/80 dark:border-rose-500/20 rounded-lg hover:bg-rose-100 dark:hover:bg-rose-500/20 hover:text-rose-800 transition cursor-pointer"
                                     title="{{ __('Hapus karya ini') }}"
                                 >
                                     <svg class="w-3.5 h-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -932,7 +932,7 @@
                                 <a 
                                     href="{{ route('karya-siswa.verifikasi') }}" 
                                     wire:navigate
-                                    class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-semibold shrink-0 transition shadow-2xs"
+                                    class="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg text-xs font-bold shrink-0 transition shadow-2xs"
                                 >
                                     <span>{{ __('Verifikasi Sekarang') }}</span>
                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -963,7 +963,7 @@
                                 <button
                                     type="button"
                                     wire:click="submitDraft({{ $detailKarya->id }})"
-                                    class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white rounded-lg text-xs font-semibold shrink-0 transition shadow-2xs cursor-pointer"
+                                    class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white rounded-lg text-xs font-bold shrink-0 transition shadow-2xs cursor-pointer"
                                     title="{{ __('Kirim karya ini sekarang untuk diverifikasi') }}"
                                 >
                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -1004,14 +1004,14 @@
                     @if($detailKarya->url_demo || $detailKarya->url_repo)
                         <div class="flex flex-wrap gap-2.5">
                             @if($detailKarya->url_demo)
-                                <a href="{{ $detailKarya->url_demo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20 rounded-lg font-semibold hover:bg-sky-100 dark:hover:bg-sky-500/20 transition">
+                                <a href="{{ $detailKarya->url_demo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20 rounded-lg font-bold hover:bg-sky-100 dark:hover:bg-sky-500/20 transition">
                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                                     <span>{{ __('Buka Live Demo') }}</span>
                                     <span class="text-xs">&nearr;</span>
                                 </a>
                             @endif
                             @if($detailKarya->url_repo)
-                                <a href="{{ $detailKarya->url_repo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-200 border border-slate-200 dark:border-gray-700 rounded-lg font-semibold hover:bg-slate-200 dark:hover:bg-gray-700 transition">
+                                <a href="{{ $detailKarya->url_repo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 dark:bg-gray-800 text-slate-700 dark:text-gray-200 border border-slate-200 dark:border-gray-700 rounded-lg font-bold hover:bg-slate-200 dark:hover:bg-gray-700 transition">
                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                                     <span>{{ __('Repositori Kode') }}</span>
                                     <span class="text-xs">&nearr;</span>
@@ -1072,7 +1072,7 @@
                         <button 
                             type="button" 
                             wire:click="confirmDelete({{ $detailKarya->id }})" 
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-rose-700 dark:text-rose-400 bg-white dark:bg-gray-900 border border-rose-200 dark:border-rose-500/30 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-500/10 transition cursor-pointer"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-400 bg-white dark:bg-gray-900 border border-rose-200 dark:border-rose-500/30 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-500/10 transition cursor-pointer"
                         >
                             <svg class="w-3.5 h-3.5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -1093,7 +1093,7 @@
                             <button
                                 type="button"
                                 wire:click="openEditModal({{ $detailKarya->id }})"
-                                class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition shadow-2xs cursor-pointer"
+                                class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition shadow-2xs cursor-pointer"
                             >
                                 <svg class="w-3.5 h-3.5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                 <span>{{ __('Edit Karya') }}</span>
@@ -1102,7 +1102,7 @@
                             <button
                                 type="button"
                                 wire:click="submitDraft({{ $detailKarya->id }})"
-                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white rounded-lg text-xs font-semibold transition shadow-2xs cursor-pointer"
+                                class="inline-flex items-center gap-1.5 px-4 py-2 bg-sky-600 hover:bg-sky-700 active:bg-sky-800 text-white rounded-lg text-xs font-bold transition shadow-2xs cursor-pointer"
                             >
                                 <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                 <span>{{ __('Ajukan Verifikasi') }}</span>
@@ -1112,7 +1112,7 @@
                         <button 
                             type="button" 
                             wire:click="closeDetailModal" 
-                            class="px-4 py-2 text-xs font-semibold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition shadow-2xs cursor-pointer"
+                            class="px-4 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-100 dark:hover:bg-gray-700 transition shadow-2xs cursor-pointer"
                         >
                             {{ __('Tutup') }}
                         </button>
@@ -1154,14 +1154,14 @@
                     <button 
                         type="button" 
                         wire:click="cancelDelete" 
-                        class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg text-xs font-semibold text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800 transition cursor-pointer"
+                        class="px-4 py-2 border border-slate-300 dark:border-gray-700 rounded-lg text-xs font-bold text-slate-700 dark:text-gray-200 hover:bg-slate-50 dark:hover:bg-gray-800 transition cursor-pointer"
                     >
                         {{ __('Batal') }}
                     </button>
                     <button
                         type="button"
                         wire:click="delete"
-                        class="px-5 py-2 bg-rose-600 text-white rounded-lg text-xs font-semibold hover:bg-rose-700 transition shadow-xs cursor-pointer"
+                        class="px-5 py-2 bg-rose-600 text-white rounded-lg text-xs font-bold hover:bg-rose-700 transition shadow-xs cursor-pointer"
                     >
                         {{ __('Ya, Hapus Karya') }}
                     </button>
@@ -1334,7 +1334,7 @@
                                         <img src="{{ $coverPreview }}" class="w-full h-full object-cover" alt="Preview Cover">
                                     </div>
                                     <div class="flex-1 min-w-0 text-center sm:text-left">
-                                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-semibold {{ $cover_image ? 'bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300' : 'bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-300' }} mb-1">
+                                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-[10px] font-bold {{ $cover_image ? 'bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300' : 'bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-300' }} mb-1">
                                             <span class="w-1.5 h-1.5 rounded-full {{ $cover_image ? 'bg-sky-500' : 'bg-emerald-500' }}"></span>
                                             <span>{{ $cover_image ? __('Cover Baru Terpilih') : __('Cover Tersimpan') }}</span>
                                         </div>
@@ -1342,14 +1342,14 @@
                                         <p class="text-[11px] text-slate-400 dark:text-gray-400 mt-0.5">{{ __('Rasio 16:9 • Tampil di kartu publik') }}</p>
                                     </div>
                                     <div class="flex items-center gap-2 shrink-0">
-                                        <label class="relative px-3 py-1.5 bg-slate-100 dark:bg-gray-700 hover:bg-slate-200 dark:hover:bg-gray-600 border border-slate-300 dark:border-gray-600 rounded-lg text-xs font-semibold text-slate-700 dark:text-gray-200 transition cursor-pointer">
+                                        <label class="relative px-3 py-1.5 bg-slate-100 dark:bg-gray-700 hover:bg-slate-200 dark:hover:bg-gray-600 border border-slate-300 dark:border-gray-600 rounded-lg text-xs font-bold text-slate-700 dark:text-gray-200 transition cursor-pointer">
                                             {{ __('Ganti Cover') }}
                                             <input type="file" wire:model="cover_image" accept="image/png,image/jpeg,image/webp" class="sr-only">
                                         </label>
                                         <button 
                                             type="button" 
                                             wire:click="removeCover" 
-                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition cursor-pointer"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition cursor-pointer"
                                             title="{{ __('Hapus cover') }}"
                                         >
                                             <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -1390,7 +1390,7 @@
                                 </div>
                             @endif
 
-                            <div wire:loading wire:target="cover_image" class="p-2.5 bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 rounded-xl text-xs text-sky-700 dark:text-sky-300 font-medium flex items-center gap-2">
+                            <div wire:loading wire:target="cover_image" class="p-2.5 bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 rounded-xl text-xs text-sky-700 dark:text-sky-300 font-bold flex items-center gap-2">
                                 <svg class="animate-spin w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
                                 <span>{{ __('Mengunggah dan memproses gambar cover...') }}</span>
                             </div>
@@ -1445,7 +1445,7 @@
                                         <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-slate-900/80 text-white rounded">
                                             {{ __('Foto') }} {{ $index + 1 }}
                                         </span>
-                                        <span class="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 text-[9px] font-semibold bg-slate-900/80 text-white rounded">
+                                        <span class="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-slate-900/80 text-white rounded">
                                             {{ __('Tersimpan') }}
                                         </span>
                                     </div>
@@ -1478,7 +1478,7 @@
                                             <span class="absolute top-1.5 left-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-sky-700 text-white rounded">
                                                 {{ __('Foto') }} {{ $photoNumber }}
                                             </span>
-                                            <span class="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 text-[9px] font-semibold bg-sky-600 text-white rounded">
+                                            <span class="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 text-[9px] font-bold bg-sky-600 text-white rounded">
                                                 {{ __('Baru') }}
                                             </span>
                                         </div>
@@ -1527,7 +1527,7 @@
                                 </div>
                             @endif
 
-                            <div wire:loading wire:target="new_screenshots" class="p-2.5 bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 rounded-xl text-xs text-sky-700 dark:text-sky-300 font-medium flex items-center gap-2">
+                            <div wire:loading wire:target="new_screenshots" class="p-2.5 bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/20 rounded-xl text-xs text-sky-700 dark:text-sky-300 font-bold flex items-center gap-2">
                                 <svg class="animate-spin w-4 h-4 text-sky-600 dark:text-sky-400 shrink-0" fill="none" viewBox="0 0 24 24">
                                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
@@ -1551,7 +1551,7 @@
                                             {{ __('3. Bukti Kepemilikan & Orisinalitas Karya') }}
                                         </label>
                                         @if($totalBukti > 0)
-                                            <span class="text-[11px] px-2 py-0.5 rounded-full font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300">
+                                            <span class="text-[11px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-300">
                                                 {{ $totalBukti }} {{ __('Berkas') }}
                                             </span>
                                         @endif
@@ -1618,7 +1618,7 @@
                                             <div class="flex items-center gap-2 min-w-0">
                                                 <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                                 <span class="truncate font-medium text-slate-700 dark:text-gray-200">{{ basename($path) }}</span>
-                                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300 font-semibold shrink-0">{{ __('Tersimpan') }}</span>
+                                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300 font-bold shrink-0">{{ __('Tersimpan') }}</span>
                                             </div>
                                             <div class="flex items-center gap-1 shrink-0 ml-2">
                                                 <a href="{{ \Illuminate\Support\Facades\Storage::url($path) }}" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline p-1 text-[11px] font-semibold">
@@ -1646,7 +1646,7 @@
                                                     @if($size = $this->getBuktiFileSize($file))
                                                         <span class="text-[10px] text-slate-400 shrink-0">({{ $size }})</span>
                                                     @endif
-                                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 font-semibold shrink-0">{{ __('Baru') }}</span>
+                                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 font-bold shrink-0">{{ __('Baru') }}</span>
                                                 </div>
                                                 <button 
                                                     type="button" 
@@ -1699,7 +1699,7 @@
                     <button 
                         type="button" 
                         wire:click="closeCreateModal" 
-                        class="px-4 py-2 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-xl hover:bg-slate-100 dark:hover:bg-gray-700 text-xs font-semibold transition cursor-pointer"
+                        class="px-4 py-2 border border-slate-300 dark:border-gray-700 text-slate-700 dark:text-gray-200 rounded-xl hover:bg-slate-100 dark:hover:bg-gray-700 text-xs font-bold transition cursor-pointer"
                     >
                         {{ __('Batal') }}
                     </button>
@@ -1708,7 +1708,7 @@
                             type="button" 
                             wire:click="save('draft')" 
                             wire:loading.attr="disabled"
-                            class="px-4 py-2 bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-xl hover:bg-slate-200 dark:hover:bg-gray-600 text-xs font-semibold transition cursor-pointer"
+                            class="px-4 py-2 bg-slate-100 dark:bg-gray-700 text-slate-700 dark:text-gray-200 rounded-xl hover:bg-slate-200 dark:hover:bg-gray-600 text-xs font-bold transition cursor-pointer"
                         >
                             {{ $editingKaryaId ? __('Simpan Sebagai Draft') : __('Simpan Draft') }}
                         </button>
@@ -1716,7 +1716,7 @@
                             type="button" 
                             wire:click="save('review')" 
                             wire:loading.attr="disabled"
-                            class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-semibold transition shadow-xs cursor-pointer inline-flex items-center gap-1.5"
+                            class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-xs font-bold transition shadow-xs cursor-pointer inline-flex items-center gap-1.5"
                         >
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>

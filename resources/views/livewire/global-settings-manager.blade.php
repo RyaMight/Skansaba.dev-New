@@ -82,7 +82,7 @@
                         @endif
 
                         <input type="file" wire:model="new_logo_primary" accept="image/*"
-                            class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#12B4E0] file:text-white hover:file:bg-[#0d8fb3] cursor-pointer">
+                            class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-[#12B4E0] file:text-white hover:file:bg-[#0d8fb3] cursor-pointer">
                         
                         @error('new_logo_primary')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -121,7 +121,7 @@
                         @endif
 
                         <input type="file" wire:model="new_logo_secondary" accept="image/*"
-                            class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#12B4E0] file:text-white hover:file:bg-[#0d8fb3] cursor-pointer">
+                            class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-[#12B4E0] file:text-white hover:file:bg-[#0d8fb3] cursor-pointer">
                         
                         @error('new_logo_secondary')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -160,7 +160,7 @@
                         @endif
 
                         <input type="file" wire:model="new_favicon" accept="image/*"
-                            class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-[#12B4E0] file:text-white hover:file:bg-[#0d8fb3] cursor-pointer">
+                            class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-[#12B4E0] file:text-white hover:file:bg-[#0d8fb3] cursor-pointer">
                         
                         @error('new_favicon')
                             <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -390,7 +390,7 @@
         <!-- Save Button -->
         <div class="mt-6 flex justify-end">
             <button type="submit" 
-                class="px-6 py-3 bg-[#12B4E0] text-white font-medium rounded-lg hover:bg-[#0d8fb3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#12B4E0] transition-colors">
+                class="px-6 py-3 bg-[#12B4E0] text-white font-bold rounded-lg hover:bg-[#0d8fb3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#12B4E0] transition-colors">
                 <span wire:loading.remove wire:target="save">{{ __('Simpan Pengaturan') }}</span>
                 <span wire:loading wire:target="save">{{ __('Menyimpan...') }}</span>
             </button>
