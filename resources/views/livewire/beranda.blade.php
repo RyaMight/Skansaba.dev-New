@@ -360,6 +360,7 @@
                         barLeft: 0,
                         canScroll: false,
                         page: 0,
+                        animating: null,
 
                         init() {
                             this.update();
@@ -416,14 +417,36 @@
                             this.goto(p);
                         },
 
-                        // Lompat per halaman (4 kartu) tanpa animasi geser,
-                        // supaya tidak ada kartu tetangga yang ikut tampil.
+                        // Geser halus per halaman (4 kartu) dengan easing
+                        // easeInOutCubic: mulai perlahan, meluncur, lalu
+                        // berhenti lembut — bukan lompat instan.
+                        animateTo(target) {
+                            const el = this.$refs.track;
+                            if (!el) return;
+                            if (this.animating) cancelAnimationFrame(this.animating);
+                            const start = el.scrollLeft;
+                            const delta = target - start;
+                            if (Math.abs(delta) < 1) { el.scrollLeft = target; return; }
+                            const duration = 900;
+                            const t0 = performance.now();
+                            const ease = (t) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                            const step = (now) => {
+                                const p = Math.min(1, (now - t0) / duration);
+                                el.scrollLeft = start + delta * ease(p);
+                                if (p < 1) {
+                                    this.animating = requestAnimationFrame(step);
+                                } else {
+                                    this.animating = null;
+                                }
+                            };
+                            this.animating = requestAnimationFrame(step);
+                        },
+
                         goto(p) {
                             const el = this.$refs.track;
                             if (!el) return;
                             this.page = p;
-                            el.scrollTo({ left: this.pageTarget(p), behavior: 'instant' });
-                            this.update();
+                            this.animateTo(this.pageTarget(p));
                         },
 
                         scrollCards(dir) {
