@@ -182,7 +182,7 @@
     {{-- ============================================ --}}
     {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
-    <section class="py-12 lg:py-16">
+    <section class="py-16 lg:py-24">
         <div class="site-container" x-data="{ aktif: 'karir' }">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16" data-reveal>
 
@@ -275,7 +275,7 @@
     {{-- ============================================ --}}
     {{-- Marquee Logo Mitra (2 baris berlawanan arah) --}}
     {{-- ============================================ --}}
-    <section class="py-10 lg:py-14">
+    <section class="py-16 lg:py-20">
         <div class="w-full">
             @if($mitras->isNotEmpty())
                 @php
@@ -334,7 +334,7 @@
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
-    <section class="py-10 lg:py-16">
+    <section class="py-16 lg:py-24">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 sm:mb-16" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
@@ -575,7 +575,7 @@
     {{-- ============================================ --}}
     {{-- Berita Terbaru --}}
     {{-- ============================================ --}}
-    <section class="py-12 lg:py-16">
+    <section class="pt-16 pb-24 lg:pt-24 lg:pb-32">
         <div class="site-container">
             <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
