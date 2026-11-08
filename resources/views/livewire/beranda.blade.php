@@ -54,14 +54,19 @@
         }"
     >
         <div class="site-container">
-            {{-- Judul utama + tagline: rapat, jarak seimbang antara navbar dan slider --}}
+            {{-- Judul utama: eyebrow + hero title (sesuai design banner) --}}
             <div class="text-center pt-4 lg:pt-6 mb-4 lg:mb-5" data-reveal>
-                <h1 class="text-4xl sm:text-5xl lg:text-[58px] font-bold leading-tight" style="color: {{ $globalSettings->primary_color_style }}">
-                    {{ $globalSettings->site_name ?? 'Skansaba.Dev' }}
-                </h1>
-                <p class="text-gray-500 dark:text-gray-400 text-base sm:text-lg mt-1 max-w-xl mx-auto leading-snug">
-                    {{ __($globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia') }}
+                {{-- Eyebrow (2 warna) --}}
+                <p class="text-sm sm:text-base lg:text-lg font-semibold leading-snug text-[#485B60] dark:text-gray-300">
+                    {{ __('Selamat Datang di Jurusan') }}
+                    <span class="text-[#003F4F] dark:text-gray-100">{{ __('Rekayasa Perangkat Lunak!') }}</span>
                 </p>
+
+                {{-- Hero title (2 baris) --}}
+                <h1 class="mt-3 lg:mt-6 max-w-xl lg:max-w-[440px] mx-auto text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight lg:leading-[44px] text-[#28374D] dark:text-gray-50">
+                    <span class="block" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.Dev' }}</span>
+                    <span class="block">{{ __('Membangun Masa Depan Digital Indonesia') }}</span>
+                </h1>
             </div>
         </div>
 
@@ -286,7 +291,7 @@
                     $groupTwo = $groupOne->reverse()->values();
                 @endphp
 
-                <div class="space-y-6 md:space-y-8 marquee-hover-pause"
+                <div class="space-y-6 md:space-y-8 marquee-hover-pause marquee-fade"
                      data-reveal>
                     {{-- Baris 1: geser kiri --}}
                     <div class="overflow-hidden py-2 marquee-row">
