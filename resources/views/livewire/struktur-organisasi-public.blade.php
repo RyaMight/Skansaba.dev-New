@@ -50,13 +50,12 @@
                                         {{-- Aksen lingkaran dekoratif: berputar & membesar saat hover --}}
                                         <div class="absolute -bottom-10 -left-10 w-40 h-40 rounded-full border-[14px] border-white/30 pointer-events-none transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45 group-hover:scale-110"></div>
 
-                                        {{-- Badge Kaproli di atas foto --}}
+                                        {{-- Bintang aksen di atas foto (tanpa container) --}}
                                         @if($isKaproli)
-                                            <div class="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold text-white shadow-lg backdrop-blur-sm transition-transform duration-500 group-hover:scale-105" style="background-color: {{ $globalSettings->primary_color_style }}">
-                                                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <div class="absolute top-4 left-4 text-white drop-shadow-md transition-transform duration-500 group-hover:scale-110">
+                                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M10 1l2.928 5.932 6.544.951-4.736 4.617 1.118 6.516L10 15.897l-5.854 3.078 1.118-6.516L.528 7.883l6.544-.951L10 1z"/>
                                                 </svg>
-                                                {{ __('Ketua Program Keahlian') }}
                                             </div>
                                         @endif
                                     </div>
@@ -67,12 +66,9 @@
                             <div class="md:col-span-7 strutur-info {{ $flip ? 'md:order-1 md:col-start-1 text-left' : '' }}">
                                 @if($isKaproli)
                                     <span
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold mb-3 strutur-badge-pop"
+                                        class="inline-flex items-center py-1 rounded-full text-sm font-bold mb-3 strutur-badge-pop"
                                         style="background-color: {{ $globalSettings->primary_color_style }}1a; color: {{ $globalSettings->primary_color_style }}"
                                     >
-                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 1l2.928 5.932 6.544.951-4.736 4.617 1.118 6.516L10 15.897l-5.854 3.078 1.118-6.516L.528 7.883l6.544-.951L10 1z"/>
-                                        </svg>
                                         {{ __('Ketua Program Keahlian PPLG') }}
                                     </span>
                                 @endif

@@ -59,13 +59,13 @@
                 {{-- Eyebrow (2 warna) --}}
                 <p class="type-lead font-semibold text-[#485B60] dark:text-gray-300">
                     {{ __('Selamat Datang di Jurusan') }}
-                    <span class="text-[#003F4F] dark:text-gray-100">{{ __('Rekayasa Perangkat Lunak!') }}</span>
+                    <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Rekayasa Perangkat Lunak!') }}</span>
                 </p>
 
                 {{-- Hero title (2 baris) --}}
                 <h1 class="type-hero-title mt-3 lg:mt-6 max-w-2xl lg:max-w-3xl mx-auto text-[#28374D] dark:text-gray-50">
-                    <span class="block" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.Dev' }}</span>
-                    <span class="block">{{ __('Membangun Masa Depan Digital Indonesia') }}</span>
+                    <span class="block">{{ __('Membangun Masa Depan Digital') }}</span>
+                    <span class="block">{{ __('bersama') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.Dev' }}</span></span>
                 </h1>
             </div>
         </div>
