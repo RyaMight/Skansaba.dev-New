@@ -202,17 +202,46 @@
                 ];
             @endphp
 
-            <div class="grid grid-cols-3 gap-5 sm:gap-8 px-4 sm:px-10" data-reveal>
+            <div class="grid grid-cols-3 gap-5 sm:gap-8 px-4 sm:px-10">
                 @foreach($sekilasStats as $stat)
-                    <div
-                        class="relative skew-x-[8deg] sm:skew-x-[12deg] rounded-xl px-1.5 py-6 sm:px-6 sm:py-10 transition-transform duration-200 hover:-translate-y-1"
-                        style="background-color: {{ $globalSettings->primary_color_style }}"
-                    >
-                        <div class="-skew-x-[8deg] sm:-skew-x-[12deg] text-center">
-                            <div class="type-stat text-gray-950">
-                                {{ number_format($stat['value'], 0, ',', '.') }}
+                    <div data-reveal class="h-full">
+                        <div
+                            x-data="{
+                                current: 0,
+                                target: {{ (int) $stat['value'] }},
+                                started: false,
+                                start() {
+                                    if (this.started) return;
+                                    this.started = true;
+                                    const dur = 1500;
+                                    const t0 = performance.now();
+                                    const step = (now) => {
+                                        const p = Math.min(1, (now - t0) / dur);
+                                        const eased = 1 - Math.pow(1 - p, 3);
+                                        this.current = Math.round(this.target * eased);
+                                        if (p < 1) requestAnimationFrame(step);
+                                    };
+                                    requestAnimationFrame(step);
+                                }
+                            }"
+                            x-init="
+                                const self = $data;
+                                const io = new IntersectionObserver((entries) => {
+                                    for (const entry of entries) {
+                                        if (entry.isIntersecting) { self.start(); io.disconnect(); }
+                                    }
+                                }, { threshold: 0.5 });
+                                io.observe($el);
+                            "
+                            class="relative h-full skew-x-[8deg] sm:skew-x-[12deg] rounded-xl px-1.5 py-6 sm:px-6 sm:py-10 shadow-[0_8px_22px_-12px_rgba(2,132,199,0.45)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_22px_44px_-16px_rgba(2,132,199,0.6)] active:translate-y-0 active:scale-[0.99]"
+                            style="background-color: {{ $globalSettings->primary_color_style }}"
+                        >
+                            <div class="-skew-x-[8deg] sm:-skew-x-[12deg] text-center">
+                                <div class="type-stat tabular-nums text-gray-950" x-text="current.toLocaleString('id-ID')">
+                                    {{ number_format($stat['value'], 0, ',', '.') }}
+                                </div>
+                                <div class="type-meta mt-1.5 text-gray-900 dark:text-gray-900">{{ $stat['label'] }}</div>
                             </div>
-                            <div class="type-meta mt-1.5 text-gray-900 dark:text-gray-900">{{ $stat['label'] }}</div>
                         </div>
                     </div>
                 @endforeach
