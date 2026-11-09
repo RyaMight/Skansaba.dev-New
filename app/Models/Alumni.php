@@ -64,7 +64,41 @@ class Alumni extends Model
     }
 
     /**
-     * Accessor untuk excerpt deskripsi
+     * Sumber teks kutipan untuk kartu sorotan.
+     *
+     * Memakai kolom `kutipan` bila sudah tersedia (menunggu migration dari tim),
+     * dan sementara fallback ke `deskripsi` supaya layout tetap bisa diuji
+     * tanpa perubahan skema.
+     */
+    public function quoteSource(): ?string
+    {
+        if (array_key_exists('kutipan', $this->attributes)) {
+            $kutipan = $this->attributes['kutipan'];
+
+            if (is_string($kutipan) && trim($kutipan) !== '') {
+                return $kutipan;
+            }
+        }
+
+        return $this->deskripsi;
+    }
+
+    /**
+     * Accessor HTML kutipan sorotan (otomatis pakai kolom `kutipan` bila ada).
+     */
+    public function getQuoteHtmlAttribute(): string
+    {
+        $source = $this->quoteSource();
+
+        if (! $source) {
+            return '';
+        }
+
+        return app(MarkdownService::class)->parseDeskripsi($source);
+    }
+
+    /**
+     * Accessor excerpt deskripsi
      */
     public function getDeskripsiExcerptAttribute(): string
     {

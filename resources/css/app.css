@@ -456,6 +456,15 @@ html.theme-transition footer {
     mask-image: none;
 }
 
+/* Kutipan alumni "Sekilas RPL": teks yang melebihi tinggi kolom foto
+   memudar seperti kabut di bagian bawah sebelum tombol "Selengkapnya". */
+.sekilas-quote {
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0, 0, 0, 0.5) 88%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 68%, rgba(0, 0, 0, 0.5) 88%, transparent 100%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+}
+
 /* ============================================
    Container global, sejajar dengan ISI navbar:
    navbar max-w-6xl (1152px) + padding dalam px-5/sm:px-7.
