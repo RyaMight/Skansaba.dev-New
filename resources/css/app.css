@@ -508,17 +508,22 @@ html.theme-transition footer {
     scrollbar-width: none;
 }
 
-/* Reveal on scroll */
+/* Reveal on scroll — muncul sekali saat masuk viewport (pop halus).
+   Stagger antar-blok dalam satu section dihitung di app.js dan
+   ditulis ke --reveal-delay. Transform + opacity saja (compositor). */
 [data-reveal] {
     opacity: 0;
-    transform: translateY(26px);
-    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    transform: translateY(28px) scale(0.96);
+    transition:
+        opacity 560ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 680ms cubic-bezier(0.34, 1.28, 0.64, 1);
+    transition-delay: var(--reveal-delay, 0ms);
     will-change: opacity, transform;
 }
 
 [data-reveal].is-visible {
     opacity: 1;
-    transform: none;
+    transform: translateY(0) scale(1);
 }
 
 @media (prefers-reduced-motion: reduce) {

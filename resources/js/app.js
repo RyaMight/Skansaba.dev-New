@@ -24,13 +24,42 @@ function initRevealOnScroll() {
 
     if (!revealEls.length) return;
 
+    // Urutan reveal per section dipakai untuk stagger: blok yang masuk
+    // viewport bersama-sama muncul berurutan, bukan serentak.
+    const revealedCount = new WeakMap();
+
     const io = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("is-visible");
-                    io.unobserve(entry.target);
-                }
+                const el = entry.target;
+
+                // Tampilkan saat masuk viewport. Bila elemen sudah terlewati
+                // ke atas viewport (scroll cepat / lompat anchor), langsung
+                // tampilkan agar tidak "nyangkut" transparan.
+                const passedAbove = entry.boundingClientRect.top < 0;
+                if (!entry.isIntersecting && !passedAbove) return;
+
+                const scope = el.closest("section, footer") || document.body;
+                const index = revealedCount.get(scope) || 0;
+                revealedCount.set(scope, index + 1);
+
+                // Naik bertahap, dibatasi agar tidak terasa lambat.
+                el.style.setProperty(
+                    "--reveal-delay",
+                    `${Math.min(index * 70, 280)}ms`
+                );
+
+                el.classList.add("is-visible");
+                io.unobserve(el);
+
+                // Lepas will-change setelah animasi selesai (hemat GPU).
+                el.addEventListener(
+                    "transitionend",
+                    () => {
+                        el.style.willChange = "auto";
+                    },
+                    { once: true }
+                );
             });
         },
         { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
