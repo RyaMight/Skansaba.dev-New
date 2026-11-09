@@ -372,28 +372,13 @@ html.theme-transition footer {
    - Kartu membesar + shadow lembut, logo ikut scale
    ============================================ */
 .mitra-chip {
-    transition:
-        transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 380ms cubic-bezier(0.22, 1, 0.36, 1),
-        border-color 380ms ease;
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform;
-    border: 1px solid rgb(241 245 249);
-}
-
-.dark .mitra-chip {
-    border-color: transparent;
 }
 
 .mitra-chip:hover {
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 22px -10px rgba(15, 23, 42, 0.22);
-    border-color: rgb(226 232 240);
     z-index: 2;
-}
-
-.dark .mitra-chip:hover {
-    box-shadow: none;
-    border-color: transparent;
 }
 
 .mitra-logo {

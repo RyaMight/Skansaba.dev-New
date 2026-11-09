@@ -4,7 +4,7 @@
     {{-- 1 foto di tengah, tanpa tetangga, crossfade --}}
     {{-- ============================================ --}}
     <section
-        class="pt-4 lg:pt-6 pb-10 lg:pb-14"
+        class="bg-white dark:bg-slate-900 pt-4 pb-10 lg:pt-6 lg:pb-14"
         x-data="{
             N: {{ $sliders->count() }},
             index: 0,
@@ -182,7 +182,7 @@
     {{-- ============================================ --}}
     {{-- Sekilas RPL: statistik ringkas + alumni sorotan --}}
     {{-- ============================================ --}}
-    <section class="py-16 lg:py-24">
+    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
         <div class="site-container">
             {{-- Heading --}}
             <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14" data-reveal>
@@ -319,7 +319,7 @@
     {{-- ============================================ --}}
     {{-- Marquee Logo Mitra (2 baris berlawanan arah) --}}
     {{-- ============================================ --}}
-    <section class="py-16 lg:py-20">
+    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-20">
         <div class="w-full">
             @if($mitras->isNotEmpty())
                 @php
@@ -337,9 +337,9 @@
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupOne as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-32 md:w-36 flex-none items-center justify-center rounded-xl border border-slate-100 bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden dark:h-20 dark:md:h-24 dark:w-auto dark:bg-transparent dark:px-0 dark:shadow-none dark:overflow-visible">
+                                        <div class="mitra-chip group/chip flex h-20 md:h-24 flex-none items-center justify-center">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[85%] max-w-[85%] w-auto object-contain mitra-logo dark:h-16 dark:max-h-full dark:max-w-full md:dark:h-20" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="h-16 md:h-20 max-h-full max-w-full w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
                                                 <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
@@ -356,9 +356,9 @@
                             @foreach([0, 1] as $copy)
                                 <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
                                     @foreach($groupTwo as $mitra)
-                                        <div class="mitra-chip group/chip flex h-16 md:h-20 w-32 md:w-36 flex-none items-center justify-center rounded-xl border border-slate-100 bg-white px-1.5 shadow-[0_1px_4px_rgba(15,23,42,0.05)] overflow-hidden dark:h-20 dark:md:h-24 dark:w-auto dark:bg-transparent dark:px-0 dark:shadow-none dark:overflow-visible">
+                                        <div class="mitra-chip group/chip flex h-20 md:h-24 flex-none items-center justify-center">
                                             @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="max-h-[85%] max-w-[85%] w-auto object-contain mitra-logo dark:h-16 dark:max-h-full dark:max-w-full md:dark:h-20" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="h-16 md:h-20 max-h-full max-w-full w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
                                             @else
                                                 <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
                                             @endif
@@ -378,7 +378,7 @@
     {{-- ============================================ --}}
     {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
-    <section class="py-16 lg:py-24">
+    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
         <div class="site-container" x-data="{ aktif: 'mapel' }">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16" data-reveal>
 
@@ -471,7 +471,7 @@
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
-    <section class="py-16 lg:py-24">
+    <section class="bg-white dark:bg-slate-900 py-16 lg:py-24">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 sm:mb-16" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
@@ -668,8 +668,8 @@
 
                         {{-- Penutup kartu yang mengintip di zona padding (52px).
                              pointer-events aktif agar kartu tersembunyi tidak bisa di-hover. --}}
-                        <div aria-hidden="true" class="absolute inset-y-0 left-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-gray-950"></div>
-                        <div aria-hidden="true" class="absolute inset-y-0 right-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-gray-950"></div>
+                        <div aria-hidden="true" class="absolute inset-y-0 left-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-slate-900"></div>
+                        <div aria-hidden="true" class="absolute inset-y-0 right-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-slate-900"></div>
                     </div>
 
                     {{-- Desktop Arrows (Hanya di layar desktop, di luar kartu agar tidak menempel) --}}
@@ -735,7 +735,7 @@
     {{-- ============================================ --}}
     {{-- Berita Terbaru --}}
     {{-- ============================================ --}}
-    <section class="pt-16 pb-24 lg:pt-24 lg:pb-32">
+    <section class="bg-slate-100 dark:bg-gray-950 pt-16 pb-24 lg:pt-24 lg:pb-32">
         <div class="site-container">
             <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
