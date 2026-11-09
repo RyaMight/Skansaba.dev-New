@@ -14,6 +14,16 @@
 
 :root {
     --font-jakarta: "Plus Jakarta Sans", sans-serif;
+
+    /* Motion tokens (mengikuti amicro-design-system: one-shot < 300ms).
+       Easing entrance = ease-out-expo; exit lebih pendek dari enter. */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-exit: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --dur-instant: 80ms;
+    --dur-fast: 140ms;
+    --dur-normal: 200ms;
+    --dur-enter: 250ms;
 }
 
 html,
@@ -510,7 +520,9 @@ html.theme-transition footer {
 
 /* Reveal on scroll — muncul sekali saat masuk viewport (pop halus).
    Stagger antar-blok dalam satu section dihitung di app.js dan
-   ditulis ke --reveal-delay. Transform + opacity saja (compositor). */
+   ditulis ke --reveal-delay. Transform + opacity saja (compositor).
+   Sengaja lebih lambat dari budget Amicro (<300ms): user merasa
+   pop-up section terlalu cepat, jadi dipertahankan versi awal. */
 [data-reveal] {
     opacity: 0;
     transform: translateY(28px) scale(0.96);
@@ -874,4 +886,361 @@ html.dark {
 .dark .text-orange-800:not([class*="dark:text-"]),
 .dark .text-orange-700:not([class*="dark:text-"]) {
     color: #fdba74;
+}
+
+/* ============================================
+   Motion primitives (guest) — bahasa gerak Amicro
+   ------------------------------------------------------------
+   Semua transform/opacity (compositor), durasi < 300ms,
+   entrance ease-out-expo. Warna netral agar menyatu dengan
+   desain yang ada (light/dark). Haptic tidak dipakai.
+   ============================================ */
+
+/* Morphing CTA — pill dengan fill-sweep + ikon geser.
+   Dipakai untuk tombol "Lihat Semua" dsb. */
+.btn-morph {
+    --bm-fg: #374151; /* gray-700 */
+    --bm-fill: #111827; /* gray-900 */
+    --bm-fill-fg: #ffffff;
+    position: relative;
+    isolation: isolate;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    color: var(--bm-fg);
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+        color var(--dur-normal) var(--ease-out),
+        transform var(--dur-fast) var(--ease-out);
+}
+
+.btn-morph::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--bm-fill);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+}
+
+.btn-morph:hover,
+.btn-morph:focus-visible {
+    color: var(--bm-fill-fg);
+}
+
+.btn-morph:hover::before,
+.btn-morph:focus-visible::before,
+.btn-morph:active::before {
+    transform: scaleX(1);
+}
+
+.btn-morph:active {
+    transform: scale(0.97);
+}
+
+.btn-morph .btn-morph__icon {
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+}
+
+.btn-morph:hover .btn-morph__icon,
+.btn-morph:focus-visible .btn-morph__icon {
+    transform: translateX(3px);
+}
+
+.dark .btn-morph {
+    --bm-fg: #d1d5db; /* gray-300 */
+    --bm-fill: #f9fafb; /* gray-50 */
+    --bm-fill-fg: #0f172a; /* slate-900 */
+}
+
+/* Varian warna aksen (mis. "Selengkapnya" di sorotan alumni). */
+.btn-morph--primary,
+.dark .btn-morph--primary {
+    --bm-fg: var(--primary-color, #12b4e0);
+    --bm-fill: var(--primary-color, #12b4e0);
+    --bm-fill-fg: #ffffff;
+}
+
+/* Press/lift halus untuk tombol solid yang sudah ada. */
+.btn-lift {
+    transition:
+        transform var(--dur-fast) var(--ease-out),
+        background-color var(--dur-normal) var(--ease-out),
+        box-shadow var(--dur-normal) var(--ease-out);
+}
+
+.btn-lift:hover {
+    transform: translateY(-1px);
+}
+
+.btn-lift:active {
+    transform: translateY(0) scale(0.97);
+}
+
+/* Icon swap — dua ikon bertumpuk, cross-fade + scale/rotate.
+   Toggle state lewat class .is-b. */
+.icon-swap {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+}
+
+.icon-swap > * {
+    grid-area: 1 / 1;
+    transition:
+        transform var(--dur-normal) var(--ease-out-expo),
+        opacity var(--dur-fast) var(--ease-out);
+}
+
+.icon-swap > *:nth-child(2) {
+    opacity: 0;
+    transform: scale(0.6) rotate(-45deg);
+}
+
+.icon-swap.is-b > *:nth-child(1) {
+    opacity: 0;
+    transform: scale(0.6) rotate(45deg);
+}
+
+.icon-swap.is-b > *:nth-child(2) {
+    opacity: 1;
+    transform: none;
+}
+
+/* Dropdown panel — stagger ikat item saat panel dibuka.
+   Animasi CSS otomatis jalan ulang tiap panel berubah dari
+   display:none (dikontrol Alpine x-show + x-transition). */
+@keyframes navItemIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.nav-dd-item {
+    animation: navItemIn var(--dur-normal) var(--ease-out-expo) both;
+}
+
+.nav-dd-item:nth-child(1) {
+    animation-delay: 0ms;
+}
+
+.nav-dd-item:nth-child(2) {
+    animation-delay: 25ms;
+}
+
+.nav-dd-item:nth-child(3) {
+    animation-delay: 50ms;
+}
+
+.nav-dd-item:nth-child(4) {
+    animation-delay: 75ms;
+}
+
+.nav-dd-item:nth-child(5) {
+    animation-delay: 100ms;
+}
+
+/* Isi tab (Prospek Karir / Mata Pelajaran): item muncul berurutan
+   ("pop" satu per satu) tiap panel ditampilkan. Kelas .tab-stagger
+   ditoggle Alpine supaya animasi jalan ulang setiap ganti tab. */
+@keyframes tabItemIn {
+    from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* Naik dari bawah lalu melambat halus saat tiba (ease-out-quart). */
+.tab-stagger > .grid > * {
+    animation: tabItemIn var(--dur-enter) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.tab-stagger > .grid > *:nth-child(1) { animation-delay: 0ms; }
+.tab-stagger > .grid > *:nth-child(2) { animation-delay: 65ms; }
+.tab-stagger > .grid > *:nth-child(3) { animation-delay: 130ms; }
+.tab-stagger > .grid > *:nth-child(4) { animation-delay: 195ms; }
+.tab-stagger > .grid > *:nth-child(5) { animation-delay: 260ms; }
+.tab-stagger > .grid > *:nth-child(6) { animation-delay: 325ms; }
+.tab-stagger > .grid > *:nth-child(7) { animation-delay: 390ms; }
+.tab-stagger > .grid > *:nth-child(8) { animation-delay: 455ms; }
+
+/* Modal — enter helpers untuk modal server-rendered (@if Livewire)
+   yang tidak punya x-transition. Animasi jalan saat elemen disisipkan. */
+@keyframes modalScrimIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes modalPanelIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96) translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.modal-scrim {
+    animation: modalScrimIn var(--dur-normal) var(--ease-out-expo) both;
+}
+
+.modal-panel {
+    animation: modalPanelIn var(--dur-enter) var(--ease-out-expo) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-morph::before,
+    .btn-morph .btn-morph__icon {
+        transition: none;
+    }
+
+    .btn-morph:active,
+    .btn-lift:hover,
+    .btn-lift:active {
+        transform: none;
+    }
+
+    .nav-dd-item,
+    .modal-scrim,
+    .modal-panel,
+    .tab-stagger > .grid > * {
+        animation: none;
+    }
+}
+
+/* ============================================
+   Interaction polish — hover, judul, ikon
+   ------------------------------------------------------------
+   Menambah "hidup" tanpa mengubah desain: garis bawah yang
+   menyapu, judul beraksen saat hover, kartu lift, chevron
+   dengan overshoot, dan ikon pop. Semua opacity/transform
+   (kecuali warna/garis teks yang murah).
+   ============================================ */
+
+/* Garis bawah menyapu untuk link teks */
+.link-underline {
+    position: relative;
+}
+
+.link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+    pointer-events: none;
+}
+
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+    transform: scaleX(1);
+}
+
+
+
+/* Kartu interaktif: lift + judul beraksen + panah geser */
+.card-live {
+    transition:
+        transform var(--dur-normal) var(--ease-out-expo),
+        box-shadow var(--dur-normal) var(--ease-out),
+        border-color var(--dur-normal) var(--ease-out);
+}
+
+.card-live .card-live__title {
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.18em;
+    transition:
+        color var(--dur-normal) var(--ease-out),
+        text-decoration-color var(--dur-normal) var(--ease-out);
+}
+
+.card-live .card-live__arrow {
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+}
+
+@media (hover: hover) {
+    .card-live:hover {
+        transform: translateY(-4px);
+    }
+
+    .card-live:hover .card-live__title {
+        color: var(--primary-color, #12b4e0);
+        text-decoration-color: var(--primary-color, #12b4e0);
+    }
+
+    .card-live:hover .card-live__arrow {
+        transform: translateX(3px);
+    }
+}
+
+.card-live:active {
+    transform: translateY(-2px) scale(0.99);
+}
+
+/* Chevron dropdown/accordion: rotasi dengan sedikit overshoot */
+.chevron-swap {
+    transform-origin: center;
+    transition: transform var(--dur-normal) cubic-bezier(0.34, 1.3, 0.7, 1);
+}
+
+/* Tombol/ikon: pop halus saat hover, mengecil saat ditekan */
+.icon-pop {
+    transition:
+        transform var(--dur-fast) var(--ease-out),
+        color var(--dur-normal) var(--ease-out),
+        background-color var(--dur-normal) var(--ease-out);
+}
+
+.icon-pop:hover {
+    transform: scale(1.08);
+}
+
+.icon-pop:active {
+    transform: scale(0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .link-underline::after,
+    .card-live,
+    .card-live .card-live__title,
+    .card-live .card-live__arrow,
+    .chevron-swap,
+    .icon-pop {
+        transition: none;
+    }
+
+    .card-live:hover,
+    .card-live:active,
+    .icon-pop:hover,
+    .icon-pop:active {
+        transform: none;
+    }
 }

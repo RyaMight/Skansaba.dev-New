@@ -7,7 +7,7 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <a href="/" class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
+                <a href="/" class="link-underline hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
                 <span>›</span>
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Fasilitas') }}</span>
             </div>
@@ -25,7 +25,7 @@
             @if($fasilitas->count() > 0)
                 <div class="grid md:grid-cols-2 gap-8">
                     @foreach($fasilitas as $item)
-                        <a href="/fasilitas/{{ $item->id }}" class="bg-white dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg transition-shadow block">
+                        <a href="/fasilitas/{{ $item->id }}" class="card-live bg-white dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg block">
                             @if($item->gambar_url)
                                 <img src="{{ $item->gambar_url }}" alt="{{ $item->tempat }}" class="w-full aspect-video object-cover">
                             @else
@@ -33,7 +33,7 @@
                             @endif
                             
                             <div class="p-6">
-                                <h3 class="type-subsection-title text-gray-900 dark:text-gray-50 mb-3">{{ $item->tempat }}</h3>
+                                <h3 class="card-live__title type-subsection-title text-gray-900 dark:text-gray-50 mb-3">{{ $item->tempat }}</h3>
                                 
                                 @if($item->deskripsi)
                                     <div class="text-gray-600 dark:text-gray-300 mb-4 prose prose-sm max-w-none">

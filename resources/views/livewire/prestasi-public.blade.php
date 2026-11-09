@@ -7,7 +7,7 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <a href="/" class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
+                <a href="/" class="link-underline hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
                 <span>›</span>
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Prestasi Siswa') }}</span>
             </div>
@@ -45,7 +45,7 @@
             @if($prestasis->count() > 0)
                 <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
                     @foreach($prestasis as $prestasi)
-                        <a href="/prestasi/{{ $prestasi->id }}" class="bg-white dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group">
+                        <a href="/prestasi/{{ $prestasi->id }}" class="card-live bg-white dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg group">
                             @if($prestasi->gambar)
                                 <img src="{{ asset('storage/' . $prestasi->gambar) }}" alt="{{ $prestasi->judul }}" class="w-full aspect-video object-cover group-hover:scale-105 transition duration-300">
                             @else
@@ -61,7 +61,7 @@
                                         {{ __(ucfirst($prestasi->tingkat)) }}
                                     </span>
                                 </div>
-                                <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80" style="color: {{ $globalSettings->primary_color_style }}">
+                                <h3 class="card-live__title type-card-title-sm text-gray-900 dark:text-gray-50 mb-2 line-clamp-2" style="color: {{ $globalSettings->primary_color_style }}">
                                     {{ $prestasi->judul }}
                                 </h3>
                                 <p class="type-body-sm text-gray-600 dark:text-gray-300 mb-1">{{ $prestasi->nama_siswa }}</p>

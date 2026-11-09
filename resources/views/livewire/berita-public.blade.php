@@ -7,7 +7,7 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <a href="/" class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
+                <a href="/" class="link-underline hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
                 <span>›</span>
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Berita & Artikel') }}</span>
             </div>
@@ -45,7 +45,7 @@
             @if($beritas->count() > 0)
                 <div class="grid md:grid-cols-3 gap-6">
                     @foreach($beritas as $berita)
-                        <a href="/berita/{{ $berita->slug }}" class="bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition group">
+                        <a href="/berita/{{ $berita->slug }}" class="card-live bg-white dark:bg-gray-900 rounded-lg overflow-hidden shadow-sm hover:shadow-lg group">
                             @if($berita->thumbnail)
                                 <img src="{{ asset('storage/' . $berita->thumbnail) }}" alt="{{ $berita->title }}" class="w-full aspect-video object-cover group-hover:scale-105 transition duration-300">
                             @else
@@ -60,7 +60,7 @@
                                     @endif
                                     <span class="text-xs text-gray-500 dark:text-gray-400">{{ $berita->published_at->translatedFormat('d M Y') }}</span>
                                 </div>
-                                <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-2 line-clamp-2 group-hover:opacity-80">
+                                <h3 class="card-live__title type-card-title text-gray-900 dark:text-gray-50 mb-2 line-clamp-2">
                                     {{ $berita->title }}
                                 </h3>
                                 <p class="type-body-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">

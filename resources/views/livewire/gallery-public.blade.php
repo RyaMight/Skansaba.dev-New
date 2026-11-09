@@ -7,7 +7,7 @@
                 <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                 </svg>
-                <a href="/" class="hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
+                <a href="/" class="link-underline hover:opacity-80 cursor-pointer">{{ __('Beranda') }}</a>
                 <span>›</span>
                 <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Galeri') }}</span>
             </div>
@@ -26,7 +26,7 @@
                 <div class="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
                     @foreach($galleries as $gallery)
                         <div class="break-inside-avoid">
-                            <a href="/gallery/{{ $gallery->id }}" class="bg-white dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group block">
+                            <a href="/gallery/{{ $gallery->id }}" class="card-live bg-white dark:bg-gray-900 rounded-xl overflow-hidden hover:shadow-lg group block">
                                 @if($gallery->gambar_url)
                                     <div class="relative overflow-hidden">
                                         <img src="{{ $gallery->gambar_url }}" alt="{{ $gallery->judul }}" class="w-full h-auto object-cover group-hover:scale-105 transition duration-300">
@@ -56,20 +56,33 @@
                                 
                                 <div class="p-4">
                                     <div class="flex items-center justify-between mb-2">
-                                        <h3 class="type-card-title-sm text-gray-900 dark:text-gray-50 flex-1">{{ $gallery->judul }}</h3>
+                                        <h3 class="card-live__title type-card-title-sm text-gray-900 dark:text-gray-50 flex-1">{{ $gallery->judul }}</h3>
                                         <div class="flex items-center gap-1">
                                             @if($gallery->kategori)
                                                 <span class="px-3 py-1 text-xs font-bold rounded-full whitespace-nowrap bg-cyan-500/10 text-cyan-600">
                                                     {{ $gallery->kategori }}
                                                 </span>
                                             @endif
-                                            <button 
-                                                onclick="event.preventDefault(); navigator.clipboard.writeText(window.location.origin + '/gallery/{{ $gallery->id }}'); alert(@js(__('Link galeri berhasil disalin!')))"
-                                                class="p-1.5 text-gray-400 dark:text-gray-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-lg transition-all"
-                                                title="{{ __('Salin Link') }}">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-2.684 3 3 0 000 2.684zm0 12.684a3 3 0 100-2.684 3 3 0 000 2.684z"/>
-                                                </svg>
+                                            <button
+                                                x-data="{ copied: false }"
+                                                @click.prevent.stop="
+                                                    navigator.clipboard.writeText(window.location.origin + '/gallery/{{ $gallery->id }}');
+                                                    copied = true;
+                                                    setTimeout(() => copied = false, 1800);
+                                                "
+                                                class="icon-pop p-1.5 text-gray-400 dark:text-gray-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-lg"
+                                                :class="copied ? 'text-emerald-600' : ''"
+                                                :title="copied ? @js(__('Tersalin')) : @js(__('Salin Link'))"
+                                                :aria-label="copied ? @js(__('Tersalin')) : @js(__('Salin Link'))"
+                                            >
+                                                <span class="icon-swap" :class="{ 'is-b': copied }">
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-2.684 3 3 0 000 2.684zm0 12.684a3 3 0 100-2.684 3 3 0 000 2.684z"/>
+                                                    </svg>
+                                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                                    </svg>
+                                                </span>
                                             </button>
                                         </div>
                                     </div>

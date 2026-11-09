@@ -40,7 +40,7 @@
         {{-- Alumni Cards Grid --}}
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($alumniList as $alumni)
-                <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm hover:shadow-md transition-shadow overflow-hidden group">
+                <div class="card-live bg-white dark:bg-gray-900 rounded-lg shadow-sm hover:shadow-md overflow-hidden group">
                     {{-- Foto --}}
                     <div class="aspect-square bg-gray-200 relative overflow-hidden">
                         @if($alumni->foto)
@@ -70,7 +70,7 @@
 
                     {{-- Content --}}
                     <div class="p-5">
-                        <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
+                        <h3 class="card-live__title type-card-title text-gray-900 dark:text-gray-50 mb-2">{{ $alumni->nama }}</h3>
                         
                         <div class="space-y-2 mb-4">
                             <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
@@ -128,9 +128,9 @@
     @if($showDetailModal && $detailAlumni)
         <div class="fixed inset-0 z-50 overflow-y-auto">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
-                <div class="fixed inset-0 transition-opacity bg-gray-900/75" wire:click="closeDetailModal"></div>
+                <div class="modal-scrim fixed inset-0 bg-gray-900/75" wire:click="closeDetailModal"></div>
 
-                <div class="relative inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
+                <div class="modal-panel relative inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle bg-white dark:bg-gray-900 shadow-xl rounded-2xl">
                     <div class="flex items-center justify-between mb-6">
                         <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">Detail Alumni</h3>
                         <button wire:click="closeDetailModal" class="text-gray-400 dark:text-gray-400 hover:text-gray-600 dark:text-gray-300 transition">

@@ -205,7 +205,7 @@
             <div class="grid grid-cols-3 gap-5 sm:gap-8 px-4 sm:px-10" data-reveal>
                 @foreach($sekilasStats as $stat)
                     <div
-                        class="relative skew-x-[8deg] sm:skew-x-[12deg] rounded-xl px-1.5 py-6 sm:px-6 sm:py-10"
+                        class="relative skew-x-[8deg] sm:skew-x-[12deg] rounded-xl px-1.5 py-6 sm:px-6 sm:py-10 transition-transform duration-200 hover:-translate-y-1"
                         style="background-color: {{ $globalSettings->primary_color_style }}"
                     >
                         <div class="-skew-x-[8deg] sm:-skew-x-[12deg] text-center">
@@ -226,7 +226,7 @@
                         {{-- 1. Profil --}}
                         <div class="order-2 lg:order-1 flex flex-col justify-center gap-5">
                             <div>
-                                <p class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-50 mt-1">{{ $featuredAlumni->nama }}</p>
+                                <p class="inline-block text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-50 mt-1 transition-all duration-300 hover:translate-x-1.5 hover:text-gray-600 dark:hover:text-gray-300">{{ $featuredAlumni->nama }}</p>
                             </div>
                             <div>
                                 <p class="type-meta uppercase tracking-wider text-gray-400">{{ __('Tahun Lulus') }}</p>
@@ -264,7 +264,7 @@
 
                         {{-- 3. Kutipan (kartu aksen kiri; kabut + Selengkapnya bila melebihi tinggi kolom) --}}
                         <div
-                            class="order-3 lg:order-3 flex flex-col h-72 sm:h-96 lg:h-[440px] rounded-2xl border border-gray-200/80 dark:border-gray-800 border-l-[3px] pl-5 pr-5 py-5 sm:pl-6 sm:pr-6 sm:py-6"
+                            class="card-live order-3 lg:order-3 flex flex-col h-72 sm:h-96 lg:h-[440px] rounded-2xl border border-gray-200/80 dark:border-gray-800 border-l-[3px] pl-5 pr-5 py-5 sm:pl-6 sm:pr-6 sm:py-6 hover:shadow-md"
                             style="border-left-color: {{ $globalSettings->primary_color_style }}"
                             x-data="{
                                 truncated: false,
@@ -299,11 +299,10 @@
                                     x-show="truncated"
                                     x-cloak
                                     href="/alumni/{{ $featuredAlumni->id }}"
-                                    class="type-button inline-flex items-center gap-1.5 text-sm font-semibold whitespace-nowrap transition-opacity hover:opacity-80"
-                                    style="color: {{ $globalSettings->primary_color_style }}"
+                                    class="btn-morph btn-morph--primary type-button inline-flex font-semibold whitespace-nowrap"
                                 >
                                     <span>{{ __('Selengkapnya') }}</span>
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <svg class="btn-morph__icon w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                                     </svg>
                                 </a>
@@ -379,14 +378,35 @@
     {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
     <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
-        <div class="site-container" x-data="{ aktif: 'mapel' }">
+        <div class="site-container" x-data="{
+            aktif: 'mapel',
+            animating: false,
+            setTab(t) {
+                if (this.aktif === t) return;
+                this.aktif = t;
+                this.animating = false;
+                this.$nextTick(() => requestAnimationFrame(() => { this.animating = true; }));
+            }
+        }"
+        x-init="
+            const tabData = $data;
+            const io = new IntersectionObserver((entries) => {
+                for (const entry of entries) {
+                    if (entry.isIntersecting) {
+                        tabData.animating = true;
+                        io.disconnect();
+                    }
+                }
+            }, { rootMargin: '0px 0px -40% 0px', threshold: 0 });
+            io.observe($el);
+        ">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16" data-reveal>
 
                 {{-- SISI KIRI: Sidebar navigasi (kedua judul sebagai tab) --}}
                 <nav class="lg:col-span-4 space-y-2" aria-label="{{ __('Prospek Karir') }} {{ __('Mata Pelajaran Unggulan') }}">
                     <button
                         type="button"
-                        @click="aktif = 'karir'"
+                        @click="setTab('karir')"
                         class="flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
                         :class="aktif === 'karir'
                             ? 'type-tab-title-active border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
@@ -397,7 +417,7 @@
 
                     <button
                         type="button"
-                        @click="aktif = 'mapel'"
+                        @click="setTab('mapel')"
                         class="flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
                         :class="aktif === 'mapel'
                             ? 'type-tab-title-active border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
@@ -411,7 +431,7 @@
                 <div class="lg:col-span-8">
 
                     {{-- Panel: Prospek Karir --}}
-                    <div x-show="aktif === 'karir'" x-cloak x-transition.opacity.duration.200ms>
+                    <div x-show="aktif === 'karir'" x-cloak x-transition.opacity.duration.150ms :class="animating ? 'tab-stagger' : ''">
 
                         @if($prospekKarir->isNotEmpty())
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -430,7 +450,7 @@
                     </div>
 
                     {{-- Panel: Mata Pelajaran Unggulan --}}
-                    <div x-show="aktif === 'mapel'" x-cloak x-transition.opacity.duration.200ms>
+                    <div x-show="aktif === 'mapel'" x-cloak x-transition.opacity.duration.150ms :class="animating ? 'tab-stagger' : ''">
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         @foreach($mataPelajaran as $mapel)
@@ -479,10 +499,10 @@
                 </h2>
                 <a
                     href="/karya"
-                    class="type-button group/link inline-flex items-center gap-1.5 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    class="btn-morph type-button inline-flex"
                 >
                     <span>{{ __('Lihat Semua') }}</span>
-                    <svg class="w-4 h-4 transition-transform group-hover/link:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="btn-morph__icon w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                     </svg>
                 </a>
@@ -743,10 +763,10 @@
                 </h2>
                 <a
                     href="/berita"
-                    class="type-button hidden sm:flex items-center gap-2 text-gray-700 dark:text-gray-200 hover:gap-3 transition-all"
+                    class="btn-morph type-button hidden sm:inline-flex"
                 >
                     {{ __('Lihat Semua') }}
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="btn-morph__icon w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                     </svg>
                 </a>
@@ -923,10 +943,10 @@
                 <div class="flex sm:hidden justify-center mt-8" data-reveal>
                     <a
                         href="/berita"
-                        class="type-button inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-700 transition"
+                        class="btn-lift type-button group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 text-white hover:bg-gray-700"
                     >
                         {{ __('Lihat Semua Berita') }}
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="w-4 h-4 transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
                         </svg>
                     </a>
