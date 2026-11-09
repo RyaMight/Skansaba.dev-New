@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Galeri;
+use App\Models\Prestasi;
 use Livewire\Component;
 
 class GalleryPublic extends Component
@@ -35,9 +36,15 @@ class GalleryPublic extends Component
             ->sort()
             ->values();
 
+        $prestasis = Prestasi::where('status', 'published')
+            ->orderByDesc('tanggal_prestasi')
+            ->take(8)
+            ->get();
+
         return view('livewire.gallery-public', [
             'galleries' => $galleries,
             'categories' => $categories,
+            'prestasis' => $prestasis,
         ])->layout('components.layouts.guest');
     }
 }
