@@ -226,7 +226,6 @@
                         {{-- 1. Profil --}}
                         <div class="order-2 lg:order-1 flex flex-col justify-center gap-5">
                             <div>
-                                <p class="type-meta uppercase tracking-wider text-gray-400">{{ __('Alumni') }}</p>
                                 <p class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-50 mt-1">{{ $featuredAlumni->nama }}</p>
                             </div>
                             <div>
@@ -629,7 +628,7 @@
                                 href="/karya/{{ $item->id }}"
                                 class="group relative flex-none w-[200px] sm:w-[calc((100%_-_2.5rem)/3)] lg:w-[calc((100%_-_3.75rem)/4)] aspect-[2/3] rounded-2xl overflow-hidden snap-start
                                        transition-all duration-300 ease-out
-                                       sm:hover:-translate-y-2 sm:hover:rotate-[10deg] sm:hover:scale-[1.20] sm:hover:shadow-[0_20px_40px_-12px_rgba(15,23,42,0.4)] sm:hover:z-20
+                                       sm:hover:-translate-y-2 sm:hover:rotate-[5deg] sm:hover:scale-[1.20] sm:hover:shadow-[0_20px_40px_-12px_rgba(15,23,42,0.4)] sm:hover:z-20
                                        sm:hover:ring-1 sm:hover:ring-white/20 active:scale-[0.98]"
                             >
                                 <div class="absolute inset-0 karya-fade bg-slate-200 dark:bg-slate-800">
