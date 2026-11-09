@@ -21,7 +21,7 @@
                 :class="tab === 'karya'
                     ? 'text-slate-900 dark:text-white font-bold border-b-4 border-slate-900 dark:border-white'
                     : 'text-slate-400/90 dark:text-gray-500 font-bold border-b-4 border-transparent hover:text-slate-600 dark:hover:text-gray-300'"
-                class="type-section-title pb-2 transition-all cursor-pointer relative whitespace-nowrap"
+                class="morph-fill morph-tab type-section-title pb-2 transition-all cursor-pointer relative whitespace-nowrap"
             >
                 {{ __('Karya Siswa') }}
             </button>
@@ -33,7 +33,7 @@
                 :class="tab === 'profil'
                     ? 'text-slate-900 dark:text-white font-bold border-b-4 border-slate-900 dark:border-white'
                     : 'text-slate-400/90 dark:text-gray-500 font-bold border-b-4 border-transparent hover:text-slate-600 dark:hover:text-gray-300'"
-                class="type-section-title pb-2 transition-all cursor-pointer relative whitespace-nowrap"
+                class="morph-fill morph-tab type-section-title pb-2 transition-all cursor-pointer relative whitespace-nowrap"
             >
                 {{ __('Profil Siswa') }}
             </button>

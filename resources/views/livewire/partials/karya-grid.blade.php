@@ -6,7 +6,7 @@
             <button
                 type="button"
                 wire:click="$set('filterKategori', '')"
-                class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
             >
                 {{ __('Semua Kategori') }}
             </button>
@@ -14,7 +14,7 @@
                 <button
                     type="button"
                     wire:click="$set('filterKategori', '{{ $cat }}')"
-                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === $cat ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === $cat ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
                 >
                     {{ __($cat) }}
                 </button>

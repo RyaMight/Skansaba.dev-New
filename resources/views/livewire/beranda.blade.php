@@ -436,7 +436,7 @@
                     <button
                         type="button"
                         @click="setTab('karir')"
-                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
+                        class="morph-fill morph-tab flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
                         :class="aktif === 'karir'
                             ? 'type-tab-title-active border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
                             : 'type-tab-title border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"
@@ -447,7 +447,7 @@
                     <button
                         type="button"
                         @click="setTab('mapel')"
-                        class="flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
+                        class="morph-fill morph-tab flex w-full items-center border-l-2 pl-4 py-2 text-left transition-all duration-300"
                         :class="aktif === 'mapel'
                             ? 'type-tab-title-active border-gray-900 dark:border-gray-50 text-gray-900 dark:text-gray-50'
                             : 'type-tab-title border-transparent text-gray-300 hover:text-gray-500 dark:text-gray-700 dark:hover:text-gray-400'"

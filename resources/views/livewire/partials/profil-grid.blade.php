@@ -16,7 +16,7 @@
         <button
             type="button"
             wire:click="$set('filterProfil', '')"
-            class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+            class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
         >
             {{ __('Semua Siswa') }} ({{ $totalSiswasCount }})
         </button>
@@ -25,7 +25,7 @@
             <button
                 type="button"
                 wire:click="$set('filterProfil', 'with_karya')"
-                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === 'with_karya' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === 'with_karya' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
             >
                 <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                 <span>{{ __('Memiliki Karya') }} ({{ $siswaWithKaryaCount }})</span>
@@ -36,7 +36,7 @@
             <button
                 type="button"
                 wire:click="$set('filterProfil', '{{ $skill }}')"
-                class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === $skill ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:bg-slate-50 dark:hover:bg-gray-800' }}"
+                class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterProfil === $skill ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
             >
                 {{ $skill }}
             </button>

@@ -1227,13 +1227,97 @@ html.dark {
     transform: scale(0.92);
 }
 
+/* Fill-sweep generik untuk elemen non-CTA (chip, menu, tab, ikon).
+   Latar mengisi dari kiri; radius mengikuti elemen. */
+.morph-fill,
+.morph-sweep {
+    --ms-fill: rgba(15, 23, 42, 0.06);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.morph-fill::before,
+.morph-sweep::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--ms-fill);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+}
+
+.morph-fill:hover::before,
+.morph-fill:focus-visible::before,
+.morph-sweep:hover::before,
+.morph-sweep:focus-visible::before {
+    transform: scaleX(1);
+}
+
+/* Varian yang ikut mengubah warna teks saat hover. */
+.morph-sweep {
+    --ms-fg: inherit;
+    transition: color var(--dur-normal) var(--ease-out);
+}
+
+.morph-sweep:hover,
+.morph-sweep:focus-visible {
+    color: var(--ms-fg);
+}
+
+.dark .morph-fill,
+.dark .morph-sweep {
+    --ms-fill: rgba(255, 255, 255, 0.06);
+}
+
+/* Chip filter: sweep warna brand, teks jadi putih (tetap di dark). */
+.morph-chip,
+.dark .morph-chip {
+    --ms-fill: var(--primary-color, #0ea5e9);
+    --ms-fg: #ffffff;
+}
+
+/* Tab: sweep netral tipis, warna teks diatur oleh state tab. */
+.morph-tab {
+    --ms-fill: rgba(15, 23, 42, 0.05);
+}
+
+.dark .morph-tab {
+    --ms-fill: rgba(255, 255, 255, 0.06);
+}
+
+/* Tombol salin galeri: sweep cyan tipis. */
+.morph-copy {
+    --ms-fill: rgba(14, 165, 233, 0.12);
+}
+
+.dark .morph-copy {
+    --ms-fill: rgba(14, 165, 233, 0.18);
+}
+
+/* Back-link morph: panah geser ke kiri (bukan kanan). */
+.btn-morph .btn-morph__icon--back {
+    transition: transform var(--dur-normal) var(--ease-out-expo);
+}
+
+.btn-morph:hover .btn-morph__icon--back,
+.btn-morph:focus-visible .btn-morph__icon--back {
+    transform: translateX(-3px);
+}
+
 @media (prefers-reduced-motion: reduce) {
     .link-underline::after,
     .card-live,
     .card-live .card-live__title,
     .card-live .card-live__arrow,
     .chevron-swap,
-    .icon-pop {
+    .icon-pop,
+    .morph-fill::before,
+    .morph-sweep::before,
+    .morph-sweep {
         transition: none;
     }
 
@@ -1241,6 +1325,13 @@ html.dark {
     .card-live:active,
     .icon-pop:hover,
     .icon-pop:active {
+        transform: none;
+    }
+
+    .morph-fill:hover::before,
+    .morph-fill:focus-visible::before,
+    .morph-sweep:hover::before,
+    .morph-sweep:focus-visible::before {
         transform: none;
     }
 }

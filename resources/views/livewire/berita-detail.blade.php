@@ -3,9 +3,9 @@
     <section class="bg-white dark:bg-gray-950 py-8 sm:py-12">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="flex justify-center mb-6">
-                <a href="/berita" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:opacity-80 transition" style="color: {{ $globalSettings->primary_color_style }}">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <a href="/berita" class="btn-morph btn-morph--primary type-button inline-flex">
+                    <svg class="btn-morph__icon btn-morph__icon--back w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
                     </svg>
                     {{ __('Kembali ke Berita') }}
                 </a>

@@ -16,9 +16,9 @@
             
             {{-- Back Button --}}
             <div class="flex justify-center">
-                <a href="/fasilitas" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-gray-50">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                <a href="/fasilitas" class="btn-morph btn-morph--primary type-button inline-flex">
+                    <svg class="btn-morph__icon btn-morph__icon--back w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
                     </svg>
                     {{ __('Kembali ke Fasilitas') }}
                 </a>

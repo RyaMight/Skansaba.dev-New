@@ -70,7 +70,7 @@
                                                     copied = true;
                                                     setTimeout(() => copied = false, 1800);
                                                 "
-                                                class="icon-pop p-1.5 text-gray-400 dark:text-gray-400 hover:text-cyan-600 hover:bg-cyan-50 rounded-lg"
+                                                class="icon-pop morph-fill morph-copy p-1.5 text-gray-400 dark:text-gray-400 hover:text-cyan-600 rounded-lg"
                                                 :class="copied ? 'text-emerald-600' : ''"
                                                 :title="copied ? @js(__('Tersalin')) : @js(__('Salin Link'))"
                                                 :aria-label="copied ? @js(__('Tersalin')) : @js(__('Salin Link'))"
