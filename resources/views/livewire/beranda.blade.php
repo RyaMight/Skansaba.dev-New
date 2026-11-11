@@ -512,9 +512,42 @@
     </section>
 
     {{-- ============================================ --}}
+    {{-- Curtain: Prospek dikunci saat DASARNYA mentok dasar viewport,
+         lalu Karya + Prestasi naik menutupinya seperti tirai (desktop).
+         Wrapper bg = bg Prospek supaya area di atas Prospek yang ter-pin
+         tetap senada. Mobile: alur normal tanpa sticky. --}}
+    {{-- ============================================ --}}
+    <div
+        class="relative isolate bg-slate-100 dark:bg-gray-950"
+        x-data="{
+            setTop() {
+                const el = this.$refs.prospek;
+                if (!el) return;
+                if (!window.matchMedia('(min-width: 1024px)').matches) {
+                    el.style.top = '';
+                    return;
+                }
+                el.style.top = (window.innerHeight - el.offsetHeight) + 'px';
+            }
+        }"
+        x-init="
+            const self = $data;
+            const run = () => self.setTop();
+            self.$nextTick(run);
+            window.addEventListener('resize', run);
+            if (window.ResizeObserver && self.$refs.prospek) {
+                new ResizeObserver(run).observe(self.$refs.prospek);
+            }
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+        "
+    >
+    {{-- ============================================ --}}
     {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
-    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
+    <section
+        x-ref="prospek"
+        class="relative z-0 bg-slate-100 py-16 dark:bg-gray-950 lg:sticky lg:py-24"
+    >
         <div class="site-container" x-data="{
             aktif: 'mapel',
             animating: false,
@@ -625,6 +658,8 @@
         </div>
     </section>
 
+    {{-- Tirai: Karya + Prestasi naik menutupi Prospek yang ter-pin (z-10). --}}
+    <div class="relative z-10 bg-white dark:bg-slate-900">
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
@@ -1024,6 +1059,8 @@
         </div>
     </section>
     @endif
+    </div> {{-- /tirai Karya + Prestasi --}}
+    </div> {{-- /wrapper curtain Prospek --}}
 
     {{-- ============================================ --}}
     {{-- Berita Terbaru --}}
