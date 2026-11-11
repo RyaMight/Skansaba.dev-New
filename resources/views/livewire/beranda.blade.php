@@ -1124,6 +1124,9 @@
                         init() {
                             this.$nextTick(() => {
                                 this.cards = Array.from(this.$el.querySelectorAll('.berita-card'));
+                                // Kunci tinggi grid dulu agar pusat grid yang
+                                // diukur sudah final (offset tumpukan akurat).
+                                this.reserveHeight();
                                 const grid = this.$el.querySelector('.berita-grid');
                                 const gridRect = grid.getBoundingClientRect();
                                 const gridCx = gridRect.left + gridRect.width / 2;
@@ -1148,6 +1151,7 @@
                                 // reset transform lalu ukur ulang posisi asli
                                 this.cards.forEach(c => { c.style.transform = 'none'; c.style.opacity = '1'; });
                                 this.$nextTick(() => {
+                                    this.reserveHeight();
                                     const grid = this.$el.querySelector('.berita-grid');
                                     const gr = grid.getBoundingClientRect();
                                     const gcx = gr.left + gr.width / 2;
@@ -1160,6 +1164,63 @@
                                     this.schedule();
                                 });
                             }, { passive: true });
+
+                            // Ukur ulang setelah font siap (line-wrap judul
+                            // bisa mengubah tinggi kartu).
+                            if (document.fonts && document.fonts.ready) {
+                                document.fonts.ready.then(() => this.$nextTick(() => {
+                                    this.reserveHeight();
+                                    this.schedule();
+                                }));
+                            }
+                        },
+
+                        // Kunci tinggi baris grid = tinggi kartu saat terbuka
+                        // (hover). Hover lalu 'mengisi' ruang cadangan ini,
+                        // bukan menambah tinggi dokumen — footer tidak ikut
+                        // turun/naik. Kartu tetap setinggi naturalnya
+                        // (align-items: start) sehingga celah muncul di bawah.
+                        reserveHeight() {
+                            const grid = this.$el.querySelector('.berita-grid');
+                            if (!grid || !this.cards.length) return;
+
+                            // < sm: reveal selalu terbuka (tanpa hover-expand),
+                            // jadi tak perlu cadangan — biarkan alur normal.
+                            if (window.innerWidth < 640) {
+                                grid.style.gridAutoRows = '';
+                                grid.style.alignItems = '';
+                                return;
+                            }
+
+                            const reveals = this.cards
+                                .map(c => c.querySelector('[data-berita-reveal]'))
+                                .filter(Boolean);
+
+                            // Paksa collapsed tanpa transisi agar tinggi dasar
+                            // kartu terukur (hindari hitung ganda saat hover).
+                            reveals.forEach(r => {
+                                r.style.transition = 'none';
+                                r.style.gridTemplateRows = '0fr';
+                            });
+
+                            let max = 0;
+                            this.cards.forEach(c => {
+                                const reveal = c.querySelector('[data-berita-reveal]');
+                                const extra = (reveal && reveal.firstElementChild)
+                                    ? reveal.firstElementChild.scrollHeight
+                                    : 0;
+                                max = Math.max(max, c.offsetHeight + extra);
+                            });
+
+                            reveals.forEach(r => {
+                                r.style.gridTemplateRows = '';
+                                r.style.transition = '';
+                            });
+
+                            if (max > 0) {
+                                grid.style.gridAutoRows = 'minmax(' + max + 'px, auto)';
+                                grid.style.alignItems = 'start';
+                            }
                         },
 
                         schedule() {
@@ -1255,7 +1316,7 @@
                                     {{ $item->title }}
                                 </h3>
 
-                                <div class="grid grid-rows-[1fr] sm:grid-rows-[0fr] sm:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                                <div data-berita-reveal class="grid grid-rows-[1fr] sm:grid-rows-[0fr] sm:group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]">
                                     <div class="overflow-hidden">
                                         <div class="type-meta flex items-center gap-2 text-gray-400 dark:text-gray-500 pt-3">
                                             <span>{{ $item->published_at?->translatedFormat('d M Y') }}</span>
