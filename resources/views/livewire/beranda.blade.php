@@ -250,7 +250,7 @@
                 targets: [{{ $sekilasTargets }}],
                 current: Array({{ count($sekilasStats) }}).fill(0),
                 started: Array({{ count($sekilasStats) }}).fill(false),
-                bandClip: 'none',
+                bandClip: 'inset(0 100% 0 0)',
                 revealed: false,
                 desktop: false,
                 reduced: false,
@@ -261,10 +261,17 @@
 
                 init() {
                     this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    if (this.reduced) { this.current = this.targets.slice(); return; }
+                    if (this.reduced) {
+                        // Reduced-motion: tampilkan penuh, tanpa wipe.
+                        this.bandClip = 'none';
+                        this.current = this.targets.slice();
+                        return;
+                    }
 
                     this.desktop = window.matchMedia('(min-width: 1024px)').matches;
                     if (!this.desktop) {
+                        // Mobile/tablet: tanpa wipe — heading + pita tampil penuh.
+                        this.bandClip = 'none';
                         // Mobile/tablet: count-up saat pita masuk viewport.
                         const io = new IntersectionObserver((entries) => {
                             for (const e of entries) {
@@ -375,29 +382,30 @@
             }"
         >
             <div x-ref="pin" class="lg:sticky lg:top-[20vh]">
-                <div class="site-container">
-                    {{-- Heading: judul di kiri, pengantar sejajar kanan-bawah.
-                         Rata kiri (bukan center) supaya hierarki terbaca dan
-                         pandangan jatuh ke pita angka di bawahnya. --}}
-                    <div class="mb-8 grid gap-x-10 gap-y-3 lg:mb-10 lg:grid-cols-12 lg:items-end" data-reveal>
-                        <h2 class="type-focus-title text-gray-900 dark:text-gray-50 lg:col-span-5">
-                            {{ __('Sekilas RPL') }}
-                        </h2>
-                        <p class="type-lead max-w-xl text-gray-700 dark:text-gray-300 lg:col-span-6 lg:col-start-7">
-                            {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
-                        </p>
-                    </div>
-                </div>
-
                 {{-- Lebar pita statistik disamakan dengan card navbar: max-w-6xl +
-                     px-4/sm:px-6 (sama seperti frame hero). --}}
+                     px-4/sm:px-6 (sama seperti frame hero). Heading ditaruh di
+                     dalam lebar yang sama DAN ikut ter-wipe bersama pita
+                     (clip kiri->kanan) supaya teks tidak muncul duluan. --}}
                 <div class="px-4 sm:px-6">
                     <div class="mx-auto max-w-6xl">
-                        <div
-                            data-sekilas-band
-                            class="grid grid-cols-1 overflow-hidden rounded-2xl text-gray-950 sm:grid-cols-3"
-                            :style="'background-color: {{ $globalSettings->primary_color_style }};' + (bandClip === 'none' ? '' : ' clip-path: ' + bandClip)"
-                        >
+                        <div :style="bandClip === 'none' ? '' : 'clip-path: ' + bandClip">
+                            {{-- Heading: judul di kiri, pengantar sejajar
+                                 kanan-bawah. Rata kiri supaya hierarki
+                                 terbaca dan pandangan jatuh ke pita angka. --}}
+                            <div class="mb-8 grid gap-x-10 gap-y-3 lg:mb-10 lg:grid-cols-12 lg:items-end">
+                                <h2 class="type-focus-title text-gray-900 dark:text-gray-50 lg:col-span-5">
+                                    {{ __('Sekilas RPL') }}
+                                </h2>
+                                <p class="type-lead max-w-xl text-gray-700 dark:text-gray-300 lg:col-span-6 lg:col-start-7">
+                                    {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
+                                </p>
+                            </div>
+
+                            <div
+                                data-sekilas-band
+                                class="grid grid-cols-1 overflow-hidden rounded-2xl text-gray-950 sm:grid-cols-3"
+                                :style="'background-color: {{ $globalSettings->primary_color_style }}'"
+                            >
                             @foreach($sekilasStats as $i => $stat)
                                 <div
                                     class="stat-cell flex items-baseline gap-3 border-t border-gray-950/15 px-5 py-5 first:border-t-0 sm:first:border-l-0 sm:flex-col sm:items-start sm:gap-2.5 sm:border-t-0 sm:border-l sm:px-8 sm:py-9 lg:px-10 lg:py-10"
@@ -412,6 +420,7 @@
                                     </div>
                                 </div>
                             @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
