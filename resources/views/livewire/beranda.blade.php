@@ -229,8 +229,9 @@
              "dipin" selama ~1,5 layar. Selama pin, scroll hanya menumbuhkan
              pita dari kiri ke kanan (wipe). Tiap angka mulai menghitung saat
              angkanya sendiri sudah tersingkap penuh (bukan saat sel-nya penuh).
-             Setelah penuh, scroll lanjut normal. Mobile/reduced-motion: track
-             tidak ber-tinggi, pita statis full width. --}}
+             Begitu wipe penuh, track dipangkas ke tinggi natural + scroll
+             dikompensasi, jadi tidak ada scroll kosong saat balik ke atas.
+             Mobile/reduced-motion: track tidak ber-tinggi, pita statis. --}}
         <div
             class="lg:relative lg:h-[170vh]"
             data-sekilas-track
@@ -306,13 +307,17 @@
                     p = Math.max(0, Math.min(1, p));
 
                     if (p >= 1) {
-                        // Sekali penuh, biarkan menetap supaya tidak
-                        // terhapus lagi saat scroll balik ke atas.
+                        // Wipe penuh: kunci tampilan (tidak reverse) lalu
+                        // pangkas track 170vh jadi setinggi pin saja supaya
+                        // tidak menyisakan scroll kosong saat balik ke atas.
                         this.revealed = true;
                         this.bandClip = 'none';
-                    } else {
-                        this.bandClip = 'inset(0 ' + ((1 - p) * 100).toFixed(2) + '% 0 0)';
+                        this.targets.forEach((_, i) => this.startCell(i));
+                        this.compactTrack();
+                        return;
                     }
+
+                    this.bandClip = 'inset(0 ' + ((1 - p) * 100).toFixed(2) + '% 0 0)';
 
                     const n = this.targets.length;
                     for (let i = 0; i < n; i++) {
@@ -321,6 +326,21 @@
                             : (i + 1) / n;
                         if (p >= th - 0.002) this.startCell(i);
                     }
+                },
+
+                compactTrack() {
+                    // Set track ke tinggi natural (setinggi pin). Karena
+                    // track menyusut, semua konten di bawah naik sebesar
+                    // selisih tinggi — kompensasi scroll agar pita tidak
+                    // terlihat melompat.
+                    if (!this.desktop || this.reduced) return;
+                    const pin = this.$refs.pin;
+                    if (!pin) return;
+
+                    const before = pin.getBoundingClientRect().top;
+                    this.$el.style.height = 'auto';
+                    const delta = pin.getBoundingClientRect().top - before;
+                    if (delta) window.scrollBy(0, delta);
                 },
 
                 startCell(i) {
