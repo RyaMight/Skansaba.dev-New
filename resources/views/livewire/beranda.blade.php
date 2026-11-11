@@ -300,7 +300,7 @@
                     if (!band) return;
                     const b = band.getBoundingClientRect();
                     if (!b.width) return;
-                    this._thresholds = [...this.$refs.pin.querySelectorAll('.type-stat-xl')].map((el) => {
+                    this._thresholds = [...this.$refs.pin.querySelectorAll('[data-sekilas-stats] .type-stat-xl')].map((el) => {
                         const r = el.getBoundingClientRect();
                         return (r.right - b.left) / b.width;
                     });
@@ -385,9 +385,10 @@
             <div x-ref="pin" class="lg:sticky lg:top-[20vh]">
                 {{-- Card gaya "by the numbers": tagline sebagai label atas,
                      judul besar, lalu baris angka. HANYA background biru yang
-                     di-wipe — teks tetap diam. Judul digambar dua lapis: putih
-                     (dasar) + salinan hitam yang di-clip mengikuti sapuan,
-                     sehingga berubah putih->hitam saat biru menutupinya. --}}
+                     di-wipe. Lapisan dasar menampilkan teks sebelum kena wipe
+                     (tagline abu, judul terang, angka disembunyikan); lapisan
+                     putih di-clip mengikuti sapuan sehingga teks di area yang
+                     sudah tertutup biru berubah putih dan angka muncul. --}}
                 <div class="px-4 sm:px-6">
                     <div class="mx-auto max-w-6xl">
                         <div class="relative overflow-hidden rounded-2xl">
@@ -398,9 +399,11 @@
                                 :style="'background-color: {{ $globalSettings->primary_color_style }};' + (bandClip === 'none' ? '' : ' clip-path: ' + bandClip)"
                             ></div>
 
-                            {{-- Konten statis (tidak ikut ter-wipe) --}}
+                            {{-- Lapisan dasar (warna sebelum kena wipe). Angka
+                                 sengaja invisible: hanya muncul dari lapisan
+                                 putih saat biru menyapunya. --}}
                             <div class="relative px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16">
-                                <p class="type-body-sm font-medium tracking-wide text-gray-500 dark:text-gray-400">
+                                <p class="type-body-sm font-medium tracking-wide text-gray-500 dark:text-gray-400 max-w-xl">
                                     {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
                                 </p>
 
@@ -408,19 +411,16 @@
                                     {{ __('Sekilas RPL') }}
                                 </h2>
 
-                                <div class="mt-8 border-t border-white/20"></div>
+                                {{-- Spacer (garis asli digambar di lapisan putih) --}}
+                                <div class="mt-8 border-t border-transparent"></div>
 
-                                <div class="grid grid-cols-1 sm:grid-cols-3">
+                                <div class="grid grid-cols-1 invisible sm:grid-cols-3" aria-hidden="true">
                                     @foreach($sekilasStats as $i => $stat)
-                                    <div
-                                        class="border-t border-white/15 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:border-white/15 sm:pl-6 sm:first:border-l-0 sm:first:pl-0"
-                                        role="group"
-                                        aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
-                                    >
-                                        <div class="type-stat-xl text-gray-900 dark:text-white" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
+                                    <div class="border-t border-white/15 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:border-white/15 sm:pl-6 sm:first:border-l-0 sm:first:pl-0">
+                                        <div class="type-stat-xl">
                                             {{ number_format($stat['value'], 0, ',', '.') }}
                                         </div>
-                                        <div class="type-body-sm mt-2 text-gray-500 dark:text-gray-300" aria-hidden="true">
+                                        <div class="type-body-sm mt-2">
                                             {{ $stat['label'] }}
                                         </div>
                                     </div>
@@ -428,20 +428,40 @@
                                 </div>
                             </div>
 
-                            {{-- Salinan judul berwarna hitam, di-clip mengikuti wipe
-                                 sehingga muncul tepat di area yang sudah tertutup
-                                 biru. --}}
+                            {{-- Lapisan putih, di-clip mengikuti wipe: teks di
+                                 area yang sudah tertutup biru tampil putih, dan
+                                 angka hanya muncul saat tersapu biru. --}}
                             <div
                                 class="pointer-events-none absolute inset-0 px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16"
                                 :style="bandClip === 'none' ? '' : 'clip-path: ' + bandClip"
                                 aria-hidden="true"
                             >
-                                <p class="type-body-sm font-medium tracking-wide text-transparent">
+                                <p class="type-body-sm font-medium tracking-wide text-white max-w-xl">
                                     {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
                                 </p>
-                                <h2 class="type-focus-title mt-4 text-black">
+
+                                <h2 class="type-focus-title mt-4 text-white">
                                     {{ __('Sekilas RPL') }}
                                 </h2>
+
+                                <div class="mt-8 border-t border-white/20"></div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-3" data-sekilas-stats>
+                                    @foreach($sekilasStats as $i => $stat)
+                                    <div
+                                        class="border-t border-white/15 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:border-white/15 sm:pl-6 sm:first:border-l-0 sm:first:pl-0"
+                                        role="group"
+                                        aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
+                                    >
+                                        <div class="type-stat-xl text-white" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
+                                            {{ number_format($stat['value'], 0, ',', '.') }}
+                                        </div>
+                                        <div class="type-body-sm mt-2 text-white/80" aria-hidden="true">
+                                            {{ $stat['label'] }}
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
