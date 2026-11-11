@@ -16,3 +16,10 @@ Sistem ini menggunakan **Codebase Memory Bank** di direktori `memory-bank/` untu
 - Ikuti standar Laravel 12 + Livewire 4.
 - Gunakan Tailwind CSS 4 untuk komponen tampilan (ikuti standar skill `anti-ai-slop`: desain bersih, border halus daripada shadow tebal, densitas data pas, tanpa gradient/emoji alay).
 - Patuhi aturan role middleware (`admin`, `guru`, `siswa`) dan audit log.
+
+## Aturan Commit (WAJIB)
+- Setiap kali selesai **memperbaiki bug** atau **menambah/mengubah fitur**, langsung buat commit untuk perubahan itu — tanpa menunggu diminta lagi.
+- Stage **hanya** file yang relevan dengan tugas yang sedang dikerjakan (`git add <file>`, jangan `git add -A`).
+- **JANGAN** commit `.gitignore` dan `vite.config.js` (perubahan lokal yang tidak terkait).
+- **JANGAN** commit file "anomali" lain: file yang berubah tetapi tidak berhubungan dengan tugas/tidak sengaja tersentuh. Biarkan tetap `Modified` di working tree.
+- Format pesan commit mengikuti gaya repo: `type(scope): ringkasan` (mis. `feat(beranda): ...`, `fix(prestasi): ...`), boleh dengan body poin-poin.
