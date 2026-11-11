@@ -80,6 +80,16 @@ body {
     }
 }
 
+/* Judul sorotan — dipakai sekali ("Sekilas RPL") agar pita angka
+   di bawahnya terbaca sebagai satu blok, bukan section lain. */
+.type-focus-title {
+    font-size: clamp(2.125rem, 1.4rem + 2.9vw, 3.375rem);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+}
+
 /* Sub-judul / judul panel — 20px */
 .type-subsection-title {
     font-size: 1.25rem;
@@ -199,6 +209,46 @@ body {
     font-weight: 700;
     letter-spacing: normal;
     font-variant-numeric: tabular-nums;
+}
+
+/* Angka statistik sorotan — pita "Sekilas RPL".
+   Satu-satunya display size di luar judul, dipakai untuk angka yang
+   memang ingin dibaca lebih dulu daripada section-nya. */
+.type-stat-xl {
+    font-size: clamp(2.375rem, 1.5rem + 3vw, 4rem);
+    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Sel pita statistik "Sekilas RPL" — wash tipis saat hover.
+   Selnya bukan tombol, jadi umpan balik dibuat tenang: latar menggelap
+   sedikit dan label naik ke kontras penuh. Angka tidak bergeser agar
+   pita tetap terbaca sebagai satu bidang data. */
+.stat-cell {
+    transition: background-color var(--dur-normal) var(--ease-out-expo);
+}
+
+.stat-cell__label {
+    transition: color var(--dur-normal) var(--ease-out-expo);
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .stat-cell:hover {
+        background-color: rgb(0 0 0 / 0.06);
+    }
+
+    .stat-cell:hover .stat-cell__label {
+        color: rgb(0 0 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stat-cell,
+    .stat-cell__label {
+        transition: none;
+    }
 }
 
 @source '../views';

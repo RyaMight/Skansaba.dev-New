@@ -184,64 +184,76 @@
     {{-- ============================================ --}}
     <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
         <div class="site-container">
-            {{-- Heading --}}
-            <div class="text-center max-w-2xl mx-auto mb-10 lg:mb-14" data-reveal>
-                <h2 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Sekilas RPL') }}</h2>
-                <p class="type-lead text-gray-600 dark:text-gray-300 mt-3">
+            {{-- Heading: judul di kiri, pengantar sejajar kanan-bawah.
+                 Rata kiri (bukan center) supaya hierarki terbaca dan
+                 pandangan jatuh ke pita angka di bawahnya. --}}
+            <div class="mb-8 grid gap-x-10 gap-y-3 lg:mb-10 lg:grid-cols-12 lg:items-end" data-reveal>
+                <h2 class="type-focus-title text-gray-900 dark:text-gray-50 lg:col-span-5">
+                    {{ __('Sekilas RPL') }}
+                </h2>
+                <p class="type-lead max-w-xl text-gray-700 dark:text-gray-300 lg:col-span-6 lg:col-start-7">
                     {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
                 </p>
             </div>
 
-            {{-- Baris statistik: 3 persegi miring ke kiri (paralelogram),
-                 latar warna brand Skansaba.dev tanpa border, teks tetap tegak. --}}
+            {{-- Pita statistik: satu bidang warna brand (bukan 3 kartu miring
+                 dengan shadow), angka besar jadi fokus utama. --}}
             @php
                 $sekilasStats = [
                     ['value' => $totalSiswaAktif, 'label' => __('Siswa Aktif')],
                     ['value' => $totalAlumni, 'label' => __('Alumni')],
                     ['value' => $totalMitra, 'label' => __('Mitra')],
                 ];
+                $sekilasTargets = implode(', ', array_map(fn ($stat) => (int) $stat['value'], $sekilasStats));
             @endphp
 
-            <div class="grid grid-cols-3 gap-5 sm:gap-8 px-4 sm:px-10">
-                @foreach($sekilasStats as $stat)
-                    <div data-reveal class="h-full">
-                        <div
-                            x-data="{
-                                current: 0,
-                                target: {{ (int) $stat['value'] }},
-                                started: false,
-                                start() {
-                                    if (this.started) return;
-                                    this.started = true;
-                                    const dur = 1500;
-                                    const t0 = performance.now();
-                                    const step = (now) => {
-                                        const p = Math.min(1, (now - t0) / dur);
-                                        const eased = 1 - Math.pow(1 - p, 3);
-                                        this.current = Math.round(this.target * eased);
-                                        if (p < 1) requestAnimationFrame(step);
-                                    };
-                                    requestAnimationFrame(step);
-                                }
-                            }"
-                            x-init="
-                                const self = $data;
-                                const io = new IntersectionObserver((entries) => {
-                                    for (const entry of entries) {
-                                        if (entry.isIntersecting) { self.start(); io.disconnect(); }
-                                    }
-                                }, { threshold: 0.5 });
-                                io.observe($el);
-                            "
-                            class="relative h-full skew-x-[8deg] sm:skew-x-[12deg] rounded-xl px-1.5 py-6 sm:px-6 sm:py-10 shadow-[0_8px_22px_-12px_rgba(2,132,199,0.45)] transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2 hover:scale-[1.03] hover:shadow-[0_22px_44px_-16px_rgba(2,132,199,0.6)] active:translate-y-0 active:scale-[0.99]"
-                            style="background-color: {{ $globalSettings->primary_color_style }}"
-                        >
-                            <div class="-skew-x-[8deg] sm:-skew-x-[12deg] text-center">
-                                <div class="type-stat tabular-nums text-gray-950" x-text="current.toLocaleString('id-ID')">
-                                    {{ number_format($stat['value'], 0, ',', '.') }}
-                                </div>
-                                <div class="type-meta mt-1.5 text-gray-900 dark:text-gray-900">{{ $stat['label'] }}</div>
-                            </div>
+            <div
+                x-data="{
+                    current: Array({{ count($sekilasStats) }}).fill(0),
+                    target: [{{ $sekilasTargets }}],
+                    started: false,
+                    start() {
+                        if (this.started) return;
+                        this.started = true;
+                        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                            this.current = this.target.slice();
+                            return;
+                        }
+                        const dur = 1500;
+                        const t0 = performance.now();
+                        const step = (now) => {
+                            const p = Math.min(1, (now - t0) / dur);
+                            const eased = 1 - Math.pow(1 - p, 3);
+                            this.current = this.target.map((t) => Math.round(t * eased));
+                            if (p < 1) requestAnimationFrame(step);
+                        };
+                        requestAnimationFrame(step);
+                    }
+                }"
+                x-init="
+                    const self = $data;
+                    const io = new IntersectionObserver((entries) => {
+                        for (const entry of entries) {
+                            if (entry.isIntersecting) { self.start(); io.disconnect(); }
+                        }
+                    }, { threshold: 0.5 });
+                    io.observe($el);
+                "
+                data-reveal
+                class="grid grid-cols-1 overflow-hidden rounded-2xl text-gray-950 sm:grid-cols-3"
+                style="background-color: {{ $globalSettings->primary_color_style }}"
+            >
+                @foreach($sekilasStats as $i => $stat)
+                    <div
+                        class="stat-cell flex items-baseline gap-3 border-t border-gray-950/15 px-5 py-5 first:border-t-0 sm:first:border-l-0 sm:flex-col sm:items-start sm:gap-2.5 sm:border-t-0 sm:border-l sm:px-8 sm:py-9 lg:px-10 lg:py-10"
+                        role="group"
+                        aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
+                    >
+                        <div class="type-stat-xl" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
+                            {{ number_format($stat['value'], 0, ',', '.') }}
+                        </div>
+                        <div class="stat-cell__label type-body-sm font-medium text-gray-950/80" aria-hidden="true">
+                            {{ $stat['label'] }}
                         </div>
                     </div>
                 @endforeach
