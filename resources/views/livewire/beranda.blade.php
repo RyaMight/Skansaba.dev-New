@@ -295,11 +295,12 @@
                     // Ambang tiap angka = tepi kanan angka itu sendiri (bukan sel),
                     // relatif terhadap lebar pita, supaya hitungan mulai persis
                     // ketika angka sudah muncul penuh.
-                    const band = this.$refs.pin && this.$refs.pin.querySelector('[data-sekilas-band]');
+                    if (!this.$refs.pin) return;
+                    const band = this.$refs.pin.querySelector('[data-sekilas-band]');
                     if (!band) return;
                     const b = band.getBoundingClientRect();
                     if (!b.width) return;
-                    this._thresholds = [...band.querySelectorAll('.type-stat-xl')].map((el) => {
+                    this._thresholds = [...this.$refs.pin.querySelectorAll('.type-stat-xl')].map((el) => {
                         const r = el.getBoundingClientRect();
                         return (r.right - b.left) / b.width;
                     });
@@ -382,45 +383,65 @@
             }"
         >
             <div x-ref="pin" class="lg:sticky lg:top-[20vh]">
-                {{-- Lebar pita statistik disamakan dengan card navbar: max-w-6xl +
-                     px-4/sm:px-6 (sama seperti frame hero). Heading ditaruh di
-                     dalam lebar yang sama DAN ikut ter-wipe bersama pita
-                     (clip kiri->kanan) supaya teks tidak muncul duluan. --}}
+                {{-- Card gaya "by the numbers": tagline sebagai label atas,
+                     judul besar, lalu baris angka. HANYA background biru yang
+                     di-wipe — teks tetap diam. Judul digambar dua lapis: putih
+                     (dasar) + salinan hitam yang di-clip mengikuti sapuan,
+                     sehingga berubah putih->hitam saat biru menutupinya. --}}
                 <div class="px-4 sm:px-6">
                     <div class="mx-auto max-w-6xl">
-                        <div
-                            data-sekilas-band
-                            class="overflow-hidden rounded-2xl text-gray-950"
-                            :style="'background-color: {{ $globalSettings->primary_color_style }};' + (bandClip === 'none' ? '' : ' clip-path: ' + bandClip)"
-                        >
-                            {{-- Heading: judul + pengantar menempel di atas
-                                 background biru, jadi ikut ter-wipe sebagai
-                                 satu container bersama pita angka. --}}
-                            <div class="grid gap-x-10 gap-y-3 px-5 pt-8 pb-6 sm:px-8 sm:pt-9 sm:pb-7 lg:grid-cols-12 lg:items-end lg:px-10 lg:pt-10 lg:pb-8">
-                                <h2 class="type-focus-title text-gray-950 lg:col-span-5">
-                                    {{ __('Sekilas RPL') }}
-                                </h2>
-                                <p class="type-lead max-w-xl text-gray-950/80 lg:col-span-6 lg:col-start-7">
+                        <div class="relative overflow-hidden rounded-2xl">
+                            {{-- Lapisan background biru (yang di-wipe) --}}
+                            <div
+                                data-sekilas-band
+                                class="absolute inset-0"
+                                :style="'background-color: {{ $globalSettings->primary_color_style }};' + (bandClip === 'none' ? '' : ' clip-path: ' + bandClip)"
+                            ></div>
+
+                            {{-- Konten statis (tidak ikut ter-wipe) --}}
+                            <div class="relative px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16">
+                                <p class="type-body-sm font-medium tracking-wide text-gray-500 dark:text-gray-400">
                                     {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
                                 </p>
+
+                                <h2 class="type-focus-title mt-4 text-gray-900 dark:text-white">
+                                    {{ __('Sekilas RPL') }}
+                                </h2>
+
+                                <div class="mt-8 border-t border-white/20"></div>
+
+                                <div class="grid grid-cols-1 sm:grid-cols-3">
+                                    @foreach($sekilasStats as $i => $stat)
+                                    <div
+                                        class="border-t border-white/15 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:border-white/15 sm:pl-6 sm:first:border-l-0 sm:first:pl-0"
+                                        role="group"
+                                        aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
+                                    >
+                                        <div class="type-stat-xl text-gray-900 dark:text-white" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
+                                            {{ number_format($stat['value'], 0, ',', '.') }}
+                                        </div>
+                                        <div class="type-body-sm mt-2 text-gray-500 dark:text-gray-300" aria-hidden="true">
+                                            {{ $stat['label'] }}
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
                             </div>
 
-                            {{-- Pita angka --}}
-                            <div class="grid grid-cols-1 border-t border-gray-950/15 sm:grid-cols-3">
-                                @foreach($sekilasStats as $i => $stat)
-                                <div
-                                    class="stat-cell flex items-baseline gap-3 border-t border-gray-950/15 px-5 py-5 first:border-t-0 sm:first:border-l-0 sm:flex-col sm:items-start sm:gap-2.5 sm:border-t-0 sm:border-l sm:px-8 sm:py-9 lg:px-10 lg:py-10"
-                                    role="group"
-                                    aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
-                                >
-                                    <div class="type-stat-xl" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
-                                        {{ number_format($stat['value'], 0, ',', '.') }}
-                                    </div>
-                                    <div class="stat-cell__label type-body-sm font-medium text-gray-950/80" aria-hidden="true">
-                                        {{ $stat['label'] }}
-                                    </div>
-                                </div>
-                                @endforeach
+                            {{-- Salinan judul berwarna hitam, di-clip mengikuti wipe
+                                 sehingga muncul tepat di area yang sudah tertutup
+                                 biru. --}}
+                            <div
+                                class="pointer-events-none absolute inset-0 px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16"
+                                :style="bandClip === 'none' ? '' : 'clip-path: ' + bandClip"
+                                aria-hidden="true"
+                            >
+                                <p class="type-body-sm font-medium tracking-wide text-transparent">
+                                    {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
+                                </p>
+                                <h2 class="type-focus-title mt-4 text-black">
+                                    {{ __('Sekilas RPL') }}
+                                </h2>
                             </div>
                         </div>
                     </div>
