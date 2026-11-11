@@ -3,20 +3,31 @@
     {{-- Curtain: SELURUH konten dari hero sampai Prospek dikunci sebagai
          satu blok (bukan hanya Prospek) tepat saat DASAR Prospek mentok
          dasar viewport, lalu Karya + Prestasi naik menutupinya seperti
-         tirai. Dengan begitu tidak ada bagian atas yang "tenggelam".
-         Desktop saja; mobile tetap alur normal tanpa sticky. --}}
+         tirai. Padding bawah Prospek dihitung dinamis supaya pada momen
+         itu isi Prospek tepat di tengah viewport (tirai mulai naik saat
+         konten terlihat nyaman). Desktop saja; mobile alur normal. --}}
     {{-- ============================================ --}}
     <div
         class="relative isolate bg-slate-100 dark:bg-gray-950"
         x-data="{
             setTop() {
-                const el = this.$refs.locked;
-                if (!el) return;
+                const lock = this.$refs.locked;
+                if (!lock) return;
+                const prospek = lock.querySelector('[data-prospek]');
+                const content = lock.querySelector('[data-prospek-content]');
                 if (!window.matchMedia('(min-width: 1024px)').matches) {
-                    el.style.top = '';
+                    lock.style.top = '';
+                    if (prospek) prospek.style.paddingBottom = '';
                     return;
                 }
-                el.style.top = (window.innerHeight - el.offsetHeight) + 'px';
+                // Beri padding bawah dinamis agar isi Prospek (site-container)
+                // tepat di tengah viewport pada saat dasar section menyentuh
+                // dasar viewport — momen tirai mulai naik. pb = (vh - isi) / 2.
+                if (prospek && content) {
+                    const pb = Math.max(0, (window.innerHeight - content.offsetHeight) / 2);
+                    prospek.style.paddingBottom = pb + 'px';
+                }
+                lock.style.top = (window.innerHeight - lock.offsetHeight) + 'px';
             }
         }"
         x-init="
@@ -567,8 +578,8 @@
     {{-- ============================================ --}}
     {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
-    <section class="relative z-0 bg-slate-100 py-16 dark:bg-gray-950 lg:py-24">
-        <div class="site-container" x-data="{
+    <section data-prospek class="relative z-0 bg-slate-100 py-16 dark:bg-gray-950 lg:py-24">
+        <div class="site-container" data-prospek-content x-data="{
             aktif: 'mapel',
             animating: false,
             setTab(t) {
