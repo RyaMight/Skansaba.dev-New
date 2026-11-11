@@ -7,6 +7,7 @@ use App\Models\LandingPageSlider;
 use App\Models\KaryaSiswa;
 use App\Models\Berita;
 use App\Models\Mitra;
+use App\Models\Prestasi;
 use App\Models\ProspekKarir;
 use App\Models\GlobalSetting;
 use App\Models\User;
@@ -34,6 +35,12 @@ class Beranda extends Component
         $berita = Berita::where('status', 'published')
             ->latest('published_at')
             ->take(3)
+            ->get();
+
+        // --- Prestasi terbaru untuk sticky stack di beranda ---
+        $prestasiTerbaru = Prestasi::published()
+            ->orderByDesc('tanggal_prestasi')
+            ->take(5)
             ->get();
 
         $prospekKarir = ProspekKarir::active()->ordered()->get();
@@ -97,6 +104,7 @@ class Beranda extends Component
             'totalAlumni' => $totalAlumni,
             'totalMitra' => $totalMitra,
             'featuredAlumni' => $featuredAlumni,
+            'prestasiTerbaru' => $prestasiTerbaru,
         ]);
     }
 

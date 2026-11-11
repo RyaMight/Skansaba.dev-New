@@ -251,6 +251,42 @@ body {
     }
 }
 
+/* Kartu "Recent dispatches" — kartu bawah mengecil sedikit saat
+   tertutup kartu berikutnya, memberi isyarat tumpukan tanpa menggeser
+   posisi sticky. Transform origin di atas agar celah antar-kartu tetap. */
+.dispatch-card {
+    transform-origin: top center;
+    transition:
+        transform 320ms var(--ease-out-expo),
+        filter 320ms var(--ease-out-expo);
+    will-change: transform;
+}
+
+.dispatch-card.is-covered {
+    transform: scale(0.965);
+    filter: brightness(0.985) saturate(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dispatch-card {
+        transition: none;
+        will-change: auto;
+    }
+
+    .dispatch-card.is-covered {
+        transform: none;
+        filter: none;
+    }
+}
+
+/* Sekilas stat band: saat reduced-motion pita langsung penuh, jadi track
+   170vh tidak diperlukan — hilangkan scroll kosongnya. */
+@media (prefers-reduced-motion: reduce) {
+    [data-sekilas-track] {
+        height: auto !important;
+    }
+}
+
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 

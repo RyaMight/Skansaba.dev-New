@@ -1,4 +1,4 @@
-<div class="overflow-x-hidden">
+<div class="overflow-x-clip">
     {{-- ============================================ --}}
     {{-- Hero: Slider foto tunggal ala skansaba.dev --}}
     {{-- 1 foto di tengah, tanpa tetangga, crossfade --}}
@@ -183,82 +183,178 @@
     {{-- Sekilas RPL: statistik ringkas + alumni sorotan --}}
     {{-- ============================================ --}}
     <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
-        <div class="site-container">
-            {{-- Heading: judul di kiri, pengantar sejajar kanan-bawah.
-                 Rata kiri (bukan center) supaya hierarki terbaca dan
-                 pandangan jatuh ke pita angka di bawahnya. --}}
-            <div class="mb-8 grid gap-x-10 gap-y-3 lg:mb-10 lg:grid-cols-12 lg:items-end" data-reveal>
-                <h2 class="type-focus-title text-gray-900 dark:text-gray-50 lg:col-span-5">
-                    {{ __('Sekilas RPL') }}
-                </h2>
-                <p class="type-lead max-w-xl text-gray-700 dark:text-gray-300 lg:col-span-6 lg:col-start-7">
-                    {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
-                </p>
-            </div>
+        @php
+            $sekilasStats = [
+                ['value' => $totalSiswaAktif, 'label' => __('Siswa Aktif')],
+                ['value' => $totalAlumni, 'label' => __('Alumni')],
+                ['value' => $totalMitra, 'label' => __('Mitra')],
+            ];
+            $sekilasTargets = implode(', ', array_map(fn ($stat) => (int) $stat['value'], $sekilasStats));
+        @endphp
 
-            {{-- Pita statistik: satu bidang warna brand (bukan 3 kartu miring
-                 dengan shadow), angka besar jadi fokus utama. --}}
-            @php
-                $sekilasStats = [
-                    ['value' => $totalSiswaAktif, 'label' => __('Siswa Aktif')],
-                    ['value' => $totalAlumni, 'label' => __('Alumni')],
-                    ['value' => $totalMitra, 'label' => __('Mitra')],
-                ];
-                $sekilasTargets = implode(', ', array_map(fn ($stat) => (int) $stat['value'], $sekilasStats));
-            @endphp
+        {{-- Track: di desktop diberi tinggi 170vh supaya heading + pita stat
+             "dipin" selama ~1,5 layar. Selama pin, scroll hanya menumbuhkan
+             pita dari kiri ke kanan (wipe). Tiap angka mulai menghitung saat
+             angkanya sendiri sudah tersingkap penuh (bukan saat sel-nya penuh).
+             Setelah penuh, scroll lanjut normal. Mobile/reduced-motion: track
+             tidak ber-tinggi, pita statis full width. --}}
+        <div
+            class="lg:relative lg:h-[170vh]"
+            data-sekilas-track
+            x-data="{
+                targets: [{{ $sekilasTargets }}],
+                current: Array({{ count($sekilasStats) }}).fill(0),
+                started: Array({{ count($sekilasStats) }}).fill(false),
+                bandClip: 'none',
+                revealed: false,
+                desktop: false,
+                reduced: false,
+                _raf: null,
+                _ts: Array({{ count($sekilasStats) }}).fill(0),
+                _pinOffset: 0.2,
+                _thresholds: null,
 
-            <div
-                x-data="{
-                    current: Array({{ count($sekilasStats) }}).fill(0),
-                    target: [{{ $sekilasTargets }}],
-                    started: false,
-                    start() {
-                        if (this.started) return;
-                        this.started = true;
-                        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                            this.current = this.target.slice();
-                            return;
-                        }
-                        const dur = 1500;
-                        const t0 = performance.now();
-                        const step = (now) => {
-                            const p = Math.min(1, (now - t0) / dur);
-                            const eased = 1 - Math.pow(1 - p, 3);
-                            this.current = this.target.map((t) => Math.round(t * eased));
-                            if (p < 1) requestAnimationFrame(step);
-                        };
-                        requestAnimationFrame(step);
+                init() {
+                    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                    if (this.reduced) { this.current = this.targets.slice(); return; }
+
+                    this.desktop = window.matchMedia('(min-width: 1024px)').matches;
+                    if (!this.desktop) {
+                        // Mobile/tablet: count-up saat pita masuk viewport.
+                        const io = new IntersectionObserver((entries) => {
+                            for (const e of entries) {
+                                if (e.isIntersecting) {
+                                    this.targets.forEach((_, i) => this.startCell(i));
+                                    io.disconnect();
+                                }
+                            }
+                        }, { threshold: 0.5 });
+                        io.observe(this.$el);
+                        return;
                     }
-                }"
-                x-init="
-                    const self = $data;
-                    const io = new IntersectionObserver((entries) => {
-                        for (const entry of entries) {
-                            if (entry.isIntersecting) { self.start(); io.disconnect(); }
-                        }
-                    }, { threshold: 0.5 });
-                    io.observe($el);
-                "
-                data-reveal
-                class="grid grid-cols-1 overflow-hidden rounded-2xl text-gray-950 sm:grid-cols-3"
-                style="background-color: {{ $globalSettings->primary_color_style }}"
-            >
-                @foreach($sekilasStats as $i => $stat)
-                    <div
-                        class="stat-cell flex items-baseline gap-3 border-t border-gray-950/15 px-5 py-5 first:border-t-0 sm:first:border-l-0 sm:flex-col sm:items-start sm:gap-2.5 sm:border-t-0 sm:border-l sm:px-8 sm:py-9 lg:px-10 lg:py-10"
-                        role="group"
-                        aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
-                    >
-                        <div class="type-stat-xl" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
-                            {{ number_format($stat['value'], 0, ',', '.') }}
-                        </div>
-                        <div class="stat-cell__label type-body-sm font-medium text-gray-950/80" aria-hidden="true">
-                            {{ $stat['label'] }}
+
+                    window.addEventListener('scroll', () => this.onScroll(), { passive: true });
+                    window.addEventListener('resize', () => { this._thresholds = null; this.onScroll(); });
+                    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this._thresholds = null; this.onScroll(); });
+                    this.$nextTick(() => this.onScroll());
+                },
+
+                measure() {
+                    // Ambang tiap angka = tepi kanan angka itu sendiri (bukan sel),
+                    // relatif terhadap lebar pita, supaya hitungan mulai persis
+                    // ketika angka sudah muncul penuh.
+                    const band = this.$refs.pin && this.$refs.pin.querySelector('[data-sekilas-band]');
+                    if (!band) return;
+                    const b = band.getBoundingClientRect();
+                    if (!b.width) return;
+                    this._thresholds = [...band.querySelectorAll('.type-stat-xl')].map((el) => {
+                        const r = el.getBoundingClientRect();
+                        return (r.right - b.left) / b.width;
+                    });
+                },
+
+                onScroll() {
+                    if (this.revealed) return;
+                    if (!window.matchMedia('(min-width: 1024px)').matches) {
+                        this.bandClip = 'none';
+                        return;
+                    }
+                    if (!this.$refs.pin) return;
+
+                    if (!this._thresholds) this.measure();
+
+                    const trackH = this.$el.offsetHeight;
+                    const pinH = this.$refs.pin.offsetHeight;
+                    const topOffset = window.innerHeight * this._pinOffset;
+                    const trackTop = this.$el.getBoundingClientRect().top + window.scrollY;
+                    const start = trackTop - topOffset;
+                    const dist = Math.max(1, trackH - pinH);
+                    let p = (window.scrollY - start) / dist;
+                    p = Math.max(0, Math.min(1, p));
+
+                    if (p >= 1) {
+                        // Sekali penuh, biarkan menetap supaya tidak
+                        // terhapus lagi saat scroll balik ke atas.
+                        this.revealed = true;
+                        this.bandClip = 'none';
+                    } else {
+                        this.bandClip = 'inset(0 ' + ((1 - p) * 100).toFixed(2) + '% 0 0)';
+                    }
+
+                    const n = this.targets.length;
+                    for (let i = 0; i < n; i++) {
+                        const th = (this._thresholds && this._thresholds[i] != null)
+                            ? this._thresholds[i]
+                            : (i + 1) / n;
+                        if (p >= th - 0.002) this.startCell(i);
+                    }
+                },
+
+                startCell(i) {
+                    if (this.started[i]) return;
+                    this.started[i] = true;
+                    this._ts[i] = performance.now();
+                    if (!this._raf) this._raf = requestAnimationFrame((t) => this.tick(t));
+                },
+
+                tick(now) {
+                    let active = false;
+                    this.targets.forEach((target, i) => {
+                        if (!this.started[i]) return;
+                        const pr = Math.min(1, (now - this._ts[i]) / 800);
+                        const eased = 1 - Math.pow(1 - pr, 3);
+                        this.current[i] = Math.round(target * eased);
+                        if (pr < 1) active = true;
+                    });
+                    this._raf = active ? requestAnimationFrame((t) => this.tick(t)) : null;
+                }
+            }"
+        >
+            <div x-ref="pin" class="lg:sticky lg:top-[20vh]">
+                <div class="site-container">
+                    {{-- Heading: judul di kiri, pengantar sejajar kanan-bawah.
+                         Rata kiri (bukan center) supaya hierarki terbaca dan
+                         pandangan jatuh ke pita angka di bawahnya. --}}
+                    <div class="mb-8 grid gap-x-10 gap-y-3 lg:mb-10 lg:grid-cols-12 lg:items-end" data-reveal>
+                        <h2 class="type-focus-title text-gray-900 dark:text-gray-50 lg:col-span-5">
+                            {{ __('Sekilas RPL') }}
+                        </h2>
+                        <p class="type-lead max-w-xl text-gray-700 dark:text-gray-300 lg:col-span-6 lg:col-start-7">
+                            {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Lebar pita statistik disamakan dengan card navbar: max-w-6xl +
+                     px-4/sm:px-6 (sama seperti frame hero). --}}
+                <div class="px-4 sm:px-6">
+                    <div class="mx-auto max-w-6xl">
+                        <div
+                            data-sekilas-band
+                            class="grid grid-cols-1 overflow-hidden rounded-2xl text-gray-950 sm:grid-cols-3"
+                            :style="'background-color: {{ $globalSettings->primary_color_style }};' + (bandClip === 'none' ? '' : ' clip-path: ' + bandClip)"
+                        >
+                            @foreach($sekilasStats as $i => $stat)
+                                <div
+                                    class="stat-cell flex items-baseline gap-3 border-t border-gray-950/15 px-5 py-5 first:border-t-0 sm:first:border-l-0 sm:flex-col sm:items-start sm:gap-2.5 sm:border-t-0 sm:border-l sm:px-8 sm:py-9 lg:px-10 lg:py-10"
+                                    role="group"
+                                    aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
+                                >
+                                    <div class="type-stat-xl" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
+                                        {{ number_format($stat['value'], 0, ',', '.') }}
+                                    </div>
+                                    <div class="stat-cell__label type-body-sm font-medium text-gray-950/80" aria-hidden="true">
+                                        {{ $stat['label'] }}
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                @endforeach
+                </div>
             </div>
+        </div>
 
+        <div class="site-container">
             {{-- Alumni sorotan: 3 kolom — Profil, Foto, Kutipan --}}
             @if($featuredAlumni)
                 <div class="mt-12 lg:mt-16" data-reveal>
@@ -792,6 +888,142 @@
             @endif
         </div>
     </section>
+
+    {{-- ============================================ --}}
+    {{-- Prestasi: sticky stacked dispatches --}}
+    {{-- ============================================ --}}
+    @if ($prestasiTerbaru->isNotEmpty())
+    <section
+        id="prestasi"
+        aria-labelledby="prestasi-dispatch-heading"
+        class="bg-white py-20 dark:bg-slate-900 lg:py-28"
+    >
+        <div class="site-container">
+            <div class="mx-auto max-w-2xl text-center" data-reveal>
+                <h2
+                    id="prestasi-dispatch-heading"
+                    class="text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl dark:text-gray-50"
+                >
+                    Prestasi Terbaru
+                </h2>
+                <p class="mx-auto mt-4 max-w-lg text-sm text-gray-500 sm:text-base dark:text-gray-400">
+                    Catatan capaian siswa Jurusan RPL di berbagai kompetisi dan ajang, dari tingkat kota
+                    hingga nasional.
+                </p>
+            </div>
+
+            {{-- Stack. Kartu memakai sticky dengan top bertingkat supaya
+                 kartu berikutnya menutup kartu sebelumnya saat scroll.
+                 `is-covered` (Alpine) hanya mengecilkan kartu yang sudah
+                 tertutup; reduced-motion mematikannya lewat CSS.
+                 Basis 7rem (112px) memberi jarak ~30px di bawah header
+                 (header tingginya ±82px) supaya kartu tidak menempel. --}}
+            <div
+                class="relative mx-auto mt-12 flex max-w-4xl flex-col gap-5 sm:mt-16 sm:gap-7"
+                x-data="{
+                    active: 0,
+                    sync() {
+                        const cards = [...this.$el.querySelectorAll('[data-dispatch-card]')];
+                        let current = 0;
+                        cards.forEach((card, index) => {
+                            const top = parseFloat(getComputedStyle(card).top) || 0;
+                            if (card.getBoundingClientRect().top <= top + 2) current = index;
+                        });
+                        this.active = current;
+                    }
+                }"
+                x-init="sync(); $nextTick(() => sync())"
+                @scroll.window.passive="sync()"
+                @resize.window="sync()"
+            >
+                @foreach($prestasiTerbaru as $i => $prestasi)
+                    <article
+                        data-dispatch-card
+                        class="dispatch-card sticky overflow-hidden rounded-[2rem] border border-gray-200/80 bg-white p-4 shadow-[0_20px_60px_-36px_rgba(15,23,42,0.45)] sm:p-5 dark:border-white/10 dark:bg-gray-900 dark:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.7)]"
+                        style="top: calc(7rem + {{ $i }} * 1.5rem); z-index: {{ 10 + $i }};"
+                        :class="{ 'is-covered': {{ $i }} < active }"
+                    >
+                        <div class="grid gap-5 sm:grid-cols-[minmax(0,42%)_minmax(0,1fr)] sm:gap-6">
+                            <div class="relative h-56 overflow-hidden rounded-2xl bg-slate-100 dark:bg-gray-800 sm:h-auto sm:min-h-[18rem]">
+                                @if ($prestasi->gambar_url)
+                                    <img
+                                        src="{{ $prestasi->gambar_url }}"
+                                        alt="{{ $prestasi->judul }}"
+                                        loading="lazy"
+                                        decoding="async"
+                                        class="absolute inset-0 h-full w-full object-cover"
+                                    >
+                                @else
+                                    <div class="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-gray-600">
+                                        <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-2.25-2.25l1.41-1.41a2.25 2.25 0 013.18 0l3.34 3.34M3.75 19.5h16.5A1.5 1.5 0 0021.75 18V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12A1.5 1.5 0 003.75 19.5z" />
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div class="flex min-w-0 flex-col pb-1 sm:py-2">
+                                <p class="text-sm text-gray-500 dark:text-gray-400">
+                                    @if ($prestasi->tanggal_prestasi)
+                                        <time datetime="{{ $prestasi->tanggal_prestasi->format('Y-m-d') }}">
+                                            {{ $prestasi->tanggal_prestasi->translatedFormat('M Y') }}
+                                        </time>
+                                    @endif
+                                </p>
+
+                                <h3 class="mt-3 line-clamp-2 text-lg font-semibold tracking-tight text-gray-950 sm:text-xl dark:text-gray-50">
+                                    {{ $prestasi->judul }}
+                                </h3>
+
+                                <p class="mt-2 max-w-prose text-sm leading-relaxed text-gray-700 sm:text-base dark:text-gray-300">
+                                    {{ html_entity_decode($prestasi->deskripsi_excerpt, ENT_QUOTES | ENT_HTML5, 'UTF-8') }}
+                                </p>
+
+                                <div class="mt-auto flex items-end justify-between gap-4 pt-6 sm:pt-8">
+                                    @php
+                                        $badges = array_values(array_filter([$prestasi->tingkat, $prestasi->jenis], fn ($value) => filled($value)));
+                                        $visibleBadges = array_slice($badges, 0, 2);
+                                        $extraBadges = count($badges) - count($visibleBadges);
+                                    @endphp
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        @foreach ($visibleBadges as $badge)
+                                            <span class="rounded-full bg-slate-200/80 px-3 py-1.5 text-xs font-medium capitalize text-slate-700 dark:bg-white/10 dark:text-gray-300">
+                                                {{ $badge }}
+                                            </span>
+                                        @endforeach
+
+                                        @if ($extraBadges > 0)
+                                            <span class="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-600 dark:border-white/20 dark:text-gray-300">
+                                                more
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <a
+                                        href="{{ route('prestasi.detail', $prestasi->id) }}"
+                                        aria-label="Lihat detail prestasi {{ $prestasi->judul }}"
+                                        class="group/cta inline-flex h-11 shrink-0 items-center justify-center rounded-full border border-gray-950 bg-gray-950 px-[11px] text-white transition-colors duration-200 hover:border-gray-800 hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 dark:border-white/20 dark:hover:border-white/30 dark:focus-visible:outline-white"
+                                    >
+                                        <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path stroke-linecap="round" d="M12 5v14M5 12h14" />
+                                        </svg>
+                                        <span class="max-w-0 overflow-hidden whitespace-nowrap text-xs font-semibold opacity-0 transition-all duration-300 ease-out group-hover/cta:ml-2 group-hover/cta:max-w-[6rem] group-hover/cta:opacity-100 group-focus-visible/cta:ml-2 group-focus-visible/cta:max-w-[6rem] group-focus-visible/cta:opacity-100 motion-reduce:transition-none">
+                                            More info
+                                        </span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                @endforeach
+
+                {{-- Ruang scroll ekstra agar kartu terakhir sempat diam
+                     sebentar sebelum seluruh stack keluar dari section. --}}
+                <div aria-hidden="true" class="h-16 sm:h-24"></div>
+            </div>
+        </div>
+    </section>
+    @endif
 
     {{-- ============================================ --}}
     {{-- Berita Terbaru --}}
