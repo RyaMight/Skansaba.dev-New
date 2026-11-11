@@ -388,25 +388,26 @@
                      (clip kiri->kanan) supaya teks tidak muncul duluan. --}}
                 <div class="px-4 sm:px-6">
                     <div class="mx-auto max-w-6xl">
-                        <div :style="bandClip === 'none' ? '' : 'clip-path: ' + bandClip">
-                            {{-- Heading: judul di kiri, pengantar sejajar
-                                 kanan-bawah. Rata kiri supaya hierarki
-                                 terbaca dan pandangan jatuh ke pita angka. --}}
-                            <div class="mb-8 grid gap-x-10 gap-y-3 lg:mb-10 lg:grid-cols-12 lg:items-end">
-                                <h2 class="type-focus-title text-gray-900 dark:text-gray-50 lg:col-span-5">
+                        <div
+                            data-sekilas-band
+                            class="overflow-hidden rounded-2xl text-gray-950"
+                            :style="'background-color: {{ $globalSettings->primary_color_style }};' + (bandClip === 'none' ? '' : ' clip-path: ' + bandClip)"
+                        >
+                            {{-- Heading: judul + pengantar menempel di atas
+                                 background biru, jadi ikut ter-wipe sebagai
+                                 satu container bersama pita angka. --}}
+                            <div class="grid gap-x-10 gap-y-3 px-5 pt-8 pb-6 sm:px-8 sm:pt-9 sm:pb-7 lg:grid-cols-12 lg:items-end lg:px-10 lg:pt-10 lg:pb-8">
+                                <h2 class="type-focus-title text-gray-950 lg:col-span-5">
                                     {{ __('Sekilas RPL') }}
                                 </h2>
-                                <p class="type-lead max-w-xl text-gray-700 dark:text-gray-300 lg:col-span-6 lg:col-start-7">
+                                <p class="type-lead max-w-xl text-gray-950/80 lg:col-span-6 lg:col-start-7">
                                     {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
                                 </p>
                             </div>
 
-                            <div
-                                data-sekilas-band
-                                class="grid grid-cols-1 overflow-hidden rounded-2xl text-gray-950 sm:grid-cols-3"
-                                :style="'background-color: {{ $globalSettings->primary_color_style }}'"
-                            >
-                            @foreach($sekilasStats as $i => $stat)
+                            {{-- Pita angka --}}
+                            <div class="grid grid-cols-1 border-t border-gray-950/15 sm:grid-cols-3">
+                                @foreach($sekilasStats as $i => $stat)
                                 <div
                                     class="stat-cell flex items-baseline gap-3 border-t border-gray-950/15 px-5 py-5 first:border-t-0 sm:first:border-l-0 sm:flex-col sm:items-start sm:gap-2.5 sm:border-t-0 sm:border-l sm:px-8 sm:py-9 lg:px-10 lg:py-10"
                                     role="group"
@@ -419,7 +420,7 @@
                                         {{ $stat['label'] }}
                                     </div>
                                 </div>
-                            @endforeach
+                                @endforeach
                             </div>
                         </div>
                     </div>
