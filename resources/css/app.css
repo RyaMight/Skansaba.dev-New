@@ -1498,6 +1498,11 @@ html.dark {
     min-height: calc(100dvh - 82px);
 }
 
+/* Label "Theme" hanya tampil pada hero-lock (diatur di blok @media). */
+.hl-theme-label {
+    opacity: 0;
+}
+
 @media (min-width: 1024px) {
     /* Lebar wadah nav: 72rem (1152px) -> lebar penuh area header. */
     [data-hero-lock] .hl-nav {
@@ -1519,16 +1524,21 @@ html.dark {
         gap: calc(0.75rem + (1 - var(--hl-p, 0)) * 0.375rem);
     }
 
-    /* Toggle theme "lebih lengkap" di hero lock: lebih besar, lalu
-       menyusut jadi ukuran normal saat elemen mengumpul ke tengah. */
-    [data-hero-lock] .hl-toggle .theme-switch {
-        width: calc(2.25rem + (1 - var(--hl-p, 0)) * 0.5rem);   /* 36 -> 44 */
-        height: calc(2.25rem + (1 - var(--hl-p, 0)) * 0.5rem);
+    /* Kontrol tema: pill abu "Theme" (hero-lock) menyusut jadi toggle
+       bulat sun/moon (navbar normal). p = 0 -> pill, p = 1 -> bulat. */
+    [data-hero-lock] .hl-theme {
+        width: calc(2.25rem + (1 - var(--hl-p, 0)) * 4.84375rem); /* 36 -> 113.5 */
+        height: calc(2.25rem + (1 - var(--hl-p, 0)) * 0.625rem);   /* 36 -> 46 */
+        border-radius: 9999px;
+        background-color: rgba(82, 88, 102, calc(1 - var(--hl-p, 0)));
     }
 
-    [data-hero-lock] .hl-toggle .theme-switch svg {
-        width: calc(1.125rem + (1 - var(--hl-p, 0)) * 0.25rem); /* 18 -> 22 */
-        height: calc(1.125rem + (1 - var(--hl-p, 0)) * 0.25rem);
+    [data-hero-lock] .hl-theme-icon {
+        opacity: var(--hl-p, 0);
+    }
+
+    [data-hero-lock] .hl-theme-label {
+        opacity: calc(1 - var(--hl-p, 0));
     }
 
     /* Kartu navbar. Latar dibuat OPAK sejak awal (menyamai latar

@@ -142,7 +142,11 @@
             <div class="hl-right hidden lg:flex items-center gap-3">
                 <x-language-switcher />
                 <div class="hl-toggle mr-[20px]">
-                    <x-theme-toggle />
+                    @if($isBerandaActive)
+                        <x-hero-theme-toggle />
+                    @else
+                        <x-theme-toggle />
+                    @endif
                 </div>
 
                 @guest
