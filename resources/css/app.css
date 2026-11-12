@@ -1523,9 +1523,11 @@ html.dark {
     }
 }
 
-/* Label "Theme" hanya tampil pada hero-lock (diatur di blok @media). */
-.hl-theme-label {
-    opacity: 0;
+/* Teks "mode" di kiri toggle tema hero-lock: hanya tampil pada hero-lock
+   (lg+). Saat navbar bertransisi ke bentuk normal (--hl-p -> 1) teks
+   ter-wipe habis (clip dari kanan + lebar menyusut), bukan sekadar fade. */
+.hl-theme-mode {
+    display: none;
 }
 
 @media (min-width: 1024px) {
@@ -1549,21 +1551,25 @@ html.dark {
         gap: calc(0.75rem + (1 - var(--hl-p, 0)) * 0.375rem);
     }
 
-    /* Kontrol tema: pill abu "Theme" (hero-lock) menyusut jadi toggle
-       bulat sun/moon (navbar normal). p = 0 -> pill, p = 1 -> bulat. */
-    [data-hero-lock] .hl-theme {
-        width: calc(2.25rem + (1 - var(--hl-p, 0)) * 4.84375rem); /* 36 -> 113.5 */
-        height: calc(2.25rem + (1 - var(--hl-p, 0)) * 0.625rem);   /* 36 -> 46 */
-        border-radius: 9999px;
-        background-color: rgba(82, 88, 102, calc(1 - var(--hl-p, 0)));
+    /* Teks "mode" (hero-lock) ter-wipe habis saat p -> 1. clip-path
+       mengatur sapuan visualnya (crisp edge, bukan fade); max-width +
+       overflow memastikan lebar benar-benar 0 pada p = 1 sehingga blok
+       kanan persis sama dengan navbar normal. */
+    [data-hero-lock] .hl-theme-mode {
+        display: inline-block;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1;
+        color: #6a7282;
+        max-width: calc((1 - var(--hl-p, 0)) * 4.5rem);
+        margin-right: calc((1 - var(--hl-p, 0)) * 0.625rem);
+        clip-path: inset(0 calc(var(--hl-p, 0) * 100%) 0 0);
     }
 
-    [data-hero-lock] .hl-theme-icon {
-        opacity: var(--hl-p, 0);
-    }
-
-    [data-hero-lock] .hl-theme-label {
-        opacity: calc(1 - var(--hl-p, 0));
+    .dark [data-hero-lock] .hl-theme-mode {
+        color: #99a1af;
     }
 
     /* Kartu navbar. Latar dibuat OPAK sejak awal (menyamai latar
