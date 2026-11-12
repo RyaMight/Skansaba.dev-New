@@ -1051,22 +1051,30 @@
         aria-labelledby="prestasi-dispatch-heading"
         class="rounded-b-[2rem] bg-white py-20 dark:bg-slate-900 lg:py-28"
     >
-        <div class="site-container">
-            <div class="mx-auto max-w-2xl text-center" data-reveal>
-                <h2
-                    id="prestasi-dispatch-heading"
-                    class="text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl dark:text-gray-50"
-                >
-                    Prestasi Terbaru
-                </h2>
+        {{-- Heading dipin (sticky) bersama kartu supaya label section tetap
+             terbaca selama kartu menumpuk; latarnya = latar section agar
+             kartu yang lewat di belakangnya tidak tembus. --}}
+        <div class="sticky top-[82px] z-30 bg-white pt-5 pb-3 dark:bg-slate-900">
+            <div class="site-container">
+                <div class="mx-auto max-w-2xl text-center" data-reveal>
+                    <h2
+                        id="prestasi-dispatch-heading"
+                        class="text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl dark:text-gray-50"
+                    >
+                        Prestasi Terbaru
+                    </h2>
+                </div>
             </div>
+        </div>
+
+        <div class="site-container">
 
             {{-- Stack. Kartu memakai sticky dengan top bertingkat supaya
                  kartu berikutnya menutup kartu sebelumnya saat scroll.
                  `is-covered` (Alpine) hanya mengecilkan kartu yang sudah
                  tertutup; reduced-motion mematikannya lewat CSS.
-                 Basis 7rem (112px) memberi jarak ~30px di bawah header
-                 (header tingginya ±82px) supaya kartu tidak menempel. --}}
+                 Basis 11rem (176px) memberi ruang di bawah header (±82px)
+                 plus heading sticky supaya kartu tidak menutupi judul. --}}
             <div
                 class="relative mx-auto mt-12 flex max-w-[1082px] flex-col gap-5 sm:mt-16 sm:gap-7"
                 x-data="{
@@ -1089,7 +1097,7 @@
                     <article
                         data-dispatch-card
                         class="dispatch-card sticky overflow-hidden rounded-[2rem] border border-gray-200/80 bg-white p-4 shadow-[0_20px_60px_-36px_rgba(15,23,42,0.45)] sm:p-5 dark:border-white/10 dark:bg-gray-900 dark:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.7)]"
-                        style="top: calc(7rem + {{ $i }} * 1.5rem); z-index: {{ 10 + $i }};"
+                        style="top: calc(11rem + {{ $i }} * 1.5rem); z-index: {{ 10 + $i }};"
                         :class="{ 'is-covered': {{ $i }} < active }"
                     >
                         <div class="grid gap-5 sm:grid-cols-[minmax(0,42%)_minmax(0,1fr)] sm:gap-8">
