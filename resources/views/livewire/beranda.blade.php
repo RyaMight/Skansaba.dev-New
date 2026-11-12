@@ -759,7 +759,7 @@
          background section anak tidak ikut ter-clip oleh radius induk
          (tanpa overflow-hidden, yang akan mematikan position: sticky kartu
          Prestasi). --}}
-    <div class="relative z-10 rounded-t-[2rem] bg-white dark:bg-slate-900">
+    <div class="relative z-10 rounded-[2rem] bg-white dark:bg-slate-900">
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
@@ -1031,7 +1031,7 @@
     <section
         id="prestasi"
         aria-labelledby="prestasi-dispatch-heading"
-        class="bg-white py-20 dark:bg-slate-900 lg:py-28"
+        class="rounded-b-[2rem] bg-white py-20 dark:bg-slate-900 lg:py-28"
     >
         <div class="site-container">
             <div class="mx-auto max-w-2xl text-center" data-reveal>
@@ -1050,7 +1050,7 @@
                  Basis 7rem (112px) memberi jarak ~30px di bawah header
                  (header tingginya ±82px) supaya kartu tidak menempel. --}}
             <div
-                class="relative mx-auto mt-12 flex max-w-4xl flex-col gap-5 sm:mt-16 sm:gap-7"
+                class="relative mx-auto mt-12 flex max-w-[1082px] flex-col gap-5 sm:mt-16 sm:gap-7"
                 x-data="{
                     active: 0,
                     sync() {
@@ -1074,8 +1074,8 @@
                         style="top: calc(7rem + {{ $i }} * 1.5rem); z-index: {{ 10 + $i }};"
                         :class="{ 'is-covered': {{ $i }} < active }"
                     >
-                        <div class="grid gap-5 sm:grid-cols-[minmax(0,42%)_minmax(0,1fr)] sm:gap-6">
-                            <div class="relative h-56 overflow-hidden rounded-2xl bg-slate-100 dark:bg-gray-800 sm:h-auto sm:min-h-[18rem]">
+                        <div class="grid gap-5 sm:grid-cols-[minmax(0,42%)_minmax(0,1fr)] sm:gap-8">
+                            <div class="relative h-60 overflow-hidden rounded-2xl bg-slate-100 dark:bg-gray-800 sm:h-auto sm:min-h-[22rem]">
                                 @if ($prestasi->gambar_url)
                                     <img
                                         src="{{ $prestasi->gambar_url }}"
