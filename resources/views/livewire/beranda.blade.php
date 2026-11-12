@@ -664,7 +664,7 @@
     {{-- ============================================ --}}
     {{-- Latar mengikuti section Prospek yang dulu ada di posisi ini, agar
          tirai Prestasi (putih) tetap jelas kontrasnya. --}}
-    <section class="bg-slate-100 py-16 dark:bg-gray-950 lg:py-24">
+    <section class="bg-slate-100 pt-16 pb-16 dark:bg-gray-950 lg:pt-24 lg:pb-80">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 sm:mb-16" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
@@ -861,8 +861,8 @@
 
                         {{-- Penutup kartu yang mengintip di zona padding (52px).
                              pointer-events aktif agar kartu tersembunyi tidak bisa di-hover. --}}
-                        <div aria-hidden="true" class="absolute inset-y-0 left-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-slate-900"></div>
-                        <div aria-hidden="true" class="absolute inset-y-0 right-0 z-10 hidden sm:block w-[3.5rem] bg-white dark:bg-slate-900"></div>
+                        <div aria-hidden="true" class="absolute inset-y-0 left-0 z-10 hidden sm:block w-[3.5rem] bg-slate-100 dark:bg-gray-950"></div>
+                        <div aria-hidden="true" class="absolute inset-y-0 right-0 z-10 hidden sm:block w-[3.5rem] bg-slate-100 dark:bg-gray-950"></div>
                     </div>
 
                     {{-- Desktop Arrows (Hanya di layar desktop, di luar kartu agar tidak menempel) --}}
