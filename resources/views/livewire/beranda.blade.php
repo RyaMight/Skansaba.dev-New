@@ -272,16 +272,21 @@
                     if (!this.desktop) {
                         // Mobile/tablet: tanpa wipe — heading + pita tampil penuh.
                         this.bandClip = 'none';
-                        // Mobile/tablet: count-up saat pita masuk viewport.
+                        // Mobile/tablet: count-up per angka saat angka itu
+                        // sendiri sudah terlihat penuh — bukan saat 50% pita
+                        // (kontainer) masuk viewport. Angka ada di bawah pita,
+                        // jadi versi kontainer membuat hitungan selesai
+                        // sebelum angkanya sempat tampil.
+                        const numbers = [...this.$el.querySelectorAll('[data-sekilas-stats] .type-stat-xl')];
                         const io = new IntersectionObserver((entries) => {
                             for (const e of entries) {
-                                if (e.isIntersecting) {
-                                    this.targets.forEach((_, i) => this.startCell(i));
-                                    io.disconnect();
-                                }
+                                if (!e.isIntersecting) continue;
+                                const index = numbers.indexOf(e.target);
+                                if (index >= 0) this.startCell(index);
+                                io.unobserve(e.target);
                             }
-                        }, { threshold: 0.5 });
-                        io.observe(this.$el);
+                        }, { threshold: 0.99 });
+                        numbers.forEach((el) => io.observe(el));
                         return;
                     }
 
@@ -292,16 +297,24 @@
                 },
 
                 measure() {
-                    // Ambang tiap angka = tepi kanan angka itu sendiri (bukan sel),
-                    // relatif terhadap lebar pita, supaya hitungan mulai persis
-                    // ketika angka sudah muncul penuh.
+                    // Ambang tiap angka = tepi kanan TEKS angka (bukan kotak
+                    // div-nya), relatif terhadap lebar pita. `.type-stat-xl`
+                    // adalah block selebar sel, jadi mengukur elemen akan
+                    // menunda hitungan sampai seluruh sel tersapu padahal
+                    // digitnya sudah tampil penuh jauh sebelumnya.
+                    // Sumber ukur = lapisan dasar (invisible) yang selalu
+                    // memuat nilai target, karena lapisan putih sudah berisi
+                    // angka 0 saat init sehingga lebarnya kurang satu digit.
                     if (!this.$refs.pin) return;
                     const band = this.$refs.pin.querySelector('[data-sekilas-band]');
-                    if (!band) return;
+                    const base = this.$refs.pin.querySelector('[data-sekilas-static]');
+                    if (!band || !base) return;
                     const b = band.getBoundingClientRect();
                     if (!b.width) return;
-                    this._thresholds = [...this.$refs.pin.querySelectorAll('[data-sekilas-stats] .type-stat-xl')].map((el) => {
-                        const r = el.getBoundingClientRect();
+                    const range = document.createRange();
+                    this._thresholds = [...base.querySelectorAll('.type-stat-xl')].map((el) => {
+                        range.selectNodeContents(el);
+                        const r = range.getBoundingClientRect();
                         return (r.right - b.left) / b.width;
                     });
                 },
@@ -343,7 +356,7 @@
                         const th = (this._thresholds && this._thresholds[i] != null)
                             ? this._thresholds[i]
                             : (i + 1) / n;
-                        if (p >= th - 0.002) this.startCell(i);
+                        if (p >= th) this.startCell(i);
                     }
                 },
 
@@ -414,7 +427,7 @@
                                 {{-- Spacer (garis asli digambar di lapisan putih) --}}
                                 <div class="mt-8 border-t border-transparent"></div>
 
-                                <div class="grid grid-cols-1 invisible sm:grid-cols-3" aria-hidden="true">
+                                <div class="grid grid-cols-1 invisible sm:grid-cols-3" data-sekilas-static aria-hidden="true">
                                     @foreach($sekilasStats as $i => $stat)
                                     <div class="border-t border-white/15 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:border-white/15 sm:pl-6 sm:first:border-l-0 sm:first:pl-0">
                                         <div class="type-stat-xl">
@@ -453,7 +466,7 @@
                                         role="group"
                                         aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
                                     >
-                                        <div class="type-stat-xl text-white" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
+                                        <div class="type-stat-xl text-gray-900 dark:text-gray-900" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
                                             {{ number_format($stat['value'], 0, ',', '.') }}
                                         </div>
                                         <div class="type-body-sm mt-2 text-white/80" aria-hidden="true">
