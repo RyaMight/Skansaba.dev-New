@@ -754,12 +754,16 @@
     </section>
     </div> {{-- /locked: hero -> Prospek membeku bersama --}}
 
-    {{-- Tirai: Karya + Prestasi naik menutupi blok yang ter-pin (z-10). --}}
-    <div class="relative z-10 bg-white dark:bg-slate-900">
+    {{-- Tirai: Karya + Prestasi naik menutupi blok yang ter-pin (z-10).
+         Sudut atas dibulatkan pada pembungkus DAN section pertama, karena
+         background section anak tidak ikut ter-clip oleh radius induk
+         (tanpa overflow-hidden, yang akan mematikan position: sticky kartu
+         Prestasi). --}}
+    <div class="relative z-10 rounded-t-[2rem] bg-white dark:bg-slate-900">
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
-    <section class="bg-white dark:bg-slate-900 py-16 lg:py-24">
+    <section class="rounded-t-[2rem] bg-white dark:bg-slate-900 py-16 lg:py-24">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 sm:mb-16" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
@@ -1037,10 +1041,6 @@
                 >
                     Prestasi Terbaru
                 </h2>
-                <p class="mx-auto mt-4 max-w-lg text-sm text-gray-500 sm:text-base dark:text-gray-400">
-                    Catatan capaian siswa Jurusan RPL di berbagai kompetisi dan ajang, dari tingkat kota
-                    hingga nasional.
-                </p>
             </div>
 
             {{-- Stack. Kartu memakai sticky dengan top bertingkat supaya
