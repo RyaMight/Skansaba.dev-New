@@ -12,14 +12,14 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
                         </svg>
                     @endif
-                    <span class="type-card-title" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name }}</span>
+                    <span class="type-brand" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name }}</span>
                 </div>
 
                 <p class="type-body-sm text-gray-600 dark:text-gray-300 mb-6 max-w-sm">
                     {{ $globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia' }}
                 </p>
 
-                <ul class="type-body-sm space-y-3 text-gray-600 dark:text-gray-300">
+                <ul class="type-footer-link space-y-3 text-gray-600 dark:text-gray-300">
                     @if($globalSettings->contact_email)
                         <li class="flex items-start gap-3">
                             <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="background-color: {{ $globalSettings->primary_color_style }}1a; color: {{ $globalSettings->primary_color_style }}">
@@ -90,7 +90,7 @@
             <div class="lg:col-span-4 grid grid-cols-2 gap-8" data-reveal>
                 <div>
                     <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4">{{ __('Menu Utama') }}</h4>
-                    <ul class="type-body-sm space-y-2.5">
+                    <ul class="type-footer-link space-y-2.5">
                         <li><a href="/" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Beranda') }}</a></li>
                         <li><a href="/struktur-organisasi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Struktur Organisasi') }}</a></li>
                         <li><a href="/fasilitas" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Fasilitas') }}</a></li>
@@ -98,7 +98,7 @@
                     </ul>
 
                     <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4 mt-8">{{ __('Siswa') }}</h4>
-                    <ul class="type-body-sm space-y-2.5">
+                    <ul class="type-footer-link space-y-2.5">
                         <li><a href="/prestasi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Prestasi') }}</a></li>
                         <li><a href="/karya" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Karya Siswa') }}</a></li>
                         <li><a href="/alumni" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Alumni') }}</a></li>
@@ -106,7 +106,7 @@
                 </div>
                 <div>
                     <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi') }}</h4>
-                    <ul class="type-body-sm space-y-2.5">
+                    <ul class="type-footer-link space-y-2.5">
                         <li><a href="/berita" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Berita') }}</a></li>
                         <li><a href="/dokumen" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Dokumen') }}</a></li>
                         <li><a href="/gallery" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Gallery') }}</a></li>

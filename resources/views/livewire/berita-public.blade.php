@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     {{-- Header dengan Breadcrumb --}}
-    <section class="bg-white dark:bg-gray-950 py-8">
+    <section class="bg-white dark:bg-gray-950 py-12 lg:py-16">
         <div class="site-container text-center">
             {{-- Breadcrumb --}}
             <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4">
@@ -20,7 +20,7 @@
     </section>
 
     {{-- Search Only --}}
-    <section class="py-6 bg-white dark:bg-gray-950">
+    <section class="py-12 lg:py-16 bg-white dark:bg-gray-950">
         <div class="site-container">
             <div class="max-w-2xl">
                 <div class="relative">
@@ -40,7 +40,7 @@
     </section>
 
     {{-- Berita Grid --}}
-    <section class="py-12">
+    <section class="py-14 lg:py-20">
         <div class="site-container">
             @if($beritas->count() > 0)
                 <div class="grid md:grid-cols-3 gap-6">

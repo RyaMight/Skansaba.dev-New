@@ -4,7 +4,7 @@
 
 {{-- Gaya "ID / EN" (teks + slash, tanpa pill) sesuai design hero-Lock.
      Aktif = warna primer, non-aktif = abu #99A1AF. Dipakai di semua navbar. --}}
-<div class="inline-flex items-center h-9 select-none notranslate text-sm font-bold leading-none">
+<div class="type-lang inline-flex items-center h-9 select-none notranslate leading-none">
     <a
         href="{{ route('locale.switch', 'id') }}"
         onclick="document.cookie='googtrans=/id/id; path=/;'; document.cookie='googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';"

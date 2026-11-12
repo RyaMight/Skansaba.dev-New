@@ -509,7 +509,7 @@
                         {{-- 1. Profil --}}
                         <div class="order-2 lg:order-1 flex flex-col justify-center gap-5">
                             <div>
-                                <p class="inline-block text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-50 mt-1 transition-all duration-300 hover:translate-x-1.5 hover:text-gray-600 dark:hover:text-gray-300">{{ $featuredAlumni->nama }}</p>
+                                <p class="type-subsection-title inline-block text-gray-900 dark:text-gray-50 mt-1 transition-all duration-300 hover:translate-x-1.5 hover:text-gray-600 dark:hover:text-gray-300">{{ $featuredAlumni->nama }}</p>
                             </div>
                             <div>
                                 <p class="type-meta uppercase tracking-wider text-gray-400">{{ __('Tahun Lulus') }}</p>
@@ -601,7 +601,7 @@
     {{-- ============================================ --}}
     {{-- Marquee Logo Mitra (2 baris berlawanan arah) --}}
     {{-- ============================================ --}}
-    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-20">
+    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
         <div class="w-full">
             @if($mitras->isNotEmpty())
                 @php
@@ -1059,7 +1059,7 @@
                 <div class="mx-auto max-w-2xl text-center" data-reveal>
                     <h2
                         id="prestasi-dispatch-heading"
-                        class="text-4xl font-bold tracking-tight text-gray-950 sm:text-5xl dark:text-gray-50"
+                        class="type-section-title text-gray-950 dark:text-gray-50"
                     >
                         Prestasi Terbaru
                     </h2>
@@ -1187,7 +1187,7 @@
     {{-- ============================================ --}}
     {{-- Berita Terbaru --}}
     {{-- ============================================ --}}
-    <section class="bg-slate-100 dark:bg-gray-950 pt-16 pb-24 lg:pt-24 lg:pb-32">
+    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
         <div class="site-container">
             <div class="flex items-end justify-between gap-6 mb-8 lg:mb-10" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">

@@ -48,7 +48,7 @@
     </section>
 
     {{-- Content --}}
-    <section class="py-12">
+    <section class="py-14 lg:py-20">
         <div class="max-w-4xl mx-auto px-6">
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
@@ -83,7 +83,7 @@
 
     {{-- Related Prestasi --}}
     @if($relatedPrestasis->count() > 0)
-        <section class="py-12 bg-white dark:bg-gray-950">
+        <section class="py-14 lg:py-20 bg-white dark:bg-gray-950">
             <div class="max-w-7xl mx-auto px-6">
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-8">{{ __('Prestasi Terkait') }}</h2>
                 <div class="grid md:grid-cols-3 gap-6">

@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     {{-- Hero Section --}}
-    <section class="bg-white dark:bg-gray-950 py-8 sm:py-12">
+    <section class="bg-white dark:bg-gray-950 py-12 sm:py-16">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="flex justify-center mb-6">
                 <a href="/berita" class="btn-morph btn-morph--primary type-button inline-flex">
@@ -44,7 +44,7 @@
     </section>
 
     {{-- Content --}}
-    <section class="py-6 sm:py-12">
+    <section class="py-14 lg:py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="bg-white dark:bg-gray-900 rounded-lg shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
@@ -92,7 +92,7 @@
 
     {{-- Related Berita --}}
     @if($relatedBeritas->count() > 0)
-        <section class="py-12 bg-white dark:bg-gray-950">
+        <section class="py-14 lg:py-20 bg-white dark:bg-gray-950">
             <div class="max-w-7xl mx-auto px-6">
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-8">{{ __('Berita Terkait') }}</h2>
                 <div class="grid md:grid-cols-3 gap-6">

@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     {{-- Header dengan Breadcrumb --}}
-    <section class="bg-white dark:bg-gray-950 py-8 lg:py-10 border-b border-gray-100 dark:border-gray-800">
+    <section class="bg-white dark:bg-gray-950 py-12 lg:py-16 border-b border-gray-100 dark:border-gray-800">
         <div class="site-container text-center">
             {{-- Breadcrumb --}}
             <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-4" data-reveal>
@@ -20,7 +20,7 @@
     </section>
 
     {{-- Pricing Grid --}}
-    <section class="py-8 lg:py-12">
+    <section class="py-14 lg:py-20">
         <div class="site-container">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
 
@@ -188,7 +188,7 @@
                         <div class="relative z-10 w-full flex flex-col items-center justify-center my-auto">
                             {{-- Nama Brand --}}
                             <div class="text-center mb-5">
-                                <span class="text-xl sm:text-2xl font-bold text-white drop-shadow-xs">Skansaba.Dev</span>
+                                <span class="type-card-title text-white drop-shadow-xs">Skansaba.Dev</span>
                             </div>
 
                             {{-- Ilustrasi Isometric: Platform, Rocket, Target, Chart, Gear --}}
