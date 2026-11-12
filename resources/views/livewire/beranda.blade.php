@@ -662,7 +662,9 @@
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
-    <section class="rounded-t-[2rem] bg-white dark:bg-slate-900 py-16 lg:py-24">
+    {{-- Latar mengikuti section Prospek yang dulu ada di posisi ini, agar
+         tirai Prestasi (putih) tetap jelas kontrasnya. --}}
+    <section class="bg-slate-100 py-16 dark:bg-gray-950 lg:py-24">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 sm:mb-16" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
