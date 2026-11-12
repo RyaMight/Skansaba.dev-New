@@ -299,7 +299,7 @@
                 current: Array({{ count($sekilasStats) }}).fill(0),
                 started: Array({{ count($sekilasStats) }}).fill(false),
                 bandClip: 'inset(0 100% 0 0)',
-                revealed: false,
+                compacted: false,
                 desktop: false,
                 reduced: false,
                 _raf: null,
@@ -368,7 +368,7 @@
                 },
 
                 onScroll() {
-                    if (this.revealed) return;
+                    if (this.compacted) return;
                     if (!window.matchMedia('(min-width: 1024px)').matches) {
                         this.bandClip = 'none';
                         return;
@@ -387,13 +387,21 @@
                     p = Math.max(0, Math.min(1, p));
 
                     if (p >= 1) {
-                        // Wipe penuh: kunci tampilan (tidak reverse) lalu
-                        // pangkas track 170vh jadi setinggi pin saja supaya
-                        // tidak menyisakan scroll kosong saat balik ke atas.
-                        this.revealed = true;
+                        // Wipe penuh: tampilkan pita penuh + mulai hitungan
+                        // yang belum jalan. Tampilan TIDAK dikunci — kalau
+                        // user scroll balik ke atas, wipe ikut membalik
+                        // (reversible) sehingga tidak ada area mati.
                         this.bandClip = 'none';
                         this.targets.forEach((_, i) => this.startCell(i));
-                        this.compactTrack();
+                        // Pangkas track 170vh jadi setinggi pin HANYA setelah
+                        // seluruh track lewat di atas viewport. Dengan begitu
+                        // perubahan tinggi + kompensasi scroll-nya terjadi di
+                        // luar layar, jadi tidak ada bagian yang terlihat
+                        // melompat tepat saat wipe selesai.
+                        if (this.$el.getBoundingClientRect().bottom <= 0) {
+                            this.compacted = true;
+                            this.compactTrack();
+                        }
                         return;
                     }
 
