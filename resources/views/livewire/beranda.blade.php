@@ -1,11 +1,9 @@
 <div class="overflow-x-clip">
     {{-- ============================================ --}}
-    {{-- Curtain: SELURUH konten dari hero sampai Prospek dikunci sebagai
-         satu blok (bukan hanya Prospek) tepat saat DASAR Prospek mentok
-         dasar viewport, lalu Karya + Prestasi naik menutupinya seperti
-         tirai. Padding bawah Prospek dihitung dinamis supaya pada momen
-         itu isi Prospek tepat di tengah viewport (tirai mulai naik saat
-         konten terlihat nyaman). Desktop saja; mobile alur normal. --}}
+    {{-- Curtain: SELURUH konten dari hero sampai Karya dikunci sebagai
+         satu blok tepat saat DASAR blok mentok dasar viewport, lalu
+         Prestasi naik menutupinya seperti tirai. Desktop saja; mobile
+         alur normal. --}}
     {{-- ============================================ --}}
     <div
         class="relative isolate bg-white dark:bg-slate-900"
@@ -13,19 +11,9 @@
             setTop() {
                 const lock = this.$refs.locked;
                 if (!lock) return;
-                const prospek = lock.querySelector('[data-prospek]');
-                const content = lock.querySelector('[data-prospek-content]');
                 if (!window.matchMedia('(min-width: 1024px)').matches) {
                     lock.style.top = '';
-                    if (prospek) prospek.style.paddingBottom = '';
                     return;
-                }
-                // Beri padding bawah dinamis agar isi Prospek (site-container)
-                // tepat di tengah viewport pada saat dasar section menyentuh
-                // dasar viewport — momen tirai mulai naik. pb = (vh - isi) / 2.
-                if (prospek && content) {
-                    const pb = Math.max(0, (window.innerHeight - content.offsetHeight) / 2);
-                    prospek.style.paddingBottom = pb + 'px';
                 }
                 lock.style.top = (window.innerHeight - lock.offsetHeight) + 'px';
             }
@@ -41,7 +29,7 @@
             if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
         "
     >
-    {{-- Blok yang membeku: hero + Sekilas + Marquee + Prospek. --}}
+    {{-- Blok yang membeku: hero + Sekilas + Prospek + Marquee + Karya. --}}
     <div x-ref="locked" class="lg:sticky">
     {{-- ============================================ --}}
     {{-- Hero lock (design hero-Lock): pada desktop header + hero =
@@ -242,7 +230,7 @@
     </div>{{-- /hero-lock-pin --}}
 
     {{-- ============================================ --}}
-    {{-- Sekilas RPL: statistik ringkas + alumni sorotan --}}
+    {{-- Sekilas RPL: statistik ringkas + prospek karir & mapel unggulan --}}
     {{-- ============================================ --}}
     <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
         @php
@@ -500,168 +488,9 @@
             </div>
         </div>
 
-        <div class="site-container">
-            {{-- Alumni sorotan: 3 kolom — Profil, Foto, Kutipan --}}
-            @if($featuredAlumni)
-                <div class="mt-12 lg:mt-16" data-reveal>
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10 lg:h-[440px] items-stretch">
-
-                        {{-- 1. Profil --}}
-                        <div class="order-2 lg:order-1 flex flex-col justify-center gap-5">
-                            <div>
-                                <p class="type-subsection-title inline-block text-gray-900 dark:text-gray-50 mt-1 transition-all duration-300 hover:translate-x-1.5 hover:text-gray-600 dark:hover:text-gray-300">{{ $featuredAlumni->nama }}</p>
-                            </div>
-                            <div>
-                                <p class="type-meta uppercase tracking-wider text-gray-400">{{ __('Tahun Lulus') }}</p>
-                                <p class="text-base font-semibold text-gray-900 dark:text-gray-50 mt-1">{{ $featuredAlumni->tahun_lulus }}</p>
-                            </div>
-                            <div>
-                                <p class="type-meta uppercase tracking-wider text-gray-400">{{ __('Status') }}</p>
-                                <p class="text-base font-semibold text-gray-900 dark:text-gray-50 mt-1">{{ __($featuredAlumni->status_alumni_label) }}</p>
-                            </div>
-                            <div>
-                                <p class="type-meta uppercase tracking-wider text-gray-400">{{ __('Institusi') }}</p>
-                                <p class="text-base font-semibold text-gray-900 dark:text-gray-50 mt-1">{{ $featuredAlumni->institusi ?: '—' }}</p>
-                            </div>
-                            <div>
-                                <p class="type-meta uppercase tracking-wider text-gray-400">{{ __('Bidang') }}</p>
-                                <p class="text-base font-semibold text-gray-900 dark:text-gray-50 mt-1">{{ $featuredAlumni->bidang ?: '—' }}</p>
-                            </div>
-                        </div>
-
-                        {{-- 2. Foto --}}
-                        <div class="order-1 lg:order-2 h-72 sm:h-96 lg:h-full">
-                            @if($featuredAlumni->foto_url)
-                                <img
-                                    src="{{ $featuredAlumni->foto_url }}"
-                                    alt="{{ $featuredAlumni->nama }}"
-                                    class="w-full h-full object-cover rounded-2xl"
-                                    loading="lazy"
-                                >
-                            @else
-                                <div class="w-full h-full rounded-2xl flex items-center justify-center text-white text-5xl font-bold" style="background-color: {{ $globalSettings->primary_color_style }}">
-                                    {{ strtoupper(substr($featuredAlumni->nama, 0, 2)) }}
-                                </div>
-                            @endif
-                        </div>
-
-                        {{-- 3. Kutipan (kartu aksen kiri; kabut + Selengkapnya bila melebihi tinggi kolom) --}}
-                        <div
-                            class="card-live order-3 lg:order-3 flex flex-col h-72 sm:h-96 lg:h-[440px] rounded-2xl border border-gray-200/80 dark:border-gray-800 border-l-[3px] pl-5 pr-5 py-5 sm:pl-6 sm:pr-6 sm:py-6 hover:shadow-md"
-                            style="border-left-color: {{ $globalSettings->primary_color_style }}"
-                            x-data="{
-                                truncated: false,
-                                measure() {
-                                    const el = this.$refs.quote;
-                                    if (!el) return;
-                                    this.truncated = el.scrollHeight > el.clientHeight + 4;
-                                }
-                            }"
-                            x-init="$nextTick(() => measure()); window.addEventListener('load', () => measure()); window.addEventListener('resize', () => measure())"
-                        >
-                            <svg
-                                class="w-7 h-7 shrink-0 opacity-30"
-                                style="color: {{ $globalSettings->primary_color_style }}"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                aria-hidden="true"
-                            >
-                                <path d="M7.5 6C5 6 3 8 3 10.5S5 15 7.5 15c0 2-1.5 3-3 3.5l.5 1.5C8.5 19 10 16.5 10 13V10.5C10 8 8.8 6 7.5 6zm11 0C16 6 14 8 14 10.5s2 4.5 4.5 4.5c0 2-1.5 3-3 3.5l.5 1.5C19.5 19 21 16.5 21 13V10.5C21 8 19.8 6 18.5 6z"/>
-                            </svg>
-
-                            <div
-                                x-ref="quote"
-                                :class="truncated ? 'sekilas-quote' : ''"
-                                class="mt-3 flex-1 min-h-0 overflow-hidden prose prose-sm max-w-none text-gray-600 dark:text-gray-300"
-                            >
-                                {!! $featuredAlumni->quote_html !!}
-                            </div>
-
-                            <div class="mt-auto flex items-center justify-end gap-3 pt-4">
-                                <a
-                                    x-show="truncated"
-                                    x-cloak
-                                    href="/alumni/{{ $featuredAlumni->id }}"
-                                    class="btn-morph btn-morph--primary type-button inline-flex font-semibold whitespace-nowrap"
-                                >
-                                    <span>{{ __('Selengkapnya') }}</span>
-                                    <svg class="btn-morph__icon w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            @endif
-        </div>
-    </section>
-
-    {{-- ============================================ --}}
-    {{-- Marquee Logo Mitra (2 baris berlawanan arah) --}}
-    {{-- ============================================ --}}
-    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
-        <div class="w-full">
-            @if($mitras->isNotEmpty())
-                @php
-                    $repeat = max(2, (int) ceil(8 / $mitras->count()));
-                    $groupOne = collect();
-                    for ($i = 0; $i < $repeat; $i++) { $groupOne = $groupOne->merge($mitras); }
-                    $groupTwo = $groupOne->reverse()->values();
-                @endphp
-
-                <div class="space-y-6 md:space-y-8 marquee-hover-pause marquee-fade"
-                     data-reveal>
-                    {{-- Baris 1: geser kiri --}}
-                    <div class="overflow-hidden py-2 marquee-row">
-                        <div class="flex w-max animate-marquee-left" style="--marquee-duration: 80s">
-                            @foreach([0, 1] as $copy)
-                                <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
-                                    @foreach($groupOne as $mitra)
-                                        <div class="mitra-chip group/chip flex h-20 md:h-24 flex-none items-center justify-center">
-                                            @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="h-16 md:h-20 max-h-full max-w-full w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
-                                            @else
-                                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    {{-- Baris 2: geser kanan --}}
-                    <div class="overflow-hidden py-2 marquee-row">
-                        <div class="flex w-max animate-marquee-right" style="--marquee-duration: 80s">
-                            @foreach([0, 1] as $copy)
-                                <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
-                                    @foreach($groupTwo as $mitra)
-                                        <div class="mitra-chip group/chip flex h-20 md:h-24 flex-none items-center justify-center">
-                                            @if($mitra->logo)
-                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="h-16 md:h-20 max-h-full max-w-full w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
-                                            @else
-                                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @else
-                <p class="text-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>{{ __('Belum ada mitra yang ditampilkan') }}</p>
-            @endif
-        </div>
-    </section>
-
-    {{-- ============================================ --}}
-    {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
-    {{-- ============================================ --}}
-    <section data-prospek class="relative z-0 bg-slate-100 py-16 dark:bg-gray-950 lg:py-24">
-        <div class="site-container" data-prospek-content x-data="{
+        {{-- Prospek Karir & Mata Pelajaran Unggulan. Ini bagian dari
+             section Sekilas (menggantikan sorotan alumni). --}}
+        <div class="site-container mt-12 lg:mt-16" x-data="{
             aktif: 'mapel',
             animating: false,
             setTab(t) {
@@ -770,14 +599,66 @@
             </div>
         </div>
     </section>
-    </div> {{-- /locked: hero -> Prospek membeku bersama --}}
 
-    {{-- Tirai: Karya + Prestasi naik menutupi blok yang ter-pin (z-10).
-         Sudut atas dibulatkan pada pembungkus DAN section pertama, karena
-         background section anak tidak ikut ter-clip oleh radius induk
-         (tanpa overflow-hidden, yang akan mematikan position: sticky kartu
-         Prestasi). --}}
-    <div class="relative z-10 rounded-[2rem] bg-white dark:bg-slate-900">
+    {{-- ============================================ --}}
+    {{-- Marquee Logo Mitra (2 baris berlawanan arah) --}}
+    {{-- ============================================ --}}
+    <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
+        <div class="w-full">
+            @if($mitras->isNotEmpty())
+                @php
+                    $repeat = max(2, (int) ceil(8 / $mitras->count()));
+                    $groupOne = collect();
+                    for ($i = 0; $i < $repeat; $i++) { $groupOne = $groupOne->merge($mitras); }
+                    $groupTwo = $groupOne->reverse()->values();
+                @endphp
+
+                <div class="space-y-6 md:space-y-8 marquee-hover-pause marquee-fade"
+                     data-reveal>
+                    {{-- Baris 1: geser kiri --}}
+                    <div class="overflow-hidden py-2 marquee-row">
+                        <div class="flex w-max animate-marquee-left" style="--marquee-duration: 80s">
+                            @foreach([0, 1] as $copy)
+                                <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
+                                    @foreach($groupOne as $mitra)
+                                        <div class="mitra-chip group/chip flex h-20 md:h-24 flex-none items-center justify-center">
+                                            @if($mitra->logo)
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="h-16 md:h-20 max-h-full max-w-full w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                            @else
+                                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    {{-- Baris 2: geser kanan --}}
+                    <div class="overflow-hidden py-2 marquee-row">
+                        <div class="flex w-max animate-marquee-right" style="--marquee-duration: 80s">
+                            @foreach([0, 1] as $copy)
+                                <div class="flex items-center gap-[83px] md:gap-[91px] pr-[83px] md:pr-[91px]" @if($copy === 1) aria-hidden="true" @endif>
+                                    @foreach($groupTwo as $mitra)
+                                        <div class="mitra-chip group/chip flex h-20 md:h-24 flex-none items-center justify-center">
+                                            @if($mitra->logo)
+                                                <img src="{{ asset('storage/' . $mitra->logo) }}" alt="{{ $mitra->nama_mitra }}" class="h-16 md:h-20 max-h-full max-w-full w-auto object-contain mitra-logo" loading="lazy" title="{{ $mitra->nama_mitra }}">
+                                            @else
+                                                <span class="text-xs font-semibold text-gray-500 dark:text-gray-300 text-center">{{ $mitra->nama_mitra }}</span>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @else
+                <p class="text-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>{{ __('Belum ada mitra yang ditampilkan') }}</p>
+            @endif
+        </div>
+    </section>
+
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
@@ -1041,6 +922,13 @@
             @endif
         </div>
     </section>
+    </div> {{-- /locked: hero -> Karya membeku bersama --}}
+
+    {{-- Tirai: Prestasi naik menutupi blok yang ter-pin (z-10).
+         Section diberi sudut atas membulat karena background anak tidak
+         ikut ter-clip oleh radius induk (tanpa overflow-hidden, yang
+         akan mematikan position: sticky kartu Prestasi). --}}
+    <div class="relative z-10 rounded-[2rem] bg-white dark:bg-slate-900">
 
     {{-- ============================================ --}}
     {{-- Prestasi: sticky stacked dispatches --}}
@@ -1049,7 +937,7 @@
     <section
         id="prestasi"
         aria-labelledby="prestasi-dispatch-heading"
-        class="rounded-b-[2rem] bg-white py-20 dark:bg-slate-900 lg:py-28"
+        class="rounded-[2rem] bg-white py-20 dark:bg-slate-900 lg:py-28"
         x-data="{
             active: 0,
             sync() {
@@ -1186,8 +1074,8 @@
         </div>
     </section>
     @endif
-    </div> {{-- /tirai Karya + Prestasi --}}
-    </div> {{-- /wrapper curtain Prospek --}}
+    </div> {{-- /tirai Prestasi --}}
+    </div> {{-- /wrapper curtain hero -> Karya --}}
 
     {{-- ============================================ --}}
     {{-- Berita Terbaru --}}
