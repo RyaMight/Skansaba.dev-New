@@ -127,9 +127,13 @@ function initHeroLock() {
         if (!header) return;
 
         const hero = document.querySelector("[data-hero-lock-hero]");
-        // Jarak transisi = tinggi hero; di puncak scroll p = 1.
-        const dist = hero ? hero.offsetHeight : window.innerHeight;
-        const p = dist > 0 ? Math.min(1, Math.max(0, window.scrollY / dist)) : 1;
+        const pin = document.querySelector("[data-hero-lock-pin]");
+        // Jarak transisi = tinggi ekstra pin di luar hero (stage sticky).
+        // Di desktop = D; di mobile pin tidak menambah tinggi (dist ~ 0).
+        const dist = pin && hero ? pin.offsetHeight - hero.offsetHeight : 0;
+        const p = dist > 1
+            ? Math.min(1, Math.max(0, window.scrollY / dist))
+            : (window.scrollY > 0 ? 1 : 0);
 
         header.style.setProperty("--hl-p", String(p));
     };

@@ -44,11 +44,14 @@
     {{-- Blok yang membeku: hero + Sekilas + Marquee + Prospek. --}}
     <div x-ref="locked" class="lg:sticky">
     {{-- ============================================ --}}
-    {{-- Hero: Slider foto tunggal ala skansaba.dev --}}
-    {{-- 1 foto di tengah, tanpa tetangga, crossfade --}}
+    {{-- Hero lock (design hero-Lock): pada desktop header + hero =
+         tepat 1 viewport dan hero dipin (sticky) selama navbar
+         bertransisi; setelah transisi selesai scroll lanjut normal.
+         Dua kolom: kiri logo + judul, kanan media + progress + CTA. --}}
     {{-- ============================================ --}}
+    <div class="hero-lock-pin" data-hero-lock-pin>
     <section
-        class="hero-lock-section bg-white dark:bg-slate-900 pt-4 pb-10 lg:pt-6 lg:pb-[50px]"
+        class="hero-lock-section bg-white dark:bg-slate-900 overflow-hidden"
         data-hero-lock-hero
         x-data="{
             N: {{ $sliders->count() }},
@@ -98,31 +101,39 @@
             }
         }"
     >
-        <div class="site-container">
-            {{-- Judul utama: eyebrow + hero title (sesuai design banner) --}}
-            <div class="text-center pt-4 lg:pt-6 mb-4 lg:mb-5" data-reveal>
-                {{-- Eyebrow (2 warna) --}}
-                <p class="type-lead font-semibold text-[#485B60] dark:text-gray-300">
-                    {{ __('Selamat Datang di Jurusan') }}
-                    <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Rekayasa Perangkat Lunak!') }}</span>
-                </p>
+        <div class="site-container flex h-full flex-col justify-center gap-10 py-8 lg:grid lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:items-center lg:gap-12 lg:py-0">
+            {{-- Kolom kiri: logo + eyebrow + judul --}}
+            <div class="flex flex-col items-start gap-6 lg:gap-8" data-reveal>
+                <div class="grid h-32 w-32 shrink-0 place-items-center overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm sm:h-36 sm:w-36 lg:h-40 lg:w-40 dark:border-gray-800 dark:bg-gray-900">
+                    @if($globalSettings->logo_primary_url)
+                        <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-full w-full object-contain p-5">
+                    @else
+                        <svg class="h-16 w-16" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
+                        </svg>
+                    @endif
+                </div>
 
-                {{-- Hero title (2 baris) --}}
-                <h1 class="type-hero-title mt-3 lg:mt-6 max-w-2xl lg:max-w-3xl mx-auto text-[#28374D] dark:text-gray-50">
-                    <span class="block">{{ __('Membangun Masa Depan Digital') }}</span>
-                    <span class="block">{{ __('bersama') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.Dev' }}</span></span>
-                </h1>
+                <div>
+                    {{-- Eyebrow (2 warna) --}}
+                    <p class="type-lead font-semibold text-[#485B60] dark:text-gray-300">
+                        {{ __('Selamat Datang di Jurusan') }}
+                        <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Rekayasa Perangkat Lunak!') }}</span>
+                    </p>
+
+                    {{-- Hero title --}}
+                    <h1 class="hero-lock-title mt-2" style="color: {{ $globalSettings->primary_color_style }}">SKANSABA.DEV</h1>
+                </div>
             </div>
-        </div>
 
+            {{-- Kolom kanan: media slider + progress + CTA --}}
+            <div class="flex w-full flex-col gap-3">
         @if($sliders->isNotEmpty())
-            {{-- Frame foto tunggal: rasio 16/9 (object-cover), tinggi dibatasi dinamis.
-                 Lebar sejajar dengan navbar: px-4 sm:px-6 + max-w-6xl (sama seperti header nav). --}}
-            <div class="px-4 sm:px-6" data-reveal>
-                {{-- Wrapper gambar: lebar penuh mengikuti navbar, proporsional --}}
-                <div class="relative w-full max-w-6xl mx-auto">
+            {{-- Media 16/9: tinggi dibatasi dinamis (viewport - offset atas - 50px). --}}
+            <div class="w-full" data-reveal>
+                <div class="relative w-full">
                     {{-- Container gambar: 16/9, max-height dinamis (viewport - offset atas - 50px) --}}
-                    <div class="relative grid w-full aspect-video rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)]" x-ref="heroFrame" :style="heroMax ? 'max-height: ' + heroMax : ''">
+                    <div class="relative grid w-full aspect-video rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.5)]" x-ref="heroFrame" :style="heroMax ? 'max-height: ' + heroMax : ''">
                         @foreach($sliders as $index => $slider)
                             <div
                                 class="col-start-1 row-start-1 h-full transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
@@ -151,18 +162,6 @@
                                 </div>
                             </div>
                         @endforeach
-
-                        {{-- Progress bar overlay di bawah frame (diluar stacking biar selalu terlihat) --}}
-                        <div class="col-start-1 row-start-1 self-end relative z-20 pointer-events-none">
-                            <div class="h-[3px] bg-white/25 rounded-full overflow-hidden mx-5 lg:mx-7 mb-4 lg:mb-5" x-show="N > 1">
-                                <template x-for="tick in [index]" :key="'bar-' + tick">
-                                    <div
-                                        class="h-full bg-white rounded-full"
-                                        style="animation: slider-progress 5s linear forwards"
-                                    ></div>
-                                </template>
-                            </div>
-                        </div>
                     </div>
 
                     {{-- Desktop Navigation Arrows - Di samping kiri dan kanan gambar --}}
@@ -216,13 +215,31 @@
                 @endif
             </div>
         @else
-            <div class="px-4 sm:px-6">
-                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 max-w-6xl mx-auto flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
+            <div class="w-full">
+                <div class="flex h-72 w-full items-center justify-center rounded-3xl border border-gray-100 bg-white text-sm text-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400" data-reveal>
                     {{ __('Belum ada slide yang ditambahkan') }}
                 </div>
             </div>
         @endif
+
+            {{-- Progress bar di bawah media (design hero-Lock) --}}
+            <div class="px-5 lg:px-6" x-show="N > 1" x-cloak>
+                <div class="h-[5px] overflow-hidden rounded-full bg-[#464141]/40 dark:bg-white/15">
+                    <template x-for="tick in [index]" :key="'bar-' + tick">
+                        <div class="h-full rounded-full bg-[#393333] dark:bg-gray-100" style="animation: slider-progress 5s linear forwards"></div>
+                    </template>
+                </div>
+            </div>
+
+            {{-- CTA card (design hero-Lock): link ke Unit Produksi --}}
+            <a href="/unit-produksi" class="block rounded-3xl bg-[#12B4E0] px-5 py-4 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2" data-reveal>
+                <p class="text-sm font-semibold text-[#404040] lg:text-base">{{ __('Mau Buat web?') }}</p>
+                <p class="text-lg font-semibold text-[#EFF9FF] lg:text-xl">{{ __('Skansaba Dev ada tawaran menarik nih!') }}</p>
+            </a>
+            </div>{{-- /kolom kanan --}}
+        </div>{{-- /grid --}}
     </section>
+    </div>{{-- /hero-lock-pin --}}
 
     {{-- ============================================ --}}
     {{-- Sekilas RPL: statistik ringkas + alumni sorotan --}}
