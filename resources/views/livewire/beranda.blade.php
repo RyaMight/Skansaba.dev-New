@@ -115,9 +115,9 @@
 
                 @php
                     $heroInfos = [
-                        __('RPL menawarkan jasa pembuatan website, hosting, dan domain.'),
-                        __('Butuh sistem informasi sekolah atau company profile? Tim kami siap membantu.'),
-                        __('Unit Produksi Skansaba Dev menerima proyek web untuk UMKM dan instansi.'),
+                        __('Layanan pembuatan website, hosting, dan domain untuk sekolah, UMKM, maupun instansi.'),
+                        __('Wujudkan ide digitalmu bersama Unit Produksi Skansaba Dev. Konsultasi gratis!'),
+                        __('Butuh sistem informasi atau company profile? Tim RPL siap membantu dari nol.'),
                     ];
                 @endphp
 
@@ -142,21 +142,36 @@
                     @mouseleave="play()"
                     @focusin="stop()"
                     @focusout="play()"
-                    class="block w-full max-w-sm rounded-2xl bg-[#12B4E0] px-5 py-4 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    class="group block w-full max-w-sm rounded-3xl bg-gradient-to-br from-[#2FC2EF] to-[#12B4E0] p-6 shadow-[0_14px_34px_-16px_rgba(18,180,224,0.75)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
                     data-reveal
                 >
-                    <div class="flex items-center gap-2">
-                        <span class="h-1.5 w-1.5 flex-none rounded-full bg-[#08313F]/70"></span>
-                        <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-[#08313F]/70">{{ __('Info Unit Produksi') }}</p>
+                    <div class="flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="h-1.5 w-1.5 flex-none rounded-full bg-[#08313F]/70"></span>
+                            <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-[#08313F]/70">{{ __('Info Unit Produksi') }}</p>
+                        </div>
+                        <svg class="h-4 w-4 flex-none text-[#08313F]/60 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
                     </div>
 
-                    <div class="relative mt-2 h-12">
+                    <div class="relative mt-4 h-[4.5rem]">
                         @foreach($heroInfos as $k => $info)
                             <p
                                 x-show="info === {{ $k }}"
                                 x-transition.opacity.duration.400ms
-                                class="absolute inset-0 type-body-sm font-semibold leading-snug text-[#08313F]"
+                                class="absolute inset-0 text-[15px] font-semibold leading-snug text-[#08313F]"
                             >{{ $info }}</p>
+                        @endforeach
+                    </div>
+
+                    {{-- Indikator pesan aktif --}}
+                    <div class="mt-4 flex items-center gap-1.5">
+                        @foreach($heroInfos as $k => $info)
+                            <span
+                                class="h-1.5 rounded-full transition-all duration-300"
+                                :class="info === {{ $k }} ? 'w-5 bg-[#08313F]/80' : 'w-1.5 bg-[#08313F]/30'"
+                            ></span>
                         @endforeach
                     </div>
                 </a>
