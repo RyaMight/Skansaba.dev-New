@@ -267,6 +267,15 @@ body {
     }
 }
 
+/* Judul "Prestasi Terbaru" menyingkir setelah kartu terakhir menempati
+   posisi tumpukannya, supaya tidak terus menempel di atas kartu yang
+   sudah selesai. Kembali muncul saat scroll naik kembali. */
+.prestasi-heading-out {
+    opacity: 0;
+    transform: translateY(-0.75rem);
+    pointer-events: none;
+}
+
 /* Sekilas stat band: saat reduced-motion pita langsung penuh, jadi track
    170vh tidak diperlukan — hilangkan scroll kosongnya. */
 @media (prefers-reduced-motion: reduce) {

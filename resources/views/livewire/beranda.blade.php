@@ -1050,11 +1050,31 @@
         id="prestasi"
         aria-labelledby="prestasi-dispatch-heading"
         class="rounded-b-[2rem] bg-white py-20 dark:bg-slate-900 lg:py-28"
+        x-data="{
+            active: 0,
+            sync() {
+                const cards = [...this.$el.querySelectorAll('[data-dispatch-card]')];
+                let current = 0;
+                cards.forEach((card, index) => {
+                    const top = parseFloat(getComputedStyle(card).top) || 0;
+                    if (card.getBoundingClientRect().top <= top + 2) current = index;
+                });
+                this.active = current;
+            }
+        }"
+        x-init="sync(); $nextTick(() => sync())"
+        @scroll.window.passive="sync()"
+        @resize.window="sync()"
     >
         {{-- Heading dipin (sticky) bersama kartu supaya label section tetap
              terbaca selama kartu menumpuk; latarnya = latar section agar
-             kartu yang lewat di belakangnya tidak tembus. --}}
-        <div class="sticky top-[82px] z-30 bg-white pt-5 pb-3 dark:bg-slate-900">
+             kartu yang lewat di belakangnya tidak tembus. Setelah kartu
+             terakhir sampai di posisi tumpukannya, judul menyingkir agar
+             tidak menutupi kartu yang sudah selesai. --}}
+        <div
+            class="prestasi-heading sticky top-[82px] z-30 bg-white pt-5 pb-3 transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none dark:bg-slate-900"
+            :class="{ 'prestasi-heading-out': active >= {{ $prestasiTerbaru->count() - 1 }} && {{ $prestasiTerbaru->count() }} > 1 }"
+        >
             <div class="site-container">
                 <div class="mx-auto max-w-2xl text-center" data-reveal>
                     <h2
@@ -1077,21 +1097,6 @@
                  plus heading sticky supaya kartu tidak menutupi judul. --}}
             <div
                 class="relative mx-auto mt-12 flex max-w-[1082px] flex-col gap-5 sm:mt-16 sm:gap-7"
-                x-data="{
-                    active: 0,
-                    sync() {
-                        const cards = [...this.$el.querySelectorAll('[data-dispatch-card]')];
-                        let current = 0;
-                        cards.forEach((card, index) => {
-                            const top = parseFloat(getComputedStyle(card).top) || 0;
-                            if (card.getBoundingClientRect().top <= top + 2) current = index;
-                        });
-                        this.active = current;
-                    }
-                }"
-                x-init="sync(); $nextTick(() => sync())"
-                @scroll.window.passive="sync()"
-                @resize.window="sync()"
             >
                 @foreach($prestasiTerbaru as $i => $prestasi)
                     <article
