@@ -101,14 +101,14 @@
             }
         }"
     >
-        <div class="site-container flex h-full flex-col justify-center gap-10 py-8 lg:grid lg:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] lg:items-center lg:gap-12 lg:py-0">
+        <div class="flex h-full w-full flex-col justify-center gap-10 px-4 py-8 sm:px-6 lg:grid lg:grid-cols-[minmax(0,41fr)_minmax(0,59fr)] lg:items-center lg:gap-0 lg:px-12 lg:py-0">
             {{-- Kolom kiri: logo + eyebrow + judul --}}
-            <div class="flex flex-col items-start gap-6 lg:gap-8" data-reveal>
-                <div class="grid h-32 w-32 shrink-0 place-items-center overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm sm:h-36 sm:w-36 lg:h-40 lg:w-40 dark:border-gray-800 dark:bg-gray-900">
+            <div class="flex flex-col items-start gap-6 lg:gap-7" data-reveal>
+                <div class="grid h-36 w-36 shrink-0 place-items-center overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm sm:h-44 sm:w-44 lg:h-52 lg:w-52 dark:border-gray-800 dark:bg-gray-900">
                     @if($globalSettings->logo_primary_url)
                         <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-full w-full object-contain p-5">
                     @else
-                        <svg class="h-16 w-16" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                        <svg class="h-20 w-20 lg:h-24 lg:w-24" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
                         </svg>
                     @endif
@@ -232,7 +232,7 @@
             </div>
 
             {{-- CTA card (design hero-Lock): link ke Unit Produksi --}}
-            <a href="/unit-produksi" class="block rounded-3xl bg-[#12B4E0] px-5 py-4 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2" data-reveal>
+            <a href="/unit-produksi" class="block rounded-3xl bg-[#12B4E0] px-6 py-5 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2" data-reveal>
                 <p class="text-sm font-semibold text-[#404040] lg:text-base">{{ __('Mau Buat web?') }}</p>
                 <p class="text-lg font-semibold text-[#EFF9FF] lg:text-xl">{{ __('Skansaba Dev ada tawaran menarik nih!') }}</p>
             </a>
