@@ -201,15 +201,15 @@
 
             {{-- Kartu kontrol slider: deskripsi + nav (row 1), progress (row 2) --}}
             @if($sliders->isNotEmpty())
-                <div class="rounded-2xl border border-gray-200/80 bg-white px-5 py-4 dark:border-white/10 dark:bg-gray-900" data-reveal>
+                <div class="rounded-2xl border border-white/10 bg-[#0F172B] px-6 py-5" data-reveal>
                     {{-- Row 1: deskripsi slide (kiri) + tombol prev/next (kanan) --}}
-                    <div class="flex items-start justify-between gap-4">
-                        <div class="relative min-h-[3rem] min-w-0 flex-1">
+                    <div class="flex items-center justify-between gap-4">
+                        <div class="relative min-h-[3.75rem] min-w-0 flex-1">
                             @foreach($sliders as $index => $slider)
-                                <div x-show="isActive({{ $index }})" x-transition.opacity.duration.300ms class="absolute inset-0">
-                                    <p class="type-card-title-sm line-clamp-1 text-gray-900 dark:text-gray-50">{{ $slider->title }}</p>
+                                <div x-show="isActive({{ $index }})" x-transition.opacity.duration.300ms class="absolute inset-0 flex flex-col justify-center">
+                                    <p class="type-card-title-sm line-clamp-1 text-white">{{ $slider->title }}</p>
                                     @if($slider->subtitle)
-                                        <p class="type-body-sm mt-1 line-clamp-1 text-gray-500 dark:text-gray-400">{{ $slider->subtitle }}</p>
+                                        <p class="type-body-sm mt-1 line-clamp-1 text-white/60">{{ $slider->subtitle }}</p>
                                     @endif
                                 </div>
                             @endforeach
@@ -220,7 +220,7 @@
                                 <button
                                     type="button"
                                     @click="back(); start()"
-                                    class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                                    class="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2"
                                     aria-label="Slide sebelumnya"
                                 >
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
@@ -230,7 +230,7 @@
                                 <button
                                     type="button"
                                     @click="advance(); start()"
-                                    class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                                    class="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2"
                                     aria-label="Slide berikutnya"
                                 >
                                     <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
@@ -243,7 +243,7 @@
 
                     {{-- Row 2: progress bar --}}
                     @if($sliders->count() > 1)
-                        <div class="mt-4 h-[3px] overflow-hidden rounded-full bg-gray-200/80 dark:bg-white/15">
+                        <div class="mt-5 h-[3px] overflow-hidden rounded-full bg-white/15">
                             <template x-for="tick in [index]" :key="'bar-' + tick">
                                 <div class="h-full rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}; animation: slider-progress 5s linear forwards"></div>
                             </template>
