@@ -48,7 +48,7 @@
     {{-- 1 foto di tengah, tanpa tetangga, crossfade --}}
     {{-- ============================================ --}}
     <section
-        class="hero-lock-section bg-white dark:bg-slate-900 pt-4 pb-10 lg:pt-6 lg:pb-14"
+        class="hero-lock-section bg-white dark:bg-slate-900 pt-4 pb-10 lg:pt-6 lg:pb-[50px]"
         data-hero-lock-hero
         x-data="{
             N: {{ $sliders->count() }},
