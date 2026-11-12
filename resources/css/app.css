@@ -1528,12 +1528,8 @@ html.dark {
     }
 }
 
-/* Teks "mode" di kiri toggle tema hero-lock: hanya tampil pada hero-lock
-   (lg+). Saat navbar bertransisi ke bentuk normal (--hl-p -> 1) teks
-   ter-wipe habis (clip dari kanan + lebar menyusut), bukan sekadar fade. */
-.hl-theme-mode {
-    display: none;
-}
+/* Teks "mode" di kiri toggle tema hero-lock sudah dihapus; hero-lock kini
+   hanya menampilkan tombol tema seperti navbar normal. */
 
 @media (min-width: 1024px) {
     /* Lebar wadah nav: 72rem (1152px) -> lebar penuh area header. */
@@ -1554,27 +1550,6 @@ html.dark {
     /* Jarak blok kanan: 12px -> 18px. */
     [data-hero-lock] .hl-right {
         gap: calc(0.75rem + (1 - var(--hl-p, 0)) * 0.375rem);
-    }
-
-    /* Teks "mode" (hero-lock) ter-wipe habis saat p -> 1. clip-path
-       mengatur sapuan visualnya (crisp edge, bukan fade); max-width +
-       overflow memastikan lebar benar-benar 0 pada p = 1 sehingga blok
-       kanan persis sama dengan navbar normal. */
-    [data-hero-lock] .hl-theme-mode {
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        font-size: 0.875rem;
-        font-weight: 600;
-        line-height: 1;
-        color: #6a7282;
-        max-width: calc((1 - var(--hl-p, 0)) * 4.5rem);
-        margin-right: calc((1 - var(--hl-p, 0)) * 0.625rem);
-        clip-path: inset(0 calc(var(--hl-p, 0) * 100%) 0 0);
-    }
-
-    .dark [data-hero-lock] .hl-theme-mode {
-        color: #99a1af;
     }
 
     /* Kartu navbar. Latar dibuat OPAK sejak awal (menyamai latar

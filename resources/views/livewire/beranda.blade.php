@@ -142,7 +142,7 @@
                     @mouseleave="play()"
                     @focusin="stop()"
                     @focusout="play()"
-                    class="group block w-full max-w-sm rounded-3xl bg-gradient-to-br from-[#2FC2EF] to-[#12B4E0] p-6 shadow-[0_14px_34px_-16px_rgba(18,180,224,0.75)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    class="group block w-full max-w-sm rounded-3xl bg-[#12B4E0] p-6 shadow-[0_14px_34px_-16px_rgba(18,180,224,0.75)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
                     data-reveal
                 >
                     <div class="flex items-center justify-between gap-3">
