@@ -66,15 +66,15 @@ body {
 }
 
 /* Judul tab pilihan (Prospek Karir / Mata Pelajaran Unggulan).
-   Non-aktif 16px semi-bold, tab aktif 18px bold. */
+   Non-aktif 18px semi-bold, tab aktif 22px bold. */
 .type-tab-title {
-    font-size: 1rem; /* 16px */
+    font-size: 1.125rem; /* 18px */
     line-height: 1.5;
     font-weight: 600;
     letter-spacing: normal;
 }
 .type-tab-title-active {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.375rem; /* 22px */
     line-height: 1.3;
     font-weight: 700;
     letter-spacing: normal;
@@ -1495,12 +1495,12 @@ html.dark {
     min-height: calc(100dvh - 82px);
 }
 
-/* Judul utama hero-lock (16px bold sesuai skala baru). */
+/* Judul utama hero-lock: wordmark besar, menyesuaikan lebar kolom. */
 .hero-lock-title {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: clamp(2rem, 1.4rem + 2.6vw, 3.5rem); /* 32px -> 56px */
+    line-height: 1.05;
     font-weight: 700;
-    letter-spacing: normal;
+    letter-spacing: -0.02em;
 }
 
 /* Pin/stage hero-lock (desktop): hero "dipin" selama navbar
