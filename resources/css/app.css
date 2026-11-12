@@ -199,14 +199,22 @@ body {
     letter-spacing: normal;
 }
 
-/* 20px bold — angka statistik besar & identitas sekolah di footer. */
+/* 20px bold — angka statistik & identitas sekolah di footer. */
 .type-stat,
-.type-stat-xl,
 .type-brand {
     font-size: 1.25rem; /* 20px */
     line-height: 1.4;    /* 28px */
     font-weight: 700;
     letter-spacing: normal;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Angka besar pita "Sekilas RPL" — menyesuaikan lebar pita. */
+.type-stat-xl {
+    font-size: clamp(2rem, 1.5rem + 1.5vw, 2.75rem); /* 32px -> 44px */
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
 }
 

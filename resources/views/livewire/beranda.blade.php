@@ -112,9 +112,15 @@
                     {{-- Hero title --}}
                     <h1 class="hero-lock-title mt-2" style="color: {{ $globalSettings->primary_color_style }}">SKANSABA.DEV</h1>
                 </div>
+
+                {{-- CTA: tawaran Unit Produksi, diletakkan di bawah wordmark --}}
+                <a href="/unit-produksi" class="block w-full rounded-2xl bg-[#12B4E0] px-5 py-4 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 lg:px-6 lg:py-5" data-reveal>
+                    <p class="type-body-sm font-semibold text-[#404040] lg:text-base">{{ __('Mau Buat web?') }}</p>
+                    <p class="type-card-title text-[#EFF9FF] lg:text-xl">{{ __('Skansaba Dev ada tawaran menarik nih!') }}</p>
+                </a>
             </div>
 
-            {{-- Kolom kanan: media slider + progress + CTA --}}
+            {{-- Kolom kanan: media slider + kontrol navigasi --}}
             <div class="flex w-full flex-col gap-3">
         @if($sliders->isNotEmpty())
             {{-- Media 16/9: tinggi dibatasi dinamis (viewport - offset atas - 50px). --}}
@@ -152,55 +158,7 @@
                         @endforeach
                     </div>
 
-                    {{-- Desktop Navigation Arrows - Di samping kiri dan kanan gambar --}}
-                    @if($sliders->count() > 1)
-                        {{-- Tombol Kiri --}}
-                        <button
-                            @click="back(); start()"
-                            class="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
-                            aria-label="Slide sebelumnya"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-                            </svg>
-                        </button>
-
-                        {{-- Tombol Kanan --}}
-                        <button
-                            @click="advance(); start()"
-                            class="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
-                            aria-label="Slide berikutnya"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-                            </svg>
-                        </button>
-                    @endif
-                </div>
-
-                {{-- Mobile arrows: tampil di bawah gambar (tengah, berdekatan) --}}
-                @if($sliders->count() > 1)
-                    <div class="lg:hidden flex justify-center items-center gap-4 mt-5" data-reveal>
-                        <button
-                            @click="back(); start()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-300 shadow-md"
-                            aria-label="Slide sebelumnya"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-                            </svg>
-                        </button>
-                        <button
-                            @click="advance(); start()"
-                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-300 shadow-md"
-                            aria-label="Slide berikutnya"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-                            </svg>
-                        </button>
                     </div>
-                @endif
             </div>
         @else
             <div class="w-full">
@@ -210,20 +168,38 @@
             </div>
         @endif
 
-            {{-- Progress bar di bawah media (design hero-Lock) --}}
-            <div class="px-5 lg:px-6" x-show="N > 1" x-cloak>
-                <div class="h-[5px] overflow-hidden rounded-full bg-[#464141]/40 dark:bg-white/15">
-                    <template x-for="tick in [index]" :key="'bar-' + tick">
-                        <div class="h-full rounded-full bg-[#393333] dark:bg-gray-100" style="animation: slider-progress 5s linear forwards"></div>
-                    </template>
-                </div>
-            </div>
+            {{-- Kontrol slider: tombol prev/next mengapit progress bar tipis --}}
+            @if($sliders->count() > 1)
+                <div class="flex items-center gap-3 px-5 lg:gap-4 lg:px-6">
+                    <button
+                        type="button"
+                        @click="back(); start()"
+                        class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                        aria-label="Slide sebelumnya"
+                    >
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                        </svg>
+                    </button>
 
-            {{-- CTA card (design hero-Lock): link ke Unit Produksi --}}
-            <a href="/unit-produksi" class="block rounded-3xl bg-[#12B4E0] px-6 py-5 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2" data-reveal>
-                <p class="text-sm font-semibold text-[#404040] lg:text-base">{{ __('Mau Buat web?') }}</p>
-                <p class="text-lg font-semibold text-[#EFF9FF] lg:text-xl">{{ __('Skansaba Dev ada tawaran menarik nih!') }}</p>
-            </a>
+                    <div class="h-[3px] flex-1 overflow-hidden rounded-full bg-gray-200/80 dark:bg-white/15">
+                        <template x-for="tick in [index]" :key="'bar-' + tick">
+                            <div class="h-full rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}; animation: slider-progress 5s linear forwards"></div>
+                        </template>
+                    </div>
+
+                    <button
+                        type="button"
+                        @click="advance(); start()"
+                        class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                        aria-label="Slide berikutnya"
+                    >
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                        </svg>
+                    </button>
+                </div>
+            @endif
             </div>{{-- /kolom kanan --}}
         </div>{{-- /grid --}}
     </section>
@@ -422,7 +398,7 @@
                                  sengaja invisible: hanya muncul dari lapisan
                                  putih saat biru menyapunya. --}}
                             <div class="relative px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16">
-                                <p class="type-body-sm font-medium tracking-wide text-gray-500 dark:text-gray-400 max-w-xl">
+                                <p class="type-lead font-medium tracking-wide text-gray-500 dark:text-gray-400 max-w-xl">
                                     {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
                                 </p>
 
@@ -439,7 +415,7 @@
                                         <div class="type-stat-xl">
                                             {{ number_format($stat['value'], 0, ',', '.') }}
                                         </div>
-                                        <div class="type-body-sm mt-2">
+                                        <div class="type-lead font-medium mt-2">
                                             {{ $stat['label'] }}
                                         </div>
                                     </div>
@@ -455,7 +431,7 @@
                                 :style="bandClip === 'none' ? '' : 'clip-path: ' + bandClip"
                                 aria-hidden="true"
                             >
-                                <p class="type-body-sm font-medium tracking-wide text-white max-w-xl">
+                                <p class="type-lead font-medium tracking-wide text-white max-w-xl">
                                     {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
                                 </p>
 
@@ -475,7 +451,7 @@
                                         <div class="type-stat-xl text-gray-900 dark:text-gray-900" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
                                             {{ number_format($stat['value'], 0, ',', '.') }}
                                         </div>
-                                        <div class="type-body-sm mt-2 text-white/80" aria-hidden="true">
+                                        <div class="type-lead font-medium mt-2 text-white/90" aria-hidden="true">
                                             {{ $stat['label'] }}
                                         </div>
                                     </div>
