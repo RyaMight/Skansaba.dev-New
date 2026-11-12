@@ -1,10 +1,10 @@
-<footer id="kontak" class="bg-slate-100 dark:bg-gray-950 pt-4 pb-0 px-4 sm:px-6 notranslate">
+<footer id="kontak" class="bg-slate-100 dark:bg-gray-950 pt-4 pb-0 px-4 sm:px-6 notranslate text-base">
     <div class="w-full bg-white dark:bg-gray-900 rounded-t-3xl rounded-b-none shadow-[0_2px_24px_rgba(15,23,42,0.06)] border border-gray-100 dark:border-gray-800 border-b-0">
-        <div class="site-container pt-10 lg:pt-14 pb-10 lg:pb-12">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+        <div class="mx-auto w-full max-w-6xl px-6 py-16">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-4 lg:gap-12">
             {{-- Brand & Contact --}}
-            <div class="lg:col-span-5" data-reveal>
-                <div class="flex items-center gap-2.5 mb-5">
+            <div data-reveal>
+                <div class="flex items-center gap-2.5 mb-6">
                     @if($globalSettings->logo_primary_url)
                         <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-10 w-auto">
                     @else
@@ -15,7 +15,7 @@
                     <span class="type-brand" style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name }}</span>
                 </div>
 
-                <p class="type-body-sm text-gray-600 dark:text-gray-300 mb-6 max-w-sm">
+                <p class="type-body-sm text-gray-600 dark:text-gray-300 mb-6">
                     {{ $globalSettings->site_tagline ?? 'Rekayasa Perangkat Lunak - Membangun Masa Depan Digital Indonesia' }}
                 </p>
 
@@ -51,7 +51,7 @@
                 </ul>
 
                 {{-- Social Media --}}
-                <div class="flex items-center gap-3 mt-6">
+                <div class="flex items-center gap-4 mt-6">
                     @php
                         $waPhone = $globalSettings->contact_phone ?: '+62 851-1134-5644';
                         $waUrl = $globalSettings->whatsapp_url ?? 'https://wa.me/6285111345644';
@@ -81,42 +81,42 @@
                     @endif
                 </div>
 
-                <p class="type-meta text-gray-400 dark:text-gray-400 mt-8">
+                <p class="type-body-sm text-gray-400 dark:text-gray-400 mt-8">
                     Copyright &copy; {{ date('Y') }} {{ $globalSettings->site_name }}. All right reserved.
                 </p>
             </div>
 
-            {{-- Menu Columns --}}
-            <div class="lg:col-span-4 grid grid-cols-2 gap-8" data-reveal>
-                <div>
-                    <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4">{{ __('Menu Utama') }}</h4>
-                    <ul class="type-footer-link space-y-2.5">
-                        <li><a href="/" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Beranda') }}</a></li>
-                        <li><a href="/struktur-organisasi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Struktur Organisasi') }}</a></li>
-                        <li><a href="/fasilitas" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Fasilitas') }}</a></li>
-                        <li><a href="/unit-produksi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Unit Produksi') }}</a></li>
-                    </ul>
+            {{-- Menu Utama --}}
+            <div data-reveal>
+                <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-6">{{ __('Menu Utama') }}</h3>
+                <ul class="type-footer-link space-y-3">
+                    <li><a href="/" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Beranda') }}</a></li>
+                    <li><a href="/struktur-organisasi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Struktur Organisasi') }}</a></li>
+                    <li><a href="/fasilitas" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Fasilitas') }}</a></li>
+                    <li><a href="/unit-produksi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Unit Produksi') }}</a></li>
+                </ul>
+            </div>
 
-                    <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4 mt-8">{{ __('Siswa') }}</h4>
-                    <ul class="type-footer-link space-y-2.5">
-                        <li><a href="/prestasi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Prestasi') }}</a></li>
-                        <li><a href="/karya" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Karya Siswa') }}</a></li>
-                        <li><a href="/alumni" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Alumni') }}</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4">{{ __('Informasi') }}</h4>
-                    <ul class="type-footer-link space-y-2.5">
-                        <li><a href="/berita" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Berita') }}</a></li>
-                        <li><a href="/dokumen" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Dokumen') }}</a></li>
-                        <li><a href="/gallery" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Gallery') }}</a></li>
-                    </ul>
-                </div>
+            {{-- Siswa & Informasi --}}
+            <div data-reveal>
+                <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-6">{{ __('Siswa') }}</h3>
+                <ul class="type-footer-link space-y-3">
+                    <li><a href="/prestasi" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Prestasi') }}</a></li>
+                    <li><a href="/karya" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Karya Siswa') }}</a></li>
+                    <li><a href="/alumni" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Alumni') }}</a></li>
+                </ul>
+
+                <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-6 mt-8">{{ __('Informasi') }}</h3>
+                <ul class="type-footer-link space-y-3">
+                    <li><a href="/berita" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Berita') }}</a></li>
+                    <li><a href="/dokumen" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Dokumen') }}</a></li>
+                    <li><a href="/gallery" class="link-underline text-gray-500 dark:text-gray-400 hover-primary transition">{{ __('Gallery') }}</a></li>
+                </ul>
             </div>
 
             {{-- Map --}}
-            <div class="lg:col-span-3" data-reveal>
-                <h4 class="type-card-title-xs text-gray-900 dark:text-gray-50 mb-4">{{ __('Lokasi Sekolah') }}</h4>
+            <div data-reveal>
+                <h3 class="type-card-title text-gray-900 dark:text-gray-50 mb-6">{{ __('Lokasi Sekolah') }}</h3>
                 @if($globalSettings->maps_url)
                     <div class="rounded-2xl overflow-hidden aspect-[4/3] border border-gray-100 dark:border-gray-800 shadow-sm maps-embed">
                         {!! $globalSettings->maps_url !!}

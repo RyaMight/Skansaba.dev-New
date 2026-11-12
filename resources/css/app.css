@@ -151,11 +151,11 @@ body {
     letter-spacing: normal;
 }
 
-/* 13px semi-bold / LH 19.5 — link navigasi di footer. */
+/* 14px regular — teks & link navigasi footer. */
 .type-footer-link {
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     line-height: 1.5;
-    font-weight: 600;
+    font-weight: 400;
     letter-spacing: normal;
 }
 
