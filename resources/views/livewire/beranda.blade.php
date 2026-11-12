@@ -104,7 +104,7 @@
         <div class="flex h-full w-full flex-col justify-center gap-10 px-4 py-8 sm:px-6 lg:grid lg:grid-cols-[minmax(0,41fr)_minmax(0,59fr)] lg:items-center lg:gap-0 lg:px-12 lg:py-0">
             {{-- Kolom kiri: logo + eyebrow + judul --}}
             <div class="flex flex-col items-start gap-6 lg:gap-7" data-reveal>
-                <div class="grid h-36 w-36 shrink-0 place-items-center overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm sm:h-44 sm:w-44 lg:h-52 lg:w-52 dark:border-gray-800 dark:bg-gray-900">
+                <div class="grid h-36 w-36 shrink-0 place-items-center sm:h-44 sm:w-44 lg:h-52 lg:w-52">
                     @if($globalSettings->logo_primary_url)
                         <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-full w-full object-contain p-5">
                     @else

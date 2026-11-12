@@ -55,7 +55,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
+                    <div x-cloak x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/struktur-organisasi" @class([
                             'nav-dd-item morph-fill block px-4 py-2 text-sm hover-primary',
                             'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isStrukturActive,
@@ -81,7 +81,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
+                    <div x-cloak x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/prestasi" @class([
                             'nav-dd-item morph-fill block px-4 py-2 text-sm hover-primary',
                             'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isPrestasiActive,
@@ -118,7 +118,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
-                    <div x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
+                    <div x-cloak x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/berita" @class([
                             'nav-dd-item morph-fill block px-4 py-2 text-sm hover-primary',
                             'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isBeritaActive,
@@ -177,7 +177,7 @@
                         </button>
 
                         {{-- Dropdown Akun --}}
-                        <div x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute right-0 top-full mt-2 w-60 origin-top-right bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2 z-50">
+                        <div x-cloak x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute right-0 top-full mt-2 w-60 origin-top-right bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2 z-50">
                             <div class="nav-dd-item px-4 py-2 border-b border-gray-100 dark:border-gray-800">
                                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{{ auth()->user()->name }}</p>
                                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ auth()->user()->email }}</p>
@@ -251,6 +251,7 @@
     <div
         x-data="{ open: false }"
         @toggle-mobile-menu.window="open = !open"
+        x-cloak
         x-show="open"
         x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]"
         x-transition:enter-start="opacity-0 -translate-y-4"
