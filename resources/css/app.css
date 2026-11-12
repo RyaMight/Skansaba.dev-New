@@ -1523,18 +1523,6 @@ html.dark {
     }
 }
 
-/* Header hero-lock berlatar sama dengan hero (putih / slate-900).
-   isolate wrapper ber-`bg-gray-950`; saat halaman di-scroll, latar itu
-   bergeser ke belakang header yang transparan sehingga muncul pita/garis
-   pemisah antara header dan hero. Menyamakan latar header menghilangkannya. */
-[data-hero-lock] {
-    background-color: #ffffff;
-}
-
-.dark [data-hero-lock] {
-    background-color: #0f172b;
-}
-
 /* Label "Theme" hanya tampil pada hero-lock (diatur di blok @media). */
 .hl-theme-label {
     opacity: 0;

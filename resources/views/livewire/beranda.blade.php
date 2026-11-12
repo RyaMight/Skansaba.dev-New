@@ -8,7 +8,7 @@
          konten terlihat nyaman). Desktop saja; mobile alur normal. --}}
     {{-- ============================================ --}}
     <div
-        class="relative isolate bg-slate-100 dark:bg-gray-950"
+        class="relative isolate bg-white dark:bg-slate-900"
         x-data="{
             setTop() {
                 const lock = this.$refs.locked;
