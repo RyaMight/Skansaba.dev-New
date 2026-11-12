@@ -105,3 +105,45 @@ function initStrukturScroll() {
 
 document.addEventListener("DOMContentLoaded", initStrukturScroll);
 document.addEventListener("livewire:navigated", initStrukturScroll);
+
+// ============================================
+// Hero lock (beranda): navbar full-bleed -> navbar normal
+// ============================================
+// Header + hero = satu viewport penuh. Progress scroll p (0..1)
+// menggerakkan morph navbar lewat variabel CSS --hl-p:
+//   p = 0 -> navbar hero lock (menyebar, tanpa card)
+//   p = 1 -> navbar normal (card, menyempit ke tengah)
+// Hanya berjalan bila halaman memuat header bertanda
+// [data-hero-lock] (saat ini hanya beranda).
+function initHeroLock() {
+    if (window.__heroLockInit) return;
+    window.__heroLockInit = true;
+
+    let raf = null;
+
+    const update = () => {
+        raf = null;
+        const header = document.querySelector("[data-hero-lock]");
+        if (!header) return;
+
+        const hero = document.querySelector("[data-hero-lock-hero]");
+        // Jarak transisi = tinggi hero; di puncak scroll p = 1.
+        const dist = hero ? hero.offsetHeight : window.innerHeight;
+        const p = dist > 0 ? Math.min(1, Math.max(0, window.scrollY / dist)) : 1;
+
+        header.style.setProperty("--hl-p", String(p));
+    };
+
+    const schedule = () => {
+        if (raf == null) raf = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    document.addEventListener("livewire:navigated", schedule);
+    window.addEventListener("pageshow", schedule);
+
+    schedule();
+}
+
+initHeroLock();

@@ -1478,3 +1478,74 @@ html.dark {
         transform: none;
     }
 }
+
+/* ============================================
+   HERO LOCK (beranda)
+   ------------------------------------------------------------
+   Header + hero selalu = 1 viewport penuh. Pada kondisi paling
+   atas navbar tampil gaya "hero lock": full-bleed, tanpa card,
+   elemen menyebar sampai tepi kanan/kiri. Begitu halaman
+   di-scroll, elemen mengumpul ke tengah, dan card navbar
+   (latar + garis + bayangan + radius) perlahan muncul sampai
+   persis menyamai navbar normal.
+   --hl-p: 0 = hero lock (menyebar), 1 = navbar normal.
+   ============================================ */
+
+/* Tinggi hero = viewport dikurangi tinggi header (82px), jadi
+   header + hero = tepat satu layar. min-height: konten yang
+   lebih tinggi (mis. mobile) tetap boleh tumbuh. */
+.hero-lock-section {
+    min-height: calc(100dvh - 82px);
+}
+
+@media (min-width: 1024px) {
+    /* Lebar wadah nav: 72rem (1152px) -> lebar penuh area header. */
+    [data-hero-lock] .hl-nav {
+        max-width: calc(72rem + (1 - var(--hl-p, 0)) * (100% - 72rem));
+    }
+
+    /* Padding dalam nav: 28px -> 48px (lebih "ber space"). */
+    [data-hero-lock] .hl-inner {
+        padding-inline: calc(1.75rem + (1 - var(--hl-p, 0)) * 1.25rem);
+    }
+
+    /* Jarak antar menu: gap-7 (28px) -> 40px. */
+    [data-hero-lock] .hl-menu {
+        gap: calc(1.75rem + (1 - var(--hl-p, 0)) * 0.75rem);
+    }
+
+    /* Jarak blok kanan: 12px -> 18px. */
+    [data-hero-lock] .hl-right {
+        gap: calc(0.75rem + (1 - var(--hl-p, 0)) * 0.375rem);
+    }
+
+    /* Toggle theme "lebih lengkap" di hero lock: lebih besar, lalu
+       menyusut jadi ukuran normal saat elemen mengumpul ke tengah. */
+    [data-hero-lock] .hl-toggle .theme-switch {
+        width: calc(2.25rem + (1 - var(--hl-p, 0)) * 0.5rem);   /* 36 -> 44 */
+        height: calc(2.25rem + (1 - var(--hl-p, 0)) * 0.5rem);
+    }
+
+    [data-hero-lock] .hl-toggle .theme-switch svg {
+        width: calc(1.125rem + (1 - var(--hl-p, 0)) * 0.25rem); /* 18 -> 22 */
+        height: calc(1.125rem + (1 - var(--hl-p, 0)) * 0.25rem);
+    }
+
+    /* Kartu navbar. Latar dibuat OPAK sejak awal (menyamai latar
+       halaman) supaya konten hero yang lewat di bawah header tidak
+       tembus terlihat; yang "muncul" adalah garis, radius, dan
+       bayangan — plus wadah yang menyempit. Di akhir transisi
+       nilainya persis sama dengan navbar normal. */
+    [data-hero-lock] .hl-nav {
+        background-color: #ffffff;
+        border-color: rgba(243, 244, 246, var(--hl-p, 0));
+        box-shadow: 0 2px 16px rgba(15, 23, 42, calc(var(--hl-p, 0) * 0.08));
+        border-radius: calc(var(--hl-p, 0) * 1rem);
+    }
+
+    .dark [data-hero-lock] .hl-nav {
+        /* #0F172B (slate-900, latar hero) -> #101828 (gray-900, card). */
+        background-color: color-mix(in srgb, #101828 calc(var(--hl-p, 0) * 100%), #0f172b);
+        border-color: rgba(30, 41, 57, var(--hl-p, 0));
+    }
+}
