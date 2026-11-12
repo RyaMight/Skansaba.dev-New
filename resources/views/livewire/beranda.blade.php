@@ -113,10 +113,52 @@
                     <h1 class="hero-lock-title mt-2" style="color: {{ $globalSettings->primary_color_style }}">SKANSABA.DEV</h1>
                 </div>
 
-                {{-- CTA: tawaran Unit Produksi, diletakkan di bawah wordmark --}}
-                <a href="/unit-produksi" class="block w-full rounded-2xl bg-[#12B4E0] px-5 py-4 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 lg:px-6 lg:py-5" data-reveal>
-                    <p class="type-body-sm font-semibold text-[#404040] lg:text-base">{{ __('Mau Buat web?') }}</p>
-                    <p class="type-card-title text-[#EFF9FF] lg:text-xl">{{ __('Skansaba Dev ada tawaran menarik nih!') }}</p>
+                @php
+                    $heroInfos = [
+                        __('RPL menawarkan jasa pembuatan website, hosting, dan domain.'),
+                        __('Butuh sistem informasi sekolah atau company profile? Tim kami siap membantu.'),
+                        __('Unit Produksi Skansaba Dev menerima proyek web untuk UMKM dan instansi.'),
+                    ];
+                @endphp
+
+                {{-- Kartu info sekilas: pesan berganti tiap 5 detik --}}
+                <a
+                    href="/unit-produksi"
+                    x-data="{
+                        info: 0,
+                        total: {{ count($heroInfos) }},
+                        timer: null,
+                        play() {
+                            this.stop();
+                            if (this.total < 2) return;
+                            this.timer = setInterval(() => {
+                                this.info = (this.info + 1) % this.total;
+                            }, 5000);
+                        },
+                        stop() { clearInterval(this.timer); }
+                    }"
+                    x-init="play()"
+                    @mouseenter="stop()"
+                    @mouseleave="play()"
+                    @focusin="stop()"
+                    @focusout="play()"
+                    class="block w-full max-w-sm rounded-2xl bg-[#12B4E0] px-5 py-4 transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    data-reveal
+                >
+                    <div class="flex items-center gap-2">
+                        <span class="h-1.5 w-1.5 flex-none rounded-full bg-[#08313F]/70"></span>
+                        <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-[#08313F]/70">{{ __('Info Unit Produksi') }}</p>
+                    </div>
+
+                    <div class="relative mt-2 h-12">
+                        @foreach($heroInfos as $k => $info)
+                            <p
+                                x-show="info === {{ $k }}"
+                                x-transition.opacity.duration.400ms
+                                class="absolute inset-0 type-body-sm font-semibold leading-snug text-[#08313F]"
+                            >{{ $info }}</p>
+                        @endforeach
+                    </div>
                 </a>
             </div>
 
@@ -141,19 +183,8 @@
                                     @if($index !== 0) loading="lazy" @endif
                                 >
 
-                                {{-- Keterangan di atas gambar (seperti skansaba.dev) --}}
-                                <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7 pointer-events-none">
-                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
-
-                                    <div class="relative">
-                                        <h3 class="type-card-title text-white drop-shadow-md">{{ $slider->title }}</h3>
-                                        @if($slider->subtitle)
-                                            <p class="type-body-sm text-white/75 mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
-                                                {{ $slider->subtitle }}
-                                            </p>
-                                        @endif
-                                    </div>
-                                </div>
+                                {{-- Catatan: judul & subjudul slide dipindah ke kartu
+                                     kontrol di bawah media. --}}
                             </div>
                         @endforeach
                     </div>
@@ -168,36 +199,56 @@
             </div>
         @endif
 
-            {{-- Kontrol slider: tombol prev/next mengapit progress bar tipis --}}
-            @if($sliders->count() > 1)
-                <div class="flex items-center gap-3 px-5 lg:gap-4 lg:px-6">
-                    <button
-                        type="button"
-                        @click="back(); start()"
-                        class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
-                        aria-label="Slide sebelumnya"
-                    >
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-                        </svg>
-                    </button>
+            {{-- Kartu kontrol slider: deskripsi + nav (row 1), progress (row 2) --}}
+            @if($sliders->isNotEmpty())
+                <div class="rounded-2xl border border-gray-200/80 bg-white px-5 py-4 dark:border-white/10 dark:bg-gray-900" data-reveal>
+                    {{-- Row 1: deskripsi slide (kiri) + tombol prev/next (kanan) --}}
+                    <div class="flex items-start justify-between gap-4">
+                        <div class="relative min-h-[3rem] min-w-0 flex-1">
+                            @foreach($sliders as $index => $slider)
+                                <div x-show="isActive({{ $index }})" x-transition.opacity.duration.300ms class="absolute inset-0">
+                                    <p class="type-card-title-sm line-clamp-1 text-gray-900 dark:text-gray-50">{{ $slider->title }}</p>
+                                    @if($slider->subtitle)
+                                        <p class="type-body-sm mt-1 line-clamp-1 text-gray-500 dark:text-gray-400">{{ $slider->subtitle }}</p>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
 
-                    <div class="h-[3px] flex-1 overflow-hidden rounded-full bg-gray-200/80 dark:bg-white/15">
-                        <template x-for="tick in [index]" :key="'bar-' + tick">
-                            <div class="h-full rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}; animation: slider-progress 5s linear forwards"></div>
-                        </template>
+                        @if($sliders->count() > 1)
+                            <div class="flex flex-none items-center gap-2">
+                                <button
+                                    type="button"
+                                    @click="back(); start()"
+                                    class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                                    aria-label="Slide sebelumnya"
+                                >
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                                    </svg>
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="advance(); start()"
+                                    class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
+                                    aria-label="Slide berikutnya"
+                                >
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        @endif
                     </div>
 
-                    <button
-                        type="button"
-                        @click="advance(); start()"
-                        class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 transition-colors duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900"
-                        aria-label="Slide berikutnya"
-                    >
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-                        </svg>
-                    </button>
+                    {{-- Row 2: progress bar --}}
+                    @if($sliders->count() > 1)
+                        <div class="mt-4 h-[3px] overflow-hidden rounded-full bg-gray-200/80 dark:bg-white/15">
+                            <template x-for="tick in [index]" :key="'bar-' + tick">
+                                <div class="h-full rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}; animation: slider-progress 5s linear forwards"></div>
+                            </template>
+                        </div>
+                    @endif
                 </div>
             @endif
             </div>{{-- /kolom kanan --}}
@@ -398,10 +449,6 @@
                                  sengaja invisible: hanya muncul dari lapisan
                                  putih saat biru menyapunya. --}}
                             <div class="relative px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16">
-                                <p class="type-lead font-medium tracking-wide text-gray-500 dark:text-gray-400 max-w-xl">
-                                    {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
-                                </p>
-
                                 <h2 class="type-focus-title mt-4 text-gray-900 dark:text-white">
                                     {{ __('Sekilas RPL') }}
                                 </h2>
@@ -431,10 +478,6 @@
                                 :style="bandClip === 'none' ? '' : 'clip-path: ' + bandClip"
                                 aria-hidden="true"
                             >
-                                <p class="type-lead font-medium tracking-wide text-white max-w-xl">
-                                    {{ __('Rekayasa Perangkat Lunak mencetak talenta digital yang siap bersaing di industri maupun dunia kampus.') }}
-                                </p>
-
                                 <h2 class="type-focus-title mt-4 text-white">
                                     {{ __('Sekilas RPL') }}
                                 </h2>
