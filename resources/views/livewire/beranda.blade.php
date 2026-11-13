@@ -11,7 +11,8 @@
             setTop() {
                 const lock = this.$refs.locked;
                 if (!lock) return;
-                if (!window.matchMedia('(min-width: 1024px)').matches) {
+                const gate = window.__heroLockConfig || { MIN_W: 1040, MIN_H: 720 };
+                if (window.innerWidth < gate.MIN_W || window.innerHeight < gate.MIN_H) {
                     lock.style.top = '';
                     return;
                 }
@@ -30,7 +31,7 @@
         "
     >
     {{-- Blok yang membeku: hero + Sekilas + Prospek + Marquee + Karya. --}}
-    <div x-ref="locked" class="lg:sticky">
+    <div x-ref="locked" class="hero-curtain">
     {{-- ============================================ --}}
     {{-- Hero lock (design hero-Lock): pada desktop header + hero =
          tepat 1 viewport dan hero dipin (sticky) selama navbar
@@ -89,10 +90,12 @@
             }
         }"
     >
-        <div class="flex h-full w-full flex-col justify-center gap-10 px-4 py-8 sm:px-6 lg:grid lg:grid-cols-[minmax(0,41fr)_minmax(0,59fr)] lg:items-center lg:gap-0 lg:px-12 lg:py-0">
-            {{-- Kolom kiri: logo + eyebrow + judul --}}
-            <div class="flex flex-col items-start gap-6 lg:gap-7" data-reveal>
-                <div class="grid h-36 w-36 shrink-0 place-items-center sm:h-44 sm:w-44 lg:h-52 lg:w-52">
+        <div class="hero-grid flex h-full w-full flex-col justify-center gap-10 px-4 py-8 sm:px-6">
+            {{-- Kolom kiri: logo + eyebrow + judul. Logo & kartu info hanya
+                 tampil saat hero lock (layout horizontal); saat vertikal
+                 keduanya disembunyikan. --}}
+            <div class="hero-col flex flex-col items-start gap-6" data-reveal>
+                <div class="hero-logo grid h-36 w-36 shrink-0 place-items-center sm:h-44 sm:w-44">
                     @if($globalSettings->logo_primary_url)
                         <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-full w-full object-contain p-5">
                     @else
@@ -142,7 +145,7 @@
                     @mouseleave="play()"
                     @focusin="stop()"
                     @focusout="play()"
-                    class="group block w-full max-w-sm rounded-3xl bg-[#12B4E0] p-6 shadow-[0_14px_34px_-16px_rgba(18,180,224,0.75)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    class="hero-info-card group block w-full max-w-sm rounded-3xl bg-[#12B4E0] p-6 shadow-[0_14px_34px_-16px_rgba(18,180,224,0.75)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
                     data-reveal
                 >
                     <div class="flex items-center justify-between gap-3">
@@ -204,6 +207,43 @@
                         @endforeach
                     </div>
 
+                    {{-- Kontrol slider DI DALAM media: hanya tampil saat layout
+                         vertikal (hero lock nonaktif). Berisi deskripsi slide,
+                         progress bar, dan tombol prev/next. --}}
+                    <div class="hero-media-caption absolute inset-x-0 bottom-0 z-20 p-3 sm:p-4">
+                        <div class="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#0F172B] px-4 py-3">
+                            <div class="relative min-h-[2.5rem] min-w-0 flex-1">
+                                @foreach($sliders as $index => $slider)
+                                    <div x-show="isActive({{ $index }})" x-transition.opacity.duration.300ms class="absolute inset-0 flex flex-col justify-center">
+                                        <p class="type-card-title-sm line-clamp-1 text-white">{{ $slider->title }}</p>
+                                        @if($slider->subtitle)
+                                            <p class="type-body-sm mt-0.5 line-clamp-1 text-white/60">{{ $slider->subtitle }}</p>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            @if($sliders->count() > 1)
+                                <div class="flex flex-none items-center gap-2">
+                                    <button type="button" @click="back(); start()" class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="Slide sebelumnya">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+                                    </button>
+                                    <button type="button" @click="advance(); start()" class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="Slide berikutnya">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+
+                        @if($sliders->count() > 1)
+                            <div class="mt-3 h-[3px] overflow-hidden rounded-full bg-white/20">
+                                <template x-for="tick in [index]" :key="'media-bar-' + tick">
+                                    <div class="h-full rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}; animation: slider-progress 5s linear forwards"></div>
+                                </template>
+                            </div>
+                        @endif
+                    </div>
+
                     </div>
             </div>
         @else
@@ -216,7 +256,7 @@
 
             {{-- Kartu kontrol slider: deskripsi + nav (row 1), progress (row 2) --}}
             @if($sliders->isNotEmpty())
-                <div class="rounded-2xl border border-white/10 bg-[#0F172B] px-6 py-5" data-reveal>
+                <div class="hero-caption-card rounded-2xl border border-white/10 bg-[#0F172B] px-6 py-5" data-reveal>
                     {{-- Row 1: deskripsi slide (kiri) + tombol prev/next (kanan) --}}
                     <div class="flex items-center justify-between gap-4">
                         <div class="relative min-h-[3.75rem] min-w-0 flex-1">

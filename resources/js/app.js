@@ -115,18 +115,50 @@ document.addEventListener("livewire:navigated", initStrukturScroll);
 //   p = 1 -> navbar normal (card, menyempit ke tengah)
 // Hanya berjalan bila halaman memuat header bertanda
 // [data-hero-lock] (saat ini hanya beranda).
+//
+// Gating lebar/tinggi: hero lock (layout horizontal + navbar hero) hanya
+// aktif bila viewport cukup lebar DAN cukup tinggi. Kalau tidak, class
+// `hero-lock-on` dilepas dari <html> sehingga CSS menyusun hero secara
+// vertikal (logo/info card/kartu kontrol slider disembunyikan, kontrol
+// slider kembali menempel di dalam media). Ubah dua konstanta ini untuk
+// menyetel ambangnya.
 function initHeroLock() {
     if (window.__heroLockInit) return;
     window.__heroLockInit = true;
 
+    // Ambang minimal hero lock. Navbar hero (mode melebar penuh) butuh
+    // sekitar 1030px termasuk padding 48px, jadi 1040px dipakai sebagai
+    // batas aman agar tidak muncul overflow horizontal tipis. 720px =
+    // tinggi minimal agar kolom kiri (logo + judul + kartu info) tidak
+    // berdesakan / terpotong.
+    const MIN_W = 1040;
+    const MIN_H = 720;
+    window.__heroLockConfig = { MIN_W, MIN_H };
+
+    const root = document.documentElement;
     let raf = null;
 
     const update = () => {
         raf = null;
         const header = document.querySelector("[data-hero-lock]");
-        if (!header) return;
-
         const hero = document.querySelector("[data-hero-lock-hero]");
+
+        if (!header || !hero) {
+            root.classList.remove("hero-lock-on");
+            if (header) header.style.setProperty("--hl-p", "0");
+            return;
+        }
+
+        const enabled = window.innerWidth >= MIN_W && window.innerHeight >= MIN_H;
+
+        if (!enabled) {
+            root.classList.remove("hero-lock-on");
+            header.style.setProperty("--hl-p", "0");
+            return;
+        }
+
+        root.classList.add("hero-lock-on");
+
         const pin = document.querySelector("[data-hero-lock-pin]");
         // Jarak transisi = tinggi ekstra pin di luar hero (stage sticky).
         // Di desktop = D; di mobile pin tidak menambah tinggi (dist ~ 0).
