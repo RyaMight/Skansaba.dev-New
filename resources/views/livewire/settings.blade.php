@@ -44,16 +44,16 @@
         <h2 class="type-card-title-sm text-gray-900 dark:text-gray-50 mb-4 pb-2 border-b border-gray-100 dark:border-gray-800">{{ __('Informasi Akun') }}</h2>
         <div class="flex items-center gap-4">
             @if($user->photo_url)
-                <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-14 h-14 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700">
+                <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-14 h-14 {{ $user->photoFrameClass() }} object-cover border-2 border-gray-200 dark:border-gray-700">
             @else
-                <div class="w-14 h-14 rounded-full flex items-center justify-center text-white text-lg font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
+                <div class="w-14 h-14 {{ $user->photoFrameClass() }} flex items-center justify-center text-white text-lg font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
                     {{ $user->initials() }}
                 </div>
             @endif
             <div class="min-w-0">
                 <p class="text-sm font-bold text-gray-900 dark:text-gray-50 truncate">{{ $user->name }}</p>
                 @if($user->nisn)
-                    <p class="text-xs text-gray-500 dark:text-gray-400 truncate">NISN: {{ $user->nisn }}{{ $user->kelas ? ' • ' . $user->kelas : '' }}</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 truncate">NISN: {{ $user->nisn }}</p>
                 @endif
                 @if($user->email)
                     <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ $user->email }}</p>

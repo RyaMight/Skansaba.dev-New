@@ -20,7 +20,7 @@ class SiswaKeahlianProfileTest extends TestCase
     {
         return User::create(array_merge([
             'name' => 'Ahmad Syahputra',
-            'email' => 'ahmad' . rand(1, 99999) . '@rpl.sch.id',
+            'email' => 'ahmad'.rand(1, 99999).'@rpl.sch.id',
             'password' => bcrypt('password123'),
             'role' => 'siswa',
             'status' => 'active',
@@ -88,7 +88,10 @@ class SiswaKeahlianProfileTest extends TestCase
 
     public function test_keahlian_penulis_terlihat_di_detail_karya_siswa(): void
     {
-        $siswa = $this->makeSiswa(['keahlian' => 'Laravel, PostgreSQL']);
+        $siswa = $this->makeSiswa([
+            'keahlian' => 'Laravel, PostgreSQL',
+            'verified_tags' => 'Web Development',
+        ]);
 
         $karya = KaryaSiswa::create([
             'user_id' => $siswa->id,
@@ -106,7 +109,71 @@ class SiswaKeahlianProfileTest extends TestCase
         Livewire::test(KaryaSiswaDetail::class, ['id' => $karya->id])
             ->assertSee($siswa->name)
             ->assertSee('Penulis & Pembuat Karya')
+            ->assertSee('Web Development')
+            ->assertSee('Verified')
             ->assertSee('Laravel')
             ->assertSee('PostgreSQL');
+    }
+
+    public function test_tech_stack_maksimal_5_dan_tolak_role_prospek_karir(): void
+    {
+        $siswa = $this->makeSiswa([
+            'keahlian' => 'PHP, Laravel',
+            'verified_tags' => 'Web Development',
+        ]);
+
+        $this->actingAs($siswa);
+
+        // 6 tech stack items -> ditolak
+        Livewire::test(ProfilPublikEdit::class)
+            ->set('keahlian', 'PHP, Laravel, Tailwind CSS, Vue.js, MySQL, Docker')
+            ->call('saveBiodata')
+            ->assertHasErrors(['keahlian']);
+
+        // Mengisi role/prospek karir -> ditolak
+        Livewire::test(ProfilPublikEdit::class)
+            ->set('keahlian', 'PHP, Web Development')
+            ->call('saveBiodata')
+            ->assertHasErrors(['keahlian']);
+
+        Livewire::test(Profil::class)
+            ->set('keahlian', 'Webdev, Laravel')
+            ->call('saveProfile')
+            ->assertHasErrors(['keahlian']);
+
+        // Maksimal 5 tech stack valid -> berhasil dan tidak menghapus verified_tags dari admin
+        Livewire::test(ProfilPublikEdit::class)
+            ->set('keahlian', 'PHP, Laravel, Tailwind CSS, Vue.js, MySQL')
+            ->call('saveBiodata')
+            ->assertHasNoErrors();
+
+        $fresh = $siswa->fresh();
+        $this->assertEquals(['PHP', 'Laravel', 'Tailwind CSS', 'Vue.js', 'MySQL'], $fresh->keahlian_list);
+        $this->assertEquals(['Web Development'], $fresh->verified_tags_list);
+    }
+
+    public function test_verified_tag_admin_tampil_berbeda_di_profil_publik_dan_dashboard(): void
+    {
+        $siswa = $this->makeSiswa([
+            'username' => 'ahmad-verified',
+            'keahlian' => 'Laravel, Figma',
+            'verified_tags' => 'Web Development',
+        ]);
+
+        $this->get('/profil/ahmad-verified')
+            ->assertOk()
+            ->assertSee('Role Terverifikasi')
+            ->assertSee('Web Development')
+            ->assertSee('Verified')
+            ->assertSee('Laravel')
+            ->assertSee('Figma');
+
+        $this->actingAs($siswa);
+
+        Livewire::test(ProfilDashboard::class)
+            ->assertSee('Web Development')
+            ->assertSee('Verified')
+            ->assertSee('Laravel')
+            ->assertSee('Figma');
     }
 }

@@ -64,7 +64,7 @@
     {{-- Student Profile & Tech Stack Hero Banner --}}
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-xs border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="flex items-center gap-4 min-w-0">
-            <div class="relative w-14 h-14 rounded-full overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
+            <div class="relative w-14 h-14 {{ $user->photoFrameClass() }} overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
                 @if($user->photo_url)
                     <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                 @else
@@ -76,9 +76,9 @@
             <div class="min-w-0">
                 <div class="flex flex-wrap items-center gap-2">
                     <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 truncate">{{ $user->name }}</h2>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30">
-                        {{ $user->kelas ? __('Kelas :kelas', ['kelas' => $user->kelas]) : __('Siswa RPL') }}
-                    </span>
+                    @foreach($user->verified_tags_list as $vTag)
+                        <x-verified-tag-badge :tag="$vTag" size="sm" />
+                    @endforeach
                     <span class="text-xs text-gray-400">• NISN: {{ $user->nisn ?: '-' }}</span>
                 </div>
                 

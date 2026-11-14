@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\Components\SidebarMenu;
 use App\Livewire\Siswa\Profil;
+use App\Livewire\Siswa\ProfilPublikEdit;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -114,7 +116,7 @@ class SiswaProfilPhotoTest extends TestCase
         $user->refresh();
 
         $this->assertStringStartsWith(
-            'users/photos/u' . $user->id . '/',
+            'users/photos/u'.$user->id.'/',
             $user->photo,
             'Foto harus tersimpan di folder per-akun'
         );
@@ -134,7 +136,7 @@ class SiswaProfilPhotoTest extends TestCase
         $this->actingAs($user);
 
         // Test modal di ProfilPublikEdit
-        $comp = Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+        $comp = Livewire::test(ProfilPublikEdit::class)
             ->call('openEditModal')
             ->assertSee('Perbarui Foto Profil')
             ->assertSee('Pilih file foto')
@@ -151,7 +153,7 @@ class SiswaProfilPhotoTest extends TestCase
         }
 
         // Test modal di Profil
-        Livewire::test(\App\Livewire\Siswa\Profil::class)
+        Livewire::test(Profil::class)
             ->call('openEditModal')
             ->assertSee('Edit Profil Siswa')
             ->assertSee('Geser Foto (Kanan - Kiri)')
@@ -164,7 +166,7 @@ class SiswaProfilPhotoTest extends TestCase
         Storage::disk('public')->put($photoPath, 'dummy-photo-content');
         $user->update(['photo' => $photoPath]);
         $this->actingAs($user->fresh());
-        Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+        Livewire::test(ProfilPublikEdit::class)
             ->call('openEditModal')
             ->assertSee('Edit Ulang Posisi')
             ->assertSee('Ganti Foto');
@@ -184,7 +186,7 @@ class SiswaProfilPhotoTest extends TestCase
 
         $this->actingAs($user);
 
-        Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+        Livewire::test(ProfilPublikEdit::class)
             ->call('savePhoto', $this->tinyBase64Png())
             ->assertHasNoErrors();
 
@@ -260,11 +262,11 @@ class SiswaProfilPhotoTest extends TestCase
         $this->actingAs($user);
 
         // Sebelum ada foto, sidebar menampilkan inisial "SR"
-        $sidebar = Livewire::test(\App\Livewire\Components\SidebarMenu::class);
+        $sidebar = Livewire::test(SidebarMenu::class);
         $sidebar->assertSee('SR');
 
         // Saat foto disimpan di ProfilPublikEdit, event profile-photo-updated di-dispatch
-        Livewire::test(\App\Livewire\Siswa\ProfilPublikEdit::class)
+        Livewire::test(ProfilPublikEdit::class)
             ->call('savePhoto', $this->tinyBase64Png())
             ->assertDispatched('profile-photo-updated');
 
@@ -272,5 +274,38 @@ class SiswaProfilPhotoTest extends TestCase
         $user->refresh();
         $sidebar->dispatch('profile-photo-updated')
             ->assertSee($user->photo_url, false);
+    }
+
+    public function test_bentuk_bingkai_foto_profil_tersimpan_dan_dinormalisasi(): void
+    {
+        Storage::fake('public');
+
+        $user = User::create([
+            'name' => 'Siswa Frame Test',
+            'email' => 'frame@rpl.sch.id',
+            'password' => bcrypt('password123'),
+            'role' => 'siswa',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($user);
+
+        // Simpan dengan bingkai squircle (kotak melengkung)
+        Livewire::test(ProfilPublikEdit::class)
+            ->call('savePhoto', $this->tinyBase64Png(), 'squircle')
+            ->assertHasNoErrors();
+
+        $user->refresh();
+        $this->assertSame('squircle', $user->photo_frame);
+        $this->assertSame('rounded-2xl', $user->photoFrameClass());
+
+        // Nilai tidak valid dinormalisasi ke circle (bulat)
+        Livewire::test(Profil::class)
+            ->call('saveProfile', null, 'triangle')
+            ->assertHasNoErrors();
+
+        $user->refresh();
+        $this->assertSame('circle', $user->photo_frame);
+        $this->assertSame('rounded-full', $user->photoFrameClass());
     }
 }

@@ -98,7 +98,7 @@
                         <tr>
                             <th class="py-3 px-4">Siswa</th>
                             <th class="py-3 px-4">Kelas / NISN</th>
-                            <th class="py-3 px-4">Tag Keahlian</th>
+                            <th class="py-3 px-4">Tag Verified (Role)</th>
                             <th class="py-3 px-4">Portofolio Karya</th>
                             <th class="py-3 px-4">Status</th>
                             <th class="py-3 px-4 text-right">Aksi</th>
@@ -110,9 +110,9 @@
                                 <td class="py-3.5 px-4">
                                     <div class="flex items-center gap-3">
                                         @if($student->photo_url)
-                                            <img src="{{ $student->photo_url }}" alt="{{ $student->name }}" class="w-9 h-9 rounded-full object-cover border border-slate-200 dark:border-gray-700 flex-shrink-0">
+                                            <img src="{{ $student->photo_url }}" alt="{{ $student->name }}" class="w-9 h-9 {{ $student->photoFrameClass('rounded-lg') }} object-cover border border-slate-200 dark:border-gray-700 flex-shrink-0">
                                         @else
-                                            <div class="w-9 h-9 rounded-full bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-gray-300 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                                            <div class="w-9 h-9 {{ $student->photoFrameClass('rounded-lg') }} bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-gray-300 font-bold flex items-center justify-center text-xs flex-shrink-0">
                                                 {{ $student->initials() }}
                                             </div>
                                         @endif
@@ -130,9 +130,9 @@
                                 </td>
                                 <td class="py-3.5 px-4">
                                     <div class="flex flex-wrap items-center gap-1 max-w-[280px]">
-                                        @forelse($student->keahlian_list as $tag)
+                                        @forelse($student->verified_tags_list as $tag)
                                             <span class="inline-flex items-center gap-1 pl-2 pr-1 py-0.5 rounded-md text-[11px] font-bold bg-emerald-50 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
-                                                <span>{{ $tag }}</span>
+                                                <span>✓ {{ $tag }}</span>
                                                 <button 
                                                     type="button" 
                                                     wire:click="revokeTag({{ $student->id }}, '{{ $tag }}')"
@@ -294,8 +294,8 @@
                             @error('status') <p class="text-rose-500 text-[11px] mt-1">{{ $message }}</p> @enderror
                         </div>
                         <div>
-                            <label class="block font-semibold text-slate-700 dark:text-gray-200 mb-1">Tag Keahlian Awal (Opsional)</label>
-                            <select wire:model="keahlian" class="w-full px-3 py-2 border border-slate-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100">
+                            <label class="block font-semibold text-slate-700 dark:text-gray-200 mb-1">Tag Role Verified Awal (Opsional)</label>
+                            <select wire:model="verified_tag" class="w-full px-3 py-2 border border-slate-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white dark:bg-gray-800 text-slate-800 dark:text-gray-100">
                                 <option value="">-- Belum ada tag (verifikasi nanti via karya) --</option>
                                 @foreach($tagPresets as $tag)
                                     <option value="{{ $tag }}">{{ $tag }}</option>
@@ -322,11 +322,11 @@
         </div>
     @endif
 
-    {{-- MODAL KELOLA TAG KEAHLIAN SISWA (BERI & CABUT TAG) --}}
+    {{-- MODAL KELOLA TAG ROLE VERIFIED SISWA (BERI & CABUT TAG) --}}
     @if($editingTagStudentId)
         @php
             $targetStudent = \App\Models\User::find($editingTagStudentId);
-            $currentTags = $targetStudent?->keahlian_list ?? [];
+            $currentTags = $targetStudent?->verified_tags_list ?? [];
         @endphp
         <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
             <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-2xs transition-opacity" wire:click="closeTagModal"></div>
@@ -334,7 +334,7 @@
             <div class="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl max-w-lg w-full p-6 border border-slate-200 dark:border-gray-700 z-10">
                 <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100 dark:border-gray-800">
                     <div>
-                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">Kelola Tag Keahlian Siswa</h3>
+                        <h3 class="type-card-title-sm text-slate-900 dark:text-gray-50">Kelola Tag Role Verified Siswa</h3>
                         <p class="text-xs text-slate-500 dark:text-gray-400">Siswa: <strong class="text-slate-800 dark:text-gray-100">{{ $targetStudent?->name }}</strong> ({{ $targetStudent?->kelas ?? '-' }})</p>
                     </div>
                     <button type="button" wire:click="closeTagModal" class="text-slate-400 hover:text-slate-600 dark:hover:text-gray-200">
@@ -439,9 +439,9 @@
                     {{-- Student Header Info --}}
                     <div class="flex items-start gap-4">
                         @if($viewingStudent->photo_url)
-                            <img src="{{ $viewingStudent->photo_url }}" class="w-14 h-14 rounded-full object-cover border border-slate-200 dark:border-gray-700 flex-shrink-0">
+                            <img src="{{ $viewingStudent->photo_url }}" class="w-14 h-14 {{ $viewingStudent->photoFrameClass() }} object-cover border border-slate-200 dark:border-gray-700 flex-shrink-0">
                         @else
-                            <div class="w-14 h-14 rounded-full bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-gray-300 font-bold text-lg flex items-center justify-center flex-shrink-0">
+                            <div class="w-14 h-14 {{ $viewingStudent->photoFrameClass() }} bg-slate-200 dark:bg-gray-800 text-slate-600 dark:text-gray-300 font-bold text-lg flex items-center justify-center flex-shrink-0">
                                 {{ $viewingStudent->initials() }}
                             </div>
                         @endif
@@ -451,12 +451,10 @@
                                 {{ $viewingStudent->kelas ?: 'Belum diisi kelas' }} • NISN: {{ $viewingStudent->nisn ?: '-' }}
                             </p>
                             <div class="flex flex-wrap items-center gap-1.5 mt-2">
-                                @forelse($viewingStudent->keahlian_list as $tag)
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 dark:bg-emerald-500/20 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-500/30">
-                                        ✓ {{ $tag }}
-                                    </span>
+                                @forelse($viewingStudent->verified_tags_list as $tag)
+                                    <x-verified-tag-badge :tag="$tag" size="xs" />
                                 @empty
-                                    <span class="text-xs text-slate-400 dark:text-gray-500 italic">Belum ada tag terverifikasi</span>
+                                    <span class="text-xs text-slate-400 dark:text-gray-500 italic">Belum ada role terverifikasi</span>
                                 @endforelse
                                 <a 
                                     href="{{ $viewingStudent->profil_url }}" 
@@ -466,6 +464,16 @@
                                     Buka Profil Publik ↗
                                 </a>
                             </div>
+                            @if(count($viewingStudent->keahlian_list) > 0)
+                                <div class="flex flex-wrap items-center gap-1 mt-2">
+                                    <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-400 mr-1">Tech Stack:</span>
+                                    @foreach($viewingStudent->keahlian_list as $tech)
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-500/30">
+                                            {{ $tech }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     </div>
 

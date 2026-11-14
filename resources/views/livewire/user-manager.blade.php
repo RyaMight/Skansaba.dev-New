@@ -94,9 +94,9 @@
                                     <div class="flex items-center">
                                         @if ($user->photo_url)
                                             <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" 
-                                                class="w-10 h-10 rounded-full object-cover">
+                                                class="w-10 h-10 {{ $user->photoFrameClass('rounded-lg') }} object-cover">
                                         @else
-                                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
+                                            <div class="w-10 h-10 {{ $user->photoFrameClass('rounded-lg') }} bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold">
                                                 {{ $user->initials() }}
                                             </div>
                                         @endif
@@ -328,9 +328,9 @@
                     <div class="flex flex-col items-center mb-6">
                         @if ($selectedUser->photo_url)
                             <img src="{{ $selectedUser->photo_url }}" alt="{{ $selectedUser->name }}" 
-                                class="w-32 h-32 rounded-full object-cover border-4 border-gray-200 dark:border-gray-700">
+                                class="w-32 h-32 {{ $selectedUser->photoFrameClass() }} object-cover border-4 border-gray-200 dark:border-gray-700">
                         @else
-                            <div class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-semibold border-4 border-gray-200 dark:border-gray-700">
+                            <div class="w-32 h-32 {{ $selectedUser->photoFrameClass() }} bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-semibold border-4 border-gray-200 dark:border-gray-700">
                                 {{ $selectedUser->initials() }}
                             </div>
                         @endif

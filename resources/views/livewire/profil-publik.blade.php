@@ -20,7 +20,7 @@
             {{-- Sidebar: Avatar & Info --}}
             <div class="space-y-5">
                 <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800 text-center md:text-left">
-                    <div class="w-32 h-32 mx-auto md:mx-0 rounded-2xl overflow-hidden bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 shadow-xs">
+                    <div class="w-32 h-32 mx-auto md:mx-0 {{ $profileUser->photoFrameClass() }} overflow-hidden bg-slate-100 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 shadow-xs">
                         @if($profileUser->photo_url)
                             <img src="{{ $profileUser->photo_url }}" alt="{{ $profileUser->name }}" class="w-full h-full object-cover">
                         @else
@@ -51,14 +51,6 @@
 
                     {{-- Info sekolah --}}
                     <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 space-y-2 text-xs text-gray-600 dark:text-gray-300">
-                        @if($profileUser->kelas)
-                            <p class="flex items-center gap-2">
-                                <svg class="w-3.5 h-3.5 text-gray-400 dark:text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                </svg>
-                                <span>{{ __('Kelas :kelas', ['kelas' => $profileUser->kelas]) }}</span>
-                            </p>
-                        @endif
                         @if($showEmail)
                             <p class="flex items-center gap-2">
                                 <svg class="w-3.5 h-3.5 text-gray-400 dark:text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,7 +67,19 @@
                         </p>
                     </div>
 
-                    {{-- Keahlian Terverifikasi --}}
+                    {{-- Role Terverifikasi Admin (jika ada) --}}
+                    @if(count($profileUser->verified_tags_list) > 0)
+                        <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+                            <p class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-2">{{ __('Role Terverifikasi') }}</p>
+                            <div class="flex flex-wrap gap-1.5">
+                                @foreach($profileUser->verified_tags_list as $vTag)
+                                    <x-verified-tag-badge :tag="$vTag" size="sm" />
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    {{-- Keahlian & Tech Stack (diisi siswa, tag biru) --}}
                     <div class="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
                         <div class="flex items-center justify-between mb-2">
                             <p class="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">{{ __('Keahlian & Tech Stack') }}</p>
@@ -86,8 +90,8 @@
                         @if(count($profileUser->keahlian_list) > 0)
                             <div class="flex flex-wrap gap-1.5">
                                 @foreach($profileUser->keahlian_list as $skill)
-                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200/60 dark:border-emerald-500/30 rounded-md text-[11px] font-bold">
-                                        <svg class="w-3 h-3 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[11px] font-bold">
+                                        <svg class="w-3 h-3 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
                                         <span>{{ $skill }}</span>
@@ -95,7 +99,7 @@
                                 @endforeach
                             </div>
                         @else
-                            <p class="text-xs text-gray-400 italic">{{ __('Belum ada tag keahlian terdaftar.') }}</p>
+                            <p class="text-xs text-gray-400 italic">{{ __('Belum ada tech stack ditambahkan.') }}</p>
                         @endif
                     </div>
 

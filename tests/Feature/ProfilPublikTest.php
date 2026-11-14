@@ -14,7 +14,7 @@ class ProfilPublikTest extends TestCase
     {
         return User::create(array_merge([
             'name' => 'Siswa Test',
-            'email' => 'test' . rand(1, 99999) . '@rpl.sch.id',
+            'email' => 'test'.rand(1, 99999).'@rpl.sch.id',
             'password' => bcrypt('password123'),
             'role' => 'siswa',
             'status' => 'active',
@@ -25,7 +25,7 @@ class ProfilPublikTest extends TestCase
     {
         $siswa = $this->makeSiswa();
 
-        $this->get('/profil/' . $siswa->id)
+        $this->get('/profil/'.$siswa->id)
             ->assertOk()
             ->assertSee($siswa->name);
     }
@@ -51,7 +51,7 @@ class ProfilPublikTest extends TestCase
             'profil_readme' => "# Halo\n\n<script>alert('xss')</script>\n\nParagraf **aman**.",
         ]);
 
-        $response = $this->get('/profil/' . $siswa->id);
+        $response = $this->get('/profil/'.$siswa->id);
         $response->assertOk();
 
         $content = $response->getContent();
@@ -67,10 +67,10 @@ class ProfilPublikTest extends TestCase
     public function test_readme_mendukung_html_gaya_github_dengan_aman(): void
     {
         $siswa = $this->makeSiswa([
-            'profil_readme' => '<p align="center"><a href="https://contoh.dev"><img src="https://svg.contoh.com?font=Fira" alt="typing" /></a></p>' . "\n\n" . "Paragraf **tebal**.",
+            'profil_readme' => '<p align="center"><a href="https://contoh.dev"><img src="https://svg.contoh.com?font=Fira" alt="typing" /></a></p>'."\n\n".'Paragraf **tebal**.',
         ]);
 
-        $content = $this->get('/profil/' . $siswa->id)->getContent();
+        $content = $this->get('/profil/'.$siswa->id)->getContent();
 
         // Raw HTML ala GitHub dipertahankan
         $this->assertStringContainsString('<p align="center">', $content);
@@ -85,7 +85,7 @@ class ProfilPublikTest extends TestCase
             'profil_readme' => "<script>alert('xss')</script>\n\n<img src=\"javascript:alert(1)\" alt=\"bad\">",
         ]);
 
-        $content = $this->get('/profil/' . $siswa->id)->getContent();
+        $content = $this->get('/profil/'.$siswa->id)->getContent();
 
         // Sumber gambar berbahaya dinetralkan
         $this->assertStringNotContainsString('javascript:alert(1)', $content);
@@ -97,6 +97,29 @@ class ProfilPublikTest extends TestCase
     {
         $admin = $this->makeSiswa(['role' => 'admin']);
 
-        $this->get('/profil/' . $admin->id)->assertNotFound();
+        $this->get('/profil/'.$admin->id)->assertNotFound();
+    }
+
+    public function test_bingkai_avatar_profil_publik_mengikuti_pilihan_user(): void
+    {
+        $siswaBulat = $this->makeSiswa([
+            'username' => 'siswa-bulat',
+            'photo_frame' => 'circle',
+        ]);
+
+        $this->get('/profil/siswa-bulat')
+            ->assertOk()
+            ->assertSee('w-32 h-32 mx-auto md:mx-0 rounded-full overflow-hidden', false)
+            ->assertDontSee('w-32 h-32 mx-auto md:mx-0 rounded-2xl overflow-hidden', false);
+
+        $siswaKotak = $this->makeSiswa([
+            'username' => 'siswa-kotak',
+            'photo_frame' => 'squircle',
+        ]);
+
+        $this->get('/profil/siswa-kotak')
+            ->assertOk()
+            ->assertSee('w-32 h-32 mx-auto md:mx-0 rounded-2xl overflow-hidden', false)
+            ->assertDontSee('w-32 h-32 mx-auto md:mx-0 rounded-full overflow-hidden', false);
     }
 }

@@ -60,5 +60,19 @@ class SiswaProfilPublikUiTest extends TestCase
         $test = Livewire::test(ProfilPublikEdit::class);
         $completion = $test->get('profileCompletion');
         $this->assertEquals(40, $completion['percentage']); // 2 dari 5 item
+        $test->assertSee('Tingkat Kelengkapan Profil');
+
+        // Lengkapi semua sisa bagian hingga 100%
+        $user->update([
+            'username' => 'budi-prakoso',
+            'profil_readme' => '# Halo Dunia',
+            'photo' => 'https://example.com/avatar.jpg',
+        ]);
+        $user->refresh();
+
+        $test = Livewire::test(ProfilPublikEdit::class);
+        $completion = $test->get('profileCompletion');
+        $this->assertEquals(100, $completion['percentage']);
+        $test->assertDontSee('Tingkat Kelengkapan Profil');
     }
 }

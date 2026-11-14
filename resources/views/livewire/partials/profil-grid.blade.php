@@ -78,7 +78,8 @@
             @foreach($siswas as $index => $siswa)
                 @php
                     $palette = $avatarPalettes[$siswa->id % count($avatarPalettes)];
-                    $verifiedSkills = $siswa->keahlian_list;
+                    $verifiedSkills = $siswa->verified_tags_list;
+                    $studentTechs = $siswa->keahlian_list;
                     $karyaTechs = $siswa->karyaSiswas
                         ->flatMap(fn ($k) => is_array($k->teknologi) ? $k->teknologi : [])
                         ->unique()
@@ -93,7 +94,7 @@
                     <div class="flex-1 flex flex-col">
                         {{-- Header: Avatar & Identitas Siswa --}}
                         <div class="flex items-start gap-3.5">
-                            <div class="w-12 h-12 rounded-xl overflow-hidden border {{ $siswa->photo_url ? 'border-slate-200 dark:border-gray-700 bg-slate-100 dark:bg-gray-800' : $palette }} flex items-center justify-center text-sm font-bold shrink-0">
+                            <div class="w-12 h-12 {{ $siswa->photoFrameClass('rounded-xl') }} overflow-hidden border {{ $siswa->photo_url ? 'border-slate-200 dark:border-gray-700 bg-slate-100 dark:bg-gray-800' : $palette }} flex items-center justify-center text-sm font-bold shrink-0">
                                 @if($siswa->photo_url)
                                     <img
                                         src="{{ $siswa->photo_url }}"
@@ -138,31 +139,39 @@
                             @endif
                         </div>
 
-                        {{-- Keahlian Terverifikasi / Tech Stack / Kelas --}}
+                        {{-- Role Terverifikasi / Tech Stack / Jurusan --}}
                         <div class="mt-3 flex flex-wrap items-center gap-1.5">
                             @if(count($verifiedSkills) > 0)
-                                @foreach(array_slice($verifiedSkills, 0, 3) as $skill)
-                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-500/30 rounded-md text-[10px] font-bold">
-                                        <svg class="w-2.5 h-2.5 text-emerald-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
-                                        </svg>
-                                        <span>{{ $skill }}</span>
-                                    </span>
+                                @foreach(array_slice($verifiedSkills, 0, 2) as $skill)
+                                    <x-verified-tag-badge :tag="$skill" size="xs" />
                                 @endforeach
-                                @if(count($verifiedSkills) > 3)
-                                    <span class="text-[10px] font-medium text-slate-400 dark:text-gray-500">
-                                        +{{ count($verifiedSkills) - 3 }}
+                                @if(count($verifiedSkills) > 2)
+                                    <span class="text-[10px] font-medium text-emerald-600 dark:text-emerald-400">
+                                        +{{ count($verifiedSkills) - 2 }}
                                     </span>
                                 @endif
-                            @elseif(count($karyaTechs) > 0)
+                            @endif
+
+                            @if(count($studentTechs) > 0)
+                                @foreach(array_slice($studentTechs, 0, 3) as $tech)
+                                    <span class="px-2 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[10px] font-bold">
+                                        {{ $tech }}
+                                    </span>
+                                @endforeach
+                                @if(count($studentTechs) > 3)
+                                    <span class="text-[10px] font-medium text-slate-400 dark:text-gray-500">
+                                        +{{ count($studentTechs) - 3 }}
+                                    </span>
+                                @endif
+                            @elseif(count($karyaTechs) > 0 && count($verifiedSkills) === 0)
                                 @foreach(array_slice($karyaTechs, 0, 3) as $tech)
                                     <span class="px-2 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[10px] font-bold">
                                         {{ $tech }}
                                     </span>
                                 @endforeach
-                            @else
+                            @elseif(count($verifiedSkills) === 0)
                                 <span class="px-2 py-0.5 bg-slate-100 dark:bg-gray-800 text-slate-600 dark:text-gray-300 border border-slate-200/80 dark:border-gray-700 rounded-md text-[10px] font-bold">
-                                    {{ $siswa->kelas ? __('Kelas :kelas', ['kelas' => $siswa->kelas]) : __('Rekayasa Perangkat Lunak') }}
+                                    {{ __('Rekayasa Perangkat Lunak') }}
                                 </span>
                             @endif
                         </div>
@@ -178,7 +187,7 @@
                         @else
                             <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-gray-400">
                                 <span class="w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-gray-600"></span>
-                                <span>{{ $siswa->kelas ?: __('Siswa RPL') }}</span>
+                                <span>{{ __('Siswa RPL') }}</span>
                             </span>
                         @endif
 
