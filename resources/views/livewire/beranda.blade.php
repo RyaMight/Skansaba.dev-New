@@ -1,47 +1,10 @@
 <div class="overflow-x-clip">
     {{-- ============================================ --}}
-    {{-- Curtain: SELURUH konten dari hero sampai Karya dikunci sebagai
-         satu blok tepat saat DASAR blok mentok dasar viewport, lalu
-         Prestasi naik menutupinya seperti tirai. Desktop saja; mobile
-         alur normal. --}}
+    {{-- Hero: slider foto tunggal ala skansaba.dev --}}
+    {{-- 1 foto di tengah, tanpa tetangga, crossfade --}}
     {{-- ============================================ --}}
-    <div
-        class="relative isolate bg-white dark:bg-slate-900"
-        x-data="{
-            setTop() {
-                const lock = this.$refs.locked;
-                if (!lock) return;
-                const gate = window.__heroLockConfig || { MIN_W: 1040, MIN_H: 720 };
-                if (window.innerWidth < gate.MIN_W || window.innerHeight < gate.MIN_H) {
-                    lock.style.top = '';
-                    return;
-                }
-                lock.style.top = (window.innerHeight - lock.offsetHeight) + 'px';
-            }
-        }"
-        x-init="
-            const self = $data;
-            const run = () => self.setTop();
-            self.$nextTick(run);
-            window.addEventListener('resize', run);
-            if (window.ResizeObserver && self.$refs.locked) {
-                new ResizeObserver(run).observe(self.$refs.locked);
-            }
-            if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
-        "
-    >
-    {{-- Blok yang membeku: hero + Sekilas + Prospek + Marquee + Karya. --}}
-    <div x-ref="locked" class="hero-curtain">
-    {{-- ============================================ --}}
-    {{-- Hero lock (design hero-Lock): pada desktop header + hero =
-         tepat 1 viewport dan hero dipin (sticky) selama navbar
-         bertransisi; setelah transisi selesai scroll lanjut normal.
-         Dua kolom: kiri logo + judul, kanan media + progress + CTA. --}}
-    {{-- ============================================ --}}
-    <div class="hero-lock-pin" data-hero-lock-pin>
     <section
-        class="hero-lock-section bg-white dark:bg-slate-900 overflow-hidden"
-        data-hero-lock-hero
+        class="bg-white dark:bg-slate-900 pt-4 pb-10 lg:pt-6 lg:pb-14"
         x-data="{
             N: {{ $sliders->count() }},
             index: 0,
@@ -90,102 +53,29 @@
             }
         }"
     >
-        <div class="hero-grid flex h-full w-full flex-col justify-center gap-10 px-4 py-8 sm:px-6">
-            {{-- Kolom kiri: logo + eyebrow + judul. Logo & kartu info hanya
-                 tampil saat hero lock (layout horizontal); saat vertikal
-                 keduanya disembunyikan. --}}
-            <div class="hero-col flex flex-col items-start gap-6" data-reveal>
-                <div class="hero-logo grid h-36 w-36 shrink-0 place-items-center sm:h-44 sm:w-44">
-                    @if($globalSettings->logo_primary_url)
-                        <img src="{{ $globalSettings->logo_primary_url }}" alt="{{ $globalSettings->site_name }}" class="h-full w-full object-contain p-5">
-                    @else
-                        <svg class="h-20 w-20 lg:h-24 lg:w-24" style="color: {{ $globalSettings->primary_color_style }}" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25-9 5.25m18 0l-9 5.25m9-5.25v9l-9 5.25m-9-14.25l9 5.25m-9-5.25v9l9 5.25" />
-                        </svg>
-                    @endif
-                </div>
+        <div class="site-container">
+            {{-- Judul utama: eyebrow + hero title (sesuai design banner) --}}
+            <div class="text-center pt-4 lg:pt-6 mb-4 lg:mb-5" data-reveal>
+                {{-- Eyebrow (2 warna) --}}
+                <p class="type-lead font-semibold text-[#485B60] dark:text-gray-300">
+                    {{ __('Selamat Datang di Jurusan') }}
+                    <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Rekayasa Perangkat Lunak!') }}</span>
+                </p>
 
-                <div>
-                    {{-- Eyebrow (2 warna) --}}
-                    <p class="type-lead font-semibold text-[#485B60] dark:text-gray-300">
-                        {{ __('Selamat Datang di Jurusan') }}
-                        <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Rekayasa Perangkat Lunak!') }}</span>
-                    </p>
-
-                    {{-- Hero title --}}
-                    <h1 class="hero-lock-title mt-2" style="color: {{ $globalSettings->primary_color_style }}">SKANSABA.DEV</h1>
-                </div>
-
-                @php
-                    $heroInfos = [
-                        __('Layanan pembuatan website, hosting, dan domain untuk sekolah, UMKM, maupun instansi.'),
-                        __('Wujudkan ide digitalmu bersama Unit Produksi Skansaba Dev. Konsultasi gratis!'),
-                        __('Butuh sistem informasi atau company profile? Tim RPL siap membantu dari nol.'),
-                    ];
-                @endphp
-
-                {{-- Kartu info sekilas: pesan berganti tiap 5 detik --}}
-                <a
-                    href="/unit-produksi"
-                    x-data="{
-                        info: 0,
-                        total: {{ count($heroInfos) }},
-                        timer: null,
-                        play() {
-                            this.stop();
-                            if (this.total < 2) return;
-                            this.timer = setInterval(() => {
-                                this.info = (this.info + 1) % this.total;
-                            }, 5000);
-                        },
-                        stop() { clearInterval(this.timer); }
-                    }"
-                    x-init="play()"
-                    @mouseenter="stop()"
-                    @mouseleave="play()"
-                    @focusin="stop()"
-                    @focusout="play()"
-                    class="hero-info-card group block w-full max-w-sm rounded-3xl bg-[#12B4E0] p-6 shadow-[0_14px_34px_-16px_rgba(18,180,224,0.75)] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2"
-                    data-reveal
-                >
-                    <div class="flex items-center justify-between gap-3">
-                        <div class="flex items-center gap-2">
-                            <span class="h-1.5 w-1.5 flex-none rounded-full bg-[#08313F]/70"></span>
-                            <p class="text-[11px] font-bold uppercase tracking-[0.14em] text-[#08313F]/70">{{ __('Info Unit Produksi') }}</p>
-                        </div>
-                        <svg class="h-4 w-4 flex-none text-[#08313F]/60 transition-transform duration-300 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                        </svg>
-                    </div>
-
-                    <div class="relative mt-4 h-[4.5rem]">
-                        @foreach($heroInfos as $k => $info)
-                            <p
-                                x-show="info === {{ $k }}"
-                                x-transition.opacity.duration.400ms
-                                class="absolute inset-0 text-[15px] font-semibold leading-snug text-[#08313F]"
-                            >{{ $info }}</p>
-                        @endforeach
-                    </div>
-
-                    {{-- Indikator pesan aktif --}}
-                    <div class="mt-4 flex items-center gap-1.5">
-                        @foreach($heroInfos as $k => $info)
-                            <span
-                                class="h-1.5 rounded-full transition-all duration-300"
-                                :class="info === {{ $k }} ? 'w-5 bg-[#08313F]/80' : 'w-1.5 bg-[#08313F]/30'"
-                            ></span>
-                        @endforeach
-                    </div>
-                </a>
+                {{-- Hero title (2 baris) --}}
+                <h1 class="type-hero-title mt-3 lg:mt-6 max-w-2xl lg:max-w-3xl mx-auto text-[#28374D] dark:text-gray-50">
+                    <span class="block">{{ __('Membangun Masa Depan Digital') }}</span>
+                    <span class="block">{{ __('bersama') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ $globalSettings->site_name ?? 'Skansaba.Dev' }}</span></span>
+                </h1>
             </div>
+        </div>
 
-            {{-- Kolom kanan: media slider + kontrol navigasi --}}
-            <div class="flex w-full flex-col gap-3">
         @if($sliders->isNotEmpty())
-            {{-- Media 16/9: tinggi dibatasi dinamis (viewport - offset atas - 50px). --}}
-            <div class="w-full" data-reveal>
-                <div class="relative w-full">
+            {{-- Frame foto tunggal: rasio 16/9 (object-cover), tinggi dibatasi dinamis.
+                 Lebar sejajar dengan navbar: px-4 sm:px-6 + max-w-6xl (sama seperti header nav). --}}
+            <div class="px-4 sm:px-6" data-reveal>
+                {{-- Wrapper gambar: lebar penuh mengikuti navbar, proporsional --}}
+                <div class="relative w-full max-w-6xl mx-auto">
                     {{-- Container gambar: 16/9, max-height dinamis (viewport - offset atas - 50px) --}}
                     <div class="relative grid w-full aspect-video rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.5)]" x-ref="heroFrame" :style="heroMax ? 'max-height: ' + heroMax : ''">
                         @foreach($sliders as $index => $slider)
@@ -201,378 +91,97 @@
                                     @if($index !== 0) loading="lazy" @endif
                                 >
 
-                                {{-- Catatan: judul & subjudul slide dipindah ke kartu
-                                     kontrol di bawah media. --}}
-                            </div>
-                        @endforeach
-                    </div>
+                                {{-- Keterangan di atas gambar --}}
+                                <div class="absolute inset-x-0 bottom-0 p-5 lg:p-7 pointer-events-none">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent pointer-events-none"></div>
 
-                    {{-- Kontrol slider DI DALAM media: hanya tampil saat layout
-                         vertikal (hero lock nonaktif). Berisi deskripsi slide,
-                         progress bar, dan tombol prev/next. --}}
-                    <div class="hero-media-caption absolute inset-x-0 bottom-0 z-20 p-3 sm:p-4">
-                        <div class="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-[#0F172B] px-4 py-3">
-                            <div class="relative min-h-[2.5rem] min-w-0 flex-1">
-                                @foreach($sliders as $index => $slider)
-                                    <div x-show="isActive({{ $index }})" x-transition.opacity.duration.300ms class="absolute inset-0 flex flex-col justify-center">
-                                        <p class="type-card-title-sm line-clamp-1 text-white">{{ $slider->title }}</p>
+                                    <div class="relative">
+                                        <h3 class="type-card-title text-white drop-shadow-md">{{ $slider->title }}</h3>
                                         @if($slider->subtitle)
-                                            <p class="type-body-sm mt-0.5 line-clamp-1 text-white/60">{{ $slider->subtitle }}</p>
+                                            <p class="type-body-sm text-white/75 mt-1.5 lg:mt-2.5 line-clamp-2 drop-shadow">
+                                                {{ $slider->subtitle }}
+                                            </p>
                                         @endif
                                     </div>
-                                @endforeach
-                            </div>
-
-                            @if($sliders->count() > 1)
-                                <div class="flex flex-none items-center gap-2">
-                                    <button type="button" @click="back(); start()" class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="Slide sebelumnya">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
-                                    </button>
-                                    <button type="button" @click="advance(); start()" class="flex h-9 w-9 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2" aria-label="Slide berikutnya">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
-                                    </button>
                                 </div>
-                            @endif
-                        </div>
+                            </div>
+                        @endforeach
 
-                        @if($sliders->count() > 1)
-                            <div class="mt-3 h-[3px] overflow-hidden rounded-full bg-white/20">
-                                <template x-for="tick in [index]" :key="'media-bar-' + tick">
-                                    <div class="h-full rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}; animation: slider-progress 5s linear forwards"></div>
+                        {{-- Progress bar overlay di bawah frame (di luar stacking biar selalu terlihat) --}}
+                        <div class="col-start-1 row-start-1 self-end relative z-20 pointer-events-none">
+                            <div class="h-[3px] bg-white/25 rounded-full overflow-hidden mx-5 lg:mx-7 mb-4 lg:mb-5" x-show="N > 1">
+                                <template x-for="tick in [index]" :key="'bar-' + tick">
+                                    <div
+                                        class="h-full bg-white rounded-full"
+                                        style="animation: slider-progress 5s linear forwards"
+                                    ></div>
                                 </template>
                             </div>
-                        @endif
+                        </div>
                     </div>
 
+                    {{-- Desktop Navigation Arrows - di samping kiri dan kanan gambar --}}
+                    @if($sliders->count() > 1)
+                        <button
+                            @click="back(); start()"
+                            class="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            aria-label="Slide sebelumnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                            </svg>
+                        </button>
+
+                        <button
+                            @click="advance(); start()"
+                            class="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            aria-label="Slide berikutnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                            </svg>
+                        </button>
+                    @endif
+                </div>
+
+                {{-- Mobile arrows: tampil di bawah gambar (tengah, berdekatan) --}}
+                @if($sliders->count() > 1)
+                    <div class="lg:hidden flex justify-center items-center gap-4 mt-5" data-reveal>
+                        <button
+                            @click="back(); start()"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-300 shadow-md"
+                            aria-label="Slide sebelumnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                            </svg>
+                        </button>
+                        <button
+                            @click="advance(); start()"
+                            class="w-11 h-11 rounded-full border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-center text-gray-700 dark:text-gray-200 active:bg-gray-900 active:text-white active:border-gray-900 transition-all duration-300 shadow-md"
+                            aria-label="Slide berikutnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
+                            </svg>
+                        </button>
                     </div>
+                @endif
             </div>
         @else
-            <div class="w-full">
-                <div class="flex h-72 w-full items-center justify-center rounded-3xl border border-gray-100 bg-white text-sm text-gray-400 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400" data-reveal>
+            <div class="px-4 sm:px-6">
+                <div class="rounded-2xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 h-72 max-w-6xl mx-auto flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm" data-reveal>
                     {{ __('Belum ada slide yang ditambahkan') }}
                 </div>
             </div>
         @endif
-
-            {{-- Kartu kontrol slider: deskripsi + nav (row 1), progress (row 2) --}}
-            @if($sliders->isNotEmpty())
-                <div class="hero-caption-card rounded-2xl border border-white/10 bg-[#0F172B] px-6 py-5" data-reveal>
-                    {{-- Row 1: deskripsi slide (kiri) + tombol prev/next (kanan) --}}
-                    <div class="flex items-center justify-between gap-4">
-                        <div class="relative min-h-[3.75rem] min-w-0 flex-1">
-                            @foreach($sliders as $index => $slider)
-                                <div x-show="isActive({{ $index }})" x-transition.opacity.duration.300ms class="absolute inset-0 flex flex-col justify-center">
-                                    <p class="type-card-title-sm line-clamp-1 text-white">{{ $slider->title }}</p>
-                                    @if($slider->subtitle)
-                                        <p class="type-body-sm mt-1 line-clamp-1 text-white/60">{{ $slider->subtitle }}</p>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-
-                        @if($sliders->count() > 1)
-                            <div class="flex flex-none items-center gap-2">
-                                <button
-                                    type="button"
-                                    @click="back(); start()"
-                                    class="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2"
-                                    aria-label="Slide sebelumnya"
-                                >
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-                                    </svg>
-                                </button>
-                                <button
-                                    type="button"
-                                    @click="advance(); start()"
-                                    class="flex h-10 w-10 flex-none items-center justify-center rounded-full border border-white/15 bg-white/5 text-white transition-colors duration-200 hover:border-white hover:bg-white hover:text-[#0F172B] focus-visible:outline-2 focus-visible:outline-offset-2"
-                                    aria-label="Slide berikutnya"
-                                >
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/>
-                                    </svg>
-                                </button>
-                            </div>
-                        @endif
-                    </div>
-
-                    {{-- Row 2: progress bar --}}
-                    @if($sliders->count() > 1)
-                        <div class="mt-5 h-[3px] overflow-hidden rounded-full bg-white/15">
-                            <template x-for="tick in [index]" :key="'bar-' + tick">
-                                <div class="h-full rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}; animation: slider-progress 5s linear forwards"></div>
-                            </template>
-                        </div>
-                    @endif
-                </div>
-            @endif
-            </div>{{-- /kolom kanan --}}
-        </div>{{-- /grid --}}
     </section>
-    </div>{{-- /hero-lock-pin --}}
 
     {{-- ============================================ --}}
-    {{-- Sekilas RPL: statistik ringkas + prospek karir & mapel unggulan --}}
+    {{-- Prospek Karir & Mata Pelajaran Unggulan --}}
     {{-- ============================================ --}}
     <section class="bg-slate-100 dark:bg-gray-950 py-16 lg:py-24">
-        @php
-            $sekilasStats = [
-                ['value' => $totalSiswaAktif, 'label' => __('Siswa Aktif')],
-                ['value' => $totalAlumni, 'label' => __('Alumni')],
-                ['value' => $totalMitra, 'label' => __('Mitra')],
-            ];
-            $sekilasTargets = implode(', ', array_map(fn ($stat) => (int) $stat['value'], $sekilasStats));
-        @endphp
-
-        {{-- Track: di desktop diberi tinggi 170vh supaya heading + pita stat
-             "dipin" selama ~1,5 layar. Selama pin, scroll hanya menumbuhkan
-             pita dari kiri ke kanan (wipe). Tiap angka mulai menghitung saat
-             angkanya sendiri sudah tersingkap penuh (bukan saat sel-nya penuh).
-             Begitu wipe penuh, track dipangkas ke tinggi natural + scroll
-             dikompensasi, jadi tidak ada scroll kosong saat balik ke atas.
-             Mobile/reduced-motion: track tidak ber-tinggi, pita statis. --}}
-        <div
-            class="lg:relative lg:h-[170vh]"
-            data-sekilas-track
-            x-data="{
-                targets: [{{ $sekilasTargets }}],
-                current: Array({{ count($sekilasStats) }}).fill(0),
-                started: Array({{ count($sekilasStats) }}).fill(false),
-                bandClip: 'inset(0 100% 0 0)',
-                compacted: false,
-                desktop: false,
-                reduced: false,
-                _raf: null,
-                _ts: Array({{ count($sekilasStats) }}).fill(0),
-                _pinOffset: 0.2,
-                _thresholds: null,
-
-                init() {
-                    this.reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                    if (this.reduced) {
-                        // Reduced-motion: tampilkan penuh, tanpa wipe.
-                        this.bandClip = 'none';
-                        this.current = this.targets.slice();
-                        return;
-                    }
-
-                    this.desktop = window.matchMedia('(min-width: 1024px)').matches;
-                    if (!this.desktop) {
-                        // Mobile/tablet: tanpa wipe — heading + pita tampil penuh.
-                        this.bandClip = 'none';
-                        // Mobile/tablet: count-up per angka saat angka itu
-                        // sendiri sudah terlihat penuh — bukan saat 50% pita
-                        // (kontainer) masuk viewport. Angka ada di bawah pita,
-                        // jadi versi kontainer membuat hitungan selesai
-                        // sebelum angkanya sempat tampil.
-                        const numbers = [...this.$el.querySelectorAll('[data-sekilas-stats] .type-stat-xl')];
-                        const io = new IntersectionObserver((entries) => {
-                            for (const e of entries) {
-                                if (!e.isIntersecting) continue;
-                                const index = numbers.indexOf(e.target);
-                                if (index >= 0) this.startCell(index);
-                                io.unobserve(e.target);
-                            }
-                        }, { threshold: 0.99 });
-                        numbers.forEach((el) => io.observe(el));
-                        return;
-                    }
-
-                    window.addEventListener('scroll', () => this.onScroll(), { passive: true });
-                    window.addEventListener('resize', () => { this._thresholds = null; this.onScroll(); });
-                    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { this._thresholds = null; this.onScroll(); });
-                    this.$nextTick(() => this.onScroll());
-                },
-
-                measure() {
-                    // Ambang tiap angka = tepi kanan TEKS angka (bukan kotak
-                    // div-nya), relatif terhadap lebar pita. `.type-stat-xl`
-                    // adalah block selebar sel, jadi mengukur elemen akan
-                    // menunda hitungan sampai seluruh sel tersapu padahal
-                    // digitnya sudah tampil penuh jauh sebelumnya.
-                    // Sumber ukur = lapisan dasar (invisible) yang selalu
-                    // memuat nilai target, karena lapisan putih sudah berisi
-                    // angka 0 saat init sehingga lebarnya kurang satu digit.
-                    if (!this.$refs.pin) return;
-                    const band = this.$refs.pin.querySelector('[data-sekilas-band]');
-                    const base = this.$refs.pin.querySelector('[data-sekilas-static]');
-                    if (!band || !base) return;
-                    const b = band.getBoundingClientRect();
-                    if (!b.width) return;
-                    const range = document.createRange();
-                    this._thresholds = [...base.querySelectorAll('.type-stat-xl')].map((el) => {
-                        range.selectNodeContents(el);
-                        const r = range.getBoundingClientRect();
-                        return (r.right - b.left) / b.width;
-                    });
-                },
-
-                onScroll() {
-                    if (this.compacted) return;
-                    if (!window.matchMedia('(min-width: 1024px)').matches) {
-                        this.bandClip = 'none';
-                        return;
-                    }
-                    if (!this.$refs.pin) return;
-
-                    if (!this._thresholds) this.measure();
-
-                    const trackH = this.$el.offsetHeight;
-                    const pinH = this.$refs.pin.offsetHeight;
-                    const topOffset = window.innerHeight * this._pinOffset;
-                    const trackTop = this.$el.getBoundingClientRect().top + window.scrollY;
-                    const start = trackTop - topOffset;
-                    const dist = Math.max(1, trackH - pinH);
-                    let p = (window.scrollY - start) / dist;
-                    p = Math.max(0, Math.min(1, p));
-
-                    if (p >= 1) {
-                        // Wipe penuh: tampilkan pita penuh + mulai hitungan
-                        // yang belum jalan. Tampilan TIDAK dikunci — kalau
-                        // user scroll balik ke atas, wipe ikut membalik
-                        // (reversible) sehingga tidak ada area mati.
-                        this.bandClip = 'none';
-                        this.targets.forEach((_, i) => this.startCell(i));
-                        // Pangkas track 170vh jadi setinggi pin HANYA setelah
-                        // seluruh track lewat di atas viewport. Dengan begitu
-                        // perubahan tinggi + kompensasi scroll-nya terjadi di
-                        // luar layar, jadi tidak ada bagian yang terlihat
-                        // melompat tepat saat wipe selesai.
-                        if (this.$el.getBoundingClientRect().bottom <= 0) {
-                            this.compacted = true;
-                            this.compactTrack();
-                        }
-                        return;
-                    }
-
-                    this.bandClip = 'inset(0 ' + ((1 - p) * 100).toFixed(2) + '% 0 0)';
-
-                    const n = this.targets.length;
-                    for (let i = 0; i < n; i++) {
-                        const th = (this._thresholds && this._thresholds[i] != null)
-                            ? this._thresholds[i]
-                            : (i + 1) / n;
-                        if (p >= th) this.startCell(i);
-                    }
-                },
-
-                compactTrack() {
-                    // Set track ke tinggi natural (setinggi pin). Karena
-                    // track menyusut, semua konten di bawah naik sebesar
-                    // selisih tinggi — kompensasi scroll agar pita tidak
-                    // terlihat melompat.
-                    if (!this.desktop || this.reduced) return;
-                    const pin = this.$refs.pin;
-                    if (!pin) return;
-
-                    const before = pin.getBoundingClientRect().top;
-                    this.$el.style.height = 'auto';
-                    const delta = pin.getBoundingClientRect().top - before;
-                    if (delta) window.scrollBy(0, delta);
-                },
-
-                startCell(i) {
-                    if (this.started[i]) return;
-                    this.started[i] = true;
-                    this._ts[i] = performance.now();
-                    if (!this._raf) this._raf = requestAnimationFrame((t) => this.tick(t));
-                },
-
-                tick(now) {
-                    let active = false;
-                    this.targets.forEach((target, i) => {
-                        if (!this.started[i]) return;
-                        const pr = Math.min(1, (now - this._ts[i]) / 800);
-                        const eased = 1 - Math.pow(1 - pr, 3);
-                        this.current[i] = Math.round(target * eased);
-                        if (pr < 1) active = true;
-                    });
-                    this._raf = active ? requestAnimationFrame((t) => this.tick(t)) : null;
-                }
-            }"
-        >
-            <div x-ref="pin" class="lg:sticky lg:top-[20vh]">
-                {{-- Card gaya "by the numbers": tagline sebagai label atas,
-                     judul besar, lalu baris angka. HANYA background biru yang
-                     di-wipe. Lapisan dasar menampilkan teks sebelum kena wipe
-                     (tagline abu, judul terang, angka disembunyikan); lapisan
-                     putih di-clip mengikuti sapuan sehingga teks di area yang
-                     sudah tertutup biru berubah putih dan angka muncul. --}}
-                <div class="px-4 sm:px-6">
-                    <div class="mx-auto max-w-6xl">
-                        <div class="relative overflow-hidden rounded-2xl">
-                            {{-- Lapisan background biru (yang di-wipe) --}}
-                            <div
-                                data-sekilas-band
-                                class="absolute inset-0"
-                                :style="'background-color: {{ $globalSettings->primary_color_style }};' + (bandClip === 'none' ? '' : ' clip-path: ' + bandClip)"
-                            ></div>
-
-                            {{-- Lapisan dasar (warna sebelum kena wipe). Angka
-                                 sengaja invisible: hanya muncul dari lapisan
-                                 putih saat biru menyapunya. --}}
-                            <div class="relative px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16">
-                                <h2 class="type-focus-title mt-4 text-gray-900 dark:text-white">
-                                    {{ __('Sekilas RPL') }}
-                                </h2>
-
-                                {{-- Spacer (garis asli digambar di lapisan putih) --}}
-                                <div class="mt-8 border-t border-transparent"></div>
-
-                                <div class="grid grid-cols-1 invisible sm:grid-cols-3" data-sekilas-static aria-hidden="true">
-                                    @foreach($sekilasStats as $i => $stat)
-                                    <div class="border-t border-white/15 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:border-white/15 sm:pl-6 sm:first:border-l-0 sm:first:pl-0">
-                                        <div class="type-stat-xl">
-                                            {{ number_format($stat['value'], 0, ',', '.') }}
-                                        </div>
-                                        <div class="type-lead font-medium mt-2">
-                                            {{ $stat['label'] }}
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-
-                            {{-- Lapisan putih, di-clip mengikuti wipe: teks di
-                                 area yang sudah tertutup biru tampil putih, dan
-                                 angka hanya muncul saat tersapu biru. --}}
-                            <div
-                                class="pointer-events-none absolute inset-0 px-6 pt-10 pb-4 sm:px-9 sm:pt-12 lg:px-12 lg:pt-16"
-                                :style="bandClip === 'none' ? '' : 'clip-path: ' + bandClip"
-                                aria-hidden="true"
-                            >
-                                <h2 class="type-focus-title mt-4 text-white">
-                                    {{ __('Sekilas RPL') }}
-                                </h2>
-
-                                <div class="mt-8 border-t border-white/20"></div>
-
-                                <div class="grid grid-cols-1 sm:grid-cols-3" data-sekilas-stats>
-                                    @foreach($sekilasStats as $i => $stat)
-                                    <div
-                                        class="border-t border-white/15 py-6 first:border-t-0 sm:border-t-0 sm:border-l sm:border-white/15 sm:pl-6 sm:first:border-l-0 sm:first:pl-0"
-                                        role="group"
-                                        aria-label="{{ number_format($stat['value'], 0, ',', '.') }} {{ $stat['label'] }}"
-                                    >
-                                        <div class="type-stat-xl text-gray-900 dark:text-gray-900" aria-hidden="true" x-text="current[{{ $i }}].toLocaleString('id-ID')">
-                                            {{ number_format($stat['value'], 0, ',', '.') }}
-                                        </div>
-                                        <div class="type-lead font-medium mt-2 text-white/90" aria-hidden="true">
-                                            {{ $stat['label'] }}
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- Prospek Karir & Mata Pelajaran Unggulan. Ini bagian dari
-             section Sekilas (menggantikan sorotan alumni). --}}
-        <div class="site-container mt-12 lg:mt-16" x-data="{
+        <div class="site-container" x-data="{
             aktif: 'mapel',
             animating: false,
             setTab(t) {
@@ -744,9 +353,7 @@
     {{-- ============================================ --}}
     {{-- Karya Siswa Carousel --}}
     {{-- ============================================ --}}
-    {{-- Latar mengikuti section Prospek yang dulu ada di posisi ini, agar
-         tirai Prestasi (putih) tetap jelas kontrasnya. --}}
-    <section class="bg-slate-100 pt-16 pb-16 dark:bg-gray-950 lg:pt-24 lg:pb-80">
+    <section class="bg-slate-100 py-16 dark:bg-gray-950 lg:py-24">
         <div class="site-container">
             <div class="flex items-center justify-between gap-4 mb-6 sm:mb-16" data-reveal>
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50">
@@ -1006,13 +613,6 @@
             @endif
         </div>
     </section>
-    </div> {{-- /locked: hero -> Karya membeku bersama --}}
-
-    {{-- Tirai: Prestasi naik menutupi blok yang ter-pin (z-10).
-         Section diberi sudut atas membulat karena background anak tidak
-         ikut ter-clip oleh radius induk (tanpa overflow-hidden, yang
-         akan mematikan position: sticky kartu Prestasi). --}}
-    <div class="relative z-10 rounded-[2rem] bg-white dark:bg-slate-900">
 
     {{-- ============================================ --}}
     {{-- Prestasi: sticky stacked dispatches --}}
@@ -1021,7 +621,7 @@
     <section
         id="prestasi"
         aria-labelledby="prestasi-dispatch-heading"
-        class="rounded-[2rem] bg-white py-20 dark:bg-slate-900 lg:py-28"
+        class="bg-white py-20 dark:bg-slate-900 lg:py-28"
         x-data="{
             active: 0,
             sync() {
@@ -1158,8 +758,6 @@
         </div>
     </section>
     @endif
-    </div> {{-- /tirai Prestasi --}}
-    </div> {{-- /wrapper curtain hero -> Karya --}}
 
     {{-- ============================================ --}}
     {{-- Berita Terbaru --}}

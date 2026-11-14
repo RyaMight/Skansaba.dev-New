@@ -17,12 +17,9 @@
     $isGalleryActive = request()->routeIs('gallery.*') || request()->is('gallery*');
     $isInformasiActive = $isBeritaActive || $isDokumenActive || $isGalleryActive;
 @endphp
-<header
-    class="sticky top-0 z-50 pt-4 px-4 sm:px-6 notranslate"
-    @if($isBerandaActive) data-hero-lock @endif
->
-    <nav class="hl-nav max-w-6xl mx-auto bg-white dark:bg-gray-900 dark:border-gray-800 rounded-2xl shadow-[0_2px_16px_rgba(15,23,42,0.08)] border border-gray-100 dark:border-gray-800">
-        <div class="hl-inner flex items-center justify-between h-16 px-5 sm:px-7">
+<header class="sticky top-0 z-50 pt-4 px-4 sm:px-6 notranslate">
+    <nav class="max-w-6xl mx-auto bg-white dark:bg-gray-900 dark:border-gray-800 rounded-2xl shadow-[0_2px_16px_rgba(15,23,42,0.08)] border border-gray-100 dark:border-gray-800">
+        <div class="flex items-center justify-between h-16 px-5 sm:px-7">
             {{-- Logo & Brand --}}
             <a href="/" class="flex items-center gap-2.5 flex-shrink-0">
                 @if($globalSettings->logo_primary_url)
@@ -36,7 +33,7 @@
             </a>
 
             {{-- Desktop Menu --}}
-            <div class="hl-menu hidden lg:flex items-center gap-7">
+            <div class="hidden lg:flex items-center gap-7">
                 <a href="/" @class([
                     'link-underline type-nav transition hover-primary',
                     'font-semibold text-gray-900 dark:text-gray-100' => $isBerandaActive,
@@ -139,14 +136,10 @@
             </div>
 
             {{-- Blok kanan: Language Switcher + Theme Toggle + Akun --}}
-            <div class="hl-right hidden lg:flex items-center gap-3">
+            <div class="hidden lg:flex items-center gap-3">
                 <x-language-switcher />
-                <div class="hl-toggle mr-[20px]">
-                    @if($isBerandaActive)
-                        <x-hero-theme-toggle />
-                    @else
-                        <x-theme-toggle />
-                    @endif
+                <div class="mr-[20px]">
+                    <x-theme-toggle />
                 </div>
 
                 @guest
