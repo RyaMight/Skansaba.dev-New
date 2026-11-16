@@ -88,6 +88,9 @@
                     <h2 class="type-subsection-title text-gray-900 dark:text-gray-50">
                         {{ $user->name ?: 'Ahmad Syahputra' }}
                     </h2>
+                    @if($user->isModerator())
+                        <x-moderator-badge size="sm" />
+                    @endif
                     @foreach($user->verified_tags_list as $vTag)
                         <x-verified-tag-badge :tag="$vTag" size="sm" />
                     @endforeach

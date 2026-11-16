@@ -62,7 +62,7 @@ class KaryaSiswaPublic extends Component
 
         // 1. Karya Siswa Asli (Published di Database — karya terbaru yang di-publish muncul paling atas)
         $karyas = KaryaSiswa::query()
-            ->with(['user' => fn ($q) => $q->select('id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'status')])
+            ->with(['user' => fn ($q) => $q->select('id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'is_moderator', 'status')])
             ->where('status', 'published')
             ->when($searchTerm !== '', function ($query) use ($searchTerm) {
                 $like = '%'.$searchTerm.'%';
@@ -97,7 +97,7 @@ class KaryaSiswaPublic extends Component
             ->withCount([
                 'karyaSiswas as published_karya_count' => fn ($q) => $q->where('status', 'published'),
             ])
-            ->get(['id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'status']);
+            ->get(['id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'is_moderator', 'status']);
 
         $siswaLookup = $allActiveSiswas->keyBy(fn (User $u) => mb_strtolower(trim($u->name)));
 

@@ -242,3 +242,23 @@ test('panel moderator tampil di dashboard siswa hanya untuk moderator', function
         ->test(ProfilDashboard::class)
         ->assertDontSee('Panel Moderator');
 });
+
+test('profil publik menampilkan badge moderator khusus', function () {
+    $moderator = User::factory()->create([
+        'role' => 'siswa',
+        'is_moderator' => true,
+        'username' => 'moderator-siswa',
+    ]);
+    $siswa = User::factory()->create([
+        'role' => 'siswa',
+        'username' => 'siswa-biasa',
+    ]);
+
+    $this->get(route('profil.public', $moderator->username))
+        ->assertOk()
+        ->assertSee('Moderator');
+
+    $this->get(route('profil.public', $siswa->username))
+        ->assertOk()
+        ->assertDontSee('Moderator');
+});

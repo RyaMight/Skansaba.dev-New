@@ -30,7 +30,12 @@
                         @endif
                     </div>
 
-                    <h1 class="type-subsection-title text-gray-900 dark:text-gray-50 mt-4">{{ $profileUser->name }}</h1>
+                    <div class="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-2">
+                        <h1 class="type-subsection-title text-gray-900 dark:text-gray-50">{{ $profileUser->name }}</h1>
+                        @if($profileUser->isModerator())
+                            <x-moderator-badge size="sm" />
+                        @endif
+                    </div>
                     <p class="text-sm text-gray-500 dark:text-gray-400">{{ '@' . ($profileUser->username ?: $profileUser->id) }}</p>
 
                     @if(auth()->check() && auth()->id() === $profileUser->id)

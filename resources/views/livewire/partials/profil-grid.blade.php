@@ -112,6 +112,9 @@
                                     <h3 class="type-card-title-xs text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $siswa->name }}">
                                         {{ $siswa->name }}
                                     </h3>
+                                    @if($siswa->isModerator())
+                                        <x-moderator-badge size="xs" class="shrink-0" />
+                                    @endif
                                 </div>
 
                                 <div class="flex flex-wrap items-center gap-1.5 mt-0.5">
