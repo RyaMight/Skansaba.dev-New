@@ -9,9 +9,49 @@
             N: {{ $sliders->count() }},
             index: 0,
             timer: null,
+            heroWidth: null,
 
             init() {
                 this.start();
+                this.fitHero();
+                window.addEventListener('load', () => this.fitHero());
+                window.addEventListener('resize', () => this.fitHero());
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(() => this.fitHero());
+                }
+                this.$nextTick(() => this.fitHero());
+            },
+
+            // Rasio 16/9 tidak boleh dikorbankan, jadi kalau tinggi sisa
+            // viewport tidak cukup, yang menyusut adalah LEBAR frame —
+            // tinggi otomatis ikut (width * 9/16) dan foto tetap utuh
+            // terlihat tanpa harus scroll. Di layar tinggi, frame kembali
+            // selebar max-w-6xl.
+            fitHero() {
+                const el = this.$refs.heroFrameWrap;
+                if (!el) return;
+
+                let top = 0;
+                let node = el;
+                while (node) {
+                    top += node.offsetTop;
+                    node = node.offsetParent;
+                }
+
+                // Ukur lebar natural (max-w-6xl / lebar kontainer) tanpa
+                // constraint tinggi dari perhitungan sebelumnya.
+                const previous = el.style.width;
+                el.style.width = '';
+                const natural = el.clientWidth;
+                el.style.width = previous;
+
+                if (!natural) return;
+
+                const room = window.innerHeight - top - 24;
+                const byHeight = room > 0 ? (room * 16) / 9 : natural;
+                const width = Math.max(320, Math.min(natural, byHeight));
+
+                this.heroWidth = Math.floor(width) + 'px';
             },
 
             start() {
@@ -63,8 +103,14 @@
             {{-- Frame foto tunggal: rasio 16/9 tetap (object-cover).
                  Lebar sejajar dengan navbar: px-4 sm:px-6 + max-w-6xl (sama seperti header nav). --}}
             <div class="px-4 sm:px-6" data-reveal>
-                {{-- Wrapper gambar: lebar penuh mengikuti navbar, proporsional --}}
-                <div class="relative w-full max-w-6xl mx-auto">
+                {{-- Wrapper gambar: lebar mengikuti navbar. Bila tinggi
+                     viewport tidak cukup, lebar menyusut proporsional agar
+                     foto 16/9 utuh terlihat tanpa scroll. --}}
+                <div
+                    class="relative w-full max-w-6xl mx-auto"
+                    x-ref="heroFrameWrap"
+                    :style="heroWidth ? 'width: ' + heroWidth : ''"
+                >
                     {{-- Container gambar: rasio 16/9 dikunci. Tinggi selalu
                      diturunkan dari lebar, jadi perbandingan tetap sama di
                      device apa pun; ukuran gambar mengikuti frame. Slide
