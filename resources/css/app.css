@@ -759,7 +759,10 @@ html.theme-transition footer {
 .prestasi-track {
     scrollbar-width: none;
     -ms-overflow-style: none;
-    scroll-snap-type: x mandatory;
+    /* `proximity`, bukan `mandatory`: snap wajib bisa "menahan" roda
+       scroll saat kursor berada di atas track (halaman terasa nyangkut). */
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
 }
 
 .prestasi-track::-webkit-scrollbar {
