@@ -233,6 +233,11 @@ class SiswaRplManager extends Component
     public function toggleStatus(int $id): void
     {
         $student = User::where('role', 'siswa')->findOrFail($id);
+
+        if ($student->isModerator() && ! Auth::user()?->isAdmin()) {
+            abort(403, 'Akun moderator hanya dapat dinonaktifkan atau diaktifkan oleh administrator.');
+        }
+
         $newStatus = $student->status === 'active' ? 'inactive' : 'active';
         $student->update(['status' => $newStatus]);
 

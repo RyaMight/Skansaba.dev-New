@@ -204,6 +204,48 @@ test('moderator tidak dapat mengelola akun sendiri, admin, atau guru', function 
         ->assertForbidden();
 });
 
+test('moderator tidak dapat menonaktifkan atau membuka blokir moderator lain', function () {
+    $moderator = User::factory()->create(['role' => 'siswa', 'is_moderator' => true]);
+    $moderatorLain = User::factory()->create(['role' => 'siswa', 'is_moderator' => true]);
+
+    Livewire::actingAs($moderator)
+        ->test(ModeratorKeamanan::class)
+        ->call('lockAccount', $moderatorLain->id)
+        ->assertForbidden();
+
+    Livewire::actingAs($moderator)
+        ->test(ModeratorKeamanan::class)
+        ->call('unlockAccount', $moderatorLain->id)
+        ->assertForbidden();
+
+    Livewire::actingAs($moderator)
+        ->test(ModeratorKeamanan::class)
+        ->call('clearLoginLock', $moderatorLain->id)
+        ->assertForbidden();
+
+    expect($moderatorLain->fresh()->status)->toBe('active');
+});
+
+test('hanya admin yang dapat mengubah status akun moderator', function () {
+    $admin = User::factory()->create(['role' => 'admin']);
+    $guru = User::factory()->create(['role' => 'guru']);
+    $moderator = User::factory()->create(['role' => 'siswa', 'is_moderator' => true]);
+
+    Livewire::actingAs($guru)
+        ->test(SiswaRplManager::class)
+        ->call('toggleStatus', $moderator->id)
+        ->assertForbidden();
+
+    expect($moderator->fresh()->status)->toBe('active');
+
+    Livewire::actingAs($admin)
+        ->test(SiswaRplManager::class)
+        ->call('toggleStatus', $moderator->id)
+        ->assertHasNoErrors();
+
+    expect($moderator->fresh()->status)->toBe('inactive');
+});
+
 test('siswa biasa tidak dapat mengakses halaman keamanan moderator', function () {
     $siswa = User::factory()->create(['role' => 'siswa']);
 

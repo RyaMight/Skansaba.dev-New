@@ -158,7 +158,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div>
                     <h2 class="type-card-title-sm text-gray-900 dark:text-gray-50">Keamanan Akun Siswa</h2>
-                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Nonaktifkan akun mencurigakan atau buka blokir login sementara.</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Nonaktifkan akun mencurigakan atau buka blokir login sementara. Akun moderator hanya dapat dikelola oleh administrator.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <input type="text" wire:model.live.debounce.300ms="search" placeholder="Cari nama / NISN / email..." class="w-48 px-3 py-1.5 text-xs bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none">
@@ -238,6 +238,13 @@
                             <td class="py-3 px-4 text-right">
                                 @if($isSelf)
                                     <span class="text-[11px] text-gray-400 dark:text-gray-500 italic">Akun sendiri</span>
+                                @elseif($student->isModerator())
+                                    <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-bold text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/15 border border-amber-200 dark:border-amber-500/30" title="Akun moderator hanya dapat dinonaktifkan atau diaktifkan oleh administrator">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                        </svg>
+                                        Hanya admin
+                                    </span>
                                 @else
                                     <div class="flex items-center justify-end gap-1.5">
                                         @if($recentFailures >= 5)

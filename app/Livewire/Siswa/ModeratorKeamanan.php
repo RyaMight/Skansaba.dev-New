@@ -149,6 +149,10 @@ class ModeratorKeamanan extends Component
             abort(403, 'Moderator hanya dapat mengelola akun siswa.');
         }
 
+        if ($student->isModerator() && ! $actor->isAdmin()) {
+            abort(403, 'Akun moderator hanya dapat dinonaktifkan atau diaktifkan oleh administrator.');
+        }
+
         if ($student->id === $actor->id) {
             abort(403, 'Anda tidak dapat mengelola akun Anda sendiri.');
         }

@@ -194,17 +194,30 @@
                                     </div>
                                 </td>
                                 <td class="py-3.5 px-4">
-                                    <button 
-                                        type="button" 
-                                        wire:click="toggleStatus({{ $student->id }})"
-                                        @class([
-                                            'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold border transition cursor-pointer',
-                                            'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30 hover:bg-emerald-100' => $student->status === 'active',
-                                            'bg-slate-100 dark:bg-gray-800 text-slate-500 dark:text-gray-400 border-slate-200 dark:border-gray-700 hover:bg-slate-200' => $student->status !== 'active',
-                                        ])
-                                    >
-                                        {{ $student->status === 'active' ? 'Aktif' : 'Nonaktif' }}
-                                    </button>
+                                    @if($student->isModerator() && !$canManageModerator)
+                                        <span
+                                            @class([
+                                                'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold border cursor-not-allowed',
+                                                'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30' => $student->status === 'active',
+                                                'bg-slate-100 dark:bg-gray-800 text-slate-500 dark:text-gray-400 border-slate-200 dark:border-gray-700' => $student->status !== 'active',
+                                            ])
+                                            title="Hanya administrator yang dapat mengubah status akun moderator"
+                                        >
+                                            {{ $student->status === 'active' ? 'Aktif' : 'Nonaktif' }}
+                                        </span>
+                                    @else
+                                        <button 
+                                            type="button" 
+                                            wire:click="toggleStatus({{ $student->id }})"
+                                            @class([
+                                                'inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold border transition cursor-pointer',
+                                                'bg-emerald-50 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30 hover:bg-emerald-100' => $student->status === 'active',
+                                                'bg-slate-100 dark:bg-gray-800 text-slate-500 dark:text-gray-400 border-slate-200 dark:border-gray-700 hover:bg-slate-200' => $student->status !== 'active',
+                                            ])
+                                        >
+                                            {{ $student->status === 'active' ? 'Aktif' : 'Nonaktif' }}
+                                        </button>
+                                    @endif
                                 </td>
                                 <td class="py-3.5 px-4 text-right">
                                     <div class="flex items-center justify-end gap-1.5">
