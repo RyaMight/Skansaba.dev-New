@@ -39,11 +39,13 @@
                 }
 
                 // Ukur lebar natural (max-w-6xl / lebar kontainer) tanpa
-                // constraint tinggi dari perhitungan sebelumnya.
-                const previous = el.style.width;
-                el.style.width = '';
+                // constraint tinggi dari perhitungan sebelumnya. Constraint
+                // ditulis sebagai inline max-width, jadi max-width itu yang
+                // dikosongkan sementara.
+                const previous = el.style.maxWidth;
+                el.style.maxWidth = '';
                 const natural = el.clientWidth;
-                el.style.width = previous;
+                el.style.maxWidth = previous;
 
                 if (!natural) return;
 
@@ -103,14 +105,32 @@
             {{-- Frame foto tunggal: rasio 16/9 tetap (object-cover).
                  Lebar sejajar dengan navbar: px-4 sm:px-6 + max-w-6xl (sama seperti header nav). --}}
             <div class="px-4 sm:px-6" data-reveal>
-                {{-- Wrapper gambar: lebar mengikuti navbar. Bila tinggi
-                     viewport tidak cukup, lebar menyusut proporsional agar
-                     foto 16/9 utuh terlihat tanpa scroll. --}}
-                <div
-                    class="relative w-full max-w-6xl mx-auto"
-                    x-ref="heroFrameWrap"
-                    :style="heroWidth ? 'width: ' + heroWidth : ''"
-                >
+                {{-- Baris hero: tombol kiri/kanan mengapit frame foto (di LUAR
+                     gambar). Frame tetap 16/9; bila tinggi viewport tidak
+                     cukup, lebar frame menyusut proporsional agar foto utuh. --}}
+                <div class="mx-auto flex w-full items-center justify-center gap-3 lg:gap-5">
+                    {{-- Tombol sebelumnya (desktop) — di luar foto, sisi kiri --}}
+                    @if($sliders->count() > 1)
+                        <button
+                            @click="back(); start()"
+                            class="hidden lg:flex flex-none w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            aria-label="Slide sebelumnya"
+                        >
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
+                            </svg>
+                        </button>
+                    @endif
+
+                    {{-- Wrapper gambar: lebar mengikuti navbar. Bila tinggi
+                         viewport tidak cukup, lebar menyusut proporsional agar
+                         foto 16/9 utuh terlihat tanpa scroll. heroWidth hanya
+                         membatasi max-width supaya bisa menyusut di dalam flex. --}}
+                    <div
+                        class="relative w-full min-w-0 max-w-6xl"
+                        x-ref="heroFrameWrap"
+                        :style="heroWidth ? 'max-width: ' + heroWidth : ''"
+                    >
                     {{-- Container gambar: rasio 16/9 dikunci. Tinggi selalu
                      diturunkan dari lebar, jadi perbandingan tetap sama di
                      device apa pun; ukuran gambar mengikuti frame. Slide
@@ -159,21 +179,13 @@
                         </div>
                     </div>
 
-                    {{-- Desktop Navigation Arrows - di samping kiri dan kanan gambar --}}
+                    </div>
+
+                    {{-- Tombol berikutnya (desktop) — di luar foto, sisi kanan --}}
                     @if($sliders->count() > 1)
                         <button
-                            @click="back(); start()"
-                            class="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
-                            aria-label="Slide sebelumnya"
-                        >
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5"/>
-                            </svg>
-                        </button>
-
-                        <button
                             @click="advance(); start()"
-                            class="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
+                            class="hidden lg:flex flex-none w-11 h-11 rounded-full border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 items-center justify-center text-gray-700 dark:text-gray-200 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all duration-300 shadow-xl"
                             aria-label="Slide berikutnya"
                         >
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
@@ -229,19 +241,7 @@
                 this.animating = false;
                 this.$nextTick(() => requestAnimationFrame(() => { this.animating = true; }));
             }
-        }"
-        x-init="
-            const tabData = $data;
-            const io = new IntersectionObserver((entries) => {
-                for (const entry of entries) {
-                    if (entry.isIntersecting) {
-                        tabData.animating = true;
-                        io.disconnect();
-                    }
-                }
-            }, { rootMargin: '0px 0px -40% 0px', threshold: 0 });
-            io.observe($el);
-        ">
+        }">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16" data-reveal>
 
                 {{-- SISI KIRI: Sidebar navigasi (kedua judul sebagai tab) --}}
