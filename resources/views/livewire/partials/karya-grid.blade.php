@@ -70,12 +70,12 @@
                     $tahun = $item->tahun ?: date('Y');
                 @endphp
 
-                <a
-                    href="{{ route('karya.detail', $item->id) }}"
-                    class="group h-full bg-white dark:bg-gray-900 rounded-xl border border-slate-200/90 dark:border-gray-800 hover:border-sky-500/70 dark:hover:border-sky-500/60 shadow-xs transition-colors duration-150 overflow-hidden flex flex-col justify-between"
+                <div
+                    class="group relative h-full bg-white dark:bg-gray-900 rounded-xl border border-slate-200/90 dark:border-gray-800 hover:border-sky-500/70 dark:hover:border-sky-500/60 shadow-xs transition-colors duration-150 overflow-hidden flex flex-col justify-between"
                 >
                     <div class="flex-1 flex flex-col">
                         {{-- Cover Area --}}
+                        <a href="{{ route('karya.detail', $item->id) }}" class="block" aria-label="{{ $item->judul }}">
                         @if($item->gambar_url)
                             <div class="relative aspect-[16/10] bg-slate-100 dark:bg-gray-950 border-b border-slate-200/80 dark:border-gray-800 overflow-hidden">
                                 <img
@@ -148,6 +148,7 @@
                                 </div>
                             </div>
                         @endif
+                        </a>
 
                         {{-- Card Body --}}
                         <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
@@ -162,7 +163,7 @@
                                 </div>
 
                                 <h3 class="type-card-title-xs text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $item->judul }}">
-                                    {{ $item->judul }}
+                                    <a href="{{ route('karya.detail', $item->id) }}">{{ $item->judul }}</a>
                                 </h3>
 
                                 <p class="type-body-xs text-slate-500 dark:text-gray-400 mt-1.5 line-clamp-2">
@@ -188,7 +189,7 @@
                         </div>
                     </div>
 
-                    {{-- Card Footer: Creator & Link --}}
+                    {{-- Card Footer: Creator, Like & Link --}}
                     <div class="px-4 py-3 border-t border-slate-100 dark:border-gray-800/80 bg-slate-50/50 dark:bg-gray-900/50 flex items-center justify-between gap-2 mt-auto">
                         <div class="flex items-center gap-2 min-w-0">
                             <div class="w-6 h-6 {{ $creatorUser?->photoFrameClass('rounded-md') ?? 'rounded-full' }} overflow-hidden bg-sky-50 dark:bg-sky-500/15 border border-sky-200/70 dark:border-sky-500/30 text-sky-700 dark:text-sky-300 flex items-center justify-center text-[10px] font-bold shrink-0">
@@ -203,14 +204,20 @@
                             </div>
                         </div>
 
-                        <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition-transform">
-                            <span>{{ __('Detail') }}</span>
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-                            </svg>
-                        </span>
+                        <div class="flex items-center gap-2 shrink-0">
+                            @if($item->status === 'published')
+                                <livewire:karya-like-button :karya-id="$item->id" :key="'like-'.$item->id" />
+                            @endif
+
+                            <a href="{{ route('karya.detail', $item->id) }}" class="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-sky-400 group-hover:translate-x-0.5 transition-transform">
+                                <span>{{ __('Detail') }}</span>
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </a>
+                        </div>
                     </div>
-                </a>
+                </div>
             @endforeach
         </div>
     @endif

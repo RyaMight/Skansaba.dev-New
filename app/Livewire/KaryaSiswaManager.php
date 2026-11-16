@@ -45,6 +45,11 @@ class KaryaSiswaManager extends Component
     public string $teknologi = '';
     public string $url_demo = '';
     public string $url_repo = '';
+    public string $url_karya = '';
+
+    // Upload Video Demo (opsional)
+    public $video_file = null;
+    public ?string $existing_video = null;
 
     // 1. Upload Cover / Thumbnail
     public $cover_image = null;
@@ -176,6 +181,8 @@ class KaryaSiswaManager extends Component
         $this->teknologi = is_array($karya->teknologi) ? implode(', ', $karya->teknologi) : '';
         $this->url_demo = $karya->url_demo ?? '';
         $this->url_repo = $karya->url_repo ?? '';
+        $this->url_karya = $karya->url_karya ?? '';
+        $this->existing_video = $karya->video_path;
 
         $this->existing_cover = $karya->gambar;
         $this->existing_screenshots = is_array($karya->screenshots) ? array_values($karya->screenshots) : [];
@@ -214,6 +221,9 @@ class KaryaSiswaManager extends Component
             'existing_bukti',
             'url_demo',
             'url_repo',
+            'url_karya',
+            'video_file',
+            'existing_video',
             'filesToDelete',
         ]);
         $this->kategori = 'web';
@@ -381,6 +391,19 @@ class KaryaSiswaManager extends Component
         }
     }
 
+    public function removeVideoFile(): void
+    {
+        $this->video_file = null;
+    }
+
+    public function removeExistingVideo(): void
+    {
+        if ($this->existing_video) {
+            $this->filesToDelete[] = $this->existing_video;
+            $this->existing_video = null;
+        }
+    }
+
     /**
      * Langsung kirim / ajukan karya yang berstatus draft untuk diverifikasi
      */
@@ -446,6 +469,8 @@ class KaryaSiswaManager extends Component
             'bukti_files.*' => 'nullable|file|max:5120|mimes:jpg,jpeg,png,webp,pdf,zip',
             'url_demo' => 'nullable|url|max:255',
             'url_repo' => 'nullable|url|max:255',
+            'url_karya' => 'nullable|url|max:255',
+            'video_file' => 'nullable|file|max:20480|mimes:mp4,webm,ogg,mov',
         ], [
             'judul.required' => 'Judul karya wajib diisi.',
             'kategori.required' => 'Pilih kategori karya.',
@@ -460,6 +485,9 @@ class KaryaSiswaManager extends Component
             'bukti_files.*.mimes' => 'Format berkas bukti harus berupa gambar (JPG, PNG, WebP) atau dokumen (PDF, ZIP).',
             'url_demo.url' => 'Format URL Demo tidak valid (gunakan http:// atau https://).',
             'url_repo.url' => 'Format URL Repositori tidak valid (gunakan http:// atau https://).',
+            'url_karya.url' => 'Format URL Karya tidak valid (gunakan http:// atau https://).',
+            'video_file.max' => 'Ukuran video demo maksimal 20 MB.',
+            'video_file.mimes' => 'Format video harus MP4, WebM, OGG, atau MOV.',
         ]);
 
         try {
@@ -511,6 +539,15 @@ class KaryaSiswaManager extends Component
             }
             $buktiPaths = array_values($buktiPaths);
 
+            // 4. Simpan Video Demo (opsional)
+            $videoPath = $this->existing_video;
+            if ($this->video_file) {
+                if ($this->existing_video) {
+                    \Illuminate\Support\Facades\Storage::disk('public')->delete($this->existing_video);
+                }
+                $videoPath = $this->video_file->store('karya-video', 'public');
+            }
+
             // Parse teknologi to array
             $teknologiArray = [];
             if ($this->teknologi) {
@@ -531,6 +568,8 @@ class KaryaSiswaManager extends Component
                 'bukti' => $buktiPaths,
                 'url_demo' => $this->url_demo ?: null,
                 'url_repo' => $this->url_repo ?: null,
+                'url_karya' => $this->url_karya ?: null,
+                'video_path' => $videoPath,
                 'status' => $status,
                 'published_at' => ($status === 'published') ? now() : null,
             ];
@@ -682,6 +721,11 @@ class KaryaSiswaManager extends Component
             // Delete thumbnail image if present
             if ($karya->gambar) {
                 app(ImageService::class)->delete($karya->gambar);
+            }
+
+            // Delete demo video if present
+            if ($karya->video_path) {
+                app(ImageService::class)->delete($karya->video_path);
             }
 
             $karya->delete();

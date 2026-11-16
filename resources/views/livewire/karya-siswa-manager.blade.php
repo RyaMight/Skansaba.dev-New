@@ -1000,9 +1000,16 @@
                         </div>
                     </div>
 
-                    {{-- Demo & Repository Links --}}
-                    @if($detailKarya->url_demo || $detailKarya->url_repo)
+                    {{-- Karya, Demo & Repository Links --}}
+                    @if($detailKarya->url_karya || $detailKarya->url_demo || $detailKarya->url_repo)
                         <div class="flex flex-wrap gap-2.5">
+                            @if($detailKarya->url_karya)
+                                <a href="{{ $detailKarya->url_karya }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 rounded-lg font-bold hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                                    <span>{{ __('Tautan Karya') }}</span>
+                                    <span class="text-xs">&nearr;</span>
+                                </a>
+                            @endif
                             @if($detailKarya->url_demo)
                                 <a href="{{ $detailKarya->url_demo }}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200 dark:border-sky-500/20 rounded-lg font-bold hover:bg-sky-100 dark:hover:bg-sky-500/20 transition">
                                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -1664,33 +1671,110 @@
                         </div>
                     </div>
 
-                    {{-- URL Demo & URL Repo --}}
+                    {{-- Tautan Karya, Demo, dan Repositori --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-gray-200 uppercase tracking-wider mb-1.5">
+                                {{ __('Tautan Karya / Website Proyek (Opsional)') }}
+                            </label>
+                            <input
+                                type="url"
+                                wire:model="url_karya"
+                                placeholder="https://karya-kamu.com"
+                                class="w-full px-3.5 py-2.5 text-sm border border-slate-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                            >
+                            @error('url_karya') <p class="text-xs text-rose-500 mt-1">{{ $message }}</p> @enderror
+                        </div>
+
                         <div>
                             <label class="block text-xs font-bold text-slate-700 dark:text-gray-200 uppercase tracking-wider mb-1.5">
                                 {{ __('Tautan Demo / Live Website (Opsional)') }}
                             </label>
-                            <input 
-                                type="url" 
-                                wire:model="url_demo" 
-                                placeholder="https://proyek-kamu.vercel.app" 
+                            <input
+                                type="url"
+                                wire:model="url_demo"
+                                placeholder="https://proyek-kamu.vercel.app"
                                 class="w-full px-3.5 py-2.5 text-sm border border-slate-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none"
                             >
                             @error('url_demo') <p class="text-xs text-rose-500 mt-1">{{ $message }}</p> @enderror
                         </div>
 
-                        <div>
+                        <div class="sm:col-span-2">
                             <label class="block text-xs font-bold text-slate-700 dark:text-gray-200 uppercase tracking-wider mb-1.5">
                                 {{ __('Tautan Repositori GitHub / GitLab (Opsional)') }}
                             </label>
-                            <input 
-                                type="url" 
-                                wire:model="url_repo" 
-                                placeholder="https://github.com/username/repo" 
+                            <input
+                                type="url"
+                                wire:model="url_repo"
+                                placeholder="https://github.com/username/repo"
                                 class="w-full px-3.5 py-2.5 text-sm border border-slate-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 rounded-xl focus:ring-2 focus:ring-sky-500 focus:outline-none"
                             >
                             @error('url_repo') <p class="text-xs text-rose-500 mt-1">{{ $message }}</p> @enderror
                         </div>
+                    </div>
+
+                    {{-- Video Demo (Upload Opsional) --}}
+                    <div class="pt-2">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-gray-200 uppercase tracking-wider mb-1.5">
+                            {{ __('Video Demo Karya (Opsional)') }}
+                        </label>
+
+                        @if(!$video_file)
+                            <label
+                                for="karya-video-input"
+                                class="flex items-center gap-3 p-3.5 border border-dashed border-slate-300 dark:border-gray-700 rounded-xl bg-slate-50/70 dark:bg-gray-800/50 hover:border-sky-400 dark:hover:border-sky-500 hover:bg-sky-50/40 dark:hover:bg-sky-500/5 transition cursor-pointer"
+                            >
+                                <span class="w-9 h-9 rounded-lg bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 text-slate-500 dark:text-gray-300 flex items-center justify-center shrink-0">
+                                    <svg class="w-4.5 h-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                </span>
+                                <span class="min-w-0">
+                                    <span class="block text-xs font-semibold text-slate-700 dark:text-gray-200">{{ __('Unggah video demo singkat') }}</span>
+                                    <span class="block text-[11px] text-slate-500 dark:text-gray-400">{{ __('MP4, WebM, OGG, atau MOV — maksimal 20 MB') }}</span>
+                                </span>
+                                <input
+                                    id="karya-video-input"
+                                    type="file"
+                                    wire:model="video_file"
+                                    accept="video/mp4,video/webm,video/ogg,video/quicktime"
+                                    class="sr-only"
+                                >
+                            </label>
+                        @else
+                            <div wire:key="new-video-file" class="flex items-center justify-between gap-2 p-2.5 rounded-xl border border-sky-200 dark:border-sky-800 bg-sky-50/50 dark:bg-sky-500/10 text-xs">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <svg class="w-4 h-4 text-sky-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                    <span class="truncate font-medium text-slate-800 dark:text-gray-100">{{ $video_file->getClientOriginalName() }}</span>
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-500/20 text-sky-700 dark:text-sky-300 font-bold shrink-0">{{ __('Baru') }}</span>
+                                </div>
+                                <button type="button" wire:click="removeVideoFile" class="text-rose-500 hover:text-rose-700 p-1 rounded-md hover:bg-rose-50 dark:hover:bg-rose-500/10 transition cursor-pointer shrink-0" title="{{ __('Batalkan unggahan video ini') }}">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                            </div>
+                        @endif
+
+                        @if($existing_video)
+                            <div wire:key="existing-video-file" class="mt-2 flex items-center justify-between gap-2 p-2.5 rounded-xl border border-slate-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-xs">
+                                <div class="flex items-center gap-2 min-w-0">
+                                    <svg class="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                    <span class="truncate font-medium text-slate-700 dark:text-gray-200">{{ basename($existing_video) }}</span>
+                                    <span class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-gray-700 text-slate-600 dark:text-gray-300 font-bold shrink-0">{{ __('Tersimpan') }}</span>
+                                </div>
+                                <div class="flex items-center gap-1 shrink-0">
+                                    <a href="{{ \Illuminate\Support\Facades\Storage::url($existing_video) }}" target="_blank" class="text-sky-600 dark:text-sky-400 hover:underline p-1 text-[11px] font-semibold">{{ __('Lihat') }}</a>
+                                    <button type="button" wire:click="removeExistingVideo" class="text-rose-500 hover:text-rose-700 p-1 rounded-md hover:bg-rose-50 dark:hover:bg-rose-500/10 transition cursor-pointer" title="{{ __('Hapus video tersimpan') }}">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+
+                        <div wire:loading wire:target="video_file" class="mt-2 text-xs text-sky-600 dark:text-sky-400 font-medium flex items-center gap-1.5">
+                            <svg class="animate-spin w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
+                            <span>{{ __('Mengunggah video demo...') }}</span>
+                        </div>
+                        @error('video_file') <p class="text-xs text-rose-500 mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 

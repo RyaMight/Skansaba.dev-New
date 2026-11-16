@@ -43,6 +43,12 @@
                     {{-- Title --}}
                     <h1 class="type-page-title text-gray-900 dark:text-gray-50 mb-4">{{ $karya->judul }}</h1>
 
+                    {{-- Apresiasi Karya --}}
+                    <div class="flex items-center gap-2.5 mb-5">
+                        <livewire:karya-like-button :karya-id="$karya->id" :key="'like-detail-'.$karya->id" />
+                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('Sukai karya ini untuk mengapresiasi siswa') }}</span>
+                    </div>
+
                     {{-- Author Info --}}
                     @if($karya->user && $karya->user->isSiswa())
                         <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-6 border-b border-gray-100 dark:border-gray-800">
@@ -163,8 +169,35 @@
                         </div>
                     @endif
 
+                    {{-- Video Demo Karya --}}
+                    @if($karya->video_url)
+                        <div class="mb-8">
+                            <div class="flex items-center gap-2 mb-3">
+                                <h3 class="type-subsection-title text-gray-900 dark:text-gray-50">{{ __('Video Demo Karya') }}</h3>
+                            </div>
+                            <div class="rounded-xl overflow-hidden border border-slate-200 dark:border-gray-800 bg-slate-900">
+                                <video
+                                    src="{{ $karya->video_url }}"
+                                    class="w-full aspect-video object-contain bg-black"
+                                    controls
+                                    preload="metadata"
+                                    playsinline
+                                ></video>
+                            </div>
+                        </div>
+                    @endif
+
                     {{-- Action Buttons --}}
-                    <div class="flex flex-col sm:flex-row flex-wrap gap-3 pt-6 border-t border-gray-100 dark:border-gray-800">
+                    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-6 border-t border-gray-100 dark:border-gray-800">
+                        @if($karya->url_karya)
+                            <a href="{{ $karya->url_karya }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-bold border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition" style="border-color: {{ $globalSettings->primary_color_style }}; color: {{ $globalSettings->primary_color_style }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                                </svg>
+                                {{ __('Kunjungi Karya') }}
+                            </a>
+                        @endif
+
                         @if($karya->url_demo)
                             <a href="{{ $karya->url_demo }}" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-medium text-white hover:opacity-90 transition" style="background-color: {{ $globalSettings->primary_color_style }}">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

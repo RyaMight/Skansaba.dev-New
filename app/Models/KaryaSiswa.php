@@ -6,6 +6,7 @@ use App\Services\MarkdownService;
 use App\Traits\HasContentStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 
@@ -26,6 +27,8 @@ class KaryaSiswa extends Model
         'gambar',
         'url_demo',
         'url_repo',
+        'url_karya',
+        'video_path',
         'bukti',
         'screenshots',
         'tags',
@@ -46,6 +49,11 @@ class KaryaSiswa extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(KaryaLike::class, 'karya_siswa_id');
     }
 
     /**
@@ -79,6 +87,17 @@ class KaryaSiswa extends Model
     {
         if ($this->gambar) {
             return Storage::url($this->gambar);
+        }
+        return null;
+    }
+
+    /**
+     * Get public URL for the uploaded demo video
+     */
+    public function getVideoUrlAttribute()
+    {
+        if ($this->video_path) {
+            return Storage::url($this->video_path);
         }
         return null;
     }
