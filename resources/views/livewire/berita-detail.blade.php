@@ -1,3 +1,14 @@
+@php
+    $shareUrl = url()->current();
+    $shareText = $berita->title;
+    $shareTargets = [
+        'whatsapp' => 'https://wa.me/?text=' . urlencode($shareText . ' ' . $shareUrl),
+        'x' => 'https://twitter.com/intent/tweet?text=' . urlencode($shareText) . '&url=' . urlencode($shareUrl),
+        'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . urlencode($shareUrl),
+        'telegram' => 'https://t.me/share/url?url=' . urlencode($shareUrl) . '&text=' . urlencode($shareText),
+    ];
+@endphp
+
 <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
     {{-- Hero Section --}}
     <section class="bg-white dark:bg-gray-950 py-12 sm:py-16">
@@ -39,6 +50,74 @@
                     </svg>
                     <span>{{ $berita->views }} {{ __('views') }}</span>
                 </div>
+            </div>
+
+            {{-- Bagikan artikel --}}
+            <div
+                class="mt-7 pt-5 border-t border-gray-200/80 dark:border-gray-800 flex flex-wrap items-center gap-2"
+                x-data="{
+                    copied: false,
+                    copyLink() {
+                        const url = this.$el.dataset.shareUrl;
+                        const done = () => { this.copied = true; setTimeout(() => this.copied = false, 1800); };
+                        const legacy = () => {
+                            const ta = document.createElement('textarea');
+                            ta.value = url;
+                            ta.setAttribute('readonly', '');
+                            ta.style.position = 'fixed';
+                            ta.style.opacity = '0';
+                            document.body.appendChild(ta);
+                            ta.select();
+                            let ok = false;
+                            try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+                            document.body.removeChild(ta);
+                            if (ok) { done(); } else { window.prompt(this.$el.dataset.promptLabel, url); }
+                        };
+                        if (navigator.clipboard && window.isSecureContext) {
+                            navigator.clipboard.writeText(url).then(done).catch(legacy);
+                        } else {
+                            legacy();
+                        }
+                    }
+                }"
+                data-share-url="{{ $shareUrl }}"
+                data-prompt-label="{{ __('Salin tautan:') }}"
+                data-copied-label="{{ __('Tersalin!') }}"
+                data-copy-label="{{ __('Salin tautan') }}"
+            >
+                <span class="type-meta uppercase tracking-wider text-gray-500 dark:text-gray-400 mr-1">{{ __('Bagikan') }}</span>
+
+                <a href="{{ $shareTargets['whatsapp'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Bagikan ke WhatsApp') }}"
+                   class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-800 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2a9.9 9.9 0 00-8.45 15.1L2 22l5.05-1.32A9.9 9.9 0 1012.04 2zm0 1.66a8.24 8.24 0 016.99 12.6l-.23.36.5 1.84-1.9-.5-.36.21a8.24 8.24 0 01-11.4-11.4 8.2 8.2 0 016.4-3.11zm-3.6 4.2c-.17 0-.45.06-.68.31-.23.25-.9.87-.9 2.13s.92 2.47 1.05 2.64c.13.17 1.8 2.9 4.44 3.95 2.2.87 2.65.7 3.13.66.48-.05 1.55-.63 1.77-1.24.22-.61.22-1.13.15-1.24-.06-.11-.24-.17-.5-.3-.27-.13-1.55-.77-1.79-.85-.24-.09-.42-.13-.6.13-.18.25-.7.88-.86 1.06-.16.18-.31.2-.57.07-.27-.13-1.11-.41-2.12-1.31-.78-.7-1.31-1.56-1.47-1.82-.15-.25-.02-.39.11-.52.12-.11.27-.3.4-.44.14-.15.18-.25.27-.42.09-.17.04-.32-.02-.45-.07-.13-.6-1.45-.82-1.98-.22-.52-.44-.45-.6-.45z"/></svg>
+                    WhatsApp
+                </a>
+
+                <a href="{{ $shareTargets['x'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Bagikan ke X') }}"
+                   class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-800 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.9 2H22l-6.77 7.74L23.3 22h-6.24l-4.89-6.4L6.6 22H3.5l7.24-8.28L1 2h6.4l4.42 5.85L18.9 2zm-1.1 18h1.73L7.3 3.8H5.45L17.8 20z"/></svg>
+                    X
+                </a>
+
+                <a href="{{ $shareTargets['facebook'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Bagikan ke Facebook') }}"
+                   class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-800 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M13.5 21v-8.2h2.76l.41-3.2H13.5V7.55c0-.93.26-1.56 1.59-1.56h1.7V3.13c-.3-.04-1.31-.13-2.49-.13-2.46 0-4.15 1.5-4.15 4.27v2.33H7.38v3.2h2.77V21h3.35z"/></svg>
+                    Facebook
+                </a>
+
+                <a href="{{ $shareTargets['telegram'] }}" target="_blank" rel="noopener noreferrer" aria-label="{{ __('Bagikan ke Telegram') }}"
+                   class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-800 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M21.9 4.3l-3 14.2c-.23 1-.82 1.25-1.66.78l-4.6-3.39-2.22 2.14c-.25.25-.45.45-.92.45l.33-4.68 8.5-7.68c.37-.33-.08-.51-.57-.18L7.27 13.3l-4.52-1.41c-.98-.31-1-.98.2-1.45L20.4 3.1c.82-.3 1.53.2 1.5 1.2z"/></svg>
+                    Telegram
+                </a>
+
+                <button type="button" @click="copyLink()"
+                        class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 dark:border-gray-800 px-3 py-1.5 text-xs font-semibold text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                    </svg>
+                    <span x-text="copied ? $root.dataset.copiedLabel : $root.dataset.copyLabel">{{ __('Salin tautan') }}</span>
+                </button>
             </div>
         </div>
     </section>
