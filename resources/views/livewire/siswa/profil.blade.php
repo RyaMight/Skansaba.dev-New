@@ -72,7 +72,7 @@
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-xs border border-gray-100 dark:border-gray-800 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
             {{-- Avatar --}}
-            <div class="relative w-20 h-20 rounded-full overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
+            <div class="relative w-20 h-20 {{ $user->photoFrameClass() }} overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
                 @if($user->photo_url)
                     <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                 @else
@@ -88,11 +88,9 @@
                     <h2 class="type-subsection-title text-gray-900 dark:text-gray-50">
                         {{ $user->name ?: 'Ahmad Syahputra' }}
                     </h2>
-                    @if($user->kelas)
-                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
-                            {{ __('Kelas :kelas', ['kelas' => $user->kelas]) }}
-                        </span>
-                    @endif
+                    @foreach($user->verified_tags_list as $vTag)
+                        <x-verified-tag-badge :tag="$vTag" size="sm" />
+                    @endforeach
                 </div>
                 <p class="text-sm font-semibold text-gray-700 dark:text-gray-200 mt-1">
                     {{ __('Siswa') }} • NISN: {{ $user->nisn ?: '0054321980' }}
@@ -315,23 +313,35 @@
                         </p>
                     </div>
 
-                    {{-- 3. Keahlian & Tech Stack --}}
-                    <div>
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-[10px] font-semibold text-gray-400 dark:text-gray-400 uppercase tracking-wider block">{{ __('Keahlian & Tech Stack') }}</span>
-                            <button type="button" wire:click="openEditModal" class="text-[10px] text-sky-600 dark:text-sky-400 hover:underline cursor-pointer">Edit</button>
-                        </div>
-                        <div class="flex flex-wrap gap-1.5">
-                            @forelse($user->keahlian_list as $skill)
-                                <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-500/20 rounded-md text-[11px] font-bold">
-                                    <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                    </svg>
-                                    <span>{{ $skill }}</span>
-                                </span>
-                            @empty
-                                <span class="text-[11px] text-gray-400 italic">{{ __('Belum terverifikasi — ajukan karya nyata atau tambahkan melalui edit profil') }}</span>
-                            @endforelse
+                    {{-- 3. Role Terverifikasi & Tech Stack --}}
+                    <div class="space-y-2.5">
+                        @if(count($user->verified_tags_list) > 0)
+                            <div>
+                                <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block mb-1">{{ __('Role Terverifikasi Admin') }}</span>
+                                <div class="flex flex-wrap gap-1.5">
+                                    @foreach($user->verified_tags_list as $vTag)
+                                        <x-verified-tag-badge :tag="$vTag" size="sm" />
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-[10px] font-semibold text-gray-400 dark:text-gray-400 uppercase tracking-wider block">{{ __('Keahlian & Tech Stack') }}</span>
+                                <button type="button" wire:click="openEditModal" class="text-[10px] text-sky-600 dark:text-sky-400 hover:underline cursor-pointer">Edit</button>
+                            </div>
+                            <div class="flex flex-wrap gap-1.5">
+                                @forelse($user->keahlian_list as $skill)
+                                    <span class="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20 rounded-md text-[11px] font-bold">
+                                        <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span>{{ $skill }}</span>
+                                    </span>
+                                @empty
+                                    <span class="text-[11px] text-gray-400 italic">{{ __('Belum diisi — tambahkan maksimal 5 tech stack melalui edit profil') }}</span>
+                                @endforelse
+                            </div>
                         </div>
                     </div>
 
@@ -548,8 +558,9 @@
                         isSaving = true;
                         const form = $el;
                         const cropper = window.imageCropper || form.querySelector('[x-data]')?._cropperInstance;
+                        const frameShape = cropper ? cropper.frameShape : null;
                         const submitDirectly = (res) => {
-                            $wire.saveProfile(res).catch(err => {
+                            $wire.saveProfile(res, frameShape).catch(err => {
                                 console.error('Gagal menyimpan profil:', err);
                             }).finally(() => { 
                                 isSaving = false; 
@@ -582,8 +593,9 @@
                             :previewSize="200"
                             :isAvatar="true"
                             :avatarName="$user->name"
-                            :avatarSubtitle="$user->kelas ? 'Kelas ' . $user->kelas . ' • Siswa RPL' : 'Siswa RPL'"
+                            :avatarSubtitle="'Siswa RPL'"
                             :avatarSkills="$user->keahlian_list"
+                            :defaultFrameShape="$user->photo_frame ?? 'circle'"
                         />
                     </div>
 
@@ -608,15 +620,17 @@
                         @error('bio') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
                     </div>
 
-                    {{-- Keahlian / Tech Stack --}}
+                    {{-- Keahlian / Tech Stack (Maks. 5) --}}
                     <div x-data="{
+                        maxTags: {{ \App\Models\User::MAX_TECH_STACK }},
                         get tags() {
                             const val = $wire.keahlian || '';
-                            return val.split(',').map(s => s.trim()).filter(Boolean);
+                            return [...new Set(val.split(',').map(s => s.trim()).filter(Boolean))];
                         },
                         addTag(tag) {
                             let current = ($wire.keahlian || '').split(',').map(s => s.trim()).filter(Boolean);
-                            if (!current.includes(tag)) {
+                            if (current.length >= this.maxTags) return;
+                            if (!current.some(t => t.toLowerCase() === tag.toLowerCase())) {
                                 current.push(tag);
                                 $wire.keahlian = current.join(', ');
                             }
@@ -624,16 +638,20 @@
                     }">
                         <div class="flex items-center justify-between mb-1">
                             <label class="block font-medium text-gray-700 dark:text-gray-200">{{ __('Keahlian / Tech Stack') }}</label>
-                            <span class="text-[10px] text-gray-400" x-text="tags.length + ' ' + @js(__('keahlian terdeteksi'))"></span>
+                            <span
+                                class="text-[10px] font-semibold"
+                                :class="tags.length > maxTags ? 'text-rose-500' : 'text-gray-400'"
+                                x-text="tags.length + ' / ' + maxTags + ' ' + @js(__('keahlian'))"
+                            ></span>
                         </div>
                         <input 
                             type="text" 
                             wire:model.live.debounce.250ms="keahlian" 
                             class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none" 
-                            placeholder="Contoh: Laravel, Tailwind CSS, Vue.js, MySQL, Flutter, Figma"
+                            placeholder="Contoh: Laravel, Tailwind CSS, Vue.js, MySQL, Figma"
                         >
-                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">{{ __('Pisahkan setiap keahlian atau teknologi dengan tanda koma (,).') }}</p>
-                        @error('keahlian') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-1">{{ __('Maksimal 5 teknologi/tools yang dikuasai (pisahkan koma). Role/prospek karir diberikan oleh Admin melalui verifikasi karya.') }}</p>
+                        @error('keahlian') <span class="text-rose-500 text-[11px] block mt-1">{{ $message }}</span> @enderror
 
                         {{-- Quick Presets --}}
                         <div class="mt-2 flex flex-wrap items-center gap-1">
@@ -642,7 +660,8 @@
                                 <button 
                                     type="button" 
                                     @click="addTag('{{ $preset }}')"
-                                    class="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-700 dark:hover:text-sky-400 text-slate-600 dark:text-gray-300 border border-slate-200 dark:border-gray-700 transition cursor-pointer"
+                                    :disabled="tags.length >= maxTags || tags.some(t => t.toLowerCase() === @js(strtolower($preset)))"
+                                    class="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-700 dark:hover:text-sky-400 text-slate-600 dark:text-gray-300 border border-slate-200 dark:border-gray-700 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                                 >
                                     + {{ $preset }}
                                 </button>

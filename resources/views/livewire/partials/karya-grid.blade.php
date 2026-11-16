@@ -191,7 +191,7 @@
                     {{-- Card Footer: Creator & Link --}}
                     <div class="px-4 py-3 border-t border-slate-100 dark:border-gray-800/80 bg-slate-50/50 dark:bg-gray-900/50 flex items-center justify-between gap-2 mt-auto">
                         <div class="flex items-center gap-2 min-w-0">
-                            <div class="w-6 h-6 rounded-full overflow-hidden bg-sky-50 dark:bg-sky-500/15 border border-sky-200/70 dark:border-sky-500/30 text-sky-700 dark:text-sky-300 flex items-center justify-center text-[10px] font-bold shrink-0">
+                            <div class="w-6 h-6 {{ $creatorUser?->photoFrameClass('rounded-md') ?? 'rounded-full' }} overflow-hidden bg-sky-50 dark:bg-sky-500/15 border border-sky-200/70 dark:border-sky-500/30 text-sky-700 dark:text-sky-300 flex items-center justify-center text-[10px] font-bold shrink-0">
                                 @if($creatorUser && $creatorUser->photo_url)
                                     <img src="{{ $creatorUser->photo_url }}" alt="{{ $creatorName }}" class="w-full h-full object-cover">
                                 @else

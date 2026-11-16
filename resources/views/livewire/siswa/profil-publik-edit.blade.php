@@ -67,7 +67,7 @@
         <div class="flex items-center gap-4">
             {{-- Avatar dengan tombol edit --}}
             <div class="relative shrink-0 group">
-                <div class="w-16 h-16 rounded-full overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-200 dark:ring-gray-700 shadow-xs">
+                <div class="w-16 h-16 {{ $user->photoFrameClass() }} overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-200 dark:ring-gray-700 shadow-xs">
                     @if($user->photo_url)
                         <img src="{{ $user->photo_url }}" alt="{{ $user->name }}" class="w-full h-full object-cover">
                     @else
@@ -88,11 +88,14 @@
                 </button>
             </div>
             <div>
-                <div class="flex items-center gap-2">
+                <div class="flex flex-wrap items-center gap-2">
                     <h1 class="type-section-title text-gray-900 dark:text-gray-50">{{ __('Hias Profil Publik') }}</h1>
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
                         {{ __('Siswa RPL') }}
                     </span>
+                    @foreach($user->verified_tags_list as $vTag)
+                        <x-verified-tag-badge :tag="$vTag" size="sm" />
+                    @endforeach
                 </div>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ __('Kelola tampilan portofolio kamu agar menarik dan memikat HRD serta dunia industri.') }}</p>
 
@@ -137,52 +140,47 @@
         $completion = $this->profileCompletion;
         $pct = $completion['percentage'];
     @endphp
-    <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-xs border border-gray-100 dark:border-gray-800">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
-            <div class="flex items-center gap-2">
-                <span class="flex items-center justify-center w-7 h-7 rounded-xl {{ $pct >= 80 ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : ($pct >= 50 ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300') }} font-bold text-xs">
-                    {{ $pct }}%
-                </span>
-                <div>
-                    <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50">{{ __('Tingkat Kelengkapan Profil') }}</h3>
-                    <p class="text-[11px] text-gray-400 dark:text-gray-400">{{ $completion['completed'] }} {{ __('dari') }} {{ $completion['total'] }} {{ __('bagian profil sudah kamu lengkapi.') }}</p>
+    @if($pct < 100)
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-xs border border-gray-100 dark:border-gray-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-3">
+                    <span class="flex items-center justify-center w-12 h-12 rounded-full shrink-0 {{ $pct >= 80 ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : ($pct >= 50 ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300') }} font-bold text-xs tabular-nums">
+                        {{ $pct }}%
+                    </span>
+                    <div>
+                        <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50">{{ __('Tingkat Kelengkapan Profil') }}</h3>
+                        <p class="text-[11px] text-gray-400 dark:text-gray-400">{{ $completion['completed'] }} {{ __('dari') }} {{ $completion['total'] }} {{ __('bagian profil sudah kamu lengkapi.') }}</p>
+                    </div>
+                </div>
+                <div class="text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                    <span>{{ __('Lengkapi semua bagian untuk portofolio magang/PKL yang maksimal!') }}</span>
                 </div>
             </div>
-            <div class="text-[11px] font-medium text-gray-500 dark:text-gray-400">
-                @if($pct === 100)
-                    <span class="text-emerald-600 dark:text-emerald-400 font-semibold inline-flex items-center gap-1">
-                        <svg class="w-4 h-4 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                        {{ __('Luar biasa! Profilmu sudah 100% lengkap & siap dilirik industri.') }}
+
+            {{-- Progress Bar --}}
+            <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mb-3.5">
+                <div
+                    class="h-full rounded-full transition-all duration-500 {{ $pct >= 80 ? 'bg-emerald-500' : ($pct >= 50 ? 'bg-amber-500' : 'bg-[#0284c7]') }}"
+                    style="width: {{ $pct }}%"
+                ></div>
+            </div>
+
+            {{-- Checklist Badges --}}
+            <div class="flex flex-wrap items-center gap-2">
+                @foreach($completion['items'] as $label => $isDone)
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border {{ $isDone ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-200/80 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300' : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' }}">
+                        @if($isDone)
+                            <svg class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                            <span>{{ __($label) }}</span>
+                        @else
+                            <span class="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600 inline-block shrink-0"></span>
+                            <span class="text-gray-600 dark:text-gray-300">{{ __($label) }}</span>
+                        @endif
                     </span>
-                @else
-                    <span>{{ __('Lengkapi semua bagian untuk portofolio magang/PKL yang maksimal!') }}</span>
-                @endif
+                @endforeach
             </div>
         </div>
-
-        {{-- Progress Bar --}}
-        <div class="w-full h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mb-3.5">
-            <div
-                class="h-full rounded-full transition-all duration-500 {{ $pct >= 80 ? 'bg-emerald-500' : ($pct >= 50 ? 'bg-amber-500' : 'bg-[#0284c7]') }}"
-                style="width: {{ $pct }}%"
-            ></div>
-        </div>
-
-        {{-- Checklist Badges --}}
-        <div class="flex flex-wrap items-center gap-2">
-            @foreach($completion['items'] as $label => $isDone)
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold border {{ $isDone ? 'bg-emerald-50/70 dark:bg-emerald-500/10 border-emerald-200/80 dark:border-emerald-500/20 text-emerald-800 dark:text-emerald-300' : 'bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400' }}">
-                    @if($isDone)
-                        <svg class="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                        <span>{{ __($label) }}</span>
-                    @else
-                        <span class="w-3 h-3 rounded-full border border-gray-300 dark:border-gray-600 inline-block shrink-0"></span>
-                        <span class="text-gray-600 dark:text-gray-300">{{ __($label) }}</span>
-                    @endif
-                </span>
-            @endforeach
-        </div>
-    </div>
+    @endif
 
     {{-- Link Profil Publik Card --}}
     <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-xs border border-gray-100 dark:border-gray-800">
@@ -265,15 +263,17 @@
                     @error('bio') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
                 </div>
 
-                {{-- Keahlian (Skills) Field with Live Badge Preview --}}
+                {{-- Keahlian (Skills) Field with Live Badge Preview (Maks 5) --}}
                 <div x-data="{
+                    maxTags: {{ \App\Models\User::MAX_TECH_STACK }},
                     get tags() {
                         const val = $wire.keahlian || '';
-                        return val.split(',').map(t => t.trim()).filter(t => t.length > 0);
+                        return [...new Set(val.split(',').map(t => t.trim()).filter(t => t.length > 0))];
                     },
                     addTag(tag) {
                         let current = ($wire.keahlian || '').split(',').map(s => s.trim()).filter(Boolean);
-                        if (!current.includes(tag)) {
+                        if (current.length >= this.maxTags) return;
+                        if (!current.some(t => t.toLowerCase() === tag.toLowerCase())) {
                             current.push(tag);
                             $wire.keahlian = current.join(', ');
                         }
@@ -283,14 +283,14 @@
                         <div class="flex items-center gap-1.5">
                             <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200">{{ __('Keahlian / Tech Stack') }}</label>
                             <x-info-popover
-                                title="Panduan Menulis Keahlian (Skills)"
-                                example="HTML5, CSS3, JavaScript, PHP, Laravel, Tailwind CSS, Figma, Git, MySQL"
-                                tips="Tuliskan bahasa pemrograman, framework, atau tools desain yang pernah kamu pelajari di sekolah maupun proyek mandiri. Pisahkan setiap keahlian dengan tanda koma."
+                                title="Panduan Menulis Tech Stack (Maks. 5)"
+                                example="Laravel, Tailwind CSS, Vue.js, Figma, Git"
+                                tips="Tuliskan maksimal 5 bahasa pemrograman, framework, atau tools teknis yang kamu kuasai. Jangan isi nama role/prospek karir (seperti Web Development atau UI/UX Design) karena role tersebut diberikan khusus oleh Admin."
                             >
-                                Setiap kata yang kamu pisahkan dengan tanda koma (,) akan otomatis diubah menjadi badge lencana keahlian yang rapi di profil publikmu.
+                                Setiap teknologi yang dipisahkan koma (,) akan tampil sebagai badge biru di profilmu (maksimal 5 item). Role terverifikasi seperti <strong>Web Development</strong> hanya diberikan oleh Admin setelah karya disetujui.
                             </x-info-popover>
                         </div>
-                        <span class="text-[10px] text-gray-400">{{ __('Pisahkan dengan koma (,)') }}</span>
+                        <span class="text-[10px] text-gray-400">{{ __('Maks. 5 item, pisahkan koma (,)') }}</span>
                     </div>
                     <input
                         type="text"
@@ -299,7 +299,7 @@
                         class="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 rounded-lg focus:ring-2 focus:ring-sky-500 focus:outline-none"
                         placeholder="Contoh: Laravel, Tailwind CSS, Vue.js, Figma, Git"
                     >
-                    @error('keahlian') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+                    @error('keahlian') <span class="text-rose-500 text-[11px] block mt-1">{{ $message }}</span> @enderror
 
                     {{-- Quick Presets --}}
                     <div class="mt-2 flex flex-wrap items-center gap-1">
@@ -308,7 +308,8 @@
                             <button 
                                 type="button" 
                                 @click="addTag('{{ $preset }}')"
-                                class="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-700 dark:hover:text-sky-400 text-slate-600 dark:text-gray-300 border border-slate-200 dark:border-gray-700 transition cursor-pointer"
+                                :disabled="tags.length >= maxTags || tags.some(t => t.toLowerCase() === @js(strtolower($preset)))"
+                                class="px-2 py-0.5 rounded text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-sky-50 dark:hover:bg-sky-500/10 hover:text-sky-700 dark:hover:text-sky-400 text-slate-600 dark:text-gray-300 border border-slate-200 dark:border-gray-700 transition cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                                 + {{ $preset }}
                             </button>
@@ -319,7 +320,11 @@
                     <div class="mt-2.5 p-3 bg-gray-50/80 dark:bg-gray-800/60 rounded-xl border border-gray-200/70 dark:border-gray-700">
                         <div class="flex items-center justify-between mb-1.5">
                             <span class="text-[10px] font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">{{ __('Preview Badge di Profil Publik:') }}</span>
-                            <span class="text-[10px] text-gray-400" x-text="tags.length + ' ' + @js(__('keahlian terdeteksi'))"></span>
+                            <span
+                                class="text-[10px] font-semibold"
+                                :class="tags.length > maxTags ? 'text-rose-500' : 'text-gray-400'"
+                                x-text="tags.length + ' / ' + maxTags + ' ' + @js(__('keahlian'))"
+                            ></span>
                         </div>
                         <template x-if="tags.length > 0">
                             <div class="flex flex-wrap gap-1.5">
@@ -780,7 +785,7 @@
                         isSaving = true;
                         cropper.getCropResultAsync().then(result => {
                             if (result && typeof result === 'string' && result.startsWith('data:image')) {
-                                $wire.savePhoto(result)
+                                $wire.savePhoto(result, cropper.frameShape)
                                     .catch(err => {
                                         console.error('Gagal menyimpan foto:', err);
                                         errorMessage = @js(__('Terjadi kesalahan saat menyimpan foto. Silakan coba lagi.'));
@@ -824,6 +829,7 @@
                             :avatarName="$user->name"
                             :avatarSubtitle="'Siswa RPL • @' . ($user->username ?: $user->id)"
                             :avatarSkills="$user->keahlian_list"
+                            :defaultFrameShape="$user->photo_frame ?? 'circle'"
                         />
                     </div>
 

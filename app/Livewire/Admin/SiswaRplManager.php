@@ -19,7 +19,9 @@ class SiswaRplManager extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $filterKeahlian = '';
+
     public string $filterStatus = '';
 
     // Modal state: Detail Siswa
@@ -27,21 +29,29 @@ class SiswaRplManager extends Component
 
     // Modal state: Atur Tag Keahlian
     public ?int $editingTagStudentId = null;
+
     public ?string $selectedKeahlian = null;
 
     // Modal state: Tambah Akun Siswa Baru (Role strictly 'siswa')
     public bool $showCreateModal = false;
+
     public string $name = '';
+
     public string $nisn = '';
+
     public string $kelas = '';
+
     public string $email = '';
+
     public string $password = '';
+
     public string $status = 'active';
-    public ?string $keahlian = null;
+
+    public ?string $verified_tag = null;
 
     public function mount()
     {
-        if (!in_array(Auth::user()->role, ['admin', 'guru'])) {
+        if (! in_array(Auth::user()->role, ['admin', 'guru'])) {
             abort(403);
         }
     }
@@ -102,7 +112,7 @@ class SiswaRplManager extends Component
     // --- Tambah Akun Siswa RPL ---
     public function openCreateModal(): void
     {
-        $this->reset(['name', 'nisn', 'kelas', 'email', 'password', 'status', 'keahlian']);
+        $this->reset(['name', 'nisn', 'kelas', 'email', 'password', 'status', 'verified_tag']);
         $this->password = User::DEFAULT_SISWA_PASSWORD;
         $this->status = 'active';
         $this->showCreateModal = true;
@@ -111,7 +121,7 @@ class SiswaRplManager extends Component
     public function closeCreateModal(): void
     {
         $this->showCreateModal = false;
-        $this->reset(['name', 'nisn', 'kelas', 'email', 'password', 'status', 'keahlian']);
+        $this->reset(['name', 'nisn', 'kelas', 'email', 'password', 'status', 'verified_tag']);
     }
 
     public function createStudent(): void
@@ -123,7 +133,7 @@ class SiswaRplManager extends Component
             'email' => ['nullable', 'required_without:nisn', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6'],
             'status' => ['required', 'in:active,inactive'],
-            'keahlian' => ['nullable', 'string', 'max:255'],
+            'verified_tag' => ['nullable', 'string', 'max:255'],
         ], [
             'name.required' => 'Nama lengkap siswa wajib diisi.',
             'nisn.required_without' => 'NIS / NISN atau Email wajib diisi salah satu.',
@@ -140,7 +150,7 @@ class SiswaRplManager extends Component
         $username = $baseUsername;
         $i = 1;
         while (User::where('username', $username)->exists()) {
-            $username = $baseUsername . '-' . $i++;
+            $username = $baseUsername.'-'.$i++;
         }
 
         $user = User::create([
@@ -152,7 +162,7 @@ class SiswaRplManager extends Component
             'password' => Hash::make($this->password),
             'role' => 'siswa', // Role selalu siswa
             'status' => $this->status,
-            'keahlian' => $this->keahlian ?: null,
+            'verified_tags' => $this->verified_tag ?: null,
         ]);
 
         session()->flash('message', "Akun siswa \"{$user->name}\" berhasil ditambahkan.");
@@ -174,24 +184,24 @@ class SiswaRplManager extends Component
             ->where('role', 'siswa')
             ->withCount([
                 'karyaSiswas as total_karya',
-                'karyaSiswas as published_karya' => fn($q) => $q->where('status', 'published'),
-                'karyaSiswas as pending_karya' => fn($q) => $q->where('status', 'review'),
+                'karyaSiswas as published_karya' => fn ($q) => $q->where('status', 'published'),
+                'karyaSiswas as pending_karya' => fn ($q) => $q->where('status', 'review'),
             ])
             ->when($this->search, function ($q) {
                 $q->where(function ($sub) {
-                    $sub->where('name', 'like', '%' . $this->search . '%')
-                        ->orWhere('nisn', 'like', '%' . $this->search . '%')
-                        ->orWhere('username', 'like', '%' . $this->search . '%')
-                        ->orWhere('email', 'like', '%' . $this->search . '%');
+                    $sub->where('name', 'like', '%'.$this->search.'%')
+                        ->orWhere('nisn', 'like', '%'.$this->search.'%')
+                        ->orWhere('username', 'like', '%'.$this->search.'%')
+                        ->orWhere('email', 'like', '%'.$this->search.'%');
                 });
             })
-            ->when($this->filterKeahlian, fn($q) => $q->where('keahlian', 'like', '%' . $this->filterKeahlian . '%'))
-            ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
+            ->when($this->filterKeahlian, fn ($q) => $q->where('verified_tags', 'like', '%'.$this->filterKeahlian.'%'))
+            ->when($this->filterStatus, fn ($q) => $q->where('status', $this->filterStatus))
             ->latest('id')
             ->paginate(15);
 
-        $viewingStudent = $this->viewingStudentId 
-            ? User::with(['karyaSiswas' => fn($q) => $q->latest()])->find($this->viewingStudentId) 
+        $viewingStudent = $this->viewingStudentId
+            ? User::with(['karyaSiswas' => fn ($q) => $q->latest()])->find($this->viewingStudentId)
             : null;
 
         return view('livewire.admin.siswa-rpl-manager', [

@@ -1,17 +1,22 @@
 <?php
 
 use App\Livewire\Admin\SiswaRplManager;
+use App\Livewire\KaryaSiswaPublic;
 use App\Livewire\KaryaSiswaVerifikasi;
 use App\Models\KaryaSiswa;
 use App\Models\User;
+use Database\Seeders\GlobalSettingSeeder;
+use Database\Seeders\KaryaSiswaSeeder;
+use Database\Seeders\SiswaRplSeeder;
 use Livewire\Livewire;
 
-test('verifikasi karya allows preview modal and gives tag to student without wiping existing tags', function () {
+test('verifikasi karya allows preview modal and gives verified tag to student without wiping existing tags or tech stack', function () {
     $admin = User::factory()->create(['role' => 'admin']);
     $siswa = User::factory()->create([
         'role' => 'siswa',
         'name' => 'Fajar Pratama',
-        'keahlian' => 'UI/UX Design', // Siswa already has 1 verified tag
+        'keahlian' => 'Laravel, Tailwind CSS',
+        'verified_tags' => 'UI/UX Design', // Siswa already has 1 verified tag
     ]);
 
     $karya = KaryaSiswa::create([
@@ -36,14 +41,14 @@ test('verifikasi karya allows preview modal and gives tag to student without wip
         ->call('closePreviewModal')
         ->assertSet('previewId', null)
         ->call('selectTag', $karya->id, 'IoT & Embedded')
-        ->assertSet('selectedTag.' . $karya->id, 'IoT & Embedded')
+        ->assertSet('selectedTag.'.$karya->id, 'IoT & Embedded')
         ->call('openApproveModal', $karya->id)
         ->assertSet('approvingId', $karya->id)
         ->assertSeeHtml('Konfirmasi Publikasi Karya')
         ->call('confirmApprove')
         ->assertSet('approvingId', null);
 
-    // Assert database updated: student now has BOTH tags!
+    // Assert database updated: student now has BOTH verified tags and tech stack intact!
     $karya->refresh();
     $siswa->refresh();
 
@@ -51,19 +56,21 @@ test('verifikasi karya allows preview modal and gives tag to student without wip
     expect($karya->tags)->toBe(['IoT & Embedded']);
     expect($siswa->hasTag('UI/UX Design'))->toBeTrue();
     expect($siswa->hasTag('IoT & Embedded'))->toBeTrue();
-    expect($siswa->keahlian_list)->toContain('UI/UX Design', 'IoT & Embedded');
+    expect($siswa->verified_tags_list)->toContain('UI/UX Design', 'IoT & Embedded');
+    expect($siswa->keahlian_list)->toBe(['Laravel', 'Tailwind CSS']);
 });
 
-test('siswa rpl manager displays students and allows admin to give and revoke tags', function () {
+test('siswa rpl manager displays students and allows admin to give and revoke verified tags', function () {
     $admin = User::factory()->create(['role' => 'admin']);
     $siswa = User::factory()->create([
         'role' => 'siswa',
         'name' => 'Budi Santoso',
         'kelas' => 'XII RPL 1',
-        'keahlian' => 'Web Development',
+        'verified_tags' => 'Web Development',
+        'keahlian' => 'PHP, MySQL',
     ]);
 
-    // Admin gives an additional tag
+    // Admin gives an additional verified tag
     Livewire::actingAs($admin)
         ->test(SiswaRplManager::class)
         ->assertSee('Budi Santoso')
@@ -72,7 +79,8 @@ test('siswa rpl manager displays students and allows admin to give and revoke ta
     $siswa->refresh();
     expect($siswa->hasTag('Web Development'))->toBeTrue();
     expect($siswa->hasTag('Mobile Development'))->toBeTrue();
-    expect(count($siswa->keahlian_list))->toBe(2);
+    expect(count($siswa->verified_tags_list))->toBe(2);
+    expect($siswa->keahlian_list)->toBe(['PHP', 'MySQL']);
 
     // Admin revokes the first tag
     Livewire::actingAs($admin)
@@ -82,7 +90,7 @@ test('siswa rpl manager displays students and allows admin to give and revoke ta
     $siswa->refresh();
     expect($siswa->hasTag('Web Development'))->toBeFalse();
     expect($siswa->hasTag('Mobile Development'))->toBeTrue();
-    expect($siswa->keahlian_list)->toBe(['Mobile Development']);
+    expect($siswa->verified_tags_list)->toBe(['Mobile Development']);
 });
 
 test('admin can create new student with strictly role siswa in siswa rpl manager', function () {
@@ -98,7 +106,7 @@ test('admin can create new student with strictly role siswa in siswa rpl manager
         ->set('email', 'rina.wulandari@skansaba.sch.id')
         ->set('password', 'password123')
         ->set('status', 'active')
-        ->set('keahlian', 'UI/UX Design')
+        ->set('verified_tag', 'UI/UX Design')
         ->call('createStudent')
         ->assertHasNoErrors();
 
@@ -106,7 +114,7 @@ test('admin can create new student with strictly role siswa in siswa rpl manager
     expect($newStudent)->not->toBeNull();
     expect($newStudent->name)->toBe('Rina Wulandari');
     expect($newStudent->role)->toBe('siswa');
-    expect($newStudent->keahlian)->toBe('UI/UX Design');
+    expect($newStudent->verified_tags)->toBe('UI/UX Design');
 });
 
 test('non admin or guru cannot access siswa rpl manager', function () {
@@ -118,9 +126,9 @@ test('non admin or guru cannot access siswa rpl manager', function () {
 });
 
 test('public karya siswa page displays real 35 siswa profiles and strictly real published karya from database', function () {
-    $this->seed(\Database\Seeders\GlobalSettingSeeder::class);
-    $this->seed(\Database\Seeders\SiswaRplSeeder::class);
-    $this->seed(\Database\Seeders\KaryaSiswaSeeder::class);
+    $this->seed(GlobalSettingSeeder::class);
+    $this->seed(SiswaRplSeeder::class);
+    $this->seed(KaryaSiswaSeeder::class);
 
     $kalis = User::where('nisn', '18346')->firstOrFail();
 
@@ -138,7 +146,7 @@ test('public karya siswa page displays real 35 siswa profiles and strictly real 
         'deskripsi' => 'Aplikasi pemantauan container server sekolah.',
     ]);
 
-    Livewire::test(\App\Livewire\KaryaSiswaPublic::class)
+    Livewire::test(KaryaSiswaPublic::class)
         // Real 35 students appear in Profil Siswa
         ->assertSee('Alief Saktiawan Prananda')
         ->assertSee('Kalis Lintang Pradipta')

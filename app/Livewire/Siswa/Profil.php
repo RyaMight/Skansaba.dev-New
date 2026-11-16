@@ -18,11 +18,17 @@ class Profil extends Component
 
     // Edit modal state
     public bool $showEditModal = false;
+
     public string $name = '';
+
     public string $email = '';
+
     public string $bio = '';
+
     public string $keahlian = '';
+
     public $photoBase64 = null;
+
     public $crop_data = null;
 
     protected $imageService;
@@ -60,13 +66,13 @@ class Profil extends Component
         $this->crop_data = null;
     }
 
-    public function saveProfile(?string $base64Photo = null)
+    public function saveProfile(?string $base64Photo = null, ?string $photoFrame = null)
     {
         $this->validate([
             'name' => 'required|string|max:100',
-            'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+            'email' => 'required|email|max:255|unique:users,email,'.$this->user->id,
             'bio' => 'nullable|string|max:500',
-            'keahlian' => 'nullable|string|max:255',
+            'keahlian' => ['nullable', 'string', 'max:255', User::techStackValidationRule()],
         ], [
             'name.required' => 'Nama lengkap wajib diisi.',
             'email.required' => 'Email aktif wajib diisi.',
@@ -85,27 +91,34 @@ class Profil extends Component
             // Per-account folder: users/photos/u{id} — each account owns its own directory
             $newPhotoPath = $this->imageService->processBase64AndStore(
                 $photoData,
-                'users/photos/u' . $this->user->id,
+                'users/photos/u'.$this->user->id,
                 ['width' => 500, 'height' => 500]
             );
 
             if ($newPhotoPath) {
-                $this->user->update(['photo' => $newPhotoPath]);
+                $this->user->update([
+                    'photo' => $newPhotoPath,
+                    'photo_frame' => User::normalizePhotoFrame($photoFrame ?? $this->user->photo_frame),
+                ]);
 
                 // Delete the old photo file so it doesn't pile up as orphaned storage
                 if ($oldPhotoPath && $oldPhotoPath !== $newPhotoPath) {
                     $this->imageService->delete($oldPhotoPath);
                 }
             } else {
-                logger()->error('Gagal memproses foto profil untuk user ID: ' . $this->user->id);
+                logger()->error('Gagal memproses foto profil untuk user ID: '.$this->user->id);
             }
+        } elseif ($photoFrame !== null) {
+            $this->user->update([
+                'photo_frame' => User::normalizePhotoFrame($photoFrame),
+            ]);
         }
 
         $this->user->update([
             'name' => $this->name,
             'email' => $this->email,
             'bio' => $this->bio,
-            'keahlian' => $this->keahlian,
+            'keahlian' => User::normalizeTechStack($this->keahlian),
         ]);
 
         // Refresh user model & sync auth guard + sidebar

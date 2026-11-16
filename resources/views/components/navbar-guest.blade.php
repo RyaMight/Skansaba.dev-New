@@ -157,10 +157,10 @@
                                 <img 
                                     src="{{ auth()->user()->photo_url }}" 
                                     alt="{{ auth()->user()->name }}" 
-                                    class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700 group-hover:border-[var(--primary-color)] transition"
+                                    class="w-9 h-9 {{ auth()->user()->photoFrameClass('rounded-lg') }} object-cover border-2 border-gray-200 dark:border-gray-700 group-hover:border-[var(--primary-color)] transition"
                                 >
                             @else
-                                <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold border-2 border-gray-200 dark:border-gray-700 group-hover:border-[var(--primary-color)] transition" style="background-color: {{ $globalSettings->primary_color_style }}">
+                                <div class="w-9 h-9 {{ auth()->user()->photoFrameClass('rounded-lg') }} flex items-center justify-center text-white text-sm font-semibold border-2 border-gray-200 dark:border-gray-700 group-hover:border-[var(--primary-color)] transition" style="background-color: {{ $globalSettings->primary_color_style }}">
                                     {{ auth()->user()->initials() }}
                                 </div>
                             @endif
@@ -386,10 +386,10 @@
                             <img 
                                 src="{{ auth()->user()->photo_url }}" 
                                 alt="{{ auth()->user()->name }}" 
-                                class="w-9 h-9 rounded-full object-cover border-2 border-gray-200 dark:border-gray-700"
+                                class="w-9 h-9 {{ auth()->user()->photoFrameClass('rounded-lg') }} object-cover border-2 border-gray-200 dark:border-gray-700"
                             >
                         @else
-                            <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
+                            <div class="w-9 h-9 {{ auth()->user()->photoFrameClass('rounded-lg') }} flex items-center justify-center text-white text-sm font-semibold" style="background-color: {{ $globalSettings->primary_color_style }}">
                                 {{ auth()->user()->initials() }}
                             </div>
                         @endif

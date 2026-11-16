@@ -179,7 +179,7 @@
             <div class="flex-shrink-0 px-3 py-4 border-t border-gray-200 dark:border-gray-800">
                 <div class="flex items-center" :class="collapsed ? 'justify-center' : ''">
                     <div class="flex-shrink-0">
-                        <div class="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center text-white font-semibold ring-2 ring-gray-200 dark:ring-gray-700 bg-slate-100 dark:bg-gray-800" @if(!($currentUser?->photo_url ?? auth()->user()?->photo_url)) style="background-color: {{ $globalSettings->primary_color_style }}" @endif>
+                        <div class="h-10 w-10 {{ ($currentUser ?? auth()->user())?->photoFrameClass('rounded-lg') ?? 'rounded-full' }} overflow-hidden flex items-center justify-center text-white font-semibold ring-2 ring-gray-200 dark:ring-gray-700 bg-slate-100 dark:bg-gray-800" @if(!($currentUser?->photo_url ?? auth()->user()?->photo_url)) style="background-color: {{ $globalSettings->primary_color_style }}" @endif>
                             @auth
                                 @php($sidebarUser = $currentUser ?? auth()->user())
                                 @if($sidebarUser->photo_url)
@@ -348,7 +348,7 @@
         <div class="flex-shrink-0 px-3 py-4 border-t border-gray-200 dark:border-gray-800">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <div class="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center text-white font-semibold ring-2 ring-gray-200 dark:ring-gray-700 bg-slate-100 dark:bg-gray-800" @if(!($currentUser?->photo_url ?? auth()->user()?->photo_url)) style="background-color: {{ $globalSettings->primary_color_style }}" @endif>
+                    <div class="h-10 w-10 {{ ($currentUser ?? auth()->user())?->photoFrameClass('rounded-lg') ?? 'rounded-full' }} overflow-hidden flex items-center justify-center text-white font-semibold ring-2 ring-gray-200 dark:ring-gray-700 bg-slate-100 dark:bg-gray-800" @if(!($currentUser?->photo_url ?? auth()->user()?->photo_url)) style="background-color: {{ $globalSettings->primary_color_style }}" @endif>
                         @auth
                             @php($sidebarUser = $currentUser ?? auth()->user())
                             @if($sidebarUser->photo_url)

@@ -3,6 +3,7 @@
 namespace App\Livewire\Siswa;
 
 use App\Models\ProfilAset;
+use App\Models\User;
 use App\Services\ImageService;
 use App\Services\MarkdownService;
 use App\Services\SvgService;
@@ -142,12 +143,14 @@ class ProfilPublikEdit extends Component
      * Simpan foto profil (modal edit foto).
      * Urutan aman: proses foto baru dulu -> update DB -> hapus foto lama.
      */
-    public function savePhoto(?string $base64Photo = null)
+    public function savePhoto(?string $base64Photo = null, ?string $photoFrame = null)
     {
         $photoData = $base64Photo ?: $this->photoBase64;
+        $normalizedFrame = User::normalizePhotoFrame($photoFrame ?? $this->user->photo_frame);
 
         if (! $photoData || ! str_starts_with($photoData, 'data:image')) {
             session()->flash('error', 'Silakan pilih foto profil terlebih dahulu sebelum menyimpan.');
+
             return;
         }
 
@@ -161,7 +164,10 @@ class ProfilPublikEdit extends Component
         );
 
         if ($newPhotoPath) {
-            $this->user->update(['photo' => $newPhotoPath]);
+            $this->user->update([
+                'photo' => $newPhotoPath,
+                'photo_frame' => $normalizedFrame,
+            ]);
 
             // Delete the old photo file so it doesn't pile up as orphaned storage
             if ($oldPhotoPath && $oldPhotoPath !== $newPhotoPath) {
@@ -258,7 +264,7 @@ class ProfilPublikEdit extends Component
     {
         return $this->validate([
             'bio' => 'nullable|string|max:500',
-            'keahlian' => 'nullable|string|max:255',
+            'keahlian' => ['nullable', 'string', 'max:255', User::techStackValidationRule()],
             'username' => [
                 'nullable',
                 'string',
@@ -308,17 +314,18 @@ class ProfilPublikEdit extends Component
         // Jika username tidak berubah, hanya update biodata (bio, keahlian)
         $this->validate([
             'bio' => 'nullable|string|max:500',
-            'keahlian' => 'nullable|string|max:255',
+            'keahlian' => ['nullable', 'string', 'max:255', User::techStackValidationRule()],
         ], [
             'bio.max' => 'Bio maksimal 500 karakter.',
         ]);
 
         $this->user->update([
             'bio' => $this->bio,
-            'keahlian' => $this->keahlian,
+            'keahlian' => User::normalizeTechStack($this->keahlian),
         ]);
 
         $this->user = $this->user->fresh();
+        $this->keahlian = $this->user->keahlian ?? '';
         session()->flash('message', 'Biodata profil berhasil diperbarui!');
     }
 
@@ -342,14 +349,21 @@ class ProfilPublikEdit extends Component
 
             $this->user->update([
                 'bio' => $this->bio,
-                'keahlian' => $this->keahlian,
+                'keahlian' => User::normalizeTechStack($this->keahlian),
                 'username' => $normalizedNewUsername,
                 'username_changed_at' => now(),
             ]);
         } else {
+            $this->validate([
+                'bio' => 'nullable|string|max:500',
+                'keahlian' => ['nullable', 'string', 'max:255', User::techStackValidationRule()],
+            ], [
+                'bio.max' => 'Bio maksimal 500 karakter.',
+            ]);
+
             $this->user->update([
                 'bio' => $this->bio,
-                'keahlian' => $this->keahlian,
+                'keahlian' => User::normalizeTechStack($this->keahlian),
             ]);
         }
 

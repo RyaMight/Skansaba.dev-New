@@ -58,7 +58,7 @@
                     @if($karya->user && $karya->user->isSiswa())
                         <div class="flex flex-wrap items-center justify-between gap-3 mb-6 pb-6 border-b border-gray-100 dark:border-gray-800">
                             <a href="{{ $karya->user->profil_url }}" class="inline-flex items-center gap-3 text-gray-700 dark:text-gray-200 hover:text-sky-600 transition group">
-                                <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
+                                <div class="w-10 h-10 {{ $karya->user->photoFrameClass('rounded-lg') }} overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
                                     @if($karya->user->photo_url)
                                         <img src="{{ $karya->user->photo_url }}" alt="{{ $karya->user->name }}" class="w-full h-full object-cover">
                                     @else
@@ -68,11 +68,11 @@
                                     @endif
                                 </div>
                                 <div>
-                                    <div class="flex items-center gap-2">
+                                    <div class="flex flex-wrap items-center gap-2">
                                         <span class="font-bold text-gray-900 dark:text-gray-50 group-hover:text-sky-600 transition text-sm">{{ $karya->user->name }}</span>
-                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30">
-                                            {{ $karya->user->kelas ? __('Kelas :kelas', ['kelas' => $karya->user->kelas]) : __('Siswa RPL') }}
-                                        </span>
+                                        @foreach($karya->user->verified_tags_list as $vTag)
+                                            <x-verified-tag-badge :tag="$vTag" />
+                                        @endforeach
                                     </div>
                                     <p class="text-xs text-gray-400 mt-0.5">{{ __('Penulis & Pembuat Karya') }}</p>
                                 </div>
@@ -81,18 +81,15 @@
                             {{-- Keahlian / Tech Stack Creator Preview --}}
                             @if(count($karya->user->keahlian_list) > 0)
                                 <div class="flex flex-wrap items-center gap-1.5">
-                                    <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mr-0.5">{{ __('Keahlian:') }}</span>
-                                    @foreach(array_slice($karya->user->keahlian_list, 0, 4) as $skill)
-                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-500/30 rounded-md text-[11px] font-bold">
-                                            <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mr-0.5">{{ __('Tech Stack:') }}</span>
+                                    @foreach(array_slice($karya->user->keahlian_list, 0, 5) as $skill)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[11px] font-bold">
+                                            <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                             </svg>
                                             <span>{{ $skill }}</span>
                                         </span>
                                     @endforeach
-                                    @if(count($karya->user->keahlian_list) > 4)
-                                        <span class="text-[11px] text-gray-400">+{{ count($karya->user->keahlian_list) - 4 }}</span>
-                                    @endif
                                 </div>
                             @endif
                         </div>
@@ -204,7 +201,7 @@
                         <div class="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800">
                             <div class="p-5 bg-slate-50 dark:bg-gray-800/80 border border-slate-200/80 dark:border-gray-700 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                                 <div class="flex items-start sm:items-center gap-4 min-w-0">
-                                    <div class="w-14 h-14 rounded-full overflow-hidden bg-slate-200 dark:bg-gray-700 ring-2 ring-white dark:ring-gray-800 shadow-xs shrink-0">
+                                    <div class="w-14 h-14 {{ $karya->user->photoFrameClass() }} overflow-hidden bg-slate-200 dark:bg-gray-700 ring-2 ring-white dark:ring-gray-800 shadow-xs shrink-0">
                                         @if($karya->user->photo_url)
                                             <img src="{{ $karya->user->photo_url }}" alt="{{ $karya->user->name }}" class="w-full h-full object-cover">
                                         @else
@@ -216,9 +213,9 @@
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
                                             <h4 class="type-card-title-sm text-gray-900 dark:text-gray-50 truncate">{{ $karya->user->name }}</h4>
-                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30">
-                                                {{ $karya->user->kelas ? __('Kelas :kelas', ['kelas' => $karya->user->kelas]) : __('Siswa RPL') }}
-                                            </span>
+                                            @foreach($karya->user->verified_tags_list as $vTag)
+                                                <x-verified-tag-badge :tag="$vTag" />
+                                            @endforeach
                                         </div>
                                         <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                                             {{ '@' . ($karya->user->username ?: $karya->user->id) }}
@@ -231,14 +228,14 @@
                                         @if(count($karya->user->keahlian_list) > 0)
                                             <div class="flex flex-wrap items-center gap-1.5 mt-2">
                                                 <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mr-0.5 flex items-center gap-1">
-                                                    <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
                                                     </svg>
                                                     <span>Tech Stack:</span>
                                                 </span>
                                                 @foreach($karya->user->keahlian_list as $skill)
-                                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-200/70 dark:border-emerald-500/30 rounded-md text-[11px] font-bold">
-                                                        <svg class="w-3 h-3 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[11px] font-bold">
+                                                        <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                                         </svg>
                                                         <span>{{ $skill }}</span>

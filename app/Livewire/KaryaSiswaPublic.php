@@ -12,8 +12,11 @@ class KaryaSiswaPublic extends Component
     use WithPagination;
 
     public string $search = '';
+
     public string $filterKategori = '';
+
     public string $filterProfil = '';
+
     public string $activeTab = 'karya';
 
     protected $queryString = [
@@ -59,10 +62,10 @@ class KaryaSiswaPublic extends Component
 
         // 1. Karya Siswa Asli (Published di Database — karya terbaru yang di-publish muncul paling atas)
         $karyas = KaryaSiswa::query()
-            ->with(['user' => fn ($q) => $q->select('id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'role', 'status')])
+            ->with(['user' => fn ($q) => $q->select('id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'status')])
             ->where('status', 'published')
             ->when($searchTerm !== '', function ($query) use ($searchTerm) {
-                $like = '%' . $searchTerm . '%';
+                $like = '%'.$searchTerm.'%';
                 $query->where(function ($q) use ($like) {
                     $q->where('judul', 'like', $like)
                         ->orWhere('nama_siswa', 'like', $like)
@@ -94,7 +97,7 @@ class KaryaSiswaPublic extends Component
             ->withCount([
                 'karyaSiswas as published_karya_count' => fn ($q) => $q->where('status', 'published'),
             ])
-            ->get(['id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'role', 'status']);
+            ->get(['id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'status']);
 
         $siswaLookup = $allActiveSiswas->keyBy(fn (User $u) => mb_strtolower(trim($u->name)));
 
@@ -102,7 +105,7 @@ class KaryaSiswaPublic extends Component
         $siswaWithKaryaCount = $allActiveSiswas->where('published_karya_count', '>', 0)->count();
 
         $availableSkills = $allActiveSiswas
-            ->flatMap(fn (User $u) => $u->keahlian_list)
+            ->flatMap(fn (User $u) => $u->verified_tags_list)
             ->unique()
             ->sort()
             ->values();
@@ -119,12 +122,13 @@ class KaryaSiswaPublic extends Component
                     ->latest('published_at'),
             ])
             ->when($searchTerm !== '', function ($query) use ($searchTerm) {
-                $like = '%' . $searchTerm . '%';
+                $like = '%'.$searchTerm.'%';
                 $query->where(function ($q) use ($like) {
                     $q->where('name', 'like', $like)
                         ->orWhere('username', 'like', $like)
                         ->orWhere('nisn', 'like', $like)
                         ->orWhere('keahlian', 'like', $like)
+                        ->orWhere('verified_tags', 'like', $like)
                         ->orWhere('bio', 'like', $like)
                         ->orWhere('kelas', 'like', $like)
                         ->orWhereHas('karyaSiswas', fn ($k) => $k->where('status', 'published')->where('judul', 'like', $like));
@@ -134,7 +138,10 @@ class KaryaSiswaPublic extends Component
                 if ($this->filterProfil === 'with_karya') {
                     $query->whereHas('karyaSiswas', fn ($q) => $q->where('status', 'published'));
                 } else {
-                    $query->where('keahlian', 'like', '%' . $this->filterProfil . '%');
+                    $query->where(function ($q) {
+                        $q->where('verified_tags', 'like', '%'.$this->filterProfil.'%')
+                            ->orWhere('keahlian', 'like', '%'.$this->filterProfil.'%');
+                    });
                 }
             })
             ->orderBy('name', 'asc')

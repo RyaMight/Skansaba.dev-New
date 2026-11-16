@@ -4,7 +4,6 @@ namespace App\Livewire;
 
 use App\Models\KaryaLog;
 use App\Models\KaryaSiswa;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -49,11 +48,12 @@ class KaryaSiswaVerifikasi extends Component
 
     // Modal state penolakan karya
     public array $rejectNotes = [];
+
     public ?int $rejectingId = null;
 
     public function mount()
     {
-        if (!in_array(Auth::user()->role, ['admin', 'guru'])) {
+        if (! in_array(Auth::user()->role, ['admin', 'guru'])) {
             abort(403);
         }
 
@@ -72,10 +72,10 @@ class KaryaSiswaVerifikasi extends Component
 
         $this->karyaList = $query->get();
 
-        // Prefill single tag: utamakan keahlian akun siswa jika ada, atau tag pertama karya
+        // Prefill single tag: utamakan tag verified akun siswa jika ada, atau tag pertama karya
         foreach ($this->karyaList as $karya) {
-            $defaultTag = $karya->user?->keahlian;
-            if (!$defaultTag && !empty($karya->tags) && is_array($karya->tags)) {
+            $defaultTag = $karya->user?->verified_tags_list[0] ?? null;
+            if (! $defaultTag && ! empty($karya->tags) && is_array($karya->tags)) {
                 $defaultTag = $karya->tags[0] ?? null;
             }
             $this->selectedTag[$karya->id] = $this->selectedTag[$karya->id] ?? $defaultTag;
@@ -110,7 +110,7 @@ class KaryaSiswaVerifikasi extends Component
 
     public function confirmApprove(): void
     {
-        if (!$this->approvingId) {
+        if (! $this->approvingId) {
             return;
         }
 
@@ -118,6 +118,7 @@ class KaryaSiswaVerifikasi extends Component
 
         if ($karya->status !== 'review') {
             $this->closeApproveModal();
+
             return;
         }
 
@@ -140,14 +141,14 @@ class KaryaSiswaVerifikasi extends Component
             judulKarya: $karya->judul,
             status: 'published',
             action: 'approved',
-            catatan: 'Karya disetujui dan telah resmi dipublikasikan' . ($tag ? " dengan keahlian {$tag}." : '.'),
+            catatan: 'Karya disetujui dan telah resmi dipublikasikan'.($tag ? " dengan keahlian {$tag}." : '.'),
             karyaId: $karya->id,
             adminId: Auth::id(),
             metadata: ['tag' => $tag]
         );
 
         $siswaName = $karya->nama_siswa ?? $karya->user?->name ?? 'Siswa';
-        session()->flash('message', "Karya \"{$karya->judul}\" telah resmi dipublikasikan!" . ($tag ? " Tag \"{$tag}\" berhasil diberikan ke akun {$siswaName}." : ''));
+        session()->flash('message', "Karya \"{$karya->judul}\" telah resmi dipublikasikan!".($tag ? " Tag \"{$tag}\" berhasil diberikan ke akun {$siswaName}." : ''));
 
         $this->closeApproveModal();
         $this->dispatch('karya-updated');
@@ -188,6 +189,7 @@ class KaryaSiswaVerifikasi extends Component
 
         if ($karya->status !== 'review') {
             $this->closeRejectModal();
+
             return;
         }
 

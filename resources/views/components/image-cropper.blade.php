@@ -34,7 +34,8 @@
 
     // Auto-detect avatar mode if aspectRatio is 1:1 unless explicitly specified
     $isAvatarMode = $isAvatar ?? (abs($resolvedAspectRatio - 1.0) < 0.0001);
-    $croppieType = $isAvatarMode ? ($defaultFrameShape === 'squircle' ? 'square' : 'circle') : (abs($resolvedAspectRatio - 1.0) < 0.0001 ? 'square' : null);
+    $resolvedFrameShape = $defaultFrameShape === 'squircle' ? 'squircle' : 'circle';
+    $croppieType = $isAvatarMode ? ($resolvedFrameShape === 'squircle' ? 'square' : 'circle') : (abs($resolvedAspectRatio - 1.0) < 0.0001 ? 'square' : null);
 
     // Resolusi URL Foto Profil Saat Ini (hanya jika filenya valid dan ada di storage)
     $resolvedCurrentImageUrl = null;
@@ -57,7 +58,7 @@
         cropResult: null,
         isAvatar: {{ $isAvatarMode ? 'true' : 'false' }},
         avatarSkills: {{ Js::from($resolvedAvatarSkills) }},
-        frameShape: '{{ $defaultFrameShape }}',
+        frameShape: '{{ $resolvedFrameShape }}',
         dragOver: false,
         imageSrc: null,
         currentZoom: 1,
@@ -150,6 +151,7 @@
 
             if (this.isAvatar && this.frameShape === 'squircle' && this.croppie.elements && this.croppie.elements.viewport) {
                 this.croppie.elements.viewport.classList.add('cr-vp-squircle');
+                this.croppie.elements.viewport.classList.remove('cr-vp-square');
             }
             
             el.addEventListener('update', () => {
@@ -410,7 +412,8 @@
                 type: 'base64',
                 size: { width: this.maxWidth, height: this.maxHeight },
                 format: 'png',
-                quality: 1
+                quality: 1,
+                circle: false
             }).then((result) => {
                 this.cropResult = result;
             }).catch((e) => {
@@ -427,7 +430,8 @@
                     type: 'base64',
                     size: { width: this.maxWidth, height: this.maxHeight },
                     format: 'png',
-                    quality: 1
+                    quality: 1,
+                    circle: false
                 });
                 this.cropResult = result;
                 return result;
