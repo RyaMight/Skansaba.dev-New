@@ -33,9 +33,10 @@
             </a>
 
             {{-- Desktop Menu --}}
-            <div class="hidden lg:flex items-center gap-7">
+            <div class="hidden lg:flex items-center gap-1">
                 <a href="/" @class([
-                    'link-underline type-nav transition hover-primary',
+                    'link-underline type-nav transition hover-primary nav-pill',
+                    'nav-pill-active' => $isBerandaActive,
                     'font-semibold text-gray-900 dark:text-gray-100' => $isBerandaActive,
                     'font-semibold text-gray-500 dark:text-gray-400' => !$isBerandaActive,
                 ])>{{ __('Beranda') }}</a>
@@ -43,7 +44,8 @@
                 {{-- Profil Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer',
+                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-pill',
+                        'nav-pill-active' => $isProfilActive,
                         'font-semibold text-gray-900 dark:text-gray-100' => $isProfilActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isProfilActive,
                     ])>
@@ -55,12 +57,12 @@
                     <div x-cloak x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/struktur-organisasi" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isStrukturActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isStrukturActive,
                             'text-gray-600 dark:text-gray-300' => !$isStrukturActive,
                         ])>{{ __('Struktur Organisasi') }}</a>
                         <a href="/fasilitas" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isFasilitasActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isFasilitasActive,
                             'text-gray-600 dark:text-gray-300' => !$isFasilitasActive,
                         ])>{{ __('Fasilitas') }}</a>
                     </div>
@@ -69,7 +71,8 @@
                 {{-- Siswa Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer',
+                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-pill',
+                        'nav-pill-active' => $isSiswaActive,
                         'font-semibold text-gray-900 dark:text-gray-100' => $isSiswaActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isSiswaActive,
                     ])>
@@ -81,24 +84,25 @@
                     <div x-cloak x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/prestasi" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isPrestasiActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isPrestasiActive,
                             'text-gray-600 dark:text-gray-300' => !$isPrestasiActive,
                         ])>{{ __('Prestasi') }}</a>
                         <a href="/karya" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isKaryaActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isKaryaActive,
                             'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
                         ])>{{ __('Karya Siswa') }}</a>
                         <a href="/alumni" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isAlumniActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isAlumniActive,
                             'text-gray-600 dark:text-gray-300' => !$isAlumniActive,
                         ])>{{ __('Alumni') }}</a>
                     </div>
                 </div>
 
                 <a href="/unit-produksi" @class([
-                    'link-underline type-nav transition hover-primary',
+                    'link-underline type-nav transition hover-primary nav-pill',
+                    'nav-pill-active' => $isUnitProduksiActive,
                     'font-semibold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
                     'font-semibold text-gray-500 dark:text-gray-400' => !$isUnitProduksiActive,
                 ])>{{ __('Unit Produksi') }}</a>
@@ -106,7 +110,8 @@
                 {{-- Informasi Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer',
+                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-pill',
+                        'nav-pill-active' => $isInformasiActive,
                         'font-semibold text-gray-900 dark:text-gray-100' => $isInformasiActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isInformasiActive,
                     ])>
@@ -118,17 +123,17 @@
                     <div x-cloak x-show="open" x-transition:enter="transition duration-200 ease-[cubic-bezier(0.16,1,0.3,1)]" x-transition:enter-start="opacity-0 -translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 -translate-y-1 scale-95" class="nav-dropdown absolute top-full mt-3 w-48 origin-top bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 py-2">
                         <a href="/berita" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isBeritaActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isBeritaActive,
                             'text-gray-600 dark:text-gray-300' => !$isBeritaActive,
                         ])>{{ __('Berita') }}</a>
                         <a href="/dokumen" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isDokumenActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isDokumenActive,
                             'text-gray-600 dark:text-gray-300' => !$isDokumenActive,
                         ])>{{ __('Dokumen') }}</a>
                         <a href="/gallery" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
-                            'font-semibold text-gray-900 dark:text-gray-100 bg-gray-50/80 dark:bg-gray-800/50' => $isGalleryActive,
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isGalleryActive,
                             'text-gray-600 dark:text-gray-300' => !$isGalleryActive,
                         ])>{{ __('Gallery') }}</a>
                     </div>
@@ -252,7 +257,7 @@
         x-transition:leave="transition duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)]"
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0 -translate-y-4"
-        class="lg:hidden fixed top-0 left-0 w-full max-h-[90vh] overflow-y-auto overscroll-contain bg-white dark:bg-gray-900 rounded-b-2xl border-b border-gray-100 dark:border-gray-800 shadow-xl z-50"
+        class="mobile-menu-panel lg:hidden fixed top-0 left-0 w-full max-h-[90vh] overflow-y-auto overscroll-contain bg-white dark:bg-gray-900 rounded-b-2xl border-b border-gray-100 dark:border-gray-800 shadow-xl z-50"
     >
         <div class="flex items-center justify-between px-6 pt-6 pb-2">
             <div class="flex items-center gap-2.5">

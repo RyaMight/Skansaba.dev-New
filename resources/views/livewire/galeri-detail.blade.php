@@ -1,18 +1,7 @@
 <div class="min-h-screen bg-gray-50 dark:bg-gray-950">
-    {{-- Header dengan Breadcrumb --}}
-    <section class="bg-white dark:bg-gray-950 py-12 lg:py-16">
+    {{-- Header --}}
+    <section class="bg-white dark:bg-gray-950 py-8 lg:py-10">
         <div class="site-container">
-            {{-- Breadcrumb --}}
-            <div class="flex items-center justify-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-6">
-                <svg class="w-5 h-5" style="color: {{ $globalSettings->primary_color_style }}" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
-                </svg>
-                <a href="/" class="link-underline hover:opacity-80">{{ __('Beranda') }}</a>
-                <span>›</span>
-                <a href="/gallery" class="link-underline hover:opacity-80">{{ __('Galeri') }}</a>
-                <span>›</span>
-                <span style="color: {{ $globalSettings->primary_color_style }}">{{ Str::limit($galeri->judul, 30) }}</span>
-            </div>
             
             {{-- Back Button --}}
             <div class="flex justify-center">
