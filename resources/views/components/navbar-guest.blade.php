@@ -240,8 +240,17 @@
     </nav>
 
     <style>
-        .hover-primary:hover {
+        /* Hover warna primer hanya untuk item yang TIDAK sedang aktif.
+           Pill aktif sudah bertint warna primer, jadi kalau teksnya ikut
+           berubah jadi primer hasilnya biru-di-atas-biru (pudar/aneh). */
+        .hover-primary:not(.nav-pill-active):not(.nav-item-active):hover {
             color: {{ $globalSettings->primary_color_style }} !important;
+        }
+
+        /* Item aktif memakai pill sebagai penanda; garis bawah sapu
+           (link-underline) dihilangkan agar tidak tumpang tindih. */
+        .nav-pill-active::after {
+            display: none;
         }
     </style>
 
