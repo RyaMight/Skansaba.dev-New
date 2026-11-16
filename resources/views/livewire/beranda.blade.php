@@ -9,20 +9,9 @@
             N: {{ $sliders->count() }},
             index: 0,
             timer: null,
-            heroMax: null,
 
             init() {
                 this.start();
-                this.fitHero();
-                window.addEventListener('load', () => this.fitHero());
-                window.addEventListener('resize', () => this.fitHero());
-            },
-
-            fitHero() {
-                const el = this.$refs.heroFrame;
-                if (!el) return;
-                const top = el.getBoundingClientRect().top + window.scrollY;
-                this.heroMax = Math.max(220, window.innerHeight - top - 50) + 'px';
             },
 
             start() {
@@ -71,16 +60,20 @@
         </div>
 
         @if($sliders->isNotEmpty())
-            {{-- Frame foto tunggal: rasio 16/9 (object-cover), tinggi dibatasi dinamis.
+            {{-- Frame foto tunggal: rasio 16/9 tetap (object-cover).
                  Lebar sejajar dengan navbar: px-4 sm:px-6 + max-w-6xl (sama seperti header nav). --}}
             <div class="px-4 sm:px-6" data-reveal>
                 {{-- Wrapper gambar: lebar penuh mengikuti navbar, proporsional --}}
                 <div class="relative w-full max-w-6xl mx-auto">
-                    {{-- Container gambar: 16/9, max-height dinamis (viewport - offset atas - 50px) --}}
-                    <div class="relative grid w-full aspect-video rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.5)]" x-ref="heroFrame" :style="heroMax ? 'max-height: ' + heroMax : ''">
+                    {{-- Container gambar: rasio 16/9 dikunci. Tinggi selalu
+                     diturunkan dari lebar, jadi perbandingan tetap sama di
+                     device apa pun; ukuran gambar mengikuti frame. Slide
+                     diposisikan absolut supaya dimensi gambar/keterangan
+                     tidak bisa ikut menentukan tinggi frame. --}}
+                    <div class="relative w-full aspect-video rounded-3xl overflow-hidden shadow-[0_12px_36px_rgba(15,23,42,0.16)] dark:shadow-[0_12px_36px_rgba(0,0,0,0.5)]">
                         @foreach($sliders as $index => $slider)
                             <div
-                                class="col-start-1 row-start-1 h-full transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
+                                class="absolute inset-0 transition-opacity duration-700 ease-in-out {{ $index === 0 ? 'opacity-100' : 'opacity-0' }}"
                                 :class="isActive({{ $index }}) ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'"
                             >
                                 {{-- Gambar mengisi frame 16/9 (object-cover, tidak gepeng) --}}
@@ -108,7 +101,7 @@
                         @endforeach
 
                         {{-- Progress bar overlay di bawah frame (di luar stacking biar selalu terlihat) --}}
-                        <div class="col-start-1 row-start-1 self-end relative z-20 pointer-events-none">
+                        <div class="absolute inset-x-0 bottom-0 z-20 pointer-events-none">
                             <div class="h-[3px] bg-white/25 rounded-full overflow-hidden mx-5 lg:mx-7 mb-4 lg:mb-5" x-show="N > 1">
                                 <template x-for="tick in [index]" :key="'bar-' + tick">
                                     <div
@@ -615,145 +608,213 @@
     </section>
 
     {{-- ============================================ --}}
-    {{-- Prestasi: sticky stacked dispatches --}}
+    {{-- Prestasi: grid kartu horizontal --}}
     {{-- ============================================ --}}
     @if ($prestasiTerbaru->isNotEmpty())
     <section
         id="prestasi"
         aria-labelledby="prestasi-dispatch-heading"
-        class="bg-white py-20 dark:bg-slate-900 lg:py-28"
+        class="bg-white py-16 dark:bg-slate-900 lg:py-24"
         x-data="{
-            active: 0,
-            sync() {
-                const cards = [...this.$el.querySelectorAll('[data-dispatch-card]')];
-                let current = 0;
-                cards.forEach((card, index) => {
-                    const top = parseFloat(getComputedStyle(card).top) || 0;
-                    if (card.getBoundingClientRect().top <= top + 2) current = index;
+            canScroll: false,
+            atStart: true,
+            atEnd: false,
+            barWidth: 100,
+            barLeft: 0,
+
+            init() {
+                this.update();
+                this.$nextTick(() => this.update());
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(() => this.update());
+                }
+            },
+
+            update() {
+                const el = this.$refs.track;
+                if (!el) return;
+
+                const max = el.scrollWidth - el.clientWidth;
+                this.canScroll = max > 1;
+                this.atStart = el.scrollLeft <= 1;
+                this.atEnd = el.scrollLeft >= max - 1;
+
+                if (max <= 0) {
+                    this.barWidth = 100;
+                    this.barLeft = 0;
+                    return;
+                }
+
+                const visible = (el.clientWidth / el.scrollWidth) * 100;
+                this.barWidth = Math.min(100, Math.max(12, visible * 0.8));
+                this.barLeft = (el.scrollLeft / max) * (100 - this.barWidth);
+            },
+
+            step(dir) {
+                const el = this.$refs.track;
+                if (!el) return;
+                el.scrollBy({
+                    left: dir * Math.max(el.clientWidth * 0.9, 320),
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'
                 });
-                this.active = current;
             }
         }"
-        x-init="sync(); $nextTick(() => sync())"
-        @scroll.window.passive="sync()"
-        @resize.window="sync()"
+        @resize.window.debounce.150="update()"
     >
-        {{-- Heading dipin (sticky) bersama kartu supaya label section tetap
-             terbaca selama kartu menumpuk; latarnya = latar section agar
-             kartu yang lewat di belakangnya tidak tembus. Setelah kartu
-             terakhir sampai di posisi tumpukannya, judul menyingkir agar
-             tidak menutupi kartu yang sudah selesai. --}}
-        <div
-            class="prestasi-heading sticky top-[82px] z-30 bg-white pt-5 pb-3 transition-[opacity,transform] duration-200 ease-out motion-reduce:transition-none dark:bg-slate-900"
-            :class="{ 'prestasi-heading-out': active >= {{ $prestasiTerbaru->count() - 1 }} && {{ $prestasiTerbaru->count() }} > 1 }"
-        >
-            <div class="site-container">
-                <div class="mx-auto max-w-2xl text-center" data-reveal>
+        <div class="site-container">
+            <div class="mb-8 flex items-end justify-between gap-6 lg:mb-10" data-reveal>
+                <div>
                     <h2
                         id="prestasi-dispatch-heading"
                         class="type-section-title text-gray-950 dark:text-gray-50"
                     >
                         Prestasi Terbaru
                     </h2>
+                    <p class="type-body-sm mt-3 max-w-xl text-gray-600 dark:text-gray-300">
+                        Catatan capaian siswa Jurusan RPL di berbagai kompetisi dan ajang, dari tingkat kota hingga nasional.
+                    </p>
                 </div>
+
+                <a
+                    href="{{ route('prestasi.public') }}"
+                    class="btn-morph type-button hidden shrink-0 sm:inline-flex"
+                >
+                    {{ __('Lihat Semua') }}
+                    <svg class="btn-morph__icon h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                    </svg>
+                </a>
             </div>
-        </div>
 
-        <div class="site-container">
-
-            {{-- Stack. Kartu memakai sticky dengan top bertingkat supaya
-                 kartu berikutnya menutup kartu sebelumnya saat scroll.
-                 `is-covered` (Alpine) hanya mengecilkan kartu yang sudah
-                 tertutup; reduced-motion mematikannya lewat CSS.
-                 Basis 11rem (176px) memberi ruang di bawah header (±82px)
-                 plus heading sticky supaya kartu tidak menutupi judul. --}}
             <div
-                class="relative mx-auto mt-12 flex max-w-[1082px] flex-col gap-5 sm:mt-16 sm:gap-7"
+                x-ref="track"
+                @scroll.passive="update()"
+                class="prestasi-track flex items-stretch gap-5 overflow-x-auto pb-2 lg:gap-6"
             >
-                @foreach($prestasiTerbaru as $i => $prestasi)
-                    <article
-                        data-dispatch-card
-                        class="dispatch-card sticky overflow-hidden rounded-[2rem] border border-gray-200/80 bg-white p-4 shadow-[0_20px_60px_-36px_rgba(15,23,42,0.45)] sm:p-5 dark:border-white/10 dark:bg-gray-900 dark:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.7)]"
-                        style="top: calc(11rem + {{ $i }} * 1.5rem); z-index: {{ 10 + $i }};"
-                        :class="{ 'is-covered': {{ $i }} < active }"
+                @foreach($prestasiTerbaru as $prestasi)
+                    @php
+                        $badges = array_values(array_filter([$prestasi->tingkat, $prestasi->jenis], fn ($value) => filled($value)));
+                    @endphp
+
+                    <a
+                        href="{{ route('prestasi.detail', $prestasi->id) }}"
+                        data-reveal
+                        aria-label="Lihat detail prestasi {{ $prestasi->judul }}"
+                        class="prestasi-card group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_8px_24px_rgba(15,23,42,0.10)] transition-[transform,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-2 hover:border-gray-200 hover:shadow-[0_20px_44px_rgba(15,23,42,0.18)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 motion-reduce:transition-none motion-reduce:hover:translate-y-0 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-700 dark:focus-visible:outline-white"
                     >
-                        <div class="grid gap-5 sm:grid-cols-[minmax(0,42%)_minmax(0,1fr)] sm:gap-8">
-                            <div class="relative h-60 overflow-hidden rounded-2xl bg-slate-100 dark:bg-gray-800 sm:h-auto sm:min-h-[22rem]">
-                                @if ($prestasi->gambar_url)
-                                    <img
-                                        src="{{ $prestasi->gambar_url }}"
-                                        alt="{{ $prestasi->judul }}"
-                                        loading="lazy"
-                                        decoding="async"
-                                        class="absolute inset-0 h-full w-full object-cover"
-                                    >
-                                @else
-                                    <div class="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-gray-600">
-                                        <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-2.25-2.25l1.41-1.41a2.25 2.25 0 013.18 0l3.34 3.34M3.75 19.5h16.5A1.5 1.5 0 0021.75 18V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12A1.5 1.5 0 003.75 19.5z" />
-                                        </svg>
-                                    </div>
-                                @endif
-                            </div>
+                        <div class="relative aspect-video overflow-hidden bg-slate-100 dark:bg-gray-800">
+                            @if ($prestasi->gambar_url)
+                                <img
+                                    src="{{ $prestasi->gambar_url }}"
+                                    alt="{{ $prestasi->judul }}"
+                                    loading="lazy"
+                                    decoding="async"
+                                    class="h-full w-full object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                                >
+                            @else
+                                <div class="absolute inset-0 flex items-center justify-center text-slate-400 dark:text-gray-600">
+                                    <svg class="h-8 w-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-2.25-2.25l1.41-1.41a2.25 2.25 0 013.18 0l3.34 3.34M3.75 19.5h16.5A1.5 1.5 0 0021.75 18V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12A1.5 1.5 0 003.75 19.5z" />
+                                    </svg>
+                                </div>
+                            @endif
 
-                            <div class="flex min-w-0 flex-col pb-1 sm:py-2">
-                                <p class="text-sm text-gray-500 dark:text-gray-400">
-                                    @if ($prestasi->tanggal_prestasi)
-                                        <time datetime="{{ $prestasi->tanggal_prestasi->format('Y-m-d') }}">
-                                            {{ $prestasi->tanggal_prestasi->translatedFormat('M Y') }}
-                                        </time>
-                                    @endif
-                                </p>
+                            @if ($prestasi->tanggal_prestasi)
+                                <span class="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-semibold text-gray-900 shadow-sm backdrop-blur dark:bg-gray-900/90 dark:text-gray-50">
+                                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3M3.75 8.25h16.5M4.5 5.25h15a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75h-15a.75.75 0 01-.75-.75V6a.75.75 0 01.75-.75z" />
+                                    </svg>
+                                    <time datetime="{{ $prestasi->tanggal_prestasi->format('Y-m-d') }}">
+                                        {{ $prestasi->tanggal_prestasi->translatedFormat('d M Y') }}
+                                    </time>
+                                </span>
+                            @endif
+                        </div>
 
-                                <h3 class="mt-3 line-clamp-2 text-lg font-semibold tracking-tight text-gray-950 sm:text-xl dark:text-gray-50">
-                                    {{ $prestasi->judul }}
-                                </h3>
+                        <div class="flex flex-1 flex-col p-5 lg:p-6">
+                            <h3 class="type-card-title-sm line-clamp-2 text-gray-900 transition-colors duration-200 group-hover:text-gray-600 dark:text-gray-50 dark:group-hover:text-gray-300">
+                                {{ $prestasi->judul }}
+                            </h3>
 
-                                <p class="mt-2 max-w-prose text-sm leading-relaxed text-gray-700 sm:text-base dark:text-gray-300">
+                            @if ($prestasi->deskripsi_excerpt)
+                                <p class="type-body-sm mt-2 line-clamp-2 text-gray-600 dark:text-gray-300">
                                     {{ html_entity_decode($prestasi->deskripsi_excerpt, ENT_QUOTES | ENT_HTML5, 'UTF-8') }}
                                 </p>
+                            @endif
 
-                                <div class="mt-auto flex items-end justify-between gap-4 pt-6 sm:pt-8">
-                                    @php
-                                        $badges = array_values(array_filter([$prestasi->tingkat, $prestasi->jenis], fn ($value) => filled($value)));
-                                        $visibleBadges = array_slice($badges, 0, 2);
-                                        $extraBadges = count($badges) - count($visibleBadges);
-                                    @endphp
-                                    <div class="flex flex-wrap items-center gap-2">
-                                        @foreach ($visibleBadges as $badge)
-                                            <span class="rounded-full bg-slate-200/80 px-3 py-1.5 text-xs font-medium capitalize text-slate-700 dark:bg-white/10 dark:text-gray-300">
-                                                {{ $badge }}
-                                            </span>
-                                        @endforeach
-
-                                        @if ($extraBadges > 0)
-                                            <span class="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-600 dark:border-white/20 dark:text-gray-300">
-                                                more
-                                            </span>
-                                        @endif
-                                    </div>
-
-                                    <a
-                                        href="{{ route('prestasi.detail', $prestasi->id) }}"
-                                        aria-label="Lihat detail prestasi {{ $prestasi->judul }}"
-                                        class="group/cta inline-flex h-11 shrink-0 items-center justify-center rounded-full border border-gray-950 bg-gray-950 px-[11px] text-white transition-colors duration-200 hover:border-gray-800 hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-950 dark:border-white/20 dark:hover:border-white/30 dark:focus-visible:outline-white"
-                                    >
-                                        <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" d="M12 5v14M5 12h14" />
-                                        </svg>
-                                        <span class="max-w-0 overflow-hidden whitespace-nowrap text-xs font-semibold opacity-0 transition-all duration-300 ease-out group-hover/cta:ml-2 group-hover/cta:max-w-[6rem] group-hover/cta:opacity-100 group-focus-visible/cta:ml-2 group-focus-visible/cta:max-w-[6rem] group-focus-visible/cta:opacity-100 motion-reduce:transition-none">
-                                            More info
+                            <div class="mt-auto flex items-center justify-between gap-3 pt-5">
+                                <div class="flex min-w-0 flex-wrap items-center gap-2">
+                                    @foreach ($badges as $badge)
+                                        <span class="rounded-full bg-slate-200/80 px-3 py-1.5 text-xs font-medium capitalize text-slate-700 dark:bg-white/10 dark:text-gray-300">
+                                            {{ $badge }}
                                         </span>
-                                    </a>
+                                    @endforeach
                                 </div>
+
+                                <span class="type-link-xs inline-flex shrink-0 items-center gap-1.5 text-gray-950 dark:text-gray-50">
+                                    {{ __('Lihat Detail') }}
+                                    <svg class="h-4 w-4 transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1 motion-reduce:transition-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                                    </svg>
+                                </span>
                             </div>
                         </div>
-                    </article>
+                    </a>
                 @endforeach
+            </div>
 
-                {{-- Ruang scroll ekstra agar kartu terakhir sempat diam
-                     sebentar sebelum seluruh stack keluar dari section. --}}
-                <div aria-hidden="true" class="h-16 sm:h-24"></div>
+            {{-- Kontrol geser horizontal --}}
+            <div
+                x-show="canScroll"
+                x-cloak
+                class="mt-6 flex items-center gap-4 sm:gap-6"
+                data-reveal
+            >
+                <div class="relative h-[3px] flex-1 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-800">
+                    <div
+                        class="absolute top-0 h-full rounded-full bg-gray-900 transition-all duration-300 ease-out dark:bg-gray-100"
+                        :style="`width: ${barWidth}%; left: ${barLeft}%`"
+                    ></div>
+                </div>
+
+                <div class="flex shrink-0 items-center gap-2">
+                    <button
+                        type="button"
+                        @click="step(-1)"
+                        :disabled="atStart"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-gray-200 disabled:hover:bg-white disabled:hover:text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900 dark:disabled:hover:border-gray-700 dark:disabled:hover:bg-gray-900 dark:disabled:hover:text-gray-200"
+                        aria-label="{{ __('Geser kiri') }}"
+                    >
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12l7.5-7.5m0 15L3 12h18"/>
+                        </svg>
+                    </button>
+
+                    <button
+                        type="button"
+                        @click="step(1)"
+                        :disabled="atEnd"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-700 shadow-sm transition-all duration-200 hover:border-gray-900 hover:bg-gray-900 hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:border-gray-200 disabled:hover:bg-white disabled:hover:text-gray-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:border-gray-100 dark:hover:bg-gray-100 dark:hover:text-gray-900 dark:disabled:hover:border-gray-700 dark:disabled:hover:bg-gray-900 dark:disabled:hover:text-gray-200"
+                        aria-label="{{ __('Geser kanan') }}"
+                    >
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            {{-- Mobile: lihat semua --}}
+            <div class="mt-8 flex justify-center sm:hidden" data-reveal>
+                <a
+                    href="{{ route('prestasi.public') }}"
+                    class="btn-lift type-button group inline-flex items-center gap-2 rounded-full bg-gray-900 px-6 py-3 text-white hover:bg-gray-700"
+                >
+                    {{ __('Lihat Semua Prestasi') }}
+                    <svg class="h-4 w-4 transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"/>
+                    </svg>
+                </a>
             </div>
         </div>
     </section>

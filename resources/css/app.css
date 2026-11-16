@@ -248,43 +248,6 @@ body {
     }
 }
 
-/* Kartu "Recent dispatches" — kartu bawah mengecil sedikit saat
-   tertutup kartu berikutnya, memberi isyarat tumpukan tanpa menggeser
-   posisi sticky. Transform origin di atas agar celah antar-kartu tetap. */
-.dispatch-card {
-    transform-origin: top center;
-    transition:
-        transform 320ms var(--ease-out-expo),
-        filter 320ms var(--ease-out-expo);
-    will-change: transform;
-}
-
-.dispatch-card.is-covered {
-    transform: scale(0.965);
-    filter: brightness(0.985) saturate(0.96);
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .dispatch-card {
-        transition: none;
-        will-change: auto;
-    }
-
-    .dispatch-card.is-covered {
-        transform: none;
-        filter: none;
-    }
-}
-
-/* Judul "Prestasi Terbaru" menyingkir setelah kartu terakhir menempati
-   posisi tumpukannya, supaya tidak terus menempel di atas kartu yang
-   sudah selesai. Kembali muncul saat scroll naik kembali. */
-.prestasi-heading-out {
-    opacity: 0;
-    transform: translateY(-0.75rem);
-    pointer-events: none;
-}
-
 /* Sekilas stat band: saat reduced-motion pita langsung penuh, jadi track
    170vh tidak diperlukan — hilangkan scroll kosongnya. */
 @media (prefers-reduced-motion: reduce) {
@@ -787,6 +750,36 @@ html.theme-transition footer {
         opacity: 1 !important;
         transform: none !important;
         transition: none !important;
+    }
+}
+
+/* ============================================
+   Prestasi: satu baris kartu yang bisa digeser
+   ============================================ */
+.prestasi-track {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x mandatory;
+}
+
+.prestasi-track::-webkit-scrollbar {
+    display: none;
+}
+
+.prestasi-card {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+}
+
+@media (min-width: 640px) {
+    .prestasi-card {
+        flex-basis: calc((100% - 1.25rem) / 2);
+    }
+}
+
+@media (min-width: 1024px) {
+    .prestasi-card {
+        flex-basis: calc((100% - 3rem) / 3);
     }
 }
 
