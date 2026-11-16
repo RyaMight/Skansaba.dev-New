@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin;
 
 use App\Livewire\KaryaSiswaVerifikasi;
+use App\Models\ModerationLog;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,6 +24,8 @@ class SiswaRplManager extends Component
     public string $filterKeahlian = '';
 
     public string $filterStatus = '';
+
+    public string $filterModerator = '';
 
     // Modal state: Detail Siswa
     public ?int $viewingStudentId = null;
@@ -71,6 +74,11 @@ class SiswaRplManager extends Component
         $this->resetPage();
     }
 
+    public function updatingFilterModerator()
+    {
+        $this->resetPage();
+    }
+
     // --- Detail Modal ---
     public function openViewModal(int $id): void
     {
@@ -106,6 +114,59 @@ class SiswaRplManager extends Component
         $student = User::where('role', 'siswa')->findOrFail($studentId);
         if ($student->revokeTag($tag)) {
             session()->flash('message', "Tag \"{$tag}\" berhasil dicabut dari {$student->name}.");
+        }
+    }
+
+    // --- Status Moderator (hanya Admin) ---
+    public function grantModerator(int $studentId): void
+    {
+        $this->ensureAdminCanManageModerator();
+
+        $student = User::where('role', 'siswa')->findOrFail($studentId);
+
+        if ($student->is_moderator) {
+            return;
+        }
+
+        $student->update(['is_moderator' => true]);
+
+        ModerationLog::record(
+            actorId: Auth::id(),
+            action: 'moderator.granted',
+            description: "Status moderator diberikan kepada {$student->name}.",
+            targetUserId: $student->id
+        );
+
+        session()->flash('message', "{$student->name} sekarang menjadi moderator siswa.");
+    }
+
+    public function revokeModerator(int $studentId): void
+    {
+        $this->ensureAdminCanManageModerator();
+
+        $student = User::where('role', 'siswa')->findOrFail($studentId);
+
+        if (! $student->is_moderator) {
+            return;
+        }
+
+        $student->update(['is_moderator' => false]);
+
+        ModerationLog::record(
+            actorId: Auth::id(),
+            action: 'moderator.revoked',
+            description: "Status moderator dicabut dari {$student->name}.",
+            targetUserId: $student->id
+        );
+
+        // Status moderator dicabut; request berikutnya otomatis memakai akses siswa biasa.
+        session()->flash('message', "Status moderator {$student->name} telah dicabut.");
+    }
+
+    protected function ensureAdminCanManageModerator(): void
+    {
+        if (! Auth::user()?->isAdmin()) {
+            abort(403, 'Hanya administrator yang dapat mengatur status moderator.');
         }
     }
 
@@ -197,6 +258,8 @@ class SiswaRplManager extends Component
             })
             ->when($this->filterKeahlian, fn ($q) => $q->where('verified_tags', 'like', '%'.$this->filterKeahlian.'%'))
             ->when($this->filterStatus, fn ($q) => $q->where('status', $this->filterStatus))
+            ->when($this->filterModerator === 'yes', fn ($q) => $q->where('is_moderator', true))
+            ->when($this->filterModerator === 'no', fn ($q) => $q->where('is_moderator', false))
             ->latest('id')
             ->paginate(15);
 
@@ -208,6 +271,7 @@ class SiswaRplManager extends Component
             'students' => $students,
             'tagPresets' => KaryaSiswaVerifikasi::TAG_PRESETS,
             'viewingStudent' => $viewingStudent,
+            'canManageModerator' => Auth::user()?->isAdmin() ?? false,
         ]);
     }
 }

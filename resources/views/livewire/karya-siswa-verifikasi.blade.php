@@ -7,18 +7,32 @@
                 <p class="text-sm text-slate-500 dark:text-gray-400 mt-1">{{ __('Kurasi karya siswa, validasi orisinalitas, dan berikan 1 tag keahlian terverifikasi untuk akun siswa.') }}</p>
             </div>
             <div class="flex items-center gap-3">
-                <a 
-                    href="{{ route('siswa-rpl.index') }}" 
-                    wire:navigate
-                    class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-xs"
-                >
-                    <svg class="w-4 h-4 text-slate-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    {{ __('Kelola Akun Siswa RPL') }}
-                </a>
+                @unless(auth()->user()->isModerator())
+                    <a 
+                        href="{{ route('siswa-rpl.index') }}" 
+                        wire:navigate
+                        class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold text-slate-700 dark:text-gray-200 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-700 rounded-lg hover:bg-slate-50 dark:hover:bg-gray-800 transition shadow-xs"
+                    >
+                        <svg class="w-4 h-4 text-slate-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        {{ __('Kelola Akun Siswa RPL') }}
+                    </a>
+                @endunless
             </div>
         </div>
+
+        @if(auth()->user()->isModerator())
+            <div class="mb-6 p-4 bg-amber-50 dark:bg-amber-500/15 border border-amber-200 dark:border-amber-500/30 rounded-xl flex items-start gap-3 text-sm text-amber-800 dark:text-amber-200">
+                <svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <div>
+                    <p class="font-bold">Mode Moderator</p>
+                    <p class="text-xs mt-0.5">Anda dapat memverifikasi karya siswa lain. Karya milik sendiri tidak ditampilkan dan tidak dapat diverifikasi.</p>
+                </div>
+            </div>
+        @endif
 
         {{-- Filter User Banner (jika diarahkan dari shortcut Akun Siswa RPL) --}}
         @if($userId)

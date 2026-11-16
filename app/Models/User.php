@@ -99,6 +99,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'is_moderator',
         'status',
         'photo',
         'photo_frame',
@@ -128,6 +129,7 @@ class User extends Authenticatable
             'last_login_at' => 'datetime',
             'username_changed_at' => 'datetime',
             'saluran_kontak' => 'array',
+            'is_moderator' => 'boolean',
         ];
     }
 
@@ -484,6 +486,40 @@ class User extends Authenticatable
     public function isSiswa(): bool
     {
         return $this->role === 'siswa';
+    }
+
+    /**
+     * Siswa yang diberi mandat admin untuk membantu pengawasan karya & keamanan.
+     */
+    public function isModerator(): bool
+    {
+        return $this->isSiswa() && (bool) $this->is_moderator;
+    }
+
+    /**
+     * Boleh melakukan verifikasi karya (admin, guru, atau moderator).
+     */
+    public function canVerifyKarya(): bool
+    {
+        return $this->isAdmin() || $this->isGuru() || $this->isModerator();
+    }
+
+    /**
+     * Label role untuk tampilan internal (mis. sidebar & tabel pengguna).
+     */
+    public function getDisplayRoleLabelAttribute(): string
+    {
+        return $this->isModerator() ? 'Siswa · Moderator' : $this->role_label;
+    }
+
+    /**
+     * Warna badge untuk label role yang sudah mempertimbangkan status moderator.
+     */
+    public function getDisplayRoleBadgeColorAttribute(): string
+    {
+        return $this->isModerator()
+            ? 'bg-amber-500/10 text-amber-700 dark:text-amber-300'
+            : $this->role_badge_color;
     }
 
     /**

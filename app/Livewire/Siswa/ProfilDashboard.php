@@ -3,6 +3,7 @@
 namespace App\Livewire\Siswa;
 
 use App\Models\KaryaSiswa;
+use App\Models\LoginAudit;
 use App\Models\Prestasi;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,30 @@ class ProfilDashboard extends Component
             ->take(4)
             ->get();
 
+        $isModerator = $this->user->isModerator();
+
+        $moderatorPendingCount = $isModerator
+            ? KaryaSiswa::where('status', 'review')->where('user_id', '!=', $userId)->count()
+            : 0;
+
+        $moderatorFailedLogins = $isModerator
+            ? LoginAudit::failed()->where('attempted_at', '>=', now()->subDay())->count()
+            : 0;
+
+        $moderatorLockedAccounts = $isModerator
+            ? LoginAudit::failed()
+                ->where('attempted_at', '>=', now()->subMinutes(15))
+                ->select('email')
+                ->groupBy('email')
+                ->havingRaw('COUNT(*) >= 5')
+                ->get()
+                ->count()
+            : 0;
+
+        $moderatorInactiveAccounts = $isModerator
+            ? User::where('role', 'siswa')->where('status', 'inactive')->count()
+            : 0;
+
         return view('livewire.siswa.profil-dashboard', [
             'karyaCount' => $karyaCount,
             'draftCount' => $draftCount,
@@ -50,6 +75,11 @@ class ProfilDashboard extends Component
             'prestasiCount' => $prestasiCount,
             'karyaTerbaru' => $karyaTerbaru,
             'prestasiTerbaru' => $prestasiTerbaru,
+            'isModerator' => $isModerator,
+            'moderatorPendingCount' => $moderatorPendingCount,
+            'moderatorFailedLogins' => $moderatorFailedLogins,
+            'moderatorLockedAccounts' => $moderatorLockedAccounts,
+            'moderatorInactiveAccounts' => $moderatorInactiveAccounts,
         ]);
     }
 }

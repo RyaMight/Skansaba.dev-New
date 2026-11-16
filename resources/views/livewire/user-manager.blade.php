@@ -57,6 +57,7 @@
                         <option value="admin">Administrator</option>
                         <option value="guru">Guru</option>
                         <option value="siswa">Siswa</option>
+                        <option value="moderator">Siswa · Moderator</option>
                     </select>
                 </div>
 
@@ -112,8 +113,8 @@
                                     {{ $user->email }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full {{ $user->role_badge_color }}">
-                                        {{ $user->role_label }}
+                                    <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full {{ $user->display_role_badge_color }}">
+                                        {{ $user->display_role_label }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -249,6 +250,26 @@
                                     @error('role') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
                                 </div>
 
+                                <!-- Status Moderator (khusus siswa) -->
+                                @if($role === 'siswa')
+                                    <div class="p-3.5 bg-amber-50/60 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 rounded-lg">
+                                        <label class="flex items-start gap-2.5 cursor-pointer">
+                                            <input
+                                                type="checkbox"
+                                                wire:model.live="is_moderator"
+                                                class="mt-0.5 w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                                            >
+                                            <span>
+                                                <span class="block text-sm font-semibold text-gray-800 dark:text-gray-100">Jadikan Moderator</span>
+                                                <span class="block text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                                                    Moderator dapat memverifikasi karya siswa lain dan membantu pengawasan keamanan akun siswa.
+                                                </span>
+                                            </span>
+                                        </label>
+                                        @error('is_moderator') <p class="mt-1 text-sm text-red-600 dark:text-red-400">{{ $message }}</p> @enderror
+                                    </div>
+                                @endif
+
                                 <!-- Status -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
@@ -337,8 +358,8 @@
                         <h4 class="type-subsection-title mt-4 text-gray-900 dark:text-gray-50">{{ $selectedUser->name }}</h4>
                         <p class="text-gray-600 dark:text-gray-300">{{ $selectedUser->email }}</p>
                         <div class="flex gap-2 mt-3">
-                            <span class="inline-flex px-3 py-1 text-sm font-medium rounded-full {{ $selectedUser->role_badge_color }}">
-                                {{ $selectedUser->role_label }}
+                            <span class="inline-flex px-3 py-1 text-sm font-medium rounded-full {{ $selectedUser->display_role_badge_color }}">
+                                {{ $selectedUser->display_role_label }}
                             </span>
                             <span class="inline-flex px-3 py-1 text-sm font-medium rounded-full {{ $selectedUser->status_badge_color }}">
                                 {{ $selectedUser->status_label }}

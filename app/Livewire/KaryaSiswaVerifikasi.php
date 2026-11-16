@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\KaryaLog;
 use App\Models\KaryaSiswa;
+use App\Models\ModerationLog;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Title;
@@ -53,7 +54,7 @@ class KaryaSiswaVerifikasi extends Component
 
     public function mount()
     {
-        if (! in_array(Auth::user()->role, ['admin', 'guru'])) {
+        if (! Auth::user()?->canVerifyKarya()) {
             abort(403);
         }
 
@@ -62,9 +63,16 @@ class KaryaSiswaVerifikasi extends Component
 
     public function loadKarya()
     {
+        $user = Auth::user();
+
         $query = KaryaSiswa::with('user')
             ->where('status', 'review')
             ->oldest('updated_at');
+
+        // Moderator tidak boleh meninjau karya miliknya sendiri.
+        if ($user->isModerator()) {
+            $query->where('user_id', '!=', $user->id);
+        }
 
         if ($this->userId) {
             $query->where('user_id', $this->userId);
@@ -88,6 +96,25 @@ class KaryaSiswaVerifikasi extends Component
         $this->loadKarya();
     }
 
+    /**
+     * Moderator hanya boleh meninjau karya siswa lain.
+     */
+    protected function canModerateKarya(KaryaSiswa $karya): bool
+    {
+        $user = Auth::user();
+
+        if (! $user?->canVerifyKarya()) {
+            return false;
+        }
+
+        return ! ($user->isModerator() && $karya->user_id === $user->id);
+    }
+
+    protected function rejectOwnKarya(): void
+    {
+        session()->flash('error', 'Moderator tidak dapat memverifikasi karya miliknya sendiri.');
+    }
+
     public function selectTag(int $karyaId, string $tag): void
     {
         // Toggle single tag selection (1 tag per siswa)
@@ -100,6 +127,14 @@ class KaryaSiswaVerifikasi extends Component
 
     public function openApproveModal(int $id): void
     {
+        $karya = KaryaSiswa::find($id);
+
+        if (! $karya || ! $this->canModerateKarya($karya)) {
+            $this->rejectOwnKarya();
+
+            return;
+        }
+
         $this->approvingId = $id;
     }
 
@@ -115,6 +150,13 @@ class KaryaSiswaVerifikasi extends Component
         }
 
         $karya = KaryaSiswa::with('user')->findOrFail($this->approvingId);
+
+        if (! $this->canModerateKarya($karya)) {
+            $this->rejectOwnKarya();
+            $this->closeApproveModal();
+
+            return;
+        }
 
         if ($karya->status !== 'review') {
             $this->closeApproveModal();
@@ -136,6 +178,8 @@ class KaryaSiswaVerifikasi extends Component
         }
 
         // Catat ke log keterangan karya (maks 5 log, tertua terhapus otomatis)
+        $siswaName = $karya->nama_siswa ?? $karya->user?->name ?? 'Siswa';
+
         KaryaLog::record(
             userId: $karya->user_id,
             judulKarya: $karya->judul,
@@ -147,7 +191,16 @@ class KaryaSiswaVerifikasi extends Component
             metadata: ['tag' => $tag]
         );
 
-        $siswaName = $karya->nama_siswa ?? $karya->user?->name ?? 'Siswa';
+        if (Auth::user()->isModerator()) {
+            ModerationLog::record(
+                actorId: Auth::id(),
+                action: 'karya.approved',
+                description: "Moderator menyetujui karya \"{$karya->judul}\" milik {$siswaName}.",
+                targetUserId: $karya->user_id,
+                metadata: ['karya_id' => $karya->id, 'tag' => $tag]
+            );
+        }
+
         session()->flash('message', "Karya \"{$karya->judul}\" telah resmi dipublikasikan!".($tag ? " Tag \"{$tag}\" berhasil diberikan ke akun {$siswaName}." : ''));
 
         $this->closeApproveModal();
@@ -167,6 +220,14 @@ class KaryaSiswaVerifikasi extends Component
 
     public function openRejectModal(int $id): void
     {
+        $karya = KaryaSiswa::find($id);
+
+        if (! $karya || ! $this->canModerateKarya($karya)) {
+            $this->rejectOwnKarya();
+
+            return;
+        }
+
         $this->rejectingId = $id;
         $this->rejectNotes[$id] = $this->rejectNotes[$id] ?? '';
     }
@@ -186,6 +247,13 @@ class KaryaSiswaVerifikasi extends Component
         ]);
 
         $karya = KaryaSiswa::findOrFail($this->rejectingId);
+
+        if (! $this->canModerateKarya($karya)) {
+            $this->rejectOwnKarya();
+            $this->closeRejectModal();
+
+            return;
+        }
 
         if ($karya->status !== 'review') {
             $this->closeRejectModal();
@@ -209,6 +277,16 @@ class KaryaSiswaVerifikasi extends Component
             karyaId: $karya->id,
             adminId: Auth::id()
         );
+
+        if (Auth::user()->isModerator()) {
+            ModerationLog::record(
+                actorId: Auth::id(),
+                action: 'karya.rejected',
+                description: "Moderator menolak karya \"{$karya->judul}\" milik {$karya->nama_siswa}.",
+                targetUserId: $karya->user_id,
+                metadata: ['karya_id' => $karya->id, 'catatan' => $catatanTolak]
+            );
+        }
 
         session()->flash('message', "Karya \"{$karya->judul}\" ditolak dan dikembalikan sebagai draft dengan catatan perbaikan.");
         $this->closeRejectModal();
