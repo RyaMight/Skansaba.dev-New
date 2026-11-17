@@ -759,6 +759,15 @@ html.theme-transition footer {
 .prestasi-track {
     scrollbar-width: none;
     -ms-overflow-style: none;
+    /* `overflow-x: auto` membuat overflow-y ikut menjadi scroll container.
+       Kartu yang belum ter-reveal masih `translateY(28px)` (terpotong di
+       kanan track), jadi track punya ±12px ruang scroll vertikal. Roda
+       scroll yang mendarat di atas track bisa "berhenti" di ruang 12px itu
+       sebelum naik ke halaman — terasa nyangkut, dan kartu ikut bergeser
+       naik-turun sedikit. `clip` menghapus scroll container vertikalnya
+       sama sekali; `hidden` jadi fallback untuk browser lama. */
+    overflow-y: hidden;
+    overflow-y: clip;
     /* `proximity`, bukan `mandatory`: snap wajib bisa "menahan" roda
        scroll saat kursor berada di atas track (halaman terasa nyangkut). */
     scroll-snap-type: x proximity;
