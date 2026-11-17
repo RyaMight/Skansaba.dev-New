@@ -6,9 +6,10 @@
     $isProfilActive = $isStrukturActive || $isFasilitasActive || request()->routeIs('profil.*') || request()->is('profil*');
 
     $isPrestasiActive = request()->routeIs('prestasi.*') || request()->is('prestasi*');
-    $isKaryaActive = request()->routeIs('karya.*') || request()->is('karya*');
+    $isKaryaActive = (request()->routeIs('karya.*') || request()->is('karya*')) && request()->query('tab') !== 'profil';
+    $isProfilSiswaActive = (request()->routeIs('karya.*') || request()->is('karya*')) && request()->query('tab') === 'profil';
     $isAlumniActive = request()->routeIs('alumni.*') || request()->is('alumni*');
-    $isSiswaActive = $isPrestasiActive || $isKaryaActive || $isAlumniActive;
+    $isSiswaActive = $isPrestasiActive || $isKaryaActive || $isProfilSiswaActive || $isAlumniActive;
 
     $isUnitProduksiActive = request()->routeIs('unit-produksi*') || request()->is('unit-produksi*');
 
@@ -92,6 +93,11 @@
                             'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isKaryaActive,
                             'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
                         ])>{{ __('Karya Siswa') }}</a>
+                        <a href="/karya?tab=profil" @class([
+                            'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
+                            'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isProfilSiswaActive,
+                            'text-gray-600 dark:text-gray-300' => !$isProfilSiswaActive,
+                        ])>{{ __('Profil Siswa') }}</a>
                         <a href="/alumni" @class([
                             'nav-dd-item morph-fill block px-4 py-2 type-nav hover-primary',
                             'font-semibold text-gray-900 dark:text-gray-100 nav-item-active' => $isAlumniActive,
@@ -345,6 +351,11 @@
                         'font-semibold text-gray-900 dark:text-gray-100' => $isKaryaActive,
                         'text-gray-600 dark:text-gray-300' => !$isKaryaActive,
                     ])>{{ __('Karya Siswa') }}</a>
+                    <a href="/karya?tab=profil" @class([
+                        'block py-2 type-nav hover-primary',
+                        'font-semibold text-gray-900 dark:text-gray-100' => $isProfilSiswaActive,
+                        'text-gray-600 dark:text-gray-300' => !$isProfilSiswaActive,
+                    ])>{{ __('Profil Siswa') }}</a>
                     <a href="/alumni" @class([
                         'block py-2 type-nav hover-primary',
                         'font-semibold text-gray-900 dark:text-gray-100' => $isAlumniActive,
