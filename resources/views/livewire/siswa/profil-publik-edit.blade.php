@@ -93,6 +93,9 @@
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400 border border-sky-200/70 dark:border-sky-500/20">
                         {{ __('Siswa RPL') }}
                     </span>
+                    @if($user->isModerator())
+                        <x-moderator-badge size="sm" />
+                    @endif
                     @foreach($user->verified_tags_list as $vTag)
                         <x-verified-tag-badge :tag="$vTag" size="sm" />
                     @endforeach

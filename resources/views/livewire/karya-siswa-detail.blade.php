@@ -65,6 +65,9 @@
                                 <div>
                                     <div class="flex flex-wrap items-center gap-2">
                                         <span class="font-bold text-gray-900 dark:text-gray-50 group-hover:text-sky-600 transition text-sm">{{ $karya->user->name }}</span>
+                                        @if($karya->user->isModerator())
+                                            <x-moderator-badge size="xs" />
+                                        @endif
                                         @foreach($karya->user->verified_tags_list as $vTag)
                                             <x-verified-tag-badge :tag="$vTag" />
                                         @endforeach
@@ -235,6 +238,9 @@
                                     <div class="min-w-0">
                                         <div class="flex flex-wrap items-center gap-2">
                                             <h4 class="type-card-title-sm text-gray-900 dark:text-gray-50 truncate">{{ $karya->user->name }}</h4>
+                                            @if($karya->user->isModerator())
+                                                <x-moderator-badge size="xs" />
+                                            @endif
                                             @foreach($karya->user->verified_tags_list as $vTag)
                                                 <x-verified-tag-badge :tag="$vTag" />
                                             @endforeach

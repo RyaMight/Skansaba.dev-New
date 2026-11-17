@@ -24,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
+            \App\Http\Middleware\EnforceSessionTimeout::class,
         ]);
 
         // Trust semua proxy (Cloudflare Tunnel / cloudflared) supaya

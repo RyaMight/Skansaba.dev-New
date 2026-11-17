@@ -111,6 +111,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/siswa/saluran', \App\Livewire\Siswa\SaluranSaya::class)->name('siswa.saluran');
     });
 
+    // Moderator routes (siswa yang diberi mandat admin)
+    Route::middleware('role:moderator')->group(function () {
+        Route::get('/siswa/moderator/verifikasi-karya', \App\Livewire\KaryaSiswaVerifikasi::class)->name('moderator.verifikasi');
+        Route::get('/siswa/moderator/keamanan', \App\Livewire\Siswa\ModeratorKeamanan::class)->name('moderator.keamanan');
+    });
+
     // Settings - accessible by all authenticated users
     Route::get('/settings', \App\Livewire\Settings::class)->name('settings');
 

@@ -29,7 +29,7 @@ class CheckRole
             ]);
         }
 
-        if (!in_array($request->user()->role, $roles)) {
+        if (!in_array($request->user()->role, $roles) && !(in_array('moderator', $roles, true) && $request->user()->isModerator())) {
             abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 

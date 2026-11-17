@@ -32,7 +32,20 @@ return [
     |
     */
 
-    'lifetime' => (int) env('SESSION_LIFETIME', 120),
+    'lifetime' => (int) env('SESSION_LIFETIME', 30),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Idle Timeout (minutes)
+    |--------------------------------------------------------------------------
+    |
+    | Logout otomatis setelah tidak ada aktivitas selama N menit. Nilai ini
+    | dipakai oleh middleware EnforceSessionTimeout dan independen dari
+    | lifetime cookie session.
+    |
+    */
+
+    'idle_timeout' => (int) env('SESSION_IDLE_TIMEOUT', 30),
 
     'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
 

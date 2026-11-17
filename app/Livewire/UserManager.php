@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\ModerationLog;
 use App\Models\User;
 use App\Services\ImageService;
 use Illuminate\Support\Facades\Hash;
@@ -22,8 +23,10 @@ class UserManager extends Component
     public $email;
     public $password;
     public $role = 'guru';
+    public $is_moderator = false;
     public $status = 'active';
     public $photo;
+    public $crop_data = null;
     
     // Filters
     public $search = '';
@@ -62,7 +65,13 @@ class UserManager extends Component
                         ->orWhere('email', 'like', '%' . $this->search . '%');
                 });
             })
-            ->when($this->filterRole, fn($q) => $q->byRole($this->filterRole))
+            ->when($this->filterRole, function ($q) {
+                if ($this->filterRole === 'moderator') {
+                    $q->where('role', 'siswa')->where('is_moderator', true);
+                } else {
+                    $q->byRole($this->filterRole);
+                }
+            })
             ->when($this->filterStatus, fn($q) => $q->byStatus($this->filterStatus))
             ->orderBy('created_at', 'desc');
 
@@ -94,8 +103,9 @@ class UserManager extends Component
     {
         $this->authorize('create', User::class);
         
-        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'status', 'photo']);
+        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'is_moderator', 'status', 'photo', 'crop_data']);
         $this->role = 'guru';
+        $this->is_moderator = false;
         $this->status = 'active';
         $this->password = $this->generatePassword();
         $this->isEditing = false;
@@ -112,8 +122,10 @@ class UserManager extends Component
         $this->email = $user->email;
         $this->password = '';
         $this->role = $user->role;
+        $this->is_moderator = (bool) $user->is_moderator;
         $this->status = $user->status;
         $this->photo = null;
+        $this->crop_data = null;
         
         $this->isEditing = true;
         $this->showFormModal = true;
@@ -129,7 +141,7 @@ class UserManager extends Component
     public function closeFormModal()
     {
         $this->showFormModal = false;
-        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'status', 'photo']);
+        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'is_moderator', 'status', 'photo', 'crop_data']);
     }
 
     public function closeDetailModal()
@@ -171,6 +183,7 @@ class UserManager extends Component
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'role' => ['required', 'in:admin,guru,siswa'],
+            'is_moderator' => ['boolean'],
             'status' => ['required', 'in:active,inactive'],
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -185,6 +198,9 @@ class UserManager extends Component
             'status.required' => 'Status wajib dipilih.',
             'status.in' => 'Status harus active atau inactive.',
         ]);
+
+        // Status moderator hanya berlaku untuk akun siswa.
+        $validated['is_moderator'] = $validated['role'] === 'siswa' && (bool) $this->is_moderator;
 
         // Process photo if provided
         if ($this->photo && str_starts_with($this->photo, 'data:image')) {
@@ -217,6 +233,7 @@ class UserManager extends Component
             'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $this->user_id],
             'password' => ['nullable', 'string', 'min:8'],
             'role' => ['required', 'in:admin,guru,siswa'],
+            'is_moderator' => ['boolean'],
             'status' => ['required', 'in:active,inactive'],
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -230,6 +247,10 @@ class UserManager extends Component
             'status.required' => 'Status wajib dipilih.',
             'status.in' => 'Status harus active atau inactive.',
         ]);
+
+        // Status moderator hanya berlaku untuk akun siswa.
+        $validated['is_moderator'] = $validated['role'] === 'siswa' && (bool) $this->is_moderator;
+        $wasModerator = (bool) $user->is_moderator;
 
         // Cegah admin menonaktifkan atau menurunkan role akunnya sendiri
         if ($user->id === auth()->id()) {
@@ -278,6 +299,17 @@ class UserManager extends Component
         }
 
         $user->update($validated);
+
+        if ($wasModerator !== (bool) $validated['is_moderator']) {
+            ModerationLog::record(
+                actorId: auth()->id(),
+                action: $validated['is_moderator'] ? 'moderator.granted' : 'moderator.revoked',
+                description: $validated['is_moderator']
+                    ? "Status moderator diberikan kepada {$user->name}."
+                    : "Status moderator dicabut dari {$user->name}.",
+                targetUserId: $user->id
+            );
+        }
 
         $this->closeFormModal();
         $this->loadUsers();

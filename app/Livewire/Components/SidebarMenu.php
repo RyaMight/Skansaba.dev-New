@@ -34,11 +34,18 @@ class SidebarMenu extends Component
         }
 
         $isAdmin = in_array($user->role, ['admin', 'guru']);
+        $isModerator = $user->isModerator();
         $pendingKaryaCount = $isAdmin ? KaryaSiswa::where('status', 'review')->count() : 0;
+        $moderatorPendingCount = $isModerator
+            ? KaryaSiswa::where('status', 'review')->where('user_id', '!=', $user->id)->count()
+            : 0;
+
+        $canAccess = fn(array $access) => in_array($user->role, $access, true)
+            || (in_array('moderator', $access, true) && $isModerator);
 
         return collect($this->allMenuItems())
-            ->filter(fn($item) => in_array($user->role, $item['access']))
-            ->map(function ($item) use ($user, $isAdmin, $pendingKaryaCount) {
+            ->filter(fn($item) => $canAccess($item['access']))
+            ->map(function ($item) use ($user, $isAdmin, $pendingKaryaCount, $moderatorPendingCount) {
                 if (!$isAdmin && $item['key'] === 'karya_siswa') {
                     $item['label'] = 'Karya Saya';
                 }
@@ -47,6 +54,12 @@ class SidebarMenu extends Component
                     $item['has_badge'] = true;
                     $item['badge_count'] = $pendingKaryaCount;
                     $item['badge_title'] = $pendingKaryaCount . ' karya perlu verifikasi';
+                }
+
+                if ($item['key'] === 'moderator_verifikasi' && $moderatorPendingCount > 0) {
+                    $item['has_badge'] = true;
+                    $item['badge_count'] = $moderatorPendingCount;
+                    $item['badge_title'] = $moderatorPendingCount . ' karya siswa lain perlu verifikasi';
                 }
 
                 if ($item['key'] === 'settings' && $user->isUsingDefaultPassword()) {
@@ -84,6 +97,20 @@ class SidebarMenu extends Component
                 'route' => 'siswa.saluran',
                 'icon' => 'link',
                 'access' => ['siswa'],
+            ],
+            [
+                'key' => 'moderator_verifikasi',
+                'label' => 'Verifikasi Karya',
+                'route' => 'moderator.verifikasi',
+                'icon' => 'star',
+                'access' => ['moderator'],
+            ],
+            [
+                'key' => 'moderator_keamanan',
+                'label' => 'Keamanan',
+                'route' => 'moderator.keamanan',
+                'icon' => 'shield',
+                'access' => ['moderator'],
             ],
             [
                 'key' => 'dashboard',
@@ -218,6 +245,9 @@ class SidebarMenu extends Component
         $groups = [
             'dashboard_siswa' => 'Utama',
             'dashboard' => 'Utama',
+            // Panel khusus siswa yang diberi mandat moderator
+            'moderator_verifikasi' => 'Moderator',
+            'moderator_keamanan' => 'Moderator',
             // Alur kerja karya dipisah agar badge verifikasi mudah terlihat
             'karya_verifikasi' => 'Karya',
             'karya_siswa' => 'Karya',
@@ -299,7 +329,7 @@ class SidebarMenu extends Component
      */
     private function groupMenuItems(array $menuItems): \Illuminate\Support\Collection
     {
-        $groupOrder = ['Utama', 'Karya', 'Konten', 'Akun & Sistem'];
+        $groupOrder = ['Utama', 'Moderator', 'Karya', 'Konten', 'Akun & Sistem'];
 
         return collect($menuItems)
             ->groupBy('group')

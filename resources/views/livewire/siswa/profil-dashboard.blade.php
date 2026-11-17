@@ -76,6 +76,9 @@
             <div class="min-w-0">
                 <div class="flex flex-wrap items-center gap-2">
                     <h2 class="type-subsection-title text-gray-900 dark:text-gray-50 truncate">{{ $user->name }}</h2>
+                    @if($isModerator)
+                        <x-moderator-badge size="sm" />
+                    @endif
                     @foreach($user->verified_tags_list as $vTag)
                         <x-verified-tag-badge :tag="$vTag" size="sm" />
                     @endforeach
@@ -119,6 +122,65 @@
             </a>
         </div>
     </div>
+
+    {{-- Panel Moderator --}}
+    @if($isModerator)
+        <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-xs border border-amber-200/70 dark:border-amber-500/25">
+            <div class="flex items-center justify-between gap-3 mb-4">
+                <div class="flex items-center gap-2">
+                    <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </span>
+                    <div>
+                        <h3 class="type-card-title-xs text-gray-900 dark:text-gray-50">Panel Moderator</h3>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400">Verifikasi karya siswa lain dan pantau keamanan akun.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <a href="{{ route('moderator.verifikasi') }}" wire:navigate class="group flex items-center gap-3 p-3.5 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-sky-200 dark:hover:border-sky-500/30 hover:bg-sky-50/40 dark:hover:bg-sky-500/10 transition">
+                    <span class="flex items-center justify-center w-10 h-10 rounded-lg bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-semibold text-gray-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition">Verifikasi Karya</p>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                            {{ $moderatorPendingCount > 0 ? $moderatorPendingCount . ' karya menunggu verifikasi' : 'Tidak ada antrean verifikasi' }}
+                        </p>
+                    </div>
+                    @if($moderatorPendingCount > 0)
+                        <span class="inline-flex items-center justify-center min-w-6 h-6 px-1.5 rounded-full text-[11px] font-bold bg-amber-50 dark:bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-500/30 shrink-0">
+                            {{ $moderatorPendingCount }}
+                        </span>
+                    @endif
+                </a>
+
+                <a href="{{ route('moderator.keamanan') }}" wire:navigate class="group flex items-center gap-3 p-3.5 rounded-xl border border-gray-100 dark:border-gray-800 hover:border-amber-200 dark:hover:border-amber-500/30 hover:bg-amber-50/40 dark:hover:bg-amber-500/10 transition">
+                    <span class="flex items-center justify-center w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </span>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-semibold text-gray-900 dark:text-gray-50 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">Keamanan & Audit</p>
+                        <p class="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
+                            {{ $moderatorFailedLogins }} gagal login (24 jam) · {{ $moderatorLockedAccounts }} terkunci · {{ $moderatorInactiveAccounts }} nonaktif
+                        </p>
+                    </div>
+                    @if($moderatorFailedLogins > 0 || $moderatorLockedAccounts > 0)
+                        <span class="inline-flex items-center justify-center min-w-6 h-6 px-1.5 rounded-full text-[11px] font-bold bg-rose-50 dark:bg-rose-500/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 shrink-0">
+                            !
+                        </span>
+                    @endif
+                </a>
+            </div>
+        </div>
+    @endif
 
     {{-- Stat Cards --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">

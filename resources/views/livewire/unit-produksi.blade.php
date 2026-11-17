@@ -11,7 +11,7 @@
     </section>
 
     {{-- Pricing Grid --}}
-    <section class="py-14 lg:py-20">
+    <section class="pt-14 lg:pt-20 pb-8 lg:pb-10">
         <div class="site-container">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
 
@@ -157,14 +157,14 @@
             </div>
 
             {{-- Catatan kaki --}}
-            <p class="mt-8 text-xs text-gray-500 dark:text-gray-400 text-center max-w-2xl mx-auto">
+            <p class="mt-6 text-xs text-gray-500 dark:text-gray-400 text-center max-w-2xl mx-auto">
                 {{ __('Cocok untuk anda yang sudah memiliki konten (foto/teks). Jika tidak, anda bisa meminta jasa pembuatan konten. Harga dapat berubah sewaktu-waktu tanpa pemberitahuan.') }}
             </p>
         </div>
     </section>
 
     {{-- Mengapa Harus Membuat Website di Skansaba.Dev? --}}
-    <section class="pt-16 sm:pt-24 lg:pt-32 pb-36 sm:pb-48 lg:pb-60">
+    <section class="pt-10 sm:pt-12 lg:pt-14 pb-36 sm:pb-48 lg:pb-60">
         <div class="site-container">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-stretch">
 

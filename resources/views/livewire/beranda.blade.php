@@ -735,7 +735,7 @@
             <div
                 x-ref="track"
                 @scroll.passive="update()"
-                class="prestasi-track flex items-stretch gap-5 overflow-x-auto pb-2 lg:gap-6"
+                class="prestasi-track flex items-stretch gap-5 overflow-x-auto overflow-y-hidden overscroll-x-contain touch-pan-x pt-2 pb-2 lg:gap-6"
             >
                 @foreach($prestasiTerbaru as $prestasi)
                     @php

@@ -196,7 +196,7 @@
                         @auth
                             @php($sidebarUser = $currentUser ?? auth()->user())
                             <p class="text-sm font-medium text-gray-900 dark:text-gray-50 truncate">{{ $sidebarUser->name }}</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">{{ $sidebarUser->role }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">{{ $sidebarUser->display_role_label }}</p>
                         @else
                             <p class="text-sm font-medium text-gray-900 dark:text-gray-50 truncate">Guest</p>
                             <p class="text-xs text-gray-500 dark:text-gray-400 truncate">Not logged in</p>
@@ -365,7 +365,7 @@
                     @auth
                         @php($sidebarUser = $currentUser ?? auth()->user())
                         <p class="text-sm font-medium text-gray-900 dark:text-gray-50 truncate">{{ $sidebarUser->name }}</p>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">{{ $sidebarUser->role }}</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400 truncate capitalize">{{ $sidebarUser->display_role_label }}</p>
                     @else
                         <p class="text-sm font-medium text-gray-900 dark:text-gray-50 truncate">Guest</p>
                         <p class="text-xs text-gray-500 dark:text-gray-400 truncate">Not logged in</p>

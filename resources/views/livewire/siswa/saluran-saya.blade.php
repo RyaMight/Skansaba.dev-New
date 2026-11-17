@@ -334,6 +334,42 @@
                     >
                 </div>
             </div>
+
+            {{-- 8. Website / Portofolio --}}
+            <div class="bg-white dark:bg-gray-900 rounded-2xl p-5 shadow-xs border border-gray-100 dark:border-gray-800 space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white shrink-0 shadow-xs">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                            </svg>
+                        </div>
+                        <span class="text-base font-bold text-gray-900 dark:text-gray-50">{{ __('Website / Portofolio') }}</span>
+                    </div>
+
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs text-gray-700 dark:text-gray-200 font-medium">{{ __('Tampilkan di Profil') }}</span>
+                        <button 
+                            type="button" 
+                            wire:click="toggleActive('website')" 
+                            class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none {{ $saluran['website']['active'] ? 'bg-[#0284c7]' : 'bg-gray-300' }}"
+                        >
+                            <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white dark:bg-gray-900 shadow-sm ring-0 transition duration-200 ease-in-out {{ $saluran['website']['active'] ? 'translate-x-5' : 'translate-x-0' }}"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">{{ __('URL Website') }}</label>
+                    <input 
+                        type="text" 
+                        wire:model="saluran.website.url" 
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                        placeholder="https://portofolio-kamu.com"
+                    >
+                    @error('saluran.website.url') <span class="text-rose-500 text-[11px]">{{ $message }}</span> @enderror
+                </div>
+            </div>
         </div>
 
         {{-- Action Button Simpan Perubahan --}}
