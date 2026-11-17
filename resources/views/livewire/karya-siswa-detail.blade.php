@@ -104,6 +104,15 @@
                         </div>
                     @endif
 
+                    {{-- Like & Share --}}
+                    @if($karya->status === 'published')
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                            <livewire:karya-like-button :karya-id="$karya->id" />
+
+                            <x-share-buttons :url="route('karya.detail', $karya->id)" :title="$karya->judul" />
+                        </div>
+                    @endif
+
                     {{-- Description --}}
                     @if($karya->deskripsi)
                         <div class="mb-5 pb-3.5 border-b border-gray-100 dark:border-gray-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-gray-400 notranslate">

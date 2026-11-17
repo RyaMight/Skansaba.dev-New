@@ -19,11 +19,14 @@ class KaryaSiswaPublic extends Component
 
     public string $activeTab = 'karya';
 
+    public string $sort = 'terpopuler';
+
     protected $queryString = [
         'search' => ['except' => ''],
         'filterKategori' => ['except' => ''],
         'filterProfil' => ['except' => ''],
         'activeTab' => ['except' => 'karya', 'as' => 'tab'],
+        'sort' => ['except' => 'terpopuler'],
     ];
 
     public function updatingSearch(): void
@@ -37,6 +40,11 @@ class KaryaSiswaPublic extends Component
     }
 
     public function updatingFilterProfil(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSort(): void
     {
         $this->resetPage();
     }
@@ -63,6 +71,7 @@ class KaryaSiswaPublic extends Component
         // 1. Karya Siswa Asli (Published di Database — karya terbaru yang di-publish muncul paling atas)
         $karyas = KaryaSiswa::query()
             ->with(['user' => fn ($q) => $q->select('id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'is_moderator', 'status')])
+            ->withCount('likes')
             ->where('status', 'published')
             ->when($searchTerm !== '', function ($query) use ($searchTerm) {
                 $like = '%'.$searchTerm.'%';
@@ -77,8 +86,11 @@ class KaryaSiswaPublic extends Component
                 });
             })
             ->when($this->filterKategori !== '', fn ($q) => $q->where('kategori', $this->filterKategori))
-            ->orderByDesc('published_at')
-            ->orderByDesc('id')
+            ->when(
+                $this->sort === 'terbaru',
+                fn ($q) => $q->orderByDesc('published_at')->orderByDesc('id'),
+                fn ($q) => $q->orderByDesc('likes_count')->orderByDesc('published_at')->orderByDesc('id')
+            )
             ->get();
 
         // Kategori karya siswa yang tersedia di database untuk filter

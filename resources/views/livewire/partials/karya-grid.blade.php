@@ -1,5 +1,26 @@
 {{-- Grid Karya Siswa: Menampilkan Data Asli + Katalog Dummy dengan UI Kartu Blueprint & Cover Image (Identik Screenshot) --}}
 <div class="space-y-6">
+    {{-- Urutkan Karya --}}
+    <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">{{ __('Urutkan') }}</span>
+            <button
+                type="button"
+                wire:click="$set('sort', 'terpopuler')"
+                class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $sort === 'terpopuler' ? 'bg-sky-600 text-white border-sky-600 shadow-xs' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:border-sky-300' }}"
+            >
+                {{ __('Terpopuler') }}
+            </button>
+            <button
+                type="button"
+                wire:click="$set('sort', 'terbaru')"
+                class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $sort === 'terbaru' ? 'bg-sky-600 text-white border-sky-600 shadow-xs' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:border-sky-300' }}"
+            >
+                {{ __('Terbaru') }}
+            </button>
+        </div>
+    </div>
+
     {{-- Filter Kategori --}}
     @if($categories->isNotEmpty())
         <div class="flex flex-wrap items-center gap-2">
@@ -209,12 +230,12 @@
                                 <livewire:karya-like-button :karya-id="$item->id" :key="'like-'.$item->id" />
                             @endif
 
-                            <a href="{{ route('karya.detail', $item->id) }}" class="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-sky-400 group-hover:translate-x-0.5 transition-transform">
+                            <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-sky-600 dark:text-sky-400 shrink-0 group-hover:translate-x-0.5 transition-transform">
                                 <span>{{ __('Detail') }}</span>
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
                                 </svg>
-                            </a>
+                            </span>
                         </div>
                     </div>
                 </div>
