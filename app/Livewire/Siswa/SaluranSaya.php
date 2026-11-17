@@ -54,6 +54,10 @@ class SaluranSaya extends Component
             'url' => '',
             'active' => true,
         ],
+        'website' => [
+            'url' => '',
+            'active' => true,
+        ],
         'email' => [
             'active' => false,
         ],
@@ -97,6 +101,10 @@ class SaluranSaya extends Component
                 'active' => false,
             ],
             'github' => [
+                'url' => '',
+                'active' => false,
+            ],
+            'website' => [
                 'url' => '',
                 'active' => false,
             ],
@@ -154,7 +162,7 @@ class SaluranSaya extends Component
         $this->email = trim($this->email);
 
         // Normalisasi URL saluran sebelum validasi (cegah javascript: XSS & tambahkan https:// bila belum ada)
-        foreach (['instagram', 'tiktok', 'youtube', 'linkedin', 'twitter', 'github'] as $channelKey) {
+        foreach (['instagram', 'tiktok', 'youtube', 'linkedin', 'twitter', 'github', 'website'] as $channelKey) {
             $rawUrl = trim($this->saluran[$channelKey]['url'] ?? '');
             if ($rawUrl !== '') {
                 if (preg_match('/^(javascript|data|vbscript):/i', $rawUrl)) {
@@ -185,6 +193,7 @@ class SaluranSaya extends Component
             'saluran.linkedin.url' => 'nullable|url|max:255',
             'saluran.twitter.url' => 'nullable|url|max:255',
             'saluran.github.url' => 'nullable|url|max:255',
+            'saluran.website.url' => 'nullable|url|max:255',
         ], [
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email ini sudah terdaftar oleh pengguna lain.',
