@@ -156,6 +156,7 @@ class KaryaSiswaPublic extends Component
                     });
                 }
             })
+            ->orderByDesc('published_karya_count')
             ->orderBy('name', 'asc')
             ->get();
 
