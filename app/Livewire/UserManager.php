@@ -26,6 +26,7 @@ class UserManager extends Component
     public $is_moderator = false;
     public $status = 'active';
     public $photo;
+    public $crop_data = null;
     
     // Filters
     public $search = '';
@@ -102,7 +103,7 @@ class UserManager extends Component
     {
         $this->authorize('create', User::class);
         
-        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'is_moderator', 'status', 'photo']);
+        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'is_moderator', 'status', 'photo', 'crop_data']);
         $this->role = 'guru';
         $this->is_moderator = false;
         $this->status = 'active';
@@ -124,6 +125,7 @@ class UserManager extends Component
         $this->is_moderator = (bool) $user->is_moderator;
         $this->status = $user->status;
         $this->photo = null;
+        $this->crop_data = null;
         
         $this->isEditing = true;
         $this->showFormModal = true;
@@ -139,7 +141,7 @@ class UserManager extends Component
     public function closeFormModal()
     {
         $this->showFormModal = false;
-        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'is_moderator', 'status', 'photo']);
+        $this->reset(['user_id', 'name', 'email', 'password', 'role', 'is_moderator', 'status', 'photo', 'crop_data']);
     }
 
     public function closeDetailModal()

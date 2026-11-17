@@ -65,6 +65,7 @@ test('admin dapat mengatur status moderator lewat manajemen pengguna', function 
     Livewire::actingAs($admin)
         ->test(UserManager::class)
         ->call('openEditModal', $siswa->id)
+        ->set('crop_data', 'data:image/png;base64,dummy')
         ->set('is_moderator', true)
         ->call('update')
         ->assertHasNoErrors();
