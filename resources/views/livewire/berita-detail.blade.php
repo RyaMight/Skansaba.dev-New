@@ -10,9 +10,9 @@
     ];
 @endphp
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950">
+<div class="min-h-screen bg-gray-50 dark:bg-slate-900">
     {{-- Hero Section --}}
-    <section class="bg-white dark:bg-gray-950 pt-12 sm:pt-16 pb-6 sm:pb-8">
+    <section class="bg-white dark:bg-slate-900 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="flex justify-center mb-6">
                 <a href="/berita" class="btn-morph btn-morph--primary type-button inline-flex">

@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950">
+<div class="min-h-screen bg-gray-50 dark:bg-slate-900">
     {{-- Hero Section --}}
-    <section class="bg-white dark:bg-gray-950 py-12">
+    <section class="bg-white dark:bg-slate-900 py-12">
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex justify-center mb-6">
                 <a href="/prestasi" class="btn-morph btn-morph--primary type-button inline-flex">

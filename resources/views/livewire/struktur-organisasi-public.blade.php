@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950">
+<div class="min-h-screen bg-gray-50 dark:bg-slate-900">
     {{-- Header --}}
-    <section class="bg-white dark:bg-gray-950 py-12 lg:py-16">
+    <section class="bg-white dark:bg-slate-900 py-12 lg:py-16">
         <div class="site-container text-center">
 
             <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight" data-reveal>
