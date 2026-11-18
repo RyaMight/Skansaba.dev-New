@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-slate-100 dark:bg-slate-900 py-8 lg:py-12" x-data="{ tab: @entangle('activeTab').live }">
+<div class="min-h-screen bg-slate-100 dark:bg-gray-950 py-8 lg:py-12" x-data="{ tab: @entangle('activeTab').live }">
     <div class="site-container">
 
         {{-- Tab Switcher Header (Identik persis dengan Gambar 0 & Gambar 1) --}}

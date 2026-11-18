@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-slate-100 dark:bg-slate-900">
+<div class="min-h-screen bg-slate-100 dark:bg-gray-950">
     {{-- Hero Header dengan Gradient & Ilustrasi --}}
     <section class="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-pink-500 dark:from-blue-900 dark:via-purple-900 dark:to-pink-900">
         {{-- Animated Background Shapes --}}

@@ -10,9 +10,9 @@
     ];
 @endphp
 
-<div class="min-h-screen bg-slate-100 dark:bg-slate-900">
+<div class="min-h-screen bg-slate-100 dark:bg-gray-950">
     {{-- Hero Section --}}
-    <section class="bg-slate-100 dark:bg-slate-900 pt-12 sm:pt-16 pb-6 sm:pb-8">
+    <section class="bg-slate-100 dark:bg-gray-950 pt-12 sm:pt-16 pb-6 sm:pb-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6">
             <div class="flex justify-center mb-6">
                 <a href="/berita" class="btn-morph btn-morph--primary type-button inline-flex">
@@ -276,7 +276,7 @@
 
     {{-- Related Berita --}}
     @if($relatedBeritas->count() > 0)
-        <section class="py-14 lg:py-20 bg-slate-100 dark:bg-slate-900">
+        <section class="py-14 lg:py-20 bg-slate-100 dark:bg-gray-950">
             <div class="max-w-7xl mx-auto px-6">
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-8">{{ __('Berita Terkait') }}</h2>
                 <div class="grid md:grid-cols-3 gap-6">

@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-slate-100 dark:bg-slate-900">
+<div class="min-h-screen bg-slate-100 dark:bg-gray-950">
     {{-- Header --}}
-    <section class="bg-slate-100 dark:bg-slate-900 pt-6 pb-2 lg:pt-8 lg:pb-3">
+    <section class="bg-slate-100 dark:bg-gray-950 pt-6 pb-2 lg:pt-8 lg:pb-3">
         <div class="site-container">
             
             {{-- Back Button --}}
