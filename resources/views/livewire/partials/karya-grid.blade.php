@@ -74,7 +74,7 @@
             </button>
         </div>
     @else
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+        <div class="columns-1 sm:columns-2 lg:columns-3 gap-5">
             {{-- ================================================================ --}}
             {{-- 1. DATA ASLI DARI DATABASE ($karyas - published)                  --}}
             {{-- ================================================================ --}}
@@ -91,10 +91,10 @@
                     $tahun = $item->tahun ?: date('Y');
                 @endphp
 
-                <div
-                    class="group relative h-full bg-white dark:bg-gray-900 rounded-xl border border-slate-200/90 dark:border-gray-800 hover:border-sky-500/70 dark:hover:border-sky-500/60 shadow-xs transition-colors duration-150 overflow-hidden flex flex-col justify-between"
+                <article
+                    class="group mb-5 break-inside-avoid overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-colors duration-150 hover:border-sky-500/70 dark:border-gray-800 dark:bg-gray-900 dark:hover:border-sky-500/60"
                 >
-                    <div class="flex-1 flex flex-col">
+                    <div class="flex flex-col">
                         {{-- Cover Area --}}
                         <a href="{{ route('karya.detail', $item->id) }}" class="block" aria-label="{{ $item->judul }}">
                         @if($item->gambar_url)
@@ -102,9 +102,12 @@
                                 <img
                                     src="{{ $item->gambar_url }}"
                                     alt="{{ $item->judul }}"
+                                    width="800"
+                                    height="500"
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                                     loading="lazy"
                                 >
+                                <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent"></div>
                                 @if($item->kategori)
                                     <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-900/85 text-white border border-white/15">
                                         {{ __($item->kategori) }}
@@ -172,7 +175,7 @@
                         </a>
 
                         {{-- Card Body --}}
-                        <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between">
+                        <div class="p-4 sm:p-5">
                             <div>
                                 <div class="flex items-center justify-between gap-2 mb-1.5">
                                     <span class="text-[11px] font-semibold text-sky-600 dark:text-sky-400 truncate">
@@ -183,11 +186,11 @@
                                     </span>
                                 </div>
 
-                                <h3 class="type-card-title-xs text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-1" title="{{ $item->judul }}">
+                                <h3 class="type-card-title-xs text-slate-900 dark:text-gray-50 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors line-clamp-2" title="{{ $item->judul }}">
                                     <a href="{{ route('karya.detail', $item->id) }}">{{ $item->judul }}</a>
                                 </h3>
 
-                                <p class="type-body-xs text-slate-500 dark:text-gray-400 mt-1.5 line-clamp-2">
+                                <p class="type-body-xs text-slate-500 dark:text-gray-400 mt-1.5 line-clamp-3">
                                     {{ $item->deskripsi_singkat ?: $item->deskripsi_excerpt }}
                                 </p>
                             </div>
@@ -211,11 +214,11 @@
                     </div>
 
                     {{-- Card Footer: Creator, Like & Link --}}
-                    <div class="px-4 py-3 border-t border-slate-100 dark:border-gray-800/80 bg-slate-50/50 dark:bg-gray-900/50 flex items-center justify-between gap-2 mt-auto">
+                    <div class="flex items-center justify-between gap-2 border-t border-slate-100 px-4 py-3 dark:border-gray-800/80">
                         <div class="flex items-center gap-2 min-w-0">
                             <div class="w-6 h-6 {{ $creatorUser?->photoFrameClass('rounded-md') ?? 'rounded-full' }} overflow-hidden bg-sky-50 dark:bg-sky-500/15 border border-sky-200/70 dark:border-sky-500/30 text-sky-700 dark:text-sky-300 flex items-center justify-center text-[10px] font-bold shrink-0">
                                 @if($creatorUser && $creatorUser->photo_url)
-                                    <img src="{{ $creatorUser->photo_url }}" alt="{{ $creatorName }}" class="w-full h-full object-cover">
+                                    <img src="{{ $creatorUser->photo_url }}" alt="{{ $creatorName }}" width="24" height="24" class="w-full h-full object-cover">
                                 @else
                                     {{ $creatorInitials }}
                                 @endif
@@ -238,7 +241,7 @@
                             </span>
                         </div>
                     </div>
-                </div>
+                </article>
             @endforeach
         </div>
     @endif

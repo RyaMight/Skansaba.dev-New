@@ -99,6 +99,8 @@
                                     <img
                                         src="{{ $siswa->photo_url }}"
                                         alt="{{ $siswa->name }}"
+                                        width="48"
+                                        height="48"
                                         class="w-full h-full object-cover"
                                         loading="lazy"
                                     >

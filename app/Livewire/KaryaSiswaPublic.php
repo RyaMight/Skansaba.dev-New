@@ -49,10 +49,10 @@ class KaryaSiswaPublic extends Component
         $this->resetPage();
     }
 
-    public function setTab(string $tab): void
+    public function mount(): void
     {
-        if (in_array($tab, ['karya', 'profil'], true)) {
-            $this->activeTab = $tab;
+        if (!in_array($this->activeTab, ['karya', 'profil'], true)) {
+            $this->activeTab = 'karya';
         }
     }
 
@@ -161,6 +161,7 @@ class KaryaSiswaPublic extends Component
             ->get();
 
         return view('livewire.karya-siswa-public', [
+            'title' => ($this->activeTab === 'profil' ? 'Profil Siswa' : 'Karya Siswa') . ' - SMKN 1 Bantul',
             'karyas' => $karyas,
             'totalKaryaCount' => $karyas->count(),
             'categories' => $categories,
