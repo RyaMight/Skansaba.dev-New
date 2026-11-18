@@ -1,9 +1,10 @@
 {{-- Grid Karya Siswa: kartu showcase minimalis (cover, kategori, judul, deskripsi). --}}
 <div class="space-y-6">
-    {{-- Urutkan Karya --}}
-    <div class="flex flex-wrap items-center justify-between gap-3">
-        <div class="flex items-center gap-2">
-            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">{{ __('Urutkan') }}</span>
+    {{-- Kontrol urutkan & filter: satu gugus terpusat, sejajar dengan judul dan search. --}}
+    <div class="space-y-3">
+        {{-- Urutkan Karya --}}
+        <div class="flex flex-wrap items-center justify-start gap-2 sm:justify-center">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-gray-400">{{ __('Urutkan') }}</span>
             <button
                 type="button"
                 wire:click="$set('sort', 'terpopuler')"
@@ -19,42 +20,42 @@
                 {{ __('Terbaru') }}
             </button>
         </div>
+
+        {{-- Filter Kategori --}}
+        @if($categories->isNotEmpty())
+            <div class="flex flex-wrap items-center justify-start gap-2 sm:justify-center">
+                <button
+                    type="button"
+                    wire:click="$set('filterKategori', '')"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
+                >
+                    {{ __('Semua Kategori') }}
+                </button>
+                @foreach($categories as $cat)
+                    <button
+                        type="button"
+                        wire:click="$set('filterKategori', '{{ $cat }}')"
+                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === $cat ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
+                    >
+                        {{ __($cat) }}
+                    </button>
+                @endforeach
+
+                @if($search !== '' || $filterKategori !== '')
+                    <button
+                        type="button"
+                        wire:click="resetFilters"
+                        class="ml-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline cursor-pointer sm:ml-0"
+                    >
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                        <span>{{ __('Reset Filter') }}</span>
+                    </button>
+                @endif
+            </div>
+        @endif
     </div>
-
-    {{-- Filter Kategori --}}
-    @if($categories->isNotEmpty())
-        <div class="flex flex-wrap items-center gap-2">
-            <button
-                type="button"
-                wire:click="$set('filterKategori', '')"
-                class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === '' ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
-            >
-                {{ __('Semua Kategori') }}
-            </button>
-            @foreach($categories as $cat)
-                <button
-                    type="button"
-                    wire:click="$set('filterKategori', '{{ $cat }}')"
-                    class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $filterKategori === $cat ? 'bg-sky-600 text-white border-sky-600 shadow-xs dark:bg-sky-600 dark:border-sky-600 dark:text-white' : 'morph-sweep morph-chip bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800' }}"
-                >
-                    {{ __($cat) }}
-                </button>
-            @endforeach
-
-            @if($search !== '' || $filterKategori !== '')
-                <button
-                    type="button"
-                    wire:click="resetFilters"
-                    class="ml-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
-                >
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                    <span>{{ __('Reset Filter') }}</span>
-                </button>
-            @endif
-        </div>
-    @endif
 
     @if($karyas->isEmpty())
         <div class="bg-white dark:bg-gray-900 rounded-xl border border-slate-200 dark:border-gray-800 p-12 text-center">

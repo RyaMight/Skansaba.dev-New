@@ -12,7 +12,7 @@
 
 <div class="space-y-6">
     {{-- Filter Bar Profil Siswa --}}
-    <div class="flex flex-wrap items-center gap-2">
+    <div class="flex flex-wrap items-center justify-start gap-2 sm:justify-center">
         <button
             type="button"
             wire:click="$set('filterProfil', '')"
@@ -46,7 +46,7 @@
             <button
                 type="button"
                 wire:click="resetFilters"
-                class="ml-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline cursor-pointer"
+                class="ml-auto inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-rose-600 dark:text-rose-400 hover:underline cursor-pointer sm:ml-0"
             >
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
