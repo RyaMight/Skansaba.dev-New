@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-gray-50 dark:bg-slate-900">
+<div class="min-h-screen bg-slate-100 dark:bg-slate-900">
     {{-- Header --}}
-    <section class="bg-white dark:bg-slate-900 py-12 lg:py-16">
+    <section class="bg-slate-100 dark:bg-slate-900 py-12 lg:py-16">
         <div class="site-container text-center">
             
             <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-3">
@@ -11,7 +11,7 @@
     </section>
 
     {{-- Search Only --}}
-    <section class="py-12 lg:py-16 bg-white dark:bg-gray-950">
+    <section class="py-12 lg:py-16 bg-slate-100 dark:bg-slate-900">
         <div class="site-container">
             <div class="max-w-2xl">
                 <div class="relative">

@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-gray-50 dark:bg-slate-900">
+<div class="min-h-screen bg-slate-100 dark:bg-slate-900">
     {{-- Header ringkas: judul, subjudul, dan pencarian dalam satu blok --}}
-    <section class="bg-white dark:bg-slate-900 border-b border-gray-200/80 dark:border-gray-800">
+    <section class="bg-slate-100 dark:bg-slate-900 border-b border-gray-200/80 dark:border-gray-800">
         <div class="site-container py-8 lg:py-11">
             <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div class="max-w-2xl">

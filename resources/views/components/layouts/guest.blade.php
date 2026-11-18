@@ -101,7 +101,7 @@
     {{-- Livewire Styles --}}
     @livewireStyles
 </head>
-<body class="antialiased bg-white dark:bg-slate-900 text-slate-800 dark:text-gray-100">
+<body class="antialiased {{ request()->routeIs('beranda') ? 'bg-white' : 'bg-slate-100' }} dark:bg-slate-900 text-slate-800 dark:text-gray-100">
     <x-navbar-guest />
     
     <main>

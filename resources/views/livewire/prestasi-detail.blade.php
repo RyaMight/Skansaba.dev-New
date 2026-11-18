@@ -1,6 +1,6 @@
-<div class="min-h-screen bg-gray-50 dark:bg-slate-900">
+<div class="min-h-screen bg-slate-100 dark:bg-slate-900">
     {{-- Hero Section --}}
-    <section class="bg-white dark:bg-slate-900 py-12">
+    <section class="bg-slate-100 dark:bg-slate-900 py-12">
         <div class="max-w-4xl mx-auto px-6">
             <div class="flex justify-center mb-6">
                 <a href="/prestasi" class="btn-morph btn-morph--primary type-button inline-flex">
@@ -83,7 +83,7 @@
 
     {{-- Related Prestasi --}}
     @if($relatedPrestasis->count() > 0)
-        <section class="py-14 lg:py-20 bg-white dark:bg-gray-950">
+        <section class="py-14 lg:py-20 bg-slate-100 dark:bg-slate-900">
             <div class="max-w-7xl mx-auto px-6">
                 <h2 class="type-section-title text-gray-900 dark:text-gray-50 mb-8">{{ __('Prestasi Terkait') }}</h2>
                 <div class="grid md:grid-cols-3 gap-6">
