@@ -34,7 +34,7 @@
             </a>
 
             {{-- Desktop Menu --}}
-            <div class="hidden lg:flex items-center gap-3">
+            <div class="hidden lg:flex items-center gap-3 xl:gap-6">
                 <a href="/" @class([
                     'link-underline type-nav transition hover-primary nav-link',
                     'nav-link-active font-semibold' => $isBerandaActive,
@@ -44,7 +44,7 @@
                 {{-- Profil Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-link',
+                        'link-underline flex items-center gap-1.5 type-nav transition hover-primary cursor-pointer nav-link',
                         'nav-link-active font-semibold' => $isProfilActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isProfilActive,
                     ])>
@@ -70,7 +70,7 @@
                 {{-- Siswa Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-link',
+                        'link-underline flex items-center gap-1.5 type-nav transition hover-primary cursor-pointer nav-link',
                         'nav-link-active font-semibold' => $isSiswaActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isSiswaActive,
                     ])>
@@ -112,7 +112,7 @@
                 {{-- Informasi Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-link',
+                        'link-underline flex items-center gap-1.5 type-nav transition hover-primary cursor-pointer nav-link',
                         'nav-link-active font-semibold' => $isInformasiActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isInformasiActive,
                     ])>

@@ -111,8 +111,6 @@ class KaryaSiswaPublic extends Component
             ])
             ->get(['id', 'name', 'username', 'nisn', 'kelas', 'photo', 'keahlian', 'verified_tags', 'role', 'is_moderator', 'status']);
 
-        $siswaLookup = $allActiveSiswas->keyBy(fn (User $u) => mb_strtolower(trim($u->name)));
-
         $totalSiswasCount = $allActiveSiswas->count();
         $siswaWithKaryaCount = $allActiveSiswas->where('published_karya_count', '>', 0)->count();
 
@@ -166,7 +164,6 @@ class KaryaSiswaPublic extends Component
             'totalKaryaCount' => $karyas->count(),
             'categories' => $categories,
             'siswas' => $siswas,
-            'siswaLookup' => $siswaLookup,
             'totalSiswasCount' => $totalSiswasCount,
             'siswaWithKaryaCount' => $siswaWithKaryaCount,
             'availableSkills' => $availableSkills,
