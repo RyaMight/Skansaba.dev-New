@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-gray-50 dark:bg-slate-900">
     {{-- Header --}}
-    <section class="bg-white dark:bg-slate-900 py-8 lg:py-10">
+    <section class="bg-white dark:bg-slate-900 pt-6 pb-2 lg:pt-8 lg:pb-3">
         <div class="site-container">
             
             {{-- Back Button --}}
@@ -16,7 +16,7 @@
     </section>
 
     {{-- Content --}}
-    <section class="py-14 lg:py-20">
+    <section class="pt-4 pb-14 lg:pt-6 lg:pb-20">
         <div class="site-container">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
