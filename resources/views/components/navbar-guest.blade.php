@@ -34,20 +34,18 @@
             </a>
 
             {{-- Desktop Menu --}}
-            <div class="hidden lg:flex items-center gap-1">
+            <div class="hidden lg:flex items-center gap-3">
                 <a href="/" @class([
-                    'link-underline type-nav transition hover-primary nav-pill',
-                    'nav-pill-active' => $isBerandaActive,
-                    'font-semibold text-gray-900 dark:text-gray-100' => $isBerandaActive,
+                    'link-underline type-nav transition hover-primary nav-link',
+                    'nav-link-active font-semibold' => $isBerandaActive,
                     'font-semibold text-gray-500 dark:text-gray-400' => !$isBerandaActive,
-                ])>{{ __('Beranda') }}</a>
+                ]) @if($isBerandaActive) aria-current="page" @endif>{{ __('Beranda') }}</a>
 
                 {{-- Profil Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-pill',
-                        'nav-pill-active' => $isProfilActive,
-                        'font-semibold text-gray-900 dark:text-gray-100' => $isProfilActive,
+                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-link',
+                        'nav-link-active font-semibold' => $isProfilActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isProfilActive,
                     ])>
                         {{ __('Profil') }}
@@ -72,9 +70,8 @@
                 {{-- Siswa Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-pill',
-                        'nav-pill-active' => $isSiswaActive,
-                        'font-semibold text-gray-900 dark:text-gray-100' => $isSiswaActive,
+                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-link',
+                        'nav-link-active font-semibold' => $isSiswaActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isSiswaActive,
                     ])>
                         {{ __('Siswa') }}
@@ -107,18 +104,16 @@
                 </div>
 
                 <a href="/unit-produksi" @class([
-                    'link-underline type-nav transition hover-primary nav-pill',
-                    'nav-pill-active' => $isUnitProduksiActive,
-                    'font-semibold text-gray-900 dark:text-gray-100' => $isUnitProduksiActive,
+                    'link-underline type-nav transition hover-primary nav-link',
+                    'nav-link-active font-semibold' => $isUnitProduksiActive,
                     'font-semibold text-gray-500 dark:text-gray-400' => !$isUnitProduksiActive,
-                ])>{{ __('Unit Produksi') }}</a>
+                ]) @if($isUnitProduksiActive) aria-current="page" @endif>{{ __('Unit Produksi') }}</a>
 
                 {{-- Informasi Dropdown --}}
                 <div x-data="{ open: false }" @click.away="open = false" class="relative">
                     <button @click="open = !open" @class([
-                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-pill',
-                        'nav-pill-active' => $isInformasiActive,
-                        'font-semibold text-gray-900 dark:text-gray-100' => $isInformasiActive,
+                        'link-underline flex items-center gap-1 type-nav transition hover-primary cursor-pointer nav-link',
+                        'nav-link-active font-semibold' => $isInformasiActive,
                         'font-semibold text-gray-500 dark:text-gray-400' => !$isInformasiActive,
                     ])>
                         {{ __('Informasi') }}
@@ -246,17 +241,9 @@
     </nav>
 
     <style>
-        /* Hover warna primer hanya untuk item yang TIDAK sedang aktif.
-           Pill aktif sudah bertint warna primer, jadi kalau teksnya ikut
-           berubah jadi primer hasilnya biru-di-atas-biru (pudar/aneh). */
-        .hover-primary:not(.nav-pill-active):not(.nav-item-active):hover {
+        /* Hover warna primer untuk item navigasi. */
+        .hover-primary:hover {
             color: {{ $globalSettings->primary_color_style }} !important;
-        }
-
-        /* Item aktif memakai pill sebagai penanda; garis bawah sapu
-           (link-underline) dihilangkan agar tidak tumpang tindih. */
-        .nav-pill-active::after {
-            display: none;
         }
     </style>
 
