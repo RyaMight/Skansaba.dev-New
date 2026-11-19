@@ -20,10 +20,10 @@
         <div class="site-container">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
 
-                {{-- Judul & Like --}}
-                <div class="p-4 sm:p-8 pb-5 sm:pb-6 border-b border-gray-100 dark:border-gray-800">
+                {{-- Metadata + Judul & Like --}}
+                <div class="p-4 sm:p-8">
                     {{-- Metadata --}}
-                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                    <div class="flex flex-wrap items-center gap-3 mb-6">
                         @if($karya->kategori)
                             <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}22; color: {{ $globalSettings->primary_color_style }}">
                                 {{ $karya->kategori }}
@@ -35,7 +35,7 @@
                         @endforeach
                     </div>
 
-                    {{-- Title row: judul di kiri, like di kanan --}}
+                    {{-- Title: judul di kiri, like di kanan --}}
                     <div class="flex items-start justify-between gap-4">
                         <h1 class="type-page-title text-gray-900 dark:text-gray-50 flex-1 min-w-0">{{ $karya->judul }}</h1>
 
@@ -56,9 +56,9 @@
 
                 <div class="p-4 sm:p-8">
 
-                    {{-- Detail Karya / Deskripsi --}}
+                    {{-- Description --}}
                     @if($karya->deskripsi)
-                        <div class="mb-4 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-gray-400 notranslate">
+                        <div class="mb-5 pb-3.5 border-b border-gray-100 dark:border-gray-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-gray-400 notranslate">
                             <div class="flex items-center gap-1.5">
                                 <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
@@ -77,77 +77,55 @@
                             </a>
                         </div>
 
-                        <div class="prose prose-lg max-w-none pb-6 border-b border-gray-100 dark:border-gray-800 mb-8">
+                        <div class="prose prose-lg max-w-none mb-8">
                             {!! $karya->deskripsi_html !!}
                         </div>
                     @endif
 
-                    {{-- Pembuat Karya / Profil Siswa Card (satu tempat saja) --}}
+                    {{-- Author Info --}}
                     @if($karya->user && $karya->user->isSiswa())
-                        <div class="mb-8">
-                            <div class="p-5 bg-slate-50 dark:bg-gray-800/80 border border-slate-200/80 dark:border-gray-700 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                                <div class="flex items-start sm:items-center gap-4 min-w-0">
-                                    <a href="{{ $karya->user->profil_url }}" class="w-14 h-14 {{ $karya->user->photoFrameClass() }} overflow-hidden bg-slate-200 dark:bg-gray-700 ring-2 ring-white dark:ring-gray-800 shadow-xs shrink-0">
-                                        @if($karya->user->photo_url)
-                                            <img src="{{ $karya->user->photo_url }}" alt="{{ $karya->user->name }}" class="w-full h-full object-cover">
-                                        @else
-                                            <div class="w-full h-full bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 flex items-center justify-center text-base font-bold">
-                                                {{ $karya->user->initials() }}
-                                            </div>
-                                        @endif
-                                    </a>
-                                    <div class="min-w-0">
-                                        <div class="flex flex-wrap items-center gap-2">
-                                            <h4 class="type-card-title-sm text-gray-900 dark:text-gray-50 truncate">{{ $karya->user->name }}</h4>
-                                            @if($karya->user->isModerator())
-                                                <x-moderator-badge size="xs" />
-                                            @endif
-                                            @foreach($karya->user->verified_tags_list as $vTag)
-                                                <x-verified-tag-badge :tag="$vTag" />
-                                            @endforeach
+                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                            <a href="{{ $karya->user->profil_url }}" class="inline-flex items-center gap-3 text-gray-700 dark:text-gray-200 hover:text-sky-600 transition group">
+                                <div class="w-10 h-10 {{ $karya->user->photoFrameClass('rounded-lg') }} overflow-hidden bg-slate-100 dark:bg-gray-800 ring-2 ring-gray-100 dark:ring-gray-700 shrink-0">
+                                    @if($karya->user->photo_url)
+                                        <img src="{{ $karya->user->photo_url }}" alt="{{ $karya->user->name }}" class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 flex items-center justify-center text-sm font-bold">
+                                            {{ $karya->user->initials() }}
                                         </div>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                                            {{ __('Penulis & Pembuat Karya') }}
-                                            @if($karya->user->bio)
-                                                • {{ Str::limit($karya->user->bio, 80) }}
-                                            @endif
-                                        </p>
-
-                                        {{-- Keahlian / Tech Stack Siswa --}}
-                                        @if(count($karya->user->keahlian_list) > 0)
-                                            <div class="flex flex-wrap items-center gap-1.5 mt-2">
-                                                <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mr-0.5 flex items-center gap-1">
-                                                    <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-                                                    </svg>
-                                                    <span>Tech Stack:</span>
-                                                </span>
-                                                @foreach($karya->user->keahlian_list as $skill)
-                                                    <span class="inline-flex items-center gap-1 px-2 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[11px] font-bold">
-                                                        <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                                        </svg>
-                                                        <span>{{ $skill }}</span>
-                                                    </span>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </div>
+                                    @endif
                                 </div>
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <span class="font-bold text-gray-900 dark:text-gray-50 group-hover:text-sky-600 transition text-sm">{{ $karya->user->name }}</span>
+                                        @if($karya->user->isModerator())
+                                            <x-moderator-badge size="xs" />
+                                        @endif
+                                        @foreach($karya->user->verified_tags_list as $vTag)
+                                            <x-verified-tag-badge :tag="$vTag" />
+                                        @endforeach
+                                    </div>
+                                    <p class="text-xs text-gray-400 mt-0.5">{{ __('Penulis & Pembuat Karya') }}</p>
+                                </div>
+                            </a>
 
-                                <a
-                                    href="{{ $karya->user->profil_url }}"
-                                    class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white dark:bg-gray-900 border border-slate-300 dark:border-gray-600 hover:border-sky-500 text-slate-700 dark:text-gray-200 hover:text-sky-600 rounded-lg text-xs font-bold shadow-2xs transition shrink-0"
-                                >
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                                    </svg>
-                                    <span>{{ __('Lihat Profil Siswa') }}</span>
-                                </a>
-                            </div>
+                            {{-- Keahlian / Tech Stack Creator Preview --}}
+                            @if(count($karya->user->keahlian_list) > 0)
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mr-0.5">{{ __('Tech Stack:') }}</span>
+                                    @foreach(array_slice($karya->user->keahlian_list, 0, 5) as $skill)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-200/70 dark:border-sky-500/30 rounded-md text-[11px] font-bold">
+                                            <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            <span>{{ $skill }}</span>
+                                        </span>
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
                     @elseif($karya->nama_siswa)
-                        <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-8">
+                        <div class="flex items-center gap-2 text-gray-600 dark:text-gray-300 mb-6">
                             <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                             </svg>
@@ -219,8 +197,8 @@
                         </div>
                     @endif
 
-                    {{-- Source Code & Share --}}
-                    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-4 pt-6 border-t border-gray-100 dark:border-gray-800">
+                    {{-- Action Buttons & Share --}}
+                    <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-between gap-4">
                         <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3">
                             @if($karya->url_karya)
                                 <a href="{{ $karya->url_karya }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg font-bold border-2 hover:bg-gray-50 dark:hover:bg-gray-800 transition" style="border-color: {{ $globalSettings->primary_color_style }}; color: {{ $globalSettings->primary_color_style }}">
