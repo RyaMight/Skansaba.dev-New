@@ -20,39 +20,34 @@
         <div class="site-container">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
-                <div class="relative">
-                    @if($karya->gambar_url)
-                        <img src="{{ $karya->gambar_url }}" alt="{{ $karya->judul }}" class="w-full aspect-video object-cover">
-                    @else
-                        <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
-                    @endif
-
-                    {{-- Kategori & Tahun di atas gambar --}}
-                    @if($karya->kategori || $karya->tahun)
-                        <div class="pointer-events-none absolute left-0 top-0 flex flex-wrap items-center gap-2 p-4 sm:p-5">
-                            @if($karya->kategori)
-                                <span class="inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-bold shadow-sm backdrop-blur-sm dark:bg-gray-900/90" style="color: {{ $globalSettings->primary_color_style }}">
-                                    {{ $karya->kategori }}
-                                </span>
-                            @endif
-                            @if($karya->tahun)
-                                <span class="inline-flex items-center rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-sm dark:bg-gray-900/80 dark:text-gray-200">
-                                    {{ $karya->tahun }}
-                                </span>
-                            @endif
-                        </div>
-                    @endif
-
-                    {{-- Like di kanan bawah gambar --}}
-                    @if($karya->status === 'published')
-                        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
-                        <div class="absolute bottom-4 right-4 z-10 sm:bottom-5 sm:right-5">
-                            <livewire:karya-like-button :karya-id="$karya->id" :overlay="true" :key="'like-image-'.$karya->id" />
-                        </div>
-                    @endif
-                </div>
+                @if($karya->gambar_url)
+                    <img src="{{ $karya->gambar_url }}" alt="{{ $karya->judul }}" class="w-full aspect-video object-cover">
+                @else
+                    <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
+                @endif
 
                 <div class="p-4 sm:p-8">
+                    {{-- Kategori & Tahun + Like (di luar gambar) --}}
+                    <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+                        @if($karya->kategori || $karya->tahun)
+                            <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-bold" style="background-color: color-mix(in srgb, {{ $globalSettings->primary_color_style }} 14%, transparent); color: {{ $globalSettings->primary_color_style }}">
+                                @if($karya->kategori)
+                                    <span>{{ $karya->kategori }}</span>
+                                @endif
+                                @if($karya->kategori && $karya->tahun)
+                                    <span class="opacity-50" aria-hidden="true">·</span>
+                                @endif
+                                @if($karya->tahun)
+                                    <span class="tabular-nums">{{ $karya->tahun }}</span>
+                                @endif
+                            </span>
+                        @endif
+
+                        @if($karya->status === 'published')
+                            <livewire:karya-like-button :karya-id="$karya->id" :key="'like-detail-'.$karya->id" />
+                        @endif
+                    </div>
+
                     {{-- Tags --}}
                     @if(count($karya->tags ?? []) > 0)
                         <div class="flex flex-wrap items-center gap-3 mb-6">
