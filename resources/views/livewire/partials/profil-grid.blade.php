@@ -12,7 +12,7 @@
 
 <div class="space-y-6">
     {{-- Filter Bar Profil Siswa --}}
-    <div class="flex flex-wrap items-center justify-start gap-2 sm:justify-center">
+    <div class="flex flex-wrap items-center justify-start gap-2">
         <button
             type="button"
             wire:click="$set('filterProfil', '')"

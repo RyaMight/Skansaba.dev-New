@@ -1,12 +1,9 @@
 <div class="min-h-screen bg-slate-100 dark:bg-gray-950">
     {{-- Header ringkas: judul, subjudul, dan pencarian dalam satu blok --}}
-    <section class="bg-slate-100 dark:bg-gray-950 border-b border-gray-200/80 dark:border-gray-800">
+    <section class="bg-slate-100 dark:bg-gray-950">
         <div class="site-container py-8 lg:py-11">
             <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                 <div class="max-w-2xl">
-                    <p class="type-meta uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2">
-                        {{ __('Informasi') }}
-                    </p>
                     <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-2">
                         {{ __('Berita &') }} <span style="color: {{ $globalSettings->primary_color_style }}">{{ __('Artikel') }}</span>
                     </h1>

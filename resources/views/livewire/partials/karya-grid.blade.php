@@ -2,8 +2,8 @@
 <div class="space-y-6">
     {{-- Kontrol urutkan & filter: satu gugus terpusat, sejajar dengan judul dan search. --}}
     <div class="space-y-3">
-        {{-- Urutkan Karya --}}
-        <div class="flex flex-wrap items-center justify-start gap-2 sm:justify-center">
+        {{-- Urutkan Karya: rata kanan, sejajar dengan kolom pencarian di header. --}}
+        <div class="flex flex-wrap items-center justify-end gap-2">
             <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-gray-400">{{ __('Urutkan') }}</span>
             <button
                 type="button"
@@ -23,7 +23,7 @@
 
         {{-- Filter Kategori --}}
         @if($categories->isNotEmpty())
-            <div class="flex flex-wrap items-center justify-start gap-2 sm:justify-center">
+            <div class="flex flex-wrap items-center justify-start gap-2">
                 <button
                     type="button"
                     wire:click="$set('filterKategori', '')"
