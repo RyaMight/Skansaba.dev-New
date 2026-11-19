@@ -1,6 +1,6 @@
 <div class="min-h-screen bg-slate-100 dark:bg-gray-950">
     {{-- Header --}}
-    <section class="bg-slate-100 dark:bg-gray-950 py-12 lg:py-16 dark:border-gray-800">
+    <section class="bg-slate-100 dark:bg-gray-950 pt-12 lg:pt-16 pb-6 lg:pb-8 dark:border-gray-800">
         <div class="site-container text-center">
 
             <h1 class="type-page-title text-gray-900 dark:text-gray-50 leading-tight mb-2" data-reveal>
@@ -11,7 +11,7 @@
     </section>
 
     {{-- Pricing Grid --}}
-    <section class="pt-14 lg:pt-20 pb-8 lg:pb-10">
+    <section class="pt-6 lg:pt-8 pb-8 lg:pb-10">
         <div class="site-container">
             <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 items-start">
 
