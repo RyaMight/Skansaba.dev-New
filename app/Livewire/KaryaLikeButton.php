@@ -13,10 +13,12 @@ class KaryaLikeButton extends Component
     public int $karyaId;
     public int $count = 0;
     public bool $liked = false;
+    public bool $overlay = false;
 
-    public function mount(int $karyaId): void
+    public function mount(int $karyaId, bool $overlay = false): void
     {
         $this->karyaId = $karyaId;
+        $this->overlay = $overlay;
         $this->refreshState();
     }
 

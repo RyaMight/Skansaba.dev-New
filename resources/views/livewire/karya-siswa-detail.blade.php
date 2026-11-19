@@ -20,34 +20,50 @@
         <div class="site-container">
             <div class="bg-white dark:bg-gray-900 rounded-xl shadow-sm overflow-hidden">
                 {{-- Featured Image --}}
-                @if($karya->gambar_url)
-                    <img src="{{ $karya->gambar_url }}" alt="{{ $karya->judul }}" class="w-full aspect-video object-cover">
-                @else
-                    <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
-                @endif
+                <div class="relative">
+                    @if($karya->gambar_url)
+                        <img src="{{ $karya->gambar_url }}" alt="{{ $karya->judul }}" class="w-full aspect-video object-cover">
+                    @else
+                        <div class="w-full aspect-video bg-gradient-to-br from-gray-200 to-gray-300"></div>
+                    @endif
+
+                    {{-- Kategori & Tahun di atas gambar --}}
+                    @if($karya->kategori || $karya->tahun)
+                        <div class="pointer-events-none absolute left-0 top-0 flex flex-wrap items-center gap-2 p-4 sm:p-5">
+                            @if($karya->kategori)
+                                <span class="inline-flex items-center rounded-full bg-white/95 px-3 py-1 text-xs font-bold shadow-sm backdrop-blur-sm dark:bg-gray-900/90" style="color: {{ $globalSettings->primary_color_style }}">
+                                    {{ $karya->kategori }}
+                                </span>
+                            @endif
+                            @if($karya->tahun)
+                                <span class="inline-flex items-center rounded-full bg-white/85 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm backdrop-blur-sm dark:bg-gray-900/80 dark:text-gray-200">
+                                    {{ $karya->tahun }}
+                                </span>
+                            @endif
+                        </div>
+                    @endif
+
+                    {{-- Like di kanan bawah gambar --}}
+                    @if($karya->status === 'published')
+                        <div class="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-slate-950/40 to-transparent"></div>
+                        <div class="absolute bottom-4 right-4 z-10 sm:bottom-5 sm:right-5">
+                            <livewire:karya-like-button :karya-id="$karya->id" :overlay="true" :key="'like-image-'.$karya->id" />
+                        </div>
+                    @endif
+                </div>
 
                 <div class="p-4 sm:p-8">
-                    {{-- Metadata --}}
-                    <div class="flex flex-wrap items-center gap-3 mb-6">
-                        @if($karya->kategori)
-                            <span class="inline-block px-3 py-1 text-sm font-semibold rounded-full" style="background-color: {{ $globalSettings->primary_color_style }}22; color: {{ $globalSettings->primary_color_style }}">
-                                {{ $karya->kategori }}
-                            </span>
-                        @endif
-                        <span class="text-sm text-gray-500 dark:text-gray-400">{{ $karya->tahun }}</span>
-                        @foreach($karya->tags ?? [] as $tag)
-                            <span class="inline-block px-3 py-1 text-sm font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-sky-500/30 rounded-full">{{ $tag }}</span>
-                        @endforeach
-                    </div>
+                    {{-- Tags --}}
+                    @if(count($karya->tags ?? []) > 0)
+                        <div class="flex flex-wrap items-center gap-3 mb-6">
+                            @foreach($karya->tags ?? [] as $tag)
+                                <span class="inline-block px-3 py-1 text-sm font-bold bg-sky-50 dark:bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-sky-500/30 rounded-full">{{ $tag }}</span>
+                            @endforeach
+                        </div>
+                    @endif
 
                     {{-- Title --}}
                     <h1 class="type-page-title text-gray-900 dark:text-gray-50 mb-4">{{ $karya->judul }}</h1>
-
-                    {{-- Apresiasi Karya --}}
-                    <div class="flex items-center gap-2.5 mb-5">
-                        <livewire:karya-like-button :karya-id="$karya->id" :key="'like-detail-'.$karya->id" />
-                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ __('Sukai karya ini untuk mengapresiasi siswa') }}</span>
-                    </div>
 
                     {{-- Author Info --}}
                     @if($karya->user && $karya->user->isSiswa())
@@ -89,11 +105,9 @@
                         </div>
                     @endif
 
-                    {{-- Like & Share --}}
+                    {{-- Share --}}
                     @if($karya->status === 'published')
-                        <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
-                            <livewire:karya-like-button :karya-id="$karya->id" />
-
+                        <div class="flex justify-end mb-6">
                             <x-share-buttons :url="route('karya.detail', $karya->id)" :title="$karya->judul" />
                         </div>
                     @endif
