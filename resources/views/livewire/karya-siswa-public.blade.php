@@ -47,6 +47,27 @@
                     </div>
                 </div>
             </div>
+
+            @if($activeTab !== 'profil')
+                {{-- Urutkan Karya: di dalam header, rata kanan sejajar kolom pencarian. --}}
+                <div class="mt-4 flex flex-wrap items-center justify-end gap-2">
+                    <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-gray-400">{{ __('Urutkan') }}</span>
+                    <button
+                        type="button"
+                        wire:click="$set('sort', 'terpopuler')"
+                        class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $sort === 'terpopuler' ? 'bg-sky-600 text-white border-sky-600 shadow-xs' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:border-sky-300' }}"
+                    >
+                        {{ __('Terpopuler') }}
+                    </button>
+                    <button
+                        type="button"
+                        wire:click="$set('sort', 'terbaru')"
+                        class="px-3 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer {{ $sort === 'terbaru' ? 'bg-sky-600 text-white border-sky-600 shadow-xs' : 'bg-white dark:bg-gray-900 text-slate-600 dark:text-gray-300 border-slate-200 dark:border-gray-800 hover:border-sky-300' }}"
+                    >
+                        {{ __('Terbaru') }}
+                    </button>
+                </div>
+            @endif
         </div>
     </section>
 
